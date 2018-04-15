@@ -5,31 +5,36 @@
  */
 package sx.ip;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
 
 /**
  *
  * @author Renan
  */
 public class FXMLManualProxyController implements Initializable {
+
+    @FXML
+    private JFXButton btnClose;
+
+    @FXML
+    private JFXComboBox<String> comboProtocol;    
     
     @FXML
-    private Label label;
-    
-    @FXML
-    private void handleButtonAction(ActionEvent event) {
-        System.out.println("You clicked me!");
-        label.setText("Hello World!");
+    private void handleCloseAction(ActionEvent event) {
+        System.exit(0);
     }
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
+       comboProtocol.getItems().addAll("SOCKS", "HTTP & HTTPS");
+    }
     
+    
+
 }

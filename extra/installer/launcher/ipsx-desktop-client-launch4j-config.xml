@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch4jConfig>
+  <dontWrapJar>true</dontWrapJar>
+  <headerType>gui</headerType>
+  <jar>IPSX-Desktop-Client.jar</jar>
+  <outfile>D:\IPSX\IPSX-Desktop-Client\extra\installer\launcher\ipsx-desktop-client.exe</outfile>
+  <errTitle></errTitle>
+  <cmdLine></cmdLine>
+  <chdir>.</chdir>
+  <priority>normal</priority>
+  <downloadUrl>http://java.com/download</downloadUrl>
+  <supportUrl>https://ip.sx/</supportUrl>
+  <stayAlive>false</stayAlive>
+  <restartOnCrash>false</restartOnCrash>
+  <manifest>D:\IPSX\IPSX-Desktop-Client\extra\installer\launcher\ipsx-desktop-client.exe.manifest</manifest>
+  <icon>D:\IPSX\IPSX-Desktop-Client\extra\installer\launcher\ipsx-desktop-client.ico</icon>
+  <singleInstance>
+    <mutexName>ipsx-desktop-client</mutexName>
+    <windowTitle></windowTitle>
+  </singleInstance>
+  <jre>
+    <path>jre</path>
+    <bundledJre64Bit>false</bundledJre64Bit>
+    <bundledJreAsFallback>false</bundledJreAsFallback>
+    <minVersion>1.8.0</minVersion>
+    <maxVersion></maxVersion>
+    <jdkPreference>preferJre</jdkPreference>
+    <runtimeBits>64/32</runtimeBits>
+  </jre>
+  <versionInfo>
+    <fileVersion>1.0.0.0</fileVersion>
+    <txtFileVersion>1.0.0.0</txtFileVersion>
+    <fileDescription>IPSX Desktop Client Launcher</fileDescription>
+    <copyright>IPSX</copyright>
+    <productVersion>1.0.0.0</productVersion>
+    <txtProductVersion>1.0.0.0</txtProductVersion>
+    <productName>IPSX Desktop Client</productName>
+    <companyName>IPSX</companyName>
+    <internalName>IPSX Desktop Client</internalName>
+    <originalFilename>ipsx-desktop-client.exe</originalFilename>
+    <trademarks></trademarks>
+    <language>ENGLISH_US</language>
+  </versionInfo>
+</launch4jConfig>

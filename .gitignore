@@ -5,3 +5,10 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
+
+# Installer generator logs
+/extra/installler/windows/ipsx-desktop-client.log
+/extra/installler/launcher/launch4j.log
+
+# Versions
+/versions/ipsx-desktop-client-setup-latest.exe
