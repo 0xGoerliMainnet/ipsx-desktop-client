@@ -2,12 +2,22 @@
 
 ; HM NIS Edit Wizard helper defines
 !define PRODUCT_NAME "IPSX Desktop Client"
-!define PRODUCT_VERSION "1.0"
+!define PRODUCT_VERSION "1.0.0.0"
 !define PRODUCT_PUBLISHER "IPSX"
 !define PRODUCT_WEB_SITE "https://ip.sx"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\ipsx-desktop-client.exe"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
 !define PRODUCT_UNINST_ROOT_KEY "HKLM"
+
+; CUSTOM ------
+VIProductVersion  "${PRODUCT_VERSION}"
+VIAddVersionKey "ProductName"  "${PRODUCT_NAME}"
+VIAddVersionKey "CompanyName"  "${PRODUCT_PUBLISHER}"
+VIAddVersionKey "LegalCopyright"  "${PRODUCT_PUBLISHER}"
+VIAddVersionKey "FileDescription"  "${PRODUCT_NAME}"
+VIAddVersionKey "FileVersion"  "${PRODUCT_VERSION}"
+
+BrandingText "${PRODUCT_NAME} ${PRODUCT_VERSION}"
 
 ; MUI 1.67 compatible ------
 !include "MUI.nsh"
