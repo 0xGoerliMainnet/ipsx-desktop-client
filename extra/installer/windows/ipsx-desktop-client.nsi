@@ -341,6 +341,8 @@ Section "Main Application Files" SEC01
   File "..\..\..\dist\lib\fontawesomefx-commons-8.15.jar"
   File "..\..\..\dist\lib\fontawesomefx-materialicons-2.2.0-5.jar"
   File "..\..\..\dist\lib\jfoenix-8.0.1.jar"
+  File "..\..\..\dist\lib\jPowerShell-2.0.jar"
+  File "..\..\..\dist\lib\commons-io-2.6.jar"
 SectionEnd
 
 Section -AdditionalIcons
@@ -375,6 +377,8 @@ FunctionEnd
 Section Uninstall
   Delete "$INSTDIR\${PRODUCT_NAME}.url"
   Delete "$INSTDIR\uninst.exe"
+  Delete "$INSTDIR\lib\commons-io-2.6.jar"
+  Delete "$INSTDIR\lib\jPowerShell-2.0.jar"
   Delete "$INSTDIR\lib\jfoenix-8.0.1.jar"
   Delete "$INSTDIR\lib\fontawesomefx-materialicons-2.2.0-5.jar"
   Delete "$INSTDIR\lib\fontawesomefx-commons-8.15.jar"
