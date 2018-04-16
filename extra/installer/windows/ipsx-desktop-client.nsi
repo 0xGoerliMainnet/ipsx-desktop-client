@@ -343,6 +343,7 @@ Section "Main Application Files" SEC01
   File "..\..\..\dist\lib\jfoenix-8.0.1.jar"
   File "..\..\..\dist\lib\jPowerShell-2.0.jar"
   File "..\..\..\dist\lib\commons-io-2.6.jar"
+  File "..\..\..\dist\lib\commons-exec-1.3.jar"  
 SectionEnd
 
 Section -AdditionalIcons
@@ -376,7 +377,8 @@ FunctionEnd
 
 Section Uninstall
   Delete "$INSTDIR\${PRODUCT_NAME}.url"
-  Delete "$INSTDIR\uninst.exe"
+  Delete "$INSTDIR\uninst.exe" 
+  Delete "$INSTDIR\lib\commons-exec-1.3.jar"
   Delete "$INSTDIR\lib\commons-io-2.6.jar"
   Delete "$INSTDIR\lib\jPowerShell-2.0.jar"
   Delete "$INSTDIR\lib\jfoenix-8.0.1.jar"
