@@ -58,8 +58,30 @@ public abstract class ProxyManager {
         return instance;
     }
 
+    /**
+     * Exception that happens when something goes bad when setting a proxy on
+     * the OS level
+     */
     public class ProxySetupException extends Exception {
 
+        /**
+         * Create a new exception with a custom message
+         *
+         * @param message The string message
+         */
+        public ProxySetupException(String message) {
+            super(message);
+        }
+
+        /**
+         * Create a new exception with a custom message
+         *
+         * @param message The string message
+         * @param ex The original Exception
+         */
+        public ProxySetupException(String message, Throwable ex) {
+            super(message, ex);
+        }
     }
 
 }
