@@ -112,8 +112,6 @@ public class LinuxProxyManager extends ProxyManager {
         stringCommand.append(" & ");
         stringCommand.append("time wget -q -O - checkip.dyndns.org | sed -e 's/.*Current IP Address: //' -e 's/<.*$//'");
         
-        
-        
         runCommandLine(stringCommand.toString(), null, null, null, 3000);
     }    
     
@@ -185,7 +183,7 @@ public class LinuxProxyManager extends ProxyManager {
         if (executeResultHandle != null) {
             executor.execute(commandLine, executeResultHandle);
         } else {
-            executor.execute(commandLine);
+            executor.execute(commandLine, new DefaultExecuteResultHandler());
         }
     }
 }
