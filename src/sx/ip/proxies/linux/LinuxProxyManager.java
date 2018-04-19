@@ -39,6 +39,8 @@ public class LinuxProxyManager extends ProxyManager {
      * @param settings A ProxySettings instance that hold all necessary
      * configurations
      *
+     * @return A boolean indicating the insertion status
+     * 
      * @throws ProxySetupException The Proxy setup exception
      */
     @Override
@@ -49,6 +51,8 @@ public class LinuxProxyManager extends ProxyManager {
     /**
      * Method responsible for get the latest Proxy settings.
      *
+     * @return The latest Proxy settings
+     * 
      * @throws ProxySetupException The Proxy setup exception
      */
     @Override
