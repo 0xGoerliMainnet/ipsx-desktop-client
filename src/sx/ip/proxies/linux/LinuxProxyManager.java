@@ -159,11 +159,11 @@ public class LinuxProxyManager extends ProxyManager {
     /**
      * Method responsible for execute the command lines.
      *
-     * @param cmd The command line to be executed
-     * @param args Arguments for the command line
+     * @param commandList List of commands to be executed
      * @param pumpStreamHandle Handle with sub-processes output and errors
      * @param executeResultHandle Handle with the execution result
      * @param timeout The watchdog timeout
+     * 
      * @throws IOException The IO exception
      *
      */
