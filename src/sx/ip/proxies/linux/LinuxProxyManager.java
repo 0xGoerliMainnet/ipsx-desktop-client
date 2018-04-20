@@ -181,9 +181,8 @@ public class LinuxProxyManager extends ProxyManager {
      *
      */
     public static ProxySettings getInternetProxy() throws IOException {
-        List<String[]> commandList = new ArrayList<>();       
-        String host = "", acsUrl= "", authUser = "", authPass = "";
-        int port = 0;
+        List<String[]> commandList = new ArrayList<>();
+        
         commandList.add(new String[] {"get", "org.gnome.system.proxy","autoconfig-url"});
         commandList.add(new String[] {"get", "org.gnome.system.proxy.ftp","host"});
         commandList.add(new String[] {"get", "org.gnome.system.proxy.ftp","port"});
