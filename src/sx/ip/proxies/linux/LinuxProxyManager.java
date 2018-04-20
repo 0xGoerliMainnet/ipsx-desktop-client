@@ -3,11 +3,12 @@ package sx.ip.proxies.linux;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import sx.ip.proxies.ProxyManager;
 import sx.ip.proxies.ProxySettings;
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecuteResultHandler;
-import org.apache.commons.exec.ExecuteResultHandler;
 import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.exec.ExecuteWatchdog;
 import org.apache.commons.exec.Executor;
@@ -45,7 +46,13 @@ public class LinuxProxyManager extends ProxyManager {
      */
     @Override
     public boolean setProxySettings(ProxySettings settings) throws ProxySetupException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        boolean commandResult = false;
+        try {
+            commandResult = setInternetProxy(settings);
+        } catch (IOException | InterruptedException ex) {
+            Logger.getLogger(LinuxProxyManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return commandResult;
     }
 
     /**
@@ -68,12 +75,11 @@ public class LinuxProxyManager extends ProxyManager {
      * @throws IOException The IO exception
      *
      * @throws InterruptedException The interrupted exception
+     * @throws ProxySetupException The proxy setup exception
      */
     public static void main(String[] args) throws IOException, InterruptedException, ProxySetupException {
-        ProxySettings settings = new ProxySettings("127.0.0.2", 7001, ProxySettings.ProxyType.HTTPS, null, true, null, null);
+        ProxySettings settings = new ProxySettings(null, 7001, ProxySettings.ProxyType.HTTPS, null, true, null, null);
         setInternetProxy(settings);
-        //disableInternetProxy();
-
     }
 
     /**
@@ -81,12 +87,14 @@ public class LinuxProxyManager extends ProxyManager {
      *
      * @param settings A ProxySettings instance that hold all necessary
      * configurations
+     * 
+     * @return If the command was executed or not
      *
      * @throws IOException The IO exception
      *
      * @throws InterruptedException The interrupted exception
      */
-    public static void setInternetProxy(ProxySettings settings) throws IOException, InterruptedException {
+    public static boolean setInternetProxy(ProxySettings settings) throws IOException, InterruptedException {
         //Just a test call for valid the command line execution
         List<String[]> commandList = new ArrayList<>(); 
         
@@ -118,42 +126,43 @@ public class LinuxProxyManager extends ProxyManager {
                     commandList.add(new String[] {"set", "org.gnome.system.proxy.https","port", String.valueOf(settings.getProxyPort())});
                     break;
             }
-        } else {
-            commandList.add(new String[] {"set", "org.gnome.system.proxy","mode","'none'"});
-            commandList.add(new String[] {"set", "org.gnome.system.proxy.http","enabled","false"});
-        }
-
-        if ((settings.getAuthUser() != null) && (settings.getAuthUser().isEmpty())) {
+            if ((settings.getAuthUser() != null) && (settings.getAuthUser().isEmpty())) {
             commandList.add(new String[] {"set", "org.gnome.system.proxy.http","authentication-user",settings.getAuthUser()});
             commandList.add(new String[] {"set", "org.gnome.system.proxy.http","authentication-password",settings.getAuthPass()});
-        }
+            }
 
-        if (settings.getBypassOnLocal()) {
-            commandList.add(new String[] {"set", "org.gnome.system.proxy","ignore-hosts","\"['localhost',  '127.0.0.1', 'all', 'other', 'hosts']\""});
-        }
+            if (settings.getBypassOnLocal()) {
+                commandList.add(new String[] {"set", "org.gnome.system.proxy","ignore-hosts","\"['localhost',  '127.0.0.1', 'all', 'other', 'hosts']\""});
+            }
+
+            if((settings.getAcsUrl() != null) && (settings.getAcsUrl().isEmpty())){
+                commandList.add(new String[] {"set", "org.gnome.system.proxy","mode","'auto'"});
+                commandList.add(new String[] {"set", "org.gnome.system.proxy","autoconfig-url",settings.getAcsUrl()});
+            }
+            
+        } else {
+            return disableInternetProxy();
+        }        
         
-        if((settings.getAcsUrl() != null) && (settings.getAcsUrl().isEmpty())){
-            commandList.add(new String[] {"set", "org.gnome.system.proxy","mode","'auto'"});
-            commandList.add(new String[] {"set", "org.gnome.system.proxy","autoconfig-url",settings.getAcsUrl()});
-        }
-        
-        runCommandLine(commandList, null, null, 3000);
+        return runCommandLine(commandList, null, null, 3000);
     }
 
     /**
      * Method resposible for disable the Proxy connection.
      *
+     * @return If the command was executed or not
+     * 
      * @throws IOException The IO exception
      *
      */
-    public static void disableInternetProxy() throws IOException {
+    public static boolean disableInternetProxy() throws IOException {
         List<String[]> commandList = new ArrayList<>();       
                 
         commandList.add(new String[] {"set", "org.gnome.system.proxy","mode","'none'"});
         commandList.add(new String[] {"set", "org.gnome.system.proxy.http","enabled","false"});
         commandList.add(new String[] {"set", "org.gnome.system.proxy","use-same-proxy","false"});
         
-        runCommandLine(commandList, null, null, 3000);
+        return runCommandLine(commandList, null, null, 3000);
     }
 
     /**
@@ -164,16 +173,15 @@ public class LinuxProxyManager extends ProxyManager {
      * @param executeResultHandle Handle with the execution result
      * @param timeout The watchdog timeout
      * 
-     * @throws IOException The IO exception
-     *
+     *@return A boolean indicating if the command was executed or not
      */
-    private static void runCommandLine(List<String[]> commandList, PumpStreamHandler pumpStreamHandle,
-            ExecuteResultHandler executeResultHandle, int timeout) throws IOException {
+    private static boolean runCommandLine(List<String[]> commandList, PumpStreamHandler pumpStreamHandle,
+            DefaultExecuteResultHandler executeResultHandle, int timeout) {
         System.out.println("Test commands starting....");
         for ( String[] args: commandList) {
 
             executor = new DefaultExecutor();
-
+            
             if (executeResultHandle == null) {
                 executeResultHandle = new DefaultExecuteResultHandler();
             }
@@ -193,9 +201,22 @@ public class LinuxProxyManager extends ProxyManager {
                     commandLine.addArgument(arg);
                 }
             }
-
-            executor.execute(commandLine, executeResultHandle);
+            try{
+                executor.execute(commandLine, executeResultHandle);
+                executeResultHandle.waitFor();
+                int exitValue = executeResultHandle.getExitValue();
+		
+                if (exitValue != 0) {
+                    return false;
+		}
+                
+		return true;
+            }catch(InterruptedException | IOException ee){
+                Logger.getLogger(LinuxProxyManager.class.getName()).log(Level.SEVERE, null, ee);
+            }
+            
             System.out.println("Executing command:" + commandLine.toString());
         }
+        return false;
     }
 }
