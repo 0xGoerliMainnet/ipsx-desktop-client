@@ -1,8 +1,11 @@
 package sx.ip.proxies.linux;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import sx.ip.proxies.ProxyManager;
@@ -35,14 +38,7 @@ public class LinuxProxyManager extends ProxyManager {
     static DefaultExecuteResultHandler resultHandler;
 
     /**
-     * Method responsible for set the Proxy settings.
-     *
-     * @param settings A ProxySettings instance that hold all necessary
-     * configurations
-     *
-     * @return A boolean indicating the insertion status
-     * 
-     * @throws ProxySetupException The Proxy setup exception
+     * {@inheritDoc}
      */
     @Override
     public boolean setProxySettings(ProxySettings settings) throws ProxySetupException {
@@ -56,11 +52,7 @@ public class LinuxProxyManager extends ProxyManager {
     }
 
     /**
-     * Method responsible for get the latest Proxy settings.
-     *
-     * @return The latest Proxy settings
-     * 
-     * @throws ProxySetupException The Proxy setup exception
+     * {@inheritDoc}
      */
     @Override
     public ProxySettings getProxySettings() throws ProxySetupException {
@@ -78,8 +70,9 @@ public class LinuxProxyManager extends ProxyManager {
      * @throws ProxySetupException The proxy setup exception
      */
     public static void main(String[] args) throws IOException, InterruptedException, ProxySetupException {
-        ProxySettings settings = new ProxySettings(null, 7001, ProxySettings.ProxyType.HTTPS, null, true, null, null);
+        ProxySettings settings = new ProxySettings(null, 8080, ProxySettings.ProxyType.HTTP_AND_HTTPS, null, true, null, null);
         setInternetProxy(settings);
+        getInternetProxy();
     }
 
     /**
@@ -97,6 +90,7 @@ public class LinuxProxyManager extends ProxyManager {
     public static boolean setInternetProxy(ProxySettings settings) throws IOException, InterruptedException {
         //Just a test call for valid the command line execution
         List<String[]> commandList = new ArrayList<>(); 
+        Map<String, String> response = new HashMap<>();
         
         if (settings.getProxyHost() != null) {
             commandList.add(new String[] {"set", "org.gnome.system.proxy","mode","'manual'"});
@@ -144,7 +138,13 @@ public class LinuxProxyManager extends ProxyManager {
             return disableInternetProxy();
         }        
         
-        return runCommandLine(commandList, null, null, 3000);
+        for(String[] command : commandList){
+           response.putAll(runCommandLine(command, null, null, 3000));
+           if(response.get("result").equals("false")){
+               return false;
+           }
+        }
+        return true;
     }
 
     /**
@@ -157,12 +157,54 @@ public class LinuxProxyManager extends ProxyManager {
      */
     public static boolean disableInternetProxy() throws IOException {
         List<String[]> commandList = new ArrayList<>();       
-                
+        Map<String, String> response = new HashMap<>();
+        commandList.add(new String[] {"reset-recursively", "org.gnome.system.proxy"});
         commandList.add(new String[] {"set", "org.gnome.system.proxy","mode","'none'"});
         commandList.add(new String[] {"set", "org.gnome.system.proxy.http","enabled","false"});
-        commandList.add(new String[] {"set", "org.gnome.system.proxy","use-same-proxy","false"});
         
-        return runCommandLine(commandList, null, null, 3000);
+        for(String[] command : commandList){
+           response.putAll(runCommandLine(command, null, null, 3000));
+           if(response.get("result").equals("false")){
+               return false;
+           }
+        }
+        return true;
+        
+    }
+    
+    /**
+     * Method resposible for get the Proxy connection.
+     *
+     * @return The latest ProxySettings
+     * 
+     * @throws IOException The IO exception
+     *
+     */
+    public static ProxySettings getInternetProxy() throws IOException {
+        List<String[]> commandList = new ArrayList<>();       
+        String host = "", acsUrl= "", authUser = "", authPass = "";
+        int port = 0;
+        commandList.add(new String[] {"get", "org.gnome.system.proxy","autoconfig-url"});
+        commandList.add(new String[] {"get", "org.gnome.system.proxy.ftp","host"});
+        commandList.add(new String[] {"get", "org.gnome.system.proxy.ftp","port"});
+        commandList.add(new String[] {"get", "org.gnome.system.proxy.socks","host"});
+        commandList.add(new String[] {"get", "org.gnome.system.proxy.socks","port"});
+        commandList.add(new String[] {"get", "org.gnome.system.proxy.http","host"});
+        commandList.add(new String[] {"get", "org.gnome.system.proxy.http","port"});
+        commandList.add(new String[] {"get", "org.gnome.system.proxy.https","host"});
+        commandList.add(new String[] {"get", "org.gnome.system.proxy.https","port"});
+        commandList.add(new String[] {"get", "org.gnome.system.proxy.http","authentication-user"});
+        commandList.add(new String[] {"get", "org.gnome.system.proxy.http","authentication-password"});
+        
+        for(String[] command : commandList){
+            Map<String, String> response = runCommandLine(command, null, null, 3000);
+            
+            if(response.get("result").equals("true")){
+                String output = response.get("output");                
+                System.err.println(command[2]+":"+output);
+            }
+        }
+        return null;
     }
 
     /**
@@ -175,48 +217,49 @@ public class LinuxProxyManager extends ProxyManager {
      * 
      *@return A boolean indicating if the command was executed or not
      */
-    private static boolean runCommandLine(List<String[]> commandList, PumpStreamHandler pumpStreamHandle,
+    private static Map<String,String> runCommandLine(String[] args, PumpStreamHandler pumpStreamHandle,
             DefaultExecuteResultHandler executeResultHandle, int timeout) {
         System.out.println("Test commands starting....");
-        for ( String[] args: commandList) {
+        Map<String,String> response = new HashMap<>();
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
-            executor = new DefaultExecutor();
-            
-            if (executeResultHandle == null) {
-                executeResultHandle = new DefaultExecuteResultHandler();
-            }
+        executor = new DefaultExecutor();
 
-            if (pumpStreamHandle == null) {
-                pumpStreamHandle = new PumpStreamHandler(System.out);
-            }
-
-            CommandLine commandLine = new CommandLine("gsettings");
-
-            executor.setStreamHandler(pumpStreamHandle);       
-
-            watchdog = new ExecuteWatchdog(timeout);
-
-            if (args != null && args.length > 0) {
-                for (String arg : args) {
-                    commandLine.addArgument(arg);
-                }
-            }
-            try{
-                executor.execute(commandLine, executeResultHandle);
-                executeResultHandle.waitFor();
-                int exitValue = executeResultHandle.getExitValue();
-		
-                if (exitValue != 0) {
-                    return false;
-		}
-                
-		return true;
-            }catch(InterruptedException | IOException ee){
-                Logger.getLogger(LinuxProxyManager.class.getName()).log(Level.SEVERE, null, ee);
-            }
-            
-            System.out.println("Executing command:" + commandLine.toString());
+        if (executeResultHandle == null) {
+            executeResultHandle = new DefaultExecuteResultHandler();
         }
-        return false;
+
+        if (pumpStreamHandle == null) {
+            pumpStreamHandle = new PumpStreamHandler(outputStream);
+        }
+
+        CommandLine commandLine = new CommandLine("gsettings");
+
+        executor.setStreamHandler(pumpStreamHandle);       
+
+        watchdog = new ExecuteWatchdog(timeout);
+
+        if (args != null && args.length > 0) {
+            for (String arg : args) {
+                commandLine.addArgument(arg);
+            }
+        }
+        try{
+            executor.execute(commandLine, executeResultHandle);
+            executeResultHandle.waitFor();
+            int exitValue = executeResultHandle.getExitValue();
+
+            System.out.println("Executing command:" + commandLine.toString());
+
+            if (exitValue != 0) {
+                response.put("result","false");
+            }
+            response.put("result","true");
+            response.put("output",outputStream.toString());
+        }catch(InterruptedException | IOException ee){
+            Logger.getLogger(LinuxProxyManager.class.getName()).log(Level.SEVERE, null, ee);
+        }
+        
+        return response;
     }
 }
