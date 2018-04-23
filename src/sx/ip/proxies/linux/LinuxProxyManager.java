@@ -252,8 +252,10 @@ public class LinuxProxyManager extends ProxyManager {
 
             if (exitValue != 0) {
                 response.put("result","false");
+            }else{
+                response.put("result","true");
             }
-            response.put("result","true");
+            
             response.put("output",outputStream.toString());
         }catch(InterruptedException | IOException ee){
             Logger.getLogger(LinuxProxyManager.class.getName()).log(Level.SEVERE, null, ee);
