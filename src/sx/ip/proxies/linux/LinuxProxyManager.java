@@ -56,7 +56,12 @@ public class LinuxProxyManager extends ProxyManager {
      */
     @Override
     public ProxySettings getProxySettings() throws ProxySetupException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            return getInternetProxy();
+        } catch (IOException ex) {
+            Logger.getLogger(LinuxProxyManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
     /**
@@ -70,7 +75,7 @@ public class LinuxProxyManager extends ProxyManager {
      * @throws ProxySetupException The proxy setup exception
      */
     public static void main(String[] args) throws IOException, InterruptedException, ProxySetupException {
-        ProxySettings settings = new ProxySettings(null, 8080, ProxySettings.ProxyType.HTTP_AND_HTTPS, null, true, null, null);
+        ProxySettings settings = new ProxySettings("127.0.0.1", 8080, ProxySettings.ProxyType.HTTP, null, true, null, null);
         setInternetProxy(settings);
         getInternetProxy();
     }
@@ -80,7 +85,7 @@ public class LinuxProxyManager extends ProxyManager {
      *
      * @param settings A ProxySettings instance that hold all necessary
      * configurations
-     * 
+     *
      * @return If the command was executed or not
      *
      * @throws IOException The IO exception
@@ -89,60 +94,61 @@ public class LinuxProxyManager extends ProxyManager {
      */
     public static boolean setInternetProxy(ProxySettings settings) throws IOException, InterruptedException {
         //Just a test call for valid the command line execution
-        List<String[]> commandList = new ArrayList<>(); 
+        List<String[]> commandList = new ArrayList<>();
         Map<String, String> response = new HashMap<>();
-        
+
         if (settings.getProxyHost() != null) {
-            commandList.add(new String[] {"set", "org.gnome.system.proxy","mode","'manual'"});
-            commandList.add(new String[] {"set", "org.gnome.system.proxy.http","enabled","true"});
+            commandList.add(new String[]{"reset-recursively", "org.gnome.system.proxy"});
+            commandList.add(new String[]{"set", "org.gnome.system.proxy", "mode", "'manual'"});
+            commandList.add(new String[]{"set", "org.gnome.system.proxy.http", "enabled", "true"});
 
             switch (settings.getType()) {
                 case HTTP:
-                    commandList.add(new String[] {"set", "org.gnome.system.proxy.http","host",settings.getProxyHost()});
-                    commandList.add(new String[] {"set", "org.gnome.system.proxy.http","port", String.valueOf(settings.getProxyPort())});
+                    commandList.add(new String[]{"set", "org.gnome.system.proxy.http", "host", settings.getProxyHost()});
+                    commandList.add(new String[]{"set", "org.gnome.system.proxy.http", "port", String.valueOf(settings.getProxyPort())});
                     break;
                 case HTTPS:
-                    commandList.add(new String[] {"set", "org.gnome.system.proxy.https","host",settings.getProxyHost()});
-                    commandList.add(new String[] {"set", "org.gnome.system.proxy.https","port", String.valueOf(settings.getProxyPort())});
+                    commandList.add(new String[]{"set", "org.gnome.system.proxy.https", "host", settings.getProxyHost()});
+                    commandList.add(new String[]{"set", "org.gnome.system.proxy.https", "port", String.valueOf(settings.getProxyPort())});
                     break;
                 case SOCKS:
-                    commandList.add(new String[] {"set", "org.gnome.system.proxy.socks","host",settings.getProxyHost()});
-                    commandList.add(new String[] {"set", "org.gnome.system.proxy.socks","port", String.valueOf(settings.getProxyPort())});
+                    commandList.add(new String[]{"set", "org.gnome.system.proxy.socks", "host", settings.getProxyHost()});
+                    commandList.add(new String[]{"set", "org.gnome.system.proxy.socks", "port", String.valueOf(settings.getProxyPort())});
                     break;
                 case FTP:
-                    commandList.add(new String[] {"set", "org.gnome.system.proxy.ftp","host",settings.getProxyHost()});
-                    commandList.add(new String[] {"set", "org.gnome.system.proxy.ftp","port", String.valueOf(settings.getProxyPort())});
+                    commandList.add(new String[]{"set", "org.gnome.system.proxy.ftp", "host", settings.getProxyHost()});
+                    commandList.add(new String[]{"set", "org.gnome.system.proxy.ftp", "port", String.valueOf(settings.getProxyPort())});
                     break;
                 case HTTP_AND_HTTPS:
-                    commandList.add(new String[] {"set", "org.gnome.system.proxy.http","host",settings.getProxyHost()});
-                    commandList.add(new String[] {"set", "org.gnome.system.proxy.http","port", String.valueOf(settings.getProxyPort())});
-                    commandList.add(new String[] {"set", "org.gnome.system.proxy.https","host",settings.getProxyHost()});
-                    commandList.add(new String[] {"set", "org.gnome.system.proxy.https","port", String.valueOf(settings.getProxyPort())});
+                    commandList.add(new String[]{"set", "org.gnome.system.proxy.http", "host", settings.getProxyHost()});
+                    commandList.add(new String[]{"set", "org.gnome.system.proxy.http", "port", String.valueOf(settings.getProxyPort())});
+                    commandList.add(new String[]{"set", "org.gnome.system.proxy.https", "host", settings.getProxyHost()});
+                    commandList.add(new String[]{"set", "org.gnome.system.proxy.https", "port", String.valueOf(settings.getProxyPort())});
                     break;
             }
             if ((settings.getAuthUser() != null) && (settings.getAuthUser().isEmpty())) {
-            commandList.add(new String[] {"set", "org.gnome.system.proxy.http","authentication-user",settings.getAuthUser()});
-            commandList.add(new String[] {"set", "org.gnome.system.proxy.http","authentication-password",settings.getAuthPass()});
+                commandList.add(new String[]{"set", "org.gnome.system.proxy.http", "authentication-user", settings.getAuthUser()});
+                commandList.add(new String[]{"set", "org.gnome.system.proxy.http", "authentication-password", settings.getAuthPass()});
             }
 
             if (settings.getBypassOnLocal()) {
-                commandList.add(new String[] {"set", "org.gnome.system.proxy","ignore-hosts","\"['localhost',  '127.0.0.1', 'all', 'other', 'hosts']\""});
+                commandList.add(new String[]{"set", "org.gnome.system.proxy", "ignore-hosts", "\"['localhost',  '127.0.0.1', 'all', 'other', 'hosts']\""});
             }
 
-            if((settings.getAcsUrl() != null) && (settings.getAcsUrl().isEmpty())){
-                commandList.add(new String[] {"set", "org.gnome.system.proxy","mode","'auto'"});
-                commandList.add(new String[] {"set", "org.gnome.system.proxy","autoconfig-url",settings.getAcsUrl()});
+            if ((settings.getAcsUrl() != null) && (settings.getAcsUrl().isEmpty())) {
+                commandList.add(new String[]{"set", "org.gnome.system.proxy", "mode", "'auto'"});
+                commandList.add(new String[]{"set", "org.gnome.system.proxy", "autoconfig-url", settings.getAcsUrl()});
             }
-            
+
         } else {
             return disableInternetProxy();
-        }        
-        
-        for(String[] command : commandList){
-           response.putAll(runCommandLine(command, null, null, 3000));
-           if(response.get("result").equals("false")){
-               return false;
-           }
+        }
+
+        for (String[] command : commandList) {
+            response.putAll(runCommandLine(command, null, null, 3000));
+            if (response.get("result").equals("false")) {
+                return false;
+            }
         }
         return true;
     }
@@ -151,57 +157,86 @@ public class LinuxProxyManager extends ProxyManager {
      * Method resposible for disable the Proxy connection.
      *
      * @return If the command was executed or not
-     * 
+     *
      * @throws IOException The IO exception
      *
      */
     public static boolean disableInternetProxy() throws IOException {
-        List<String[]> commandList = new ArrayList<>();       
+        List<String[]> commandList = new ArrayList<>();
         Map<String, String> response = new HashMap<>();
-        commandList.add(new String[] {"reset-recursively", "org.gnome.system.proxy"});
-        commandList.add(new String[] {"set", "org.gnome.system.proxy","mode","'none'"});
-        commandList.add(new String[] {"set", "org.gnome.system.proxy.http","enabled","false"});
-        
-        for(String[] command : commandList){
-           response.putAll(runCommandLine(command, null, null, 3000));
-           if(response.get("result").equals("false")){
-               return false;
-           }
+        commandList.add(new String[]{"reset-recursively", "org.gnome.system.proxy"});
+        commandList.add(new String[]{"set", "org.gnome.system.proxy", "mode", "'none'"});
+        commandList.add(new String[]{"set", "org.gnome.system.proxy.http", "enabled", "false"});
+
+        for (String[] command : commandList) {
+            response.putAll(runCommandLine(command, null, null, 3000));
+            if (response.get("result").equals("false")) {
+                return false;
+            }
         }
         return true;
-        
+
     }
-    
+
     /**
      * Method resposible for get the Proxy connection.
      *
      * @return The latest ProxySettings
-     * 
+     *
      * @throws IOException The IO exception
      *
      */
     public static ProxySettings getInternetProxy() throws IOException {
-        List<String[]> commandList = new ArrayList<>();
+        List<String[]> othersCommands = new ArrayList<>();
+        List<String[]> hostPortCommands = new ArrayList<>();
+        Map<String, String> results = new HashMap<>();
+        String type = "";
         
-        commandList.add(new String[] {"get", "org.gnome.system.proxy","autoconfig-url"});
-        commandList.add(new String[] {"get", "org.gnome.system.proxy.ftp","host"});
-        commandList.add(new String[] {"get", "org.gnome.system.proxy.ftp","port"});
-        commandList.add(new String[] {"get", "org.gnome.system.proxy.socks","host"});
-        commandList.add(new String[] {"get", "org.gnome.system.proxy.socks","port"});
-        commandList.add(new String[] {"get", "org.gnome.system.proxy.http","host"});
-        commandList.add(new String[] {"get", "org.gnome.system.proxy.http","port"});
-        commandList.add(new String[] {"get", "org.gnome.system.proxy.https","host"});
-        commandList.add(new String[] {"get", "org.gnome.system.proxy.https","port"});
-        commandList.add(new String[] {"get", "org.gnome.system.proxy.http","authentication-user"});
-        commandList.add(new String[] {"get", "org.gnome.system.proxy.http","authentication-password"});
-        
-        for(String[] command : commandList){
+        othersCommands.add(new String[]{"get", "org.gnome.system.proxy", "autoconfig-url"});
+        othersCommands.add(new String[]{"get", "org.gnome.system.proxy", "ignore-hosts"});
+        othersCommands.add(new String[]{"get", "org.gnome.system.proxy.http", "authentication-user"});
+        othersCommands.add(new String[]{"get", "org.gnome.system.proxy.http", "authentication-password"});
+
+        hostPortCommands.add(new String[]{"get", "org.gnome.system.proxy.ftp", "host"});
+        hostPortCommands.add(new String[]{"get", "org.gnome.system.proxy.ftp", "port"});
+        hostPortCommands.add(new String[]{"get", "org.gnome.system.proxy.socks", "host"});
+        hostPortCommands.add(new String[]{"get", "org.gnome.system.proxy.socks", "port"});
+        hostPortCommands.add(new String[]{"get", "org.gnome.system.proxy.http", "host"});
+        hostPortCommands.add(new String[]{"get", "org.gnome.system.proxy.http", "port"});
+        hostPortCommands.add(new String[]{"get", "org.gnome.system.proxy.https", "host"});
+        hostPortCommands.add(new String[]{"get", "org.gnome.system.proxy.https", "port"});
+
+        for (String[] command : othersCommands) {
             Map<String, String> response = runCommandLine(command, null, null, 3000);
-            
-            if(response.get("result").equals("true")){
-                String output = response.get("output");                
-                System.err.println(command[2]+":"+output);
+
+            if (response.get("result").equals("true")) {
+                String output = response.get("output").trim().replaceAll("'", "").replaceAll("\\[", "").replaceAll("\\]", "");
+                results.put(command[2], output);
+                System.err.println(command[2] + ":" + output);
             }
+        }
+
+        for (String[] command : hostPortCommands) {
+            Map<String, String> response = runCommandLine(command, null, null, 3000);
+
+            if (response.get("result").equals("true")) {
+                String output = response.get("output").trim().replaceAll("'", "");
+                if (!output.isEmpty() && !"0".equals(output)) {
+                    results.put(command[2], output);
+                    System.err.println(command[2] + ":" + output);
+                    type = command[1].split("\\.")[4].toUpperCase();
+                }
+
+            }
+        }
+
+        if (results.size() > 0) {
+            String byPassValue = results.get("ignore-hosts");
+            boolean hasByPass = (byPassValue.split(",").length > 3);
+            
+            ProxySettings settings = new ProxySettings(results.get("host"), Integer.valueOf(results.get("port")), ProxySettings.ProxyType.valueOf(type),
+                                                       results.get("autoconfig-url"), hasByPass, results.get("authentication-user"), results.get("authentication-password"));
+            return settings;
         }
         return null;
     }
@@ -213,13 +248,13 @@ public class LinuxProxyManager extends ProxyManager {
      * @param pumpStreamHandle Handle with sub-processes output and errors
      * @param executeResultHandle Handle with the execution result
      * @param timeout The watchdog timeout
-     * 
-     *@return A boolean indicating if the command was executed or not
+     *
+     * @return A boolean indicating if the command was executed or not
      */
-    private static Map<String,String> runCommandLine(String[] args, PumpStreamHandler pumpStreamHandle,
+    private static Map<String, String> runCommandLine(String[] args, PumpStreamHandler pumpStreamHandle,
             DefaultExecuteResultHandler executeResultHandle, int timeout) {
         System.out.println("Test commands starting....");
-        Map<String,String> response = new HashMap<>();
+        Map<String, String> response = new HashMap<>();
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
         executor = new DefaultExecutor();
@@ -234,7 +269,7 @@ public class LinuxProxyManager extends ProxyManager {
 
         CommandLine commandLine = new CommandLine("gsettings");
 
-        executor.setStreamHandler(pumpStreamHandle);       
+        executor.setStreamHandler(pumpStreamHandle);
 
         watchdog = new ExecuteWatchdog(timeout);
 
@@ -243,7 +278,7 @@ public class LinuxProxyManager extends ProxyManager {
                 commandLine.addArgument(arg);
             }
         }
-        try{
+        try {
             executor.execute(commandLine, executeResultHandle);
             executeResultHandle.waitFor();
             int exitValue = executeResultHandle.getExitValue();
@@ -251,16 +286,16 @@ public class LinuxProxyManager extends ProxyManager {
             System.out.println("Executing command:" + commandLine.toString());
 
             if (exitValue != 0) {
-                response.put("result","false");
-            }else{
-                response.put("result","true");
+                response.put("result", "false");
+            } else {
+                response.put("result", "true");
             }
-            
-            response.put("output",outputStream.toString());
-        }catch(InterruptedException | IOException ee){
+
+            response.put("output", outputStream.toString());
+        } catch (InterruptedException | IOException ee) {
             Logger.getLogger(LinuxProxyManager.class.getName()).log(Level.SEVERE, null, ee);
         }
-        
+
         return response;
     }
 }
