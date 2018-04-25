@@ -31,7 +31,7 @@ BrandingText "${PRODUCT_NAME} ${PRODUCT_VERSION}"
 !define MUI_WELCOMEFINISHPAGE_BITMAP ".\welcome-bg.bmp"
 !insertmacro MUI_PAGE_WELCOME
 ; License page
-;!insertmacro MUI_PAGE_LICENSE "..\..\..\license.txt"
+!insertmacro MUI_PAGE_LICENSE "..\..\..\LICENSE.txt"
 ; Directory page
 !insertmacro MUI_PAGE_DIRECTORY
 ; Instfiles page

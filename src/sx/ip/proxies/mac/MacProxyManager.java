@@ -1,3 +1,16 @@
+/* 
+ * Copyright 2018 IP Exchange : https://ip.sx/
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package sx.ip.proxies.mac;
 
 import java.io.ByteArrayOutputStream;
@@ -190,66 +203,20 @@ public class MacProxyManager extends ProxyManager {
      *
      */
     public static ProxySettings getInternetProxy() throws IOException {
-        List<String[]> othersCommands = new ArrayList<>();
-        List<String[]> hostPortCommands = new ArrayList<>();
-        Map<String, String> results = new HashMap<>();
-        ProxySettings.ProxyType type = null;
-        String host = "";
-        int port = 0;
-        String user = "";
-        String pass = "";
-        hostPortCommands.add(new String[] {"-getftpproxy", "\"Ethernet\""});
-        hostPortCommands.add(new String[] {"-getwebproxy", "\"Ethernet\""});
-        hostPortCommands.add(new String[] {"-getsecurewebproxy", "\"Ethernet\""});
-        hostPortCommands.add(new String[] {"-getsocksfirewallproxy", "\"Ethernet\""});
+        List<String[]> commandList = new ArrayList<>();
         
-        othersCommands.add(new String[] {"-getproxybypassdomains", "\"Ethernet\""});
-        othersCommands.add(new String[] {"-getautoproxyurl", "\"Ethernet\""});
+        commandList.add(new String[] {"-getftpproxy", "\"Ethernet\""});
+        commandList.add(new String[] {"-getwebproxy", "\"Ethernet\""});
+        commandList.add(new String[] {"-getsecurewebproxy", "\"Ethernet\""});
+        commandList.add(new String[] {"-getsocksfirewallproxy", "\"Ethernet\""});
         
-        for (String[] command : othersCommands) {
-            Map<String, String> response = runCommandLine(command, null, null, 3000);
-
-            if (response.get("result").equals("true")) {
-                String output = response.get("output").trim();
-                results.put(command[0], output);
-                System.err.println(command[2] + ":" + output);
-            }
-        }
-
-        for (String[] command : hostPortCommands) {
+        for(String[] command : commandList){
             Map<String, String> response = runCommandLine(command, null, null, 3000);
             
-            if (response.get("result").equals("true")) {
-                String output = response.get("output").trim().replaceAll("'", "");
-                if (!output.isEmpty()) {
-                    results.put(command[2], output);
-                    System.err.println(command[2] + ":" + output);
-                    if(null != command[0]){
-                        switch (command[0]) {
-                            case "-getftpproxy":
-                                type = ProxySettings.ProxyType.FTP;
-                                break;
-                            case "-getwebproxy":
-                                type = ProxySettings.ProxyType.HTTP;
-                                break;
-                            case "-getsecurewebproxy":
-                                type = ProxySettings.ProxyType.HTTPS;
-                                break;
-                            default:
-                                type = ProxySettings.ProxyType.SOCKS;
-                                break;
-                        }
-                    }
-                }
+            if(response.get("result").equals("true")){
+                String output = response.get("output");                
+                System.err.println(command[2]+":"+output);
             }
-        }
-
-        if (results.size() > 0) {
-            String byPassValue = results.get("-getproxybypassdomains");
-            boolean hasByPass = !byPassValue.isEmpty();
-            
-            ProxySettings settings = new ProxySettings(host, port, type, results.get("-getautoproxyurl"), hasByPass, user, pass);
-            return settings;
         }
         return null;
     }
