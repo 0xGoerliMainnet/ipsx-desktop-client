@@ -132,7 +132,7 @@ public class WindowsProxyManager extends ProxyManager {
         
         if(disable){
             psMethod = "Disable-InternetProxy";
-            powerShellScript = IOUtils.resourceToString("/sx/ip/ipsxclient/scripts/windows-disable-internet-proxy.ps1", Charset.forName("UTF-8"));
+            powerShellScript = IOUtils.resourceToString("/sx/ip/proxies/windows/scripts/windows-disable-internet-proxy.ps1", Charset.forName("UTF-8"));
         }else{
             psMethod = "Set-InternetProxy -proxy \"" +proxyType +"=" + settings.getProxyHost() + ":" + settings.getProxyPort() + "\" " 
                        + (settings.getAcsUrl() != null && !settings.getAcsUrl().isEmpty() ? "-acs \"" + settings.getAcsUrl() + "\"" : "");
@@ -150,7 +150,7 @@ public class WindowsProxyManager extends ProxyManager {
             //Execute another command in the same PowerShell session
             PowerShellResponse psResponse = powerShell.executeCommand(psMethod);
             
-            if(!psResponse.isError()){
+            if(psResponse.isError()){
                  response.put("result", "false");
             } else {
                 response.put("result", "true");
