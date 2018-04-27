@@ -58,9 +58,9 @@ public class WindowsProxyManager extends ProxyManager {
      * @throws IOException the IO exception
      */
     public static void main(String[] args) throws IOException {
-        ProxySettings settings = new ProxySettings("127.0.0.1", 8080, ProxySettings.ProxyType.HTTP, "http://proxy:7892", true, "user", null);
+        ProxySettings settings = new ProxySettings("127.0.0.1", 8080, ProxySettings.ProxyType.HTTP, "http://proxy:7892", true, "user", "pass");
         setInternetProxy(settings);
-        //disableInternetProxy();
+        disableInternetProxy();
 
     }
 
@@ -137,7 +137,9 @@ public class WindowsProxyManager extends ProxyManager {
             psMethod = "Set-InternetProxy -proxy \"" +proxyType +"=" + settings.getProxyHost() + ":" + settings.getProxyPort() + "\" " 
                        + (settings.getAcsUrl() != null && !settings.getAcsUrl().isEmpty() ? "-acs \"" + settings.getAcsUrl() + "\"" : "")
                        + " "
-                       + (settings.getAuthUser()!= null && !settings.getAuthUser().isEmpty() ? "-auth \"true\"" : "");
+                       + (settings.getAuthUser()!= null && !settings.getAuthUser().isEmpty() ? "-authuser \""+settings.getAuthUser()+"\"" : "")
+                       + " "
+                       + (settings.getAuthPass()!= null && !settings.getAuthPass().isEmpty() ? "-authpass \""+settings.getAuthPass()+"\"" : "");
             
             powerShellScript = IOUtils.resourceToString("/sx/ip/proxies/windows/scripts/windows-set-internet-proxy.ps1", Charset.forName("UTF-8"));
         }        

@@ -16,7 +16,7 @@
 #       Set-InternetProxy -proxy "proxy:7890" -acs "http://proxy:7892"
 #
 #   Setting proxy information, (optinal) Automatic Configuration and (optinal) Authentication Script:
-#       Set-InternetProxy -proxy "proxy:7890" -acs "http://proxy:7892" -auth "true"
+#       Set-InternetProxy -proxy "proxy:7890" -acs "http://proxy:7892" -authuser "username" -authpass "password"
 #
 # SOURCE
 #   https://gallery.technet.microsoft.com/scriptcenter/PowerShell-function-Get-cba2abf5
@@ -27,7 +27,7 @@ Function Set-InternetProxy
     [CmdletBinding()]
     Param(        
         [Parameter(Mandatory=$True,ValueFromPipeline=$true,ValueFromPipelineByPropertyName=$true)]
-        [String[]]$Proxy,
+        [String]$proxy,
 
         [Parameter(Mandatory=$False,ValueFromPipeline=$true,ValueFromPipelineByPropertyName=$true)]
         [AllowEmptyString()]
@@ -35,7 +35,11 @@ Function Set-InternetProxy
 
         [Parameter(Mandatory=$False,ValueFromPipeline=$true,ValueFromPipelineByPropertyName=$true)]
         [AllowEmptyString()]
-        [String[]]$auth
+        [String]$authuser,
+
+        [Parameter(Mandatory=$False,ValueFromPipeline=$true,ValueFromPipelineByPropertyName=$true)]
+        [AllowEmptyString()]
+        [String]$authpass
     )
 
     Begin
@@ -46,7 +50,7 @@ Function Set-InternetProxy
     Process
     {        
         Set-ItemProperty -path $regKey ProxyEnable -value 1
-        Set-ItemProperty -path $regKey ProxyServer -value $proxy   
+        Set-ItemProperty -path $regKey ProxyServer -value $Proxy   
         Set-ItemProperty -path $regKey ProxyOverride -value "<local>"
          
                          
@@ -55,8 +59,8 @@ Function Set-InternetProxy
             Set-ItemProperty -path $regKey AutoConfigURL -Value $acs          
         }
 
-        if($auth){
-            $C = Get-Credential
+        if($authuser){
+            cmdkey /generic:$proxy /user:$authuser /pass:$authpass 
         }
     } 
     
