@@ -139,7 +139,9 @@ public class WindowsProxyManager extends ProxyManager {
                        + " "
                        + (settings.getAuthUser()!= null && !settings.getAuthUser().isEmpty() ? "-authuser \""+settings.getAuthUser()+"\"" : "")
                        + " "
-                       + (settings.getAuthPass()!= null && !settings.getAuthPass().isEmpty() ? "-authpass \""+settings.getAuthPass()+"\"" : "");
+                       + (settings.getAuthPass()!= null && !settings.getAuthPass().isEmpty() ? "-authpass \""+settings.getAuthPass()+"\"" : "")
+                       + " "
+                       + (settings.getBypassOnLocal() ? "-bypass \"true\"" : "");
             
             powerShellScript = IOUtils.resourceToString("/sx/ip/proxies/windows/scripts/windows-set-internet-proxy.ps1", Charset.forName("UTF-8"));
         }        

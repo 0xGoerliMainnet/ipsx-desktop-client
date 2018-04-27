@@ -16,7 +16,7 @@
 #       Set-InternetProxy -proxy "proxy:7890" -acs "http://proxy:7892"
 #
 #   Setting proxy information, (optinal) Automatic Configuration and (optinal) Authentication Script:
-#       Set-InternetProxy -proxy "proxy:7890" -acs "http://proxy:7892" -authuser "username" -authpass "password"
+#       Set-InternetProxy -proxy "proxy:7890" -acs "http://proxy:7892" -authuser "username" -authpass "password" -bypass
 #
 # SOURCE
 #   https://gallery.technet.microsoft.com/scriptcenter/PowerShell-function-Get-cba2abf5
@@ -39,7 +39,11 @@ Function Set-InternetProxy
 
         [Parameter(Mandatory=$False,ValueFromPipeline=$true,ValueFromPipelineByPropertyName=$true)]
         [AllowEmptyString()]
-        [String]$authpass
+        [String]$authpass,
+
+        [Parameter(Mandatory=$False,ValueFromPipeline=$true,ValueFromPipelineByPropertyName=$true)]
+        [AllowEmptyString()]
+        [String]$bypass
     )
 
     Begin
@@ -51,8 +55,11 @@ Function Set-InternetProxy
     {        
         Set-ItemProperty -path $regKey ProxyEnable -value 1
         Set-ItemProperty -path $regKey ProxyServer -value $Proxy   
-        Set-ItemProperty -path $regKey ProxyOverride -value "<local>"
-         
+        
+        
+        if($bypass){
+            Set-ItemProperty -path $regKey ProxyOverride -value "<local>"
+        }
                          
         if($acs) 
         {                        
@@ -75,6 +82,14 @@ Function Set-InternetProxy
         else
         {            
             Write-Output "Automatic Configuration Script : Not Defined"
+        }
+        if ($bypass)
+        {            
+            Write-Output "Bypass on local enabled"
+        }
+        else
+        {            
+            Write-Output "Bypass on local disabled"
         }
     }
 }
