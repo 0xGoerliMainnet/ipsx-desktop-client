@@ -24,7 +24,7 @@ Function Disable-InternetProxy
     Process
     {        
         Set-ItemProperty -path $regKey ProxyEnable -value 0 -ErrorAction Stop
-        Set-ItemProperty -path $regKey ProxyServer -value "" -ErrorAction Stop                            
+        Remove-ItemProperty -path $regKey -name ProxyServer -ErrorAction Stop                            
         Set-ItemProperty -path $regKey AutoConfigURL -Value "" -ErrorAction Stop       
     } 
     

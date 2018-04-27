@@ -58,9 +58,9 @@ public class WindowsProxyManager extends ProxyManager {
      * @throws IOException the IO exception
      */
     public static void main(String[] args) throws IOException {
-        ProxySettings settings = new ProxySettings("127.0.0.1", 8080, ProxySettings.ProxyType.HTTP, null, true, null, null);
+        ProxySettings settings = new ProxySettings("127.0.0.1", 8080, ProxySettings.ProxyType.HTTP, "http://proxy:7892", true, "user", null);
         setInternetProxy(settings);
-        disableInternetProxy();
+        //disableInternetProxy();
 
     }
 
@@ -135,15 +135,18 @@ public class WindowsProxyManager extends ProxyManager {
             powerShellScript = IOUtils.resourceToString("/sx/ip/proxies/windows/scripts/windows-disable-internet-proxy.ps1", Charset.forName("UTF-8"));
         }else{
             psMethod = "Set-InternetProxy -proxy \"" +proxyType +"=" + settings.getProxyHost() + ":" + settings.getProxyPort() + "\" " 
-                       + (settings.getAcsUrl() != null && !settings.getAcsUrl().isEmpty() ? "-acs \"" + settings.getAcsUrl() + "\"" : "");
+                       + (settings.getAcsUrl() != null && !settings.getAcsUrl().isEmpty() ? "-acs \"" + settings.getAcsUrl() + "\"" : "")
+                       + " "
+                       + (settings.getAuthUser()!= null && !settings.getAuthUser().isEmpty() ? "-auth \"true\"" : "");
             
             powerShellScript = IOUtils.resourceToString("/sx/ip/proxies/windows/scripts/windows-set-internet-proxy.ps1", Charset.forName("UTF-8"));
         }        
         
         try {
+             Map<String, String> myConfig = new HashMap<>();
+            myConfig.put("maxWait", "80000");
             //Creates PowerShell session (we can execute several commands in the same session)
             powerShell = PowerShell.openSession();
-
             //Execute a command in PowerShell session
             powerShell.executeCommand(powerShellScript);
             

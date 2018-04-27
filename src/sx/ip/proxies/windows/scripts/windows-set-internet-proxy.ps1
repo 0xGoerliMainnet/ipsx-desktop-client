@@ -13,7 +13,10 @@
 #   Setting a socks proxy: 
 #        Set-InternetProxy -proxy "socks=127.0.0.1:8080" 
 #   Setting proxy information and (optinal) Automatic Configuration Script:
-#       Set-InternetProxy -proxy "proxy:7890" -acs "http://proxy:7892" 
+#       Set-InternetProxy -proxy "proxy:7890" -acs "http://proxy:7892"
+#
+#   Setting proxy information, (optinal) Automatic Configuration and (optinal) Authentication Script:
+#       Set-InternetProxy -proxy "proxy:7890" -acs "http://proxy:7892" -auth "true"
 #
 # SOURCE
 #   https://gallery.technet.microsoft.com/scriptcenter/PowerShell-function-Get-cba2abf5
@@ -28,7 +31,11 @@ Function Set-InternetProxy
 
         [Parameter(Mandatory=$False,ValueFromPipeline=$true,ValueFromPipelineByPropertyName=$true)]
         [AllowEmptyString()]
-        [String[]]$acs                
+        [String[]]$acs,
+
+        [Parameter(Mandatory=$False,ValueFromPipeline=$true,ValueFromPipelineByPropertyName=$true)]
+        [AllowEmptyString()]
+        [String[]]$auth
     )
 
     Begin
@@ -40,11 +47,16 @@ Function Set-InternetProxy
     {        
         Set-ItemProperty -path $regKey ProxyEnable -value 1
         Set-ItemProperty -path $regKey ProxyServer -value $proxy   
-        Set-ItemProperty -path $regKey ProxyOverride -value "<local>"                    
+        Set-ItemProperty -path $regKey ProxyOverride -value "<local>"
+         
                          
         if($acs) 
         {                        
             Set-ItemProperty -path $regKey AutoConfigURL -Value $acs          
+        }
+
+        if($auth){
+            $C = Get-Credential
         }
     } 
     
