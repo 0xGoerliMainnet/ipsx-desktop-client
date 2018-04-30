@@ -65,7 +65,8 @@ public class WindowsProxyManager extends ProxyManager {
     public static void main(String[] args) throws IOException {
         ProxySettings settings = new ProxySettings("127.0.0.1", 8080, ProxySettings.ProxyType.HTTP, "http://proxy:7892", true, "user", "pass");
         setInternetProxy(settings);
-        disableInternetProxy();
+        //disableInternetProxy();
+        getInternetProxy();
 
     }
 
@@ -85,21 +86,21 @@ public class WindowsProxyManager extends ProxyManager {
         
         switch (settings.getType()) {
             case HTTP:
-                result = runPowerShellMethod(powerShellScript, "http", settings, false, false, null).get("result");
+                result = runPowerShellMethod(powerShellScript, "http", settings, false, false, null, false).get("result");
                 break;                
             case HTTPS:
-                result = runPowerShellMethod(powerShellScript, "https", settings, false, false, null).get("result");
+                result = runPowerShellMethod(powerShellScript, "https", settings, false, false, null, false).get("result");
                 break;
             case SOCKS:
-                result = runPowerShellMethod(powerShellScript, "socks", settings, false, false, null).get("result");
+                result = runPowerShellMethod(powerShellScript, "socks", settings, false, false, null, false).get("result");
                 break;
             case FTP:
-                result = runPowerShellMethod(powerShellScript, "ftp", settings, false, false, null).get("result");
+                result = runPowerShellMethod(powerShellScript, "ftp", settings, false, false, null, false).get("result");
                 break;
             case HTTP_AND_HTTPS:
-                result = runPowerShellMethod(powerShellScript, "http", settings, false, false, null).get("result");
+                result = runPowerShellMethod(powerShellScript, "http", settings, false, false, null, false).get("result");
                 if("true".equals(result)){
-                    result = runPowerShellMethod(powerShellScript, "https", settings, false, false, null).get("result");
+                    result = runPowerShellMethod(powerShellScript, "https", settings, false, false, null, false).get("result");
                 }
                 break;
         }
@@ -115,20 +116,22 @@ public class WindowsProxyManager extends ProxyManager {
      *
      */
     public static ProxySettings getInternetProxy() throws IOException {
-        Map<String, String> results = new HashMap<>();
         String powerShellScript = IOUtils.resourceToString("/sx/ip/proxies/windows/scripts/windows-get-internet-proxy.ps1", Charset.forName("UTF-8"));
-        String bypass = runPowerShellMethod(powerShellScript,null, null, true, false, "ProxyOverride").get("output");
-        String server = runPowerShellMethod(powerShellScript,null, null, true, false, "ProxyServer").get("output");
-        String acs = runPowerShellMethod(powerShellScript,null, null, true, false, "AutoConfigURL").get("output");
-        if (results.size() > 0) {
-            String byPassValue = results.get("ignore-hosts");
-            boolean hasByPass = !bypass.isEmpty();
+        String proxyEnable = runPowerShellMethod(powerShellScript,null, null, false, true, "ProxyEnable", false).get("output").trim();
+        ProxySettings settings = null;
+        if (proxyEnable.equals("1")) {
+            String[] output = runPowerShellMethod(powerShellScript,null, null, false, true, "ProxyServer", false).get("output").trim().split("=");
+            String bypass = runPowerShellMethod(powerShellScript,null, null, false, true, "ProxyOverride", false).get("output");
+            String acs = runPowerShellMethod(powerShellScript,null, null, false, true, "AutoConfigURL", false).get("output");
+            String[] credentials = runPowerShellMethod(powerShellScript,null, null, false, true, null, true).get("output").split(":");
+            boolean hasByPass = !bypass.trim().isEmpty();
+            String[] server = output[1].split(":");
+            settings = new ProxySettings(server[0], Integer.valueOf(server[1]), ProxySettings.ProxyType.valueOf(output[0].toUpperCase()),
+                                                   acs.trim(), hasByPass, credentials[0], credentials[1].trim());
             
-            ProxySettings settings = null; //new ProxySettings(results.get("host"), Integer.valueOf(results.get("port")), ProxySettings.ProxyType.valueOf(type),
-//                                                       results.get("autoconfig-url"), hasByPass, results.get("authentication-user"), results.get("authentication-password"));
-            return settings;
+           
         }
-        return null;
+        return settings;
     }
     
     /**
@@ -141,7 +144,7 @@ public class WindowsProxyManager extends ProxyManager {
      */
     public static boolean disableInternetProxy() throws IOException {        
         String powerShellScript = IOUtils.resourceToString("/sx/ip/proxies/windows/scripts/windows-disable-internet-proxy.ps1", Charset.forName("UTF-8"));
-        return "true".equals(runPowerShellMethod(powerShellScript,null, null, true, false, null).get("result"));
+        return "true".equals(runPowerShellMethod(powerShellScript,null, null, true, false, null, false).get("result"));
     }
     
     /**
@@ -155,7 +158,7 @@ public class WindowsProxyManager extends ProxyManager {
      *
      * @return A map result and output message
      */
-    private static Map<String, String> runPowerShellMethod(String powerShellScript, String proxyType, ProxySettings settings, boolean disable, boolean getScript, String name) throws IOException {
+    private static Map<String, String> runPowerShellMethod(String powerShellScript, String proxyType, ProxySettings settings, boolean disable, boolean getScript, String name, boolean getCredentials) throws IOException {
         System.out.println("Test commands starting....");
         Map<String, String> response = new HashMap<>();
         String psMethod;
@@ -164,7 +167,11 @@ public class WindowsProxyManager extends ProxyManager {
         if(disable){
             psMethod = "Disable-InternetProxy";
         }else if(getScript){
-            psMethod = "Get-InternetProxy -name "+name;
+            if(!getCredentials){
+                psMethod = "Get-InternetProxy -name "+name;
+            }else{
+                psMethod = "Get-InternetProxy";
+            }
         }else{
             psMethod = "Set-InternetProxy -proxy \"" +proxyType +"=" + settings.getProxyHost() + ":" + settings.getProxyPort() + "\" " 
                        + (settings.getAcsUrl() != null && !settings.getAcsUrl().isEmpty() ? "-acs \"" + settings.getAcsUrl() + "\"" : "")

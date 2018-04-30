@@ -1,23 +1,16 @@
 ####
-# SET-INTERNETPROXY
+# GET-INTERNETPROXY
 #
 # DESCRIPTION
-#   This function will set the proxy server and (optional) Automatic configuration script.
+#   This function will get the proxy server settings.
 #
 # SYNTAX
-#   Set-InternetProxy [-Proxy] <string[]> [[-acs] <string[]>]  [<CommonParameters>]
+#   Get-InternetProxy [-name] <string>
 #
 # EXAMPLES 
-#   Setting proxy information: 
-#        Set-InternetProxy -proxy "127.0.0.1:8080" 
-#   Setting a socks proxy: 
-#        Set-InternetProxy -proxy "socks=127.0.0.1:8080" 
-#   Setting proxy information and (optinal) Automatic Configuration Script:
-#       Set-InternetProxy -proxy "proxy:7890" -acs "http://proxy:7892"
-#
-#   Setting proxy information, (optinal) Automatic Configuration and (optinal) Authentication Script:
-#       Set-InternetProxy -proxy "proxy:7890" -acs "http://proxy:7892" -authuser "username" -authpass "password" -bypass
-#
+#   Getting proxy information: 
+#        Get-InternetProxy -name "ProxyOverride" 
+#   
 # SOURCE
 #   https://gallery.technet.microsoft.com/scriptcenter/PowerShell-function-Get-cba2abf5
 ####
@@ -26,7 +19,7 @@ Function Get-InternetProxy
 {
     [CmdletBinding()]
     Param(        
-        [Parameter(Mandatory=$True,ValueFromPipeline=$true,ValueFromPipelineByPropertyName=$true)]
+        [Parameter(ValueFromPipeline=$true,ValueFromPipelineByPropertyName=$true)]
         [String]$name
     )
 
@@ -37,15 +30,20 @@ Function Get-InternetProxy
     
     Process
     {        
-        $output = Get-ItemProperty -path $regKey -name $name
-        return $output
+        if($name){
+            $output = Get-ItemProperty -path $regKey -name $name
+            return $output.$name           
+        }Else{
+            $c = Get-Credential -m "Please enter with the proxy authentication if exists or cancel"
+            $user = $c.GetNetworkCredential().UserName
+            $pass = $c.GetNetworkCredential().password
+            return $user+":"+$pass
+        }
         
     } 
     
     End
     {
-        Write-Output "$name field obtained"
-        Write-Output "$name : $output"
         
     }
 }
