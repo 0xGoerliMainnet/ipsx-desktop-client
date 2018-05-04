@@ -15,34 +15,50 @@ package sx.ip;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
+import java.awt.Desktop;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.application.HostServices;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Hyperlink;
 
 /**
  *
  * @author Renan
  */
 public class FXMLManualProxyController implements Initializable {
+    
+    private final HostServices hostServices ;
+
+    public FXMLManualProxyController(HostServices hostServices) {
+        this.hostServices = hostServices ;
+    }
 
     @FXML
     private JFXButton btnClose;
 
     @FXML
-    private JFXComboBox<String> comboProtocol;    
+    private JFXComboBox<String> comboProtocol;
+    
+    @FXML
+    private Hyperlink btnTerms;
     
     @FXML
     private void handleCloseAction(ActionEvent event) {
         System.exit(0);
+    }
+    
+    @FXML
+    public void openBrowser(ActionEvent actionEvent) throws Exception {
+        hostServices.showDocument(btnTerms.getAccessibleText());
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
        comboProtocol.getItems().addAll("SOCKS", "HTTP & HTTPS");
     }
-    
-    
+     
 
 }

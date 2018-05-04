@@ -22,6 +22,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import sx.ip.factories.HostServicesControllerFactory;
 
 /**
  *
@@ -32,10 +33,16 @@ public class IPSXDesktopClient extends Application {
     //define your offsets here
     private double xOffset = 0;
     private double yOffset = 0;
+    
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLManualProxy.fxml"));
+        
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLManualProxy.fxml"));
+        
+        loader.setControllerFactory(new HostServicesControllerFactory(getHostServices()));
+        
+        Parent root = loader.load();
 
         //grab your root here
         root.setOnMousePressed(new EventHandler<MouseEvent>() {
@@ -68,5 +75,5 @@ public class IPSXDesktopClient extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-
+    
 }

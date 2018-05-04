@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!--
 Copyright 2018 IP Exchange : https://ip.sx/
 
@@ -80,7 +81,7 @@ limitations under the License.
             <Cursor fx:constant="HAND" />
          </cursor>
          <graphic>
-            <Hyperlink contentDisplay="TOP" prefHeight="23.0" prefWidth="119.0" text="terms and condition" textFill="#2aace0" underline="true" />
+            <Hyperlink fx:id="btnTerms" accessibleText="https://www.google.com" contentDisplay="TOP" onAction="#openBrowser" prefHeight="23.0" prefWidth="119.0" text="terms and condition" textFill="#2aace0" underline="true" />
          </graphic>
       </JFXCheckBox>
       <JFXButton defaultButton="true" layoutX="120.0" layoutY="345.0" prefHeight="36.0" prefWidth="140.0" ripplerFill="WHITE" style="-fx-background-color: #2aace0;" text="Activate Proxy" textAlignment="CENTER" textFill="WHITE">
