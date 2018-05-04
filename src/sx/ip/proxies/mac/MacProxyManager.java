@@ -13,6 +13,7 @@
  */
 package sx.ip.proxies.mac;
 
+import com.profesorfalken.jpowershell.PowerShellNotAvailableException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -33,7 +34,6 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import sx.ip.proxies.ProxyManager;
 import sx.ip.proxies.ProxySettings;
-import sx.ip.proxies.linux.LinuxProxyManager;
 
 /**
  * Proxy Manager to be used when the OS is Mac
@@ -63,8 +63,10 @@ public class MacProxyManager extends ProxyManager {
         boolean commandResult = false;
         try {
             commandResult = setInternetProxy(settings);
-        } catch (IOException | InterruptedException ex) {
-            Logger.getLogger(LinuxProxyManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            throw new ProxySetupException("Internal error: "+ex.getMessage(), ex);
+        } catch (InterruptedException ex) {
+            throw new ProxySetupException("Internal error: "+ex.getMessage(), ex);
         }
         return commandResult;
     }
@@ -74,7 +76,15 @@ public class MacProxyManager extends ProxyManager {
      */
     @Override
     public ProxySettings getProxySettings() throws ProxySetupException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            return getInternetProxy();
+        } catch (IOException ex) {
+            throw new ProxySetupException("Internal error: "+ex.getMessage(), ex);
+        } catch (ParseException ex) {
+            throw new ProxySetupException("Internal error: "+ex.getMessage(), ex);
+        } catch (InterruptedException ex) {
+            throw new ProxySetupException("Internal error: "+ex.getMessage(), ex);
+        }
     }
 
     /**
@@ -85,7 +95,10 @@ public class MacProxyManager extends ProxyManager {
      * @throws IOException The IO exception
      *
      * @throws InterruptedException The interrupted exception
+     * 
      * @throws ProxySetupException The proxy setup exception
+     * 
+     * @throws ParseException The parse exception
      */
     public static void main(String[] args) throws IOException, InterruptedException, ProxySetupException, ParseException {
         ProxySettings settings = new ProxySettings(null, 8080, ProxySettings.ProxyType.HTTP_AND_HTTPS, null, true, null, null);
@@ -178,9 +191,11 @@ public class MacProxyManager extends ProxyManager {
      * @return If the command was executed or not
      * 
      * @throws IOException The IO exception
+     * 
+     * @throws InterruptedException The interrupted exception
      *
      */
-    public static boolean disableInternetProxy() throws IOException {
+    public static boolean disableInternetProxy() throws IOException, InterruptedException {
         List<String[]> commandList = new ArrayList<>();       
         Map<String, String> response = new HashMap<>();
         commandList.add(new String[] {"-setftpproxystate", "\"Ethernet\"","off"});
@@ -204,9 +219,13 @@ public class MacProxyManager extends ProxyManager {
      * @return The latest ProxySettings
      * 
      * @throws IOException The IO exception
+     * 
+     * @throws ParseException The Parse exception
+     * 
+     * @throws InterruptedException The interrupted exception
      *
      */
-    public static ProxySettings getInternetProxy() throws IOException, ParseException {
+    public static ProxySettings getInternetProxy() throws IOException, ParseException, InterruptedException {
         List<String[]> commandList = new ArrayList<>();
         JSONParser parser = new JSONParser();
         ProxySettings settings;
@@ -223,8 +242,7 @@ public class MacProxyManager extends ProxyManager {
         commandList.add(new String[] {"-getsocksfirewallproxy", "\"Ethernet\""});        
         commandList.add(new String[] {"-getautoproxyurl", "\"Ethernet\""});
         
-        String [] byPassCommand = new String[] {"-getproxybypassdomains", "\"Ethernet\""};
-        
+        String [] byPassCommand = new String[] {"-getproxybypassdomains", "\"Ethernet\""};        
         
         for(String[] command : commandList){
             Map<String, String> response = runCommandLine(command, null, null, 3000);
@@ -286,7 +304,7 @@ public class MacProxyManager extends ProxyManager {
      *@return A boolean indicating if the command was executed or not
      */
     private static Map<String,String> runCommandLine(String[] args, PumpStreamHandler pumpStreamHandle,
-            DefaultExecuteResultHandler executeResultHandle, int timeout) {
+            DefaultExecuteResultHandler executeResultHandle, int timeout) throws IOException, InterruptedException {
         System.out.println("Test commands starting....");
         Map<String,String> response = new HashMap<>();
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -312,23 +330,20 @@ public class MacProxyManager extends ProxyManager {
                 commandLine.addArgument(arg);
             }
         }
-        try{
-            executor.execute(commandLine, executeResultHandle);
-            executeResultHandle.waitFor();
-            int exitValue = executeResultHandle.getExitValue();
+        executor.execute(commandLine, executeResultHandle);
+        executeResultHandle.waitFor();
+        int exitValue = executeResultHandle.getExitValue();
 
-            System.out.println("Executing command:" + commandLine.toString());
+        System.out.println("Executing command:" + commandLine.toString());
 
-            if (exitValue != 0) {
-                response.put("result","false");
-            }else{
-                response.put("result","true");
-            }
-            
-            response.put("output",outputStream.toString());
-        }catch(InterruptedException | IOException ee){
-            Logger.getLogger(LinuxProxyManager.class.getName()).log(Level.SEVERE, null, ee);
+        if (exitValue != 0) {
+            response.put("result","false");
+        }else{
+            response.put("result","true");
         }
+
+        response.put("output",outputStream.toString());
+        
         
         return response;
     }
