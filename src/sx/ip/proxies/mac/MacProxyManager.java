@@ -21,12 +21,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecuteResultHandler;
 import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.exec.ExecuteWatchdog;
 import org.apache.commons.exec.Executor;
 import org.apache.commons.exec.PumpStreamHandler;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import sx.ip.proxies.ProxyManager;
 import sx.ip.proxies.ProxySettings;
 import sx.ip.proxies.linux.LinuxProxyManager;
@@ -83,7 +87,7 @@ public class MacProxyManager extends ProxyManager {
      * @throws InterruptedException The interrupted exception
      * @throws ProxySetupException The proxy setup exception
      */
-    public static void main(String[] args) throws IOException, InterruptedException, ProxySetupException {
+    public static void main(String[] args) throws IOException, InterruptedException, ProxySetupException, ParseException {
         ProxySettings settings = new ProxySettings(null, 8080, ProxySettings.ProxyType.HTTP_AND_HTTPS, null, true, null, null);
         setInternetProxy(settings);
         getInternetProxy();
@@ -202,23 +206,73 @@ public class MacProxyManager extends ProxyManager {
      * @throws IOException The IO exception
      *
      */
-    public static ProxySettings getInternetProxy() throws IOException {
+    public static ProxySettings getInternetProxy() throws IOException, ParseException {
         List<String[]> commandList = new ArrayList<>();
+        JSONParser parser = new JSONParser();
+        ProxySettings settings;
+        String type = null;        
+        String proxyServer = null;
+        String proxyPort = null;
+        String proxyAuth;
+        String url = null;
+        Boolean byPass = false;
         
         commandList.add(new String[] {"-getftpproxy", "\"Ethernet\""});
         commandList.add(new String[] {"-getwebproxy", "\"Ethernet\""});
         commandList.add(new String[] {"-getsecurewebproxy", "\"Ethernet\""});
-        commandList.add(new String[] {"-getsocksfirewallproxy", "\"Ethernet\""});
+        commandList.add(new String[] {"-getsocksfirewallproxy", "\"Ethernet\""});        
+        commandList.add(new String[] {"-getautoproxyurl", "\"Ethernet\""});
+        
+        String [] byPassCommand = new String[] {"-getproxybypassdomains", "\"Ethernet\""};
+        
         
         for(String[] command : commandList){
             Map<String, String> response = runCommandLine(command, null, null, 3000);
-            
+            String proxyEnable;
             if(response.get("result").equals("true")){
-                String output = response.get("output");                
-                System.err.println(command[2]+":"+output);
+                String output = response.get("output");
+                Object obj = parser.parse(output);
+                JSONObject jsonObject = (JSONObject) obj;
+                if(jsonObject.containsKey("Enabled")){
+                    proxyEnable = (String) jsonObject.get("Enabled");
+                    if(proxyEnable.equals("Yes")){
+                        switch (command[0]) {
+                            case "-getftpproxy":
+                                type = "FTP";
+                                break;
+                            case "-getwebproxy":
+                                type = "HTTP";
+                                break;
+                            case "-getsecurewebproxy":
+                                type = "HTTPS";
+                                break;
+                            case "-getsocksfirewallproxy":
+                                type = "SOCKS";
+                                break;
+                        }
+                        proxyServer = (String) jsonObject.get("Server");
+                        proxyPort = (String) jsonObject.get("Port");
+                        proxyAuth = (String) jsonObject.get("Authenticated Proxy Enabled");
+                        url = (String) jsonObject.get("URL");
+                    }
+                }
+                System.err.println(command[0]+":"+output);
             }
-        }
-        return null;
+        }        
+        
+        Map<String, String> response = runCommandLine(byPassCommand, null, null, 3000);
+
+        if(response.get("result").equals("true")){
+            String output = response.get("output");
+            if(!output.trim().isEmpty()){
+                byPass = true;
+            }
+            System.err.println(byPassCommand[0]+":"+output);
+        }        
+        
+        settings = new ProxySettings(proxyServer, Integer.valueOf(proxyPort), ProxySettings.ProxyType.valueOf(type),
+                                     url, byPass, "", "");
+        return settings;
     }
 
     /**
