@@ -82,7 +82,7 @@ limitations under the License.
       </AnchorPane>
       <AnchorPane fx:id="agreePane" layoutX="2.0" layoutY="245.0" prefHeight="92.0" prefWidth="375.0">
          <children>
-            <JFXCheckBox checkedColor="#2aace0" layoutX="64.0" layoutY="28.0" prefHeight="18.0" prefWidth="230.0" selected="true" text="Bypass proxy server for local addresses" textFill="#707070" unCheckedColor="#ced4da">
+            <JFXCheckBox fx:id="bypassCB" checkedColor="#2aace0" layoutX="64.0" layoutY="28.0" prefHeight="18.0" prefWidth="230.0" selected="true" text="Bypass proxy server for local addresses" textFill="#707070" unCheckedColor="#ced4da">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>

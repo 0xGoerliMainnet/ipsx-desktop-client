@@ -14,6 +14,7 @@
 package sx.ip;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
@@ -59,6 +60,9 @@ public class FXMLManualProxyController implements Initializable {
     @FXML
     private Hyperlink btnTerms;
     
+    @FXML
+    private JFXCheckBox bypassCB;
+    
     private ProxyManager manager = ProxyManager.getInstance();
     
     private ProxySettings settings;
@@ -86,18 +90,16 @@ public class FXMLManualProxyController implements Initializable {
         
         try {
         if(!isActivated){
-            settings = new ProxySettings(host, port, ProxySettings.ProxyType.valueOf(type), null, true, "", "");
-            handleScene(true);
+            settings = new ProxySettings(host, port, ProxySettings.ProxyType.valueOf(type), null, bypassCB.isSelected(), "", "");
+            isActivated = true;
+            handleScene(isActivated);
         }else{
             settings = new ProxySettings(null, null, null, null, false, "", "");
-            handleScene(false);
+            isActivated = false;
+            handleScene(isActivated);
         }
-
         
-        response = manager.setProxySettings(settings);
-        if(response){
-            isActivated = true;
-        }
+        response = manager.setProxySettings(settings);       
         
         } catch (ProxyManager.ProxySetupException ex) {
             Logger.getLogger(FXMLManualProxyController.class.getName()).log(Level.SEVERE, null, ex);
