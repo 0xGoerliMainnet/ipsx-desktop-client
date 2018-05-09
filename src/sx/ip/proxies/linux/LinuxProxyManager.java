@@ -145,7 +145,7 @@ public class LinuxProxyManager extends ProxyManager {
             }
 
             if (settings.getBypassOnLocal()) {
-                commandList.add(new String[]{"set", "org.gnome.system.proxy", "ignore-hosts", "\"['localhost',  '127.0.0.1', 'all', 'other', 'hosts']\""});
+                //commandList.add(new String[]{"set", "org.gnome.system.proxy", "ignore-hosts", "\"['localhost',  '127.0.0.1', 'all', 'other', 'hosts']\""});
             }
 
             if ((settings.getAcsUrl() != null) && (settings.getAcsUrl().isEmpty())) {

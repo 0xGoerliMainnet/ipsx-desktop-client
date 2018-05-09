@@ -15,11 +15,17 @@ package sx.ip;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.layout.AnchorPane;
+import sx.ip.proxies.ProxyManager;
+import sx.ip.proxies.ProxySettings;
 
 /**
  *
@@ -29,18 +35,88 @@ public class FXMLManualProxyController implements Initializable {
 
     @FXML
     private JFXButton btnClose;
+    
+    @FXML
+    private JFXButton btnActivate;
 
     @FXML
-    private JFXComboBox<String> comboProtocol;    
+    private JFXComboBox<String> comboProtocol;
+
+    @FXML
+    private AnchorPane agreePane;
+    
+    @FXML
+    private AnchorPane proxyPane;
+    
+    @FXML
+    private JFXTextField proxyId;
+    
+    @FXML
+    private JFXTextField proxyPort;
+    
+    private ProxyManager manager = ProxyManager.getInstance();
+    
+    private ProxySettings settings;
+    
+    private boolean isActivated = false;
     
     @FXML
     private void handleCloseAction(ActionEvent event) {
         System.exit(0);
     }
+    
+    @FXML
+    private void handleActivateAction(ActionEvent event) {        
+        
+        Boolean response = false;
+        String host = proxyId.getText();
+        int port = Integer.valueOf(proxyPort.getText());
+        String type = comboProtocol.getValue();
+        
+        try {
+        if(!isActivated){
+            settings = new ProxySettings(host, port, ProxySettings.ProxyType.valueOf(type), null, true, "", "");
+            handleScene(true);
+        }else{
+            settings = new ProxySettings(null, null, null, null, false, "", "");
+            handleScene(false);
+        }
+
+        
+        response = manager.setProxySettings(settings);
+        if(response){
+            isActivated = true;
+        }
+        
+        } catch (ProxyManager.ProxySetupException ex) {
+            Logger.getLogger(FXMLManualProxyController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        
+        
+        
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-       comboProtocol.getItems().addAll("SOCKS", "HTTP & HTTPS");
+       comboProtocol.getItems().addAll("HTTP", "HTTPS", "FTP", "SOCKS", "HTTP & HTTPS");
+    }
+    
+    private void handleScene(boolean activate){
+        agreePane.setDisable(!agreePane.isDisable());
+        comboProtocol.setDisable(!comboProtocol.isDisable());
+        proxyId.setDisable(!proxyId.isDisable());
+        proxyPort.setDisable(!proxyPort.isDisable());
+        
+        if(activate){
+            btnActivate.setText("Deactivate");
+            btnActivate.setStyle("-fx-background-color: #2ecc71;");
+        }else{
+            btnActivate.setText("Activate Proxy");
+            btnActivate.setStyle("-fx-background-color: #2aace0;");
+        }
+        
     }
     
     
