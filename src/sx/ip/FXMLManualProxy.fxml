@@ -18,6 +18,7 @@ limitations under the License.
 <?import com.jfoenix.controls.JFXCheckBox?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import de.jensd.fx.glyphs.materialicons.MaterialIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.Cursor?>
@@ -43,7 +44,11 @@ limitations under the License.
             <Image url="@imgs/ipsx-logo-230x45.png" />
          </image>
       </ImageView>
-      <JFXButton fx:id="btnClose" contentDisplay="CENTER" layoutX="343.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleCloseAction" prefHeight="32.0" prefWidth="32.0" text=" " textAlignment="CENTER" textFill="#a4a4a4" />
+      <JFXButton fx:id="btnClose" contentDisplay="CENTER" layoutX="343.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleCloseAction" prefHeight="32.0" prefWidth="32.0" text=" " textAlignment="CENTER" textFill="#a4a4a4">
+         <graphic>
+            <MaterialIconView fill="#707070" glyphName="CLOSE" size="16.0" textAlignment="CENTER" />
+         </graphic>
+      </JFXButton>
       <AnchorPane fx:id="proxyPane" layoutY="100.0" minHeight="-Infinity" prefHeight="150.0" prefWidth="375.0">
          <children>
             <Label layoutX="74.0" layoutY="35.0" text="PROTOCOL" textFill="#707070">
@@ -86,8 +91,10 @@ limitations under the License.
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
+               <graphic>
+                  <Hyperlink fx:id="btnTerms" accessibleText="https://www.google.com" contentDisplay="TOP" onAction="#openBrowser" prefHeight="23.0" prefWidth="119.0" text="terms and condition" textFill="#2aace0" underline="true" />
+               </graphic>
             </JFXCheckBox>
-            <Hyperlink fx:id="btnTerms" accessibleText="https://www.google.com" contentDisplay="TOP" layoutX="191.0" layoutY="54.0" onAction="#openBrowser" prefHeight="23.0" prefWidth="119.0" text="terms and condition" textFill="#2aace0" underline="true" />
          </children>
       </AnchorPane>
       <JFXButton fx:id="btnActivate" defaultButton="true" layoutX="120.0" layoutY="345.0" onAction="#handleActivateAction" prefHeight="36.0" prefWidth="140.0" ripplerFill="WHITE" style="-fx-background-color: #2aace0;" text="Activate Proxy" textAlignment="CENTER" textFill="WHITE">

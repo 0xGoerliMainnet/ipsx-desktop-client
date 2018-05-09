@@ -20,9 +20,11 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.HostServices;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.layout.AnchorPane;
 import sx.ip.proxies.ProxyManager;
 import sx.ip.proxies.ProxySettings;
@@ -54,11 +56,20 @@ public class FXMLManualProxyController implements Initializable {
     @FXML
     private JFXTextField proxyPort;
     
+    @FXML
+    private Hyperlink btnTerms;
+    
     private ProxyManager manager = ProxyManager.getInstance();
     
     private ProxySettings settings;
     
     private boolean isActivated = false;
+    
+    private final HostServices hostServices ;
+
+    public FXMLManualProxyController(HostServices hostServices) {
+        this.hostServices = hostServices ;
+    }
     
     @FXML
     private void handleCloseAction(ActionEvent event) {
@@ -91,11 +102,11 @@ public class FXMLManualProxyController implements Initializable {
         } catch (ProxyManager.ProxySetupException ex) {
             Logger.getLogger(FXMLManualProxyController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
-        
-        
-        
+    }
+    
+    @FXML
+    public void openBrowser(ActionEvent actionEvent) throws Exception {
+        hostServices.showDocument(btnTerms.getAccessibleText());
     }
 
     @Override
