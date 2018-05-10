@@ -13,7 +13,6 @@
  */
 package sx.ip.utils;
 
-import java.util.Optional;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -33,6 +32,20 @@ import javafx.util.Pair;
  */
 public class ProxyUtils {
 
+    /**
+     * Method resposible for create a alert.
+     *
+     * @param type Represent the type of the alert
+     *
+     * @param title The title of the alert
+     *
+     * @param header The header of the alert
+     *
+     * @param content The content text of the alert
+     *
+     * @return The Alert instance
+     *
+     */
     public static Alert createAlert(Alert.AlertType type, String title, String header, String content) {
         Alert alert = new Alert(type);
         alert.setTitle(title);
@@ -42,14 +55,24 @@ public class ProxyUtils {
         return alert;
     }
 
+    /**
+     * Method resposible for create the authentication dialog.
+     *
+     * @param title The title of the dialog
+     *
+     * @param header The header of the dialog
+     *
+     * @return The Dialog instance
+     *
+     */
     public static Dialog createAuthenticationDialog(String title, String header) {
         Dialog<Pair<String, String>> dialog = new Dialog<>();
         dialog.setTitle(title);
         dialog.setHeaderText(header);
-        
+
         ButtonType btnLoginType = new ButtonType("Login", ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(btnLoginType, ButtonType.CANCEL);
-        
+
         GridPane gridPane = new GridPane();
         gridPane.setHgap(10);
         gridPane.setVgap(10);
@@ -75,14 +98,14 @@ public class ProxyUtils {
         dialog.getDialogPane().setContent(gridPane);
 
         Platform.runLater(() -> proxyUser.requestFocus());
-        
+
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == btnLoginType) {
                 return new Pair<>(proxyUser.getText(), proxyPass.getText());
             }
             return null;
-        });        
-        
+        });
+
         return dialog;
     }
 

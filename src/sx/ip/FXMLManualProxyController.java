@@ -73,7 +73,7 @@ public class FXMLManualProxyController implements Initializable {
 
     @FXML
     private JFXCheckBox bypassCB;
-    
+
     @FXML
     private JFXCheckBox proxyAuthentication;
 
@@ -89,39 +89,51 @@ public class FXMLManualProxyController implements Initializable {
         this.hostServices = hostServices;
     }
 
+    /**
+     * Method resposible for handle with the close action.
+     *
+     * @param event An Event representing that the button has been fired.
+     *
+     */
     @FXML
     private void handleCloseAction(ActionEvent event) {
         System.exit(0);
     }
 
+    /**
+     * Method resposible for handle with the activate action.
+     *
+     * @param event An Event representing that the button has been fired.
+     *
+     */
     @FXML
     private void handleActivateAction(ActionEvent event) {
-        Alert alert = ProxyUtils.createAlert(AlertType.WARNING, "Warning", null, "Please, fill at least the Protocol, Proxy ID and Port fields!");        
+        Alert alert = ProxyUtils.createAlert(AlertType.WARNING, "Warning", null, "Please, fill at least the Protocol, Proxy ID and Port fields!");
 
         String host = proxyId.getText().trim();
         String type = (comboProtocol.getValue() != null) ? comboProtocol.getValue().getValue() : null;
         Integer port = null;
         String proxyAuthe = null;
         String proxyPass = null;
-        
+
         if (proxyPort.getText() != null && proxyPort.getText().trim().length() > 0) {
             port = Integer.valueOf(proxyPort.getText());
-        }       
+        }
 
         if ((host != null && host.length() > 0)) {
             if (type != null && port != null) {
-                
+
                 try {
                     if (!isActivated) {
-                        if(proxyAuthentication.isSelected()){
+                        if (proxyAuthentication.isSelected()) {
                             Dialog dialog = ProxyUtils.createAuthenticationDialog("Proxy Authentication", "Enter with the proxy authentication");
                             Optional<Pair<String, String>> result = dialog.showAndWait();
-                            if(result.isPresent()){
-                               proxyAuthe = result.get().getKey();
-                               proxyPass = result.get().getValue();
+                            if (result.isPresent()) {
+                                proxyAuthe = result.get().getKey();
+                                proxyPass = result.get().getValue();
                             }
                         }
-                        
+
                         settings = new ProxySettings(host, port, ProxySettings.ProxyType.valueOf(type), null, bypassCB.isSelected(), proxyAuthe, proxyPass);
                         isActivated = true;
                         handleScene(isActivated);
@@ -145,11 +157,20 @@ public class FXMLManualProxyController implements Initializable {
         }
     }
 
+    /**
+     * Method resposible for open the browser.
+     *
+     * @param event An Event representing that the Button has been fired.
+     *
+     */
     @FXML
-    public void openBrowser(ActionEvent actionEvent) throws Exception {
+    public void openBrowser(ActionEvent event) {
         hostServices.showDocument(btnTerms.getAccessibleText());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         ObservableList<ProxyType> data
@@ -165,6 +186,12 @@ public class FXMLManualProxyController implements Initializable {
         proxyPort.setTextFormatter(new TextFormatter<>(new IntegerStringConverter()));
     }
 
+    /**
+     * Method responsible for control the display layout.
+     *
+     * @param activate Flag to indicate if the proxy server is active or not
+     *
+     */
     private void handleScene(boolean activate) {
         agreePane.setDisable(!agreePane.isDisable());
         comboProtocol.setDisable(!comboProtocol.isDisable());

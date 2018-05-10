@@ -25,6 +25,9 @@ public class IPSXDesktopClient extends Application {
 
     private double yOffset = 0;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void start(Stage stage) throws Exception {
 
