@@ -22,6 +22,8 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.HostServices;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -29,6 +31,7 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.layout.AnchorPane;
 import sx.ip.proxies.ProxyManager;
 import sx.ip.proxies.ProxySettings;
+import sx.ip.models.ProxyType;
 
 /**
  *
@@ -43,7 +46,7 @@ public class FXMLManualProxyController implements Initializable {
     private JFXButton btnActivate;
 
     @FXML
-    private JFXComboBox<String> comboProtocol;
+    private JFXComboBox<ProxyType> comboProtocol;
 
     @FXML
     private AnchorPane agreePane;
@@ -86,7 +89,7 @@ public class FXMLManualProxyController implements Initializable {
         Boolean response = false;
         String host = proxyId.getText();
         int port = Integer.valueOf(proxyPort.getText());
-        String type = comboProtocol.getValue();
+        String type = comboProtocol.getValue().getValue();
         
         try {
         if(!isActivated){
@@ -94,7 +97,7 @@ public class FXMLManualProxyController implements Initializable {
             isActivated = true;
             handleScene(isActivated);
         }else{
-            settings = new ProxySettings(null, null, null, null, false, "", "");
+            settings = ProxySettings.getDirectConnectionSetting();
             isActivated = false;
             handleScene(isActivated);
         }
@@ -113,7 +116,16 @@ public class FXMLManualProxyController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-       comboProtocol.getItems().addAll("HTTP", "HTTPS", "FTP", "SOCKS", "HTTP & HTTPS");
+         ObservableList<ProxyType> data =
+            FXCollections.observableArrayList(
+            new ProxyType("HTTP", "HTTP"),
+            new ProxyType("HTTPS", "HTTPS"),
+            new ProxyType("FTP", "FTP"),
+            new ProxyType("SOCKS", "SOCKS"),
+            new ProxyType("HTTP & HTTPS", "HTTP_AND_HTTPS"));
+         
+       comboProtocol.getItems().addAll(data);
+       comboProtocol.setPromptText("Proxy Type");
     }
     
     private void handleScene(boolean activate){
@@ -131,7 +143,7 @@ public class FXMLManualProxyController implements Initializable {
         }
         
     }
-    
-    
-
 }
+
+
+

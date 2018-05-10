@@ -24,7 +24,7 @@ public class ProxySettings {
     /** The proxy port to be access. */
     private final Integer proxyPort;
     
-    /** The proxy type witch can be HTTP, HTTPS ,Socks, FTP, HTTP and HTTPS. */
+    /** The proxy type witch can be HTTP, HTTPS ,SOCKS, FTP, HTTP and HTTPS. */
     private final ProxyType type;
     
     /** A url for get all proxy information at once. */
