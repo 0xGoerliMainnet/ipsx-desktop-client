@@ -49,7 +49,7 @@ limitations under the License.
             <MaterialIconView fill="#707070" glyphName="CLOSE" size="16.0" textAlignment="CENTER" />
          </graphic>
       </JFXButton>
-      <AnchorPane fx:id="proxyPane" layoutY="100.0" minHeight="-Infinity" prefHeight="150.0" prefWidth="375.0">
+      <AnchorPane fx:id="proxyPane" layoutY="100.0" minHeight="-Infinity" prefHeight="173.0" prefWidth="375.0">
          <children>
             <Label layoutX="74.0" layoutY="35.0" text="PROTOCOL" textFill="#707070">
                <font>
@@ -82,7 +82,7 @@ limitations under the License.
       </AnchorPane>
       <AnchorPane fx:id="agreePane" layoutX="2.0" layoutY="245.0" prefHeight="92.0" prefWidth="375.0">
          <children>
-            <JFXCheckBox fx:id="bypassCB" checkedColor="#2aace0" layoutX="64.0" layoutY="28.0" prefHeight="18.0" prefWidth="230.0" selected="true" text="Bypass proxy server for local addresses" textFill="#707070" unCheckedColor="#ced4da">
+            <JFXCheckBox fx:id="bypassCB" checkedColor="#2aace0" layoutX="64.0" layoutY="30.0" prefHeight="18.0" prefWidth="230.0" selected="true" text="Bypass proxy server for local addresses" textFill="#707070" unCheckedColor="#ced4da">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
@@ -94,6 +94,11 @@ limitations under the License.
                <graphic>
                   <Hyperlink fx:id="btnTerms" accessibleText="https://www.google.com" contentDisplay="TOP" onAction="#openBrowser" prefHeight="23.0" prefWidth="119.0" text="terms and condition" textFill="#2aace0" underline="true" />
                </graphic>
+            </JFXCheckBox>
+            <JFXCheckBox fx:id="proxyAuthentication" checkedColor="#2aace0" layoutX="64.0" layoutY="4.0" prefHeight="18.0" prefWidth="230.0" selected="true" text="Proxy Authentication" textFill="#707070" unCheckedColor="#ced4da">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </JFXCheckBox>
          </children>
       </AnchorPane>
