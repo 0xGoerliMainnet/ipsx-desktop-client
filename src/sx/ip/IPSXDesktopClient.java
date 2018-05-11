@@ -13,7 +13,10 @@
  */
 package sx.ip;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -22,11 +25,11 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javax.swing.SwingUtilities;
 import sx.ip.factories.HostServicesControllerFactory;
 
 /**
- *
- * @author Renan
+ * Main class to load the IPSX desktop application
  */
 public class IPSXDesktopClient extends Application {
 
@@ -34,16 +37,29 @@ public class IPSXDesktopClient extends Application {
     private double xOffset = 0;
     private double yOffset = 0;
     
-
     @Override
     public void start(Stage stage) throws Exception {
+
+        // instructs the javafx system not to exit implicitly when the last application window is shut.
+        Platform.setImplicitExit(false);
+        
+        SystemTrayController systemTray = new SystemTrayController(stage, getBundle());
+        
+        // sets up the tray icon (using awt code run on the swing thread).
+        SwingUtilities.invokeLater(() -> {
+            systemTray.addAppToTray();
+        });
         
         FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLManualProxy.fxml"));
-        
+
         loader.setControllerFactory(new HostServicesControllerFactory(getHostServices()));
         
         Parent root = loader.load();
 
+        FXMLManualProxyController controller = loader.getController();
+        
+        controller.setStage(stage);
+        
         //grab your root here
         root.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
@@ -64,7 +80,7 @@ public class IPSXDesktopClient extends Application {
 
         Scene scene = new Scene(root);
         stage.initStyle(StageStyle.UNDECORATED);
-        stage.getIcons().add(new Image(getClass().getResourceAsStream("imgs/icon.png") ));
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("imgs/icon.png")));
         stage.setScene(scene);
         stage.show();
     }
@@ -75,5 +91,12 @@ public class IPSXDesktopClient extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-    
+
+    /**
+     * @return the bundle language
+     */
+    public ResourceBundle getBundle() {
+        return ResourceBundle.getBundle("sx.ip.bundles.bundle", new Locale("en", "EN"));
+    }
+
 }

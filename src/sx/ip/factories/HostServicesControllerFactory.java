@@ -17,6 +17,9 @@ import java.lang.reflect.Constructor;
 import javafx.application.HostServices;
 import javafx.util.Callback;
 
+/**
+ * Factory to manage the host services in order, for example, to open an URL in the browser
+ */
 public class HostServicesControllerFactory implements Callback<Class<?>,Object> {
 
     private final HostServices hostServices ;

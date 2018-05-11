@@ -15,7 +15,6 @@ package sx.ip;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
-import java.awt.Desktop;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.application.HostServices;
@@ -23,33 +22,39 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Hyperlink;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 /**
- *
- * @author Renan
+ * Main controller for the main application window
  */
 public class FXMLManualProxyController implements Initializable {
+
+    private final HostServices hostServices;
+
+    private Stage stage;
+
+    @FXML
+    private AnchorPane anchorPane;
     
-    private final HostServices hostServices ;
-
-    public FXMLManualProxyController(HostServices hostServices) {
-        this.hostServices = hostServices ;
-    }
-
     @FXML
     private JFXButton btnClose;
 
     @FXML
     private JFXComboBox<String> comboProtocol;
-    
+
     @FXML
     private Hyperlink btnTerms;
-    
+
+    public FXMLManualProxyController(HostServices hostServices) {
+        this.hostServices = hostServices;
+    }
+
     @FXML
     private void handleCloseAction(ActionEvent event) {
-        System.exit(0);
+        stage.close();
     }
-    
+
     @FXML
     public void openBrowser(ActionEvent actionEvent) throws Exception {
         hostServices.showDocument(btnTerms.getAccessibleText());
@@ -57,8 +62,11 @@ public class FXMLManualProxyController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-       comboProtocol.getItems().addAll("SOCKS", "HTTP & HTTPS");
+        comboProtocol.getItems().addAll("SOCKS", "HTTP & HTTPS");
     }
-     
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
 
 }
