@@ -16,6 +16,7 @@ package sx.ip;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXProgressBar;
 import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
 import java.util.Optional;
@@ -23,9 +24,13 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.HostServices;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -80,6 +85,9 @@ public class FXMLManualProxyController implements Initializable {
     @FXML
     private JFXCheckBox agreeCheckBox;
 
+    @FXML
+    private JFXProgressBar progressBar;
+
     private final ProxyManager manager = ProxyManager.getInstance();
 
     private ProxySettings settings;
@@ -126,32 +134,58 @@ public class FXMLManualProxyController implements Initializable {
             if ((host != null && host.length() > 0)) {
                 if (type != null && port != null) {
 
-                    try {
-                        if (!isActivated) {
-                            if (proxyAuthentication.isSelected()) {
-                                Dialog dialog = ProxyUtils.createAuthenticationDialog("Proxy Authentication", "Enter with the proxy authentication");
-                                Optional<Pair<String, String>> result = dialog.showAndWait();
-                                if (result.isPresent()) {
-                                    proxyAuthe = result.get().getKey();
-                                    proxyPass = result.get().getValue();
-                                }
+                    if (!isActivated) {
+                        if (proxyAuthentication.isSelected()) {
+                            Dialog dialog = ProxyUtils.createAuthenticationDialog("Proxy Authentication", "Enter with the proxy authentication");
+                            Optional<Pair<String, String>> result = dialog.showAndWait();
+                            if (result.isPresent()) {
+                                proxyAuthe = result.get().getKey();
+                                proxyPass = result.get().getValue();
                             }
-
-                            settings = new ProxySettings(host, port, ProxySettings.ProxyType.valueOf(type), null, bypassCB.isSelected(), proxyAuthe, proxyPass);
-                            isActivated = true;
-                            handleScene(isActivated);
-                        } else {
-                            settings = ProxySettings.getDirectConnectionSetting();
-                            isActivated = false;
-                            handleScene(isActivated);
                         }
 
-                        manager.setProxySettings(settings);
-
-                    } catch (ProxyManager.ProxySetupException ex) {
-                        ProxyUtils.createExceptionAlert("Internal Error", null, ex.getMessage(), ex);
-                        Logger.getLogger(FXMLManualProxyController.class.getName()).log(Level.SEVERE, null, ex);
+                        settings = new ProxySettings(host, port, ProxySettings.ProxyType.valueOf(type), null, bypassCB.isSelected(), proxyAuthe, proxyPass);
+                        isActivated = true;
+                        Platform.runLater(() -> handleScene(isActivated));
+                    } else {
+                        settings = ProxySettings.getDirectConnectionSetting();
+                        isActivated = false;
+                        Platform.runLater(() -> handleScene(isActivated));
                     }
+                    Task task = new Task<Void>() {
+                        @Override
+                        public Void call() throws ProxyManager.ProxySetupException {
+                            progressBar.setVisible(true);
+                            btnActivate.setDisable(true);
+                            manager.setProxySettings(settings);
+
+                            return null;
+                        }
+
+                        @Override
+                        protected void done() {
+                            super.done();
+                            updateProgress(100, 100);
+                            try {
+                                Thread.sleep(1000);
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(FXMLManualProxyController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            progressBar.setVisible(false);
+                            btnActivate.setDisable(false);
+                        }
+                    };
+
+                    progressBar.progressProperty().bind(task.progressProperty());
+                    task.setOnFailed(new EventHandler<WorkerStateEvent>() {
+                        @Override
+                        public void handle(WorkerStateEvent t) {
+                            ProxyUtils.createExceptionAlert("Internal Error", null, task.getException().getMessage(), (Exception) task.getException());
+                            Logger.getLogger(FXMLManualProxyController.class.getName()).log(Level.SEVERE, null, task.getException());
+                        }
+                    });
+                    new Thread(task).start();
+                    
                 } else {
                     warningAlert.showAndWait();
                 }
@@ -182,9 +216,6 @@ public class FXMLManualProxyController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         ObservableList<ProxyType> data
                 = FXCollections.observableArrayList(
-                        new ProxyType("HTTP", "HTTP"),
-                        new ProxyType("HTTPS", "HTTPS"),
-                        new ProxyType("FTP", "FTP"),
                         new ProxyType("SOCKS", "SOCKS"),
                         new ProxyType("HTTP & HTTPS", "HTTP_AND_HTTPS"));
 
