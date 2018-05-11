@@ -212,7 +212,11 @@ public class FXMLManualProxyController implements Initializable {
         }
 
     }
-
+    
+    /**
+     * Method responsible for handle with the proxy activation / deactivation thread.
+     *
+     */
     private void startProxyThread() {
         Task task = new Task<Void>() {
             @Override
