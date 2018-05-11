@@ -38,9 +38,9 @@ public class WindowsProxyManager extends ProxyManager {
         try {
             commandResult = setInternetProxy(settings);
         } catch (IOException ex) {
-            throw new ProxySetupException("Internal error: "+ex.getMessage(), ex);
+            throw new ProxySetupException(ex.getMessage(), ex);
         } catch (PowerShellNotAvailableException ex){
-            throw  new ProxySetupException("Internal error: "+ex.getMessage(), ex);
+            throw  new ProxySetupException(ex.getMessage(), ex);
         }
         return commandResult;
     }
@@ -53,9 +53,9 @@ public class WindowsProxyManager extends ProxyManager {
         try {
             return getInternetProxy();
         } catch (IOException ex) {
-            throw new ProxySetupException("Internal error: "+ex.getMessage(), ex);
+            throw new ProxySetupException(ex.getMessage(), ex);
         } catch (PowerShellNotAvailableException ex){
-            throw  new ProxySetupException("Internal error: "+ex.getMessage(), ex);
+            throw  new ProxySetupException(ex.getMessage(), ex);
         }
     }
 

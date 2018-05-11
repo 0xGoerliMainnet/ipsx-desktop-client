@@ -87,7 +87,7 @@ limitations under the License.
                   <Cursor fx:constant="HAND" />
                </cursor>
             </JFXCheckBox>
-            <JFXCheckBox checkedColor="#2aace0" contentDisplay="RIGHT" graphicTextGap="0.0" layoutX="64.0" layoutY="54.0" prefHeight="23.0" prefWidth="242.0" selected="true" text="I agree with the" textFill="#707070" unCheckedColor="#ced4da">
+            <JFXCheckBox fx:id="agreeCheckBox" checkedColor="#2aace0" contentDisplay="RIGHT" graphicTextGap="0.0" layoutX="64.0" layoutY="54.0" prefHeight="23.0" prefWidth="242.0" selected="true" text="I agree with the" textFill="#707070" unCheckedColor="#ced4da">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>

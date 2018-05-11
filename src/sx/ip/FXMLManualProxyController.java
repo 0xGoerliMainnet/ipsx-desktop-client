@@ -77,7 +77,10 @@ public class FXMLManualProxyController implements Initializable {
     @FXML
     private JFXCheckBox proxyAuthentication;
 
-    private ProxyManager manager = ProxyManager.getInstance();
+    @FXML
+    private JFXCheckBox agreeCheckBox;
+
+    private final ProxyManager manager = ProxyManager.getInstance();
 
     private ProxySettings settings;
 
@@ -108,52 +111,56 @@ public class FXMLManualProxyController implements Initializable {
      */
     @FXML
     private void handleActivateAction(ActionEvent event) {
-        Alert alert = ProxyUtils.createAlert(AlertType.WARNING, "Warning", null, "Please, fill at least the Protocol, Proxy ID and Port fields!");
+        Alert warningAlert = ProxyUtils.createAlert(AlertType.WARNING, "Warning", null, "Please, fill at least the Protocol, Proxy ID and Port fields!");
 
         String host = proxyId.getText().trim();
         String type = (comboProtocol.getValue() != null) ? comboProtocol.getValue().getValue() : null;
         Integer port = null;
         String proxyAuthe = null;
         String proxyPass = null;
+        if (agreeCheckBox.isSelected()) {
+            if (proxyPort.getText() != null && proxyPort.getText().trim().length() > 0) {
+                port = Integer.valueOf(proxyPort.getText());
+            }
 
-        if (proxyPort.getText() != null && proxyPort.getText().trim().length() > 0) {
-            port = Integer.valueOf(proxyPort.getText());
-        }
+            if ((host != null && host.length() > 0)) {
+                if (type != null && port != null) {
 
-        if ((host != null && host.length() > 0)) {
-            if (type != null && port != null) {
-
-                try {
-                    if (!isActivated) {
-                        if (proxyAuthentication.isSelected()) {
-                            Dialog dialog = ProxyUtils.createAuthenticationDialog("Proxy Authentication", "Enter with the proxy authentication");
-                            Optional<Pair<String, String>> result = dialog.showAndWait();
-                            if (result.isPresent()) {
-                                proxyAuthe = result.get().getKey();
-                                proxyPass = result.get().getValue();
+                    try {
+                        if (!isActivated) {
+                            if (proxyAuthentication.isSelected()) {
+                                Dialog dialog = ProxyUtils.createAuthenticationDialog("Proxy Authentication", "Enter with the proxy authentication");
+                                Optional<Pair<String, String>> result = dialog.showAndWait();
+                                if (result.isPresent()) {
+                                    proxyAuthe = result.get().getKey();
+                                    proxyPass = result.get().getValue();
+                                }
                             }
+
+                            settings = new ProxySettings(host, port, ProxySettings.ProxyType.valueOf(type), null, bypassCB.isSelected(), proxyAuthe, proxyPass);
+                            isActivated = true;
+                            handleScene(isActivated);
+                        } else {
+                            settings = ProxySettings.getDirectConnectionSetting();
+                            isActivated = false;
+                            handleScene(isActivated);
                         }
 
-                        settings = new ProxySettings(host, port, ProxySettings.ProxyType.valueOf(type), null, bypassCB.isSelected(), proxyAuthe, proxyPass);
-                        isActivated = true;
-                        handleScene(isActivated);
-                    } else {
-                        settings = ProxySettings.getDirectConnectionSetting();
-                        isActivated = false;
-                        handleScene(isActivated);
+                        manager.setProxySettings(settings);
+
+                    } catch (ProxyManager.ProxySetupException ex) {
+                        ProxyUtils.createExceptionAlert("Internal Error", null, ex.getMessage(), ex);
+                        Logger.getLogger(FXMLManualProxyController.class.getName()).log(Level.SEVERE, null, ex);
                     }
-
-                    manager.setProxySettings(settings);
-
-                } catch (ProxyManager.ProxySetupException ex) {
-                    Logger.getLogger(FXMLManualProxyController.class.getName()).log(Level.SEVERE, null, ex);
+                } else {
+                    warningAlert.showAndWait();
                 }
             } else {
-                alert.showAndWait();
+                warningAlert.showAndWait();
             }
         } else {
-            alert.showAndWait();
-
+            Alert infoAlert = ProxyUtils.createAlert(AlertType.INFORMATION, "Information", null, "Please, read and agree with the terms and conditions of use before you proceed!");
+            infoAlert.showAndWait();
         }
     }
 
