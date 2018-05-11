@@ -36,6 +36,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Hyperlink;
+import javafx.stage.Stage;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Pair;
@@ -46,15 +47,26 @@ import sx.ip.models.ProxyType;
 import sx.ip.utils.ProxyUtils;
 
 /**
- *
- * @author Renan
+ * Main controller for the main application window
  */
 public class FXMLManualProxyController implements Initializable {
+
+    private HostServices hostServices;
+
+    private Stage stage;
+
+    private final ProxyManager manager = ProxyManager.getInstance();
+
+    private ProxySettings settings;
+
+    private boolean isActivated = false;
+
+    @FXML
+    private AnchorPane anchorPane;
 
     @FXML
     private JFXButton btnClose;
 
-    @FXML
     private JFXButton btnActivate;
 
     @FXML
@@ -96,14 +108,6 @@ public class FXMLManualProxyController implements Initializable {
     @FXML
     private JFXProgressBar progressBar;
 
-    private final ProxyManager manager = ProxyManager.getInstance();
-
-    private ProxySettings settings;
-
-    private boolean isActivated = false;
-
-    private final HostServices hostServices;
-
     public FXMLManualProxyController(HostServices hostServices) {
         this.hostServices = hostServices;
     }
@@ -116,7 +120,7 @@ public class FXMLManualProxyController implements Initializable {
      */
     @FXML
     private void handleCloseAction(ActionEvent event) {
-        System.exit(0);
+        stage.close();
     }
 
     @FXML
@@ -180,7 +184,6 @@ public class FXMLManualProxyController implements Initializable {
      * Method responsible for control the display layout.
      *
      * @param activate Flag to indicate if the proxy server is active or not
-     *
      */
     private void handleScene(boolean activate) {
         agreePane.setDisable(!agreePane.isDisable());
@@ -206,6 +209,15 @@ public class FXMLManualProxyController implements Initializable {
      * Method responsible for handle with the proxy activation / deactivation
      * thread.
      *
+     * @param stage
+     */
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
+
+    /**
+     * Method responsible for handle with the proxy activation / deactivation
+     * thread.
      */
     private void startProxyThread() {
         Task task = new Task<Void>() {
