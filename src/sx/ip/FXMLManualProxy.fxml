@@ -50,35 +50,46 @@ limitations under the License.
             <MaterialIconView fill="#707070" glyphName="CLOSE" size="16.0" textAlignment="CENTER" />
          </graphic>
       </JFXButton>
-      <AnchorPane fx:id="proxyPane" layoutY="100.0" minHeight="-Infinity" prefHeight="173.0" prefWidth="375.0">
+      <JFXCheckBox fx:id="advancedSettings" checkedColor="#2aace0" layoutX="20.0" layoutY="110.0" onAction="#handleAdvancedSettings" prefHeight="18.0" prefWidth="230.0" text="Advanced Settings" textFill="#707070" unCheckedColor="#ced4da">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXCheckBox>
+      <AnchorPane fx:id="proxyUrlPane" layoutX="-2.0" layoutY="130.0" prefHeight="143.0" prefWidth="375.0">
          <children>
-            <Label layoutX="74.0" layoutY="35.0" text="PROTOCOL" textFill="#707070">
+            <Label layoutX="74.0" layoutY="35.0" text="PROXY IP" textFill="#707070">
                <font>
                   <Font size="11.0" />
                </font>
             </Label>
-            <JFXComboBox fx:id="comboProtocol" focusColor="#80bdff" layoutX="74.0" layoutY="51.0" prefHeight="25.0" prefWidth="230.0" style="-fx-background-color: rgba(255,255,255,0.8);" unFocusColor="#ced4da" />
-            <Label layoutX="74.0" layoutY="88.0" text="PROXY IP" textFill="#707070">
+            <JFXTextField fx:id="proxyUrl" focusColor="#80bdff" labelFloat="true" layoutX="74.0" layoutY="50.0" prefHeight="26.0" prefWidth="230.0" style="-fx-background-color: rgba(255,255,255,0.8);" unFocusColor="#ced4da" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="proxyPane" layoutY="130.0" minHeight="-Infinity" prefHeight="121.0" prefWidth="375.0" visible="false">
+         <children>
+            <Label layoutX="74.0" layoutY="15.0" text="PROTOCOL" textFill="#707070">
                <font>
                   <Font size="11.0" />
                </font>
             </Label>
-            <JFXTextField fx:id="proxyId" focusColor="#80bdff" labelFloat="true" layoutX="74.0" layoutY="103.0" prefHeight="25.0" prefWidth="150.0" style="-fx-background-color: rgba(255,255,255,0.8);" unFocusColor="#ced4da" />
-            <Label layoutX="233.0" layoutY="103.0" text=":" textFill="#707070">
+            <JFXComboBox fx:id="comboProtocol" focusColor="#80bdff" layoutX="74.0" layoutY="31.0" prefHeight="25.0" prefWidth="230.0" style="-fx-background-color: rgba(255,255,255,0.8);" unFocusColor="#ced4da" />
+            <Label layoutX="74.0" layoutY="68.0" text="PROXY IP" textFill="#707070">
+               <font>
+                  <Font size="11.0" />
+               </font>
+            </Label>
+            <JFXTextField fx:id="proxyId" focusColor="#80bdff" labelFloat="true" layoutX="74.0" layoutY="83.0" prefHeight="25.0" prefWidth="150.0" style="-fx-background-color: rgba(255,255,255,0.8);" unFocusColor="#ced4da" />
+            <Label layoutX="233.0" layoutY="83.0" text=":" textFill="#707070">
                <font>
                   <Font size="16.0" />
                </font>
             </Label>
-            <Label layoutX="250.0" layoutY="88.0" text="PORT" textFill="#707070">
+            <Label layoutX="250.0" layoutY="68.0" text="PORT" textFill="#707070">
                <font>
                   <Font size="11.0" />
                </font>
             </Label>
-            <JFXTextField fx:id="proxyPort" focusColor="#80bdff" layoutX="247.0" layoutY="103.0" prefHeight="25.0" prefWidth="56.0" style="-fx-background-color: rgba(255,255,255,0.8);" unFocusColor="#ced4da">
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-            </JFXTextField>
+            <JFXTextField fx:id="proxyPort" focusColor="#80bdff" labelFloat="true" layoutX="250.0" layoutY="83.0" prefHeight="26.0" prefWidth="56.0" style="-fx-background-color: rgba(255,255,255,0.8);" unFocusColor="#ced4da" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="agreePane" layoutX="2.0" layoutY="245.0" prefHeight="92.0" prefWidth="375.0">
@@ -96,7 +107,7 @@ limitations under the License.
                   <Hyperlink fx:id="btnTerms" accessibleText="https://www.google.com" contentDisplay="TOP" onAction="#openBrowser" prefHeight="23.0" prefWidth="119.0" text="terms and condition" textFill="#2aace0" underline="true" />
                </graphic>
             </JFXCheckBox>
-            <JFXCheckBox fx:id="proxyAuthentication" checkedColor="#2aace0" layoutX="64.0" layoutY="4.0" prefHeight="18.0" prefWidth="230.0" selected="true" text="Proxy Authentication" textFill="#707070" unCheckedColor="#ced4da">
+            <JFXCheckBox fx:id="proxyAuthentication" checkedColor="#2aace0" layoutX="64.0" layoutY="4.0" prefHeight="18.0" prefWidth="230.0" text="Proxy Authentication" textFill="#707070" unCheckedColor="#ced4da" visible="false">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>

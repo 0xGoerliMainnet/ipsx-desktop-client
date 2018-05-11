@@ -85,7 +85,7 @@ public class WindowsProxyManager extends ProxyManager {
     public static boolean setInternetProxy(ProxySettings settings) throws IOException,PowerShellNotAvailableException  {
         String result = "false";
         String powerShellScript = IOUtils.resourceToString("/sx/ip/proxies/windows/scripts/windows-set-internet-proxy.ps1", Charset.forName("UTF-8"));
-        if(settings.getProxyHost() != null){
+        if(settings.getProxyHost() != null && settings.getProxyHost().length() > 0){
             switch (settings.getType()) {
                 case HTTP:
                     result = runPowerShellMethod(powerShellScript, "http", settings, false, false, null, false).get("result");
@@ -104,8 +104,11 @@ public class WindowsProxyManager extends ProxyManager {
                     
                     break;
             }
+        }else if(settings.getAcsUrl() != null){
+            result = runPowerShellMethod(powerShellScript, "", settings, false, false, null, false).get("result");
         }else{
             result = disableInternetProxy();
+            
         }
         return "true".equals(result);
     }

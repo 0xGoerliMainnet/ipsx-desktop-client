@@ -24,7 +24,6 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.HostServices;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -68,7 +67,13 @@ public class FXMLManualProxyController implements Initializable {
     private AnchorPane proxyPane;
 
     @FXML
+    private AnchorPane proxyUrlPane;
+
+    @FXML
     private JFXTextField proxyId;
+    
+    @FXML
+    private JFXTextField proxyUrl;
 
     @FXML
     private JFXTextField proxyPort;
@@ -84,6 +89,9 @@ public class FXMLManualProxyController implements Initializable {
 
     @FXML
     private JFXCheckBox agreeCheckBox;
+
+    @FXML
+    private JFXCheckBox advancedSettings;
 
     @FXML
     private JFXProgressBar progressBar;
@@ -111,6 +119,12 @@ public class FXMLManualProxyController implements Initializable {
         System.exit(0);
     }
 
+    @FXML
+    private void handleAdvancedSettings(ActionEvent event) {
+        proxyPane.setVisible(!proxyPane.isVisible());
+        proxyUrlPane.setVisible(!proxyUrlPane.isVisible());
+    }
+
     /**
      * Method resposible for handle with the activate action.
      *
@@ -119,45 +133,16 @@ public class FXMLManualProxyController implements Initializable {
      */
     @FXML
     private void handleActivateAction(ActionEvent event) {
-        Alert warningAlert = ProxyUtils.createAlert(AlertType.WARNING, "Warning", null, "Please, fill at least the Protocol, Proxy ID and Port fields!");
-
-        String host = proxyId.getText().trim();
+        String host = proxyPane.isVisible() ? proxyId.getText().trim(): proxyUrl.getText().trim() ;
         String type = (comboProtocol.getValue() != null) ? comboProtocol.getValue().getValue() : null;
         Integer port = null;
         String proxyAuthe = null;
         String proxyPass = null;
         if (agreeCheckBox.isSelected()) {
-            if (proxyPort.getText() != null && proxyPort.getText().trim().length() > 0) {
-                port = Integer.valueOf(proxyPort.getText());
-            }
-
-            if ((host != null && host.length() > 0)) {
-                if (type != null && port != null) {
-
-                    if (!isActivated) {
-                        if (proxyAuthentication.isSelected()) {
-                            Dialog dialog = ProxyUtils.createAuthenticationDialog("Proxy Authentication", "Enter with the proxy authentication");
-                            Optional<Pair<String, String>> result = dialog.showAndWait();
-                            if (result.isPresent()) {
-                                proxyAuthe = result.get().getKey();
-                                proxyPass = result.get().getValue();
-                            }
-                        }
-
-                        settings = new ProxySettings(host, port, ProxySettings.ProxyType.valueOf(type), null, bypassCB.isSelected(), proxyAuthe, proxyPass);
-                        isActivated = true;
-                        handleScene(isActivated);
-                    } else {
-                        settings = ProxySettings.getDirectConnectionSetting();
-                        isActivated = false;
-                        handleScene(isActivated);
-                    }
-                    startProxyThread();
-                } else {
-                    warningAlert.showAndWait();
-                }
+            if (proxyPane.isVisible()) {
+                advancedProxyServer(host, port, type, proxyAuthe, proxyPass);
             } else {
-                warningAlert.showAndWait();
+                defaultProxyServer(host, proxyAuthe, proxyPass);
             }
         } else {
             Alert infoAlert = ProxyUtils.createAlert(AlertType.INFORMATION, "Information", null, "Please, read and agree with the terms and conditions of use before you proceed!");
@@ -199,9 +184,13 @@ public class FXMLManualProxyController implements Initializable {
      */
     private void handleScene(boolean activate) {
         agreePane.setDisable(!agreePane.isDisable());
-        comboProtocol.setDisable(!comboProtocol.isDisable());
-        proxyId.setDisable(!proxyId.isDisable());
-        proxyPort.setDisable(!proxyPort.isDisable());
+        if(proxyPane.isVisible()){
+            comboProtocol.setDisable(!comboProtocol.isDisable());
+            proxyId.setDisable(!proxyId.isDisable());
+            proxyPort.setDisable(!proxyPort.isDisable());
+        }else{
+            proxyUrlPane.setDisable(!proxyUrlPane.isDisable());
+        }
 
         if (activate) {
             btnActivate.setText("Deactivate");
@@ -212,9 +201,10 @@ public class FXMLManualProxyController implements Initializable {
         }
 
     }
-    
+
     /**
-     * Method responsible for handle with the proxy activation / deactivation thread.
+     * Method responsible for handle with the proxy activation / deactivation
+     * thread.
      *
      */
     private void startProxyThread() {
@@ -250,5 +240,71 @@ public class FXMLManualProxyController implements Initializable {
             }
         });
         new Thread(task).start();
+    }
+
+    private void advancedProxyServer(String host, Integer port, String type, String proxyAuthe, String proxyPass) {
+        Alert warningAlert = ProxyUtils.createAlert(AlertType.WARNING, "Warning", null, "Please, fill at least the Protocol, Proxy ID and Port fields!");
+        if (proxyPort.getText() != null && proxyPort.getText().trim().length() > 0) {
+            port = Integer.valueOf(proxyPort.getText());
+        }
+
+        if ((host != null && host.length() > 0)) {
+            if (type != null && port != null) {
+
+                if (!isActivated) {
+                    if (proxyAuthentication.isSelected()) {
+                        Dialog dialog = ProxyUtils.createAuthenticationDialog("Proxy Authentication", "Enter with the proxy authentication");
+                        Optional<Pair<String, String>> result = dialog.showAndWait();
+                        if (result.isPresent()) {
+                            proxyAuthe = result.get().getKey();
+                            proxyPass = result.get().getValue();
+                        }
+                    }
+
+                    settings = new ProxySettings(host, port, ProxySettings.ProxyType.valueOf(type), null, bypassCB.isSelected(), proxyAuthe, proxyPass);
+                    isActivated = true;
+                    handleScene(isActivated);
+                } else {
+                    settings = ProxySettings.getDirectConnectionSetting();
+                    isActivated = false;
+                    handleScene(isActivated);
+                }
+                startProxyThread();
+            } else {
+                warningAlert.showAndWait();
+            }
+        } else {
+            warningAlert.showAndWait();
+        }
+    }
+    
+    private void defaultProxyServer(String acs, String proxyAuthe, String proxyPass) {
+        Alert warningAlert = ProxyUtils.createAlert(AlertType.WARNING, "Warning", null, "Please, fill the ProxyID field!");
+
+        if ((acs != null && acs.length() > 0)) {
+
+                if (!isActivated) {
+                    if (proxyAuthentication.isSelected()) {
+                        Dialog dialog = ProxyUtils.createAuthenticationDialog("Proxy Authentication", "Enter with the proxy authentication");
+                        Optional<Pair<String, String>> result = dialog.showAndWait();
+                        if (result.isPresent()) {
+                            proxyAuthe = result.get().getKey();
+                            proxyPass = result.get().getValue();
+                        }
+                    }
+
+                    settings = new ProxySettings("", null, null, acs, false, proxyAuthe, proxyPass);
+                    isActivated = true;
+                    handleScene(isActivated);
+                } else {
+                    settings = ProxySettings.getDirectConnectionSetting();
+                    isActivated = false;
+                    handleScene(isActivated);
+                }
+                startProxyThread();
+            
+        } else {
+            warningAlert.showAndWait();
+        }
     }
 }

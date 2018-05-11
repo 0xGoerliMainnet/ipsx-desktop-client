@@ -52,21 +52,24 @@ Function Set-InternetProxy
     }
     
     Process
-    {        
-        Set-ItemProperty -path $regKey ProxyEnable -value 1
-        Set-ItemProperty -path $regKey ProxyServer -value $Proxy   
-        
-        
-        if($bypass){
-            Set-ItemProperty -path $regKey ProxyOverride -value "<local>"
-        }
-                         
+    {                    
         if($acs) 
         {                        
             Set-ItemProperty -path $regKey AutoConfigURL -Value $acs          
         }
+        else
+        {
+            Set-ItemProperty -path $regKey ProxyEnable -value 1
+            Set-ItemProperty -path $regKey ProxyServer -value $Proxy 
+            
+            if($bypass)
+            {
+                Set-ItemProperty -path $regKey ProxyOverride -value "<local>"
+            }
+        }
 
-        if($authuser){
+        if($authuser)
+        {
             cmdkey /generic:$proxy /user:$authuser /pass:$authpass 
         }
     } 
