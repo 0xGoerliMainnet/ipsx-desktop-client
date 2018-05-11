@@ -13,7 +13,7 @@
 
 ## Copyright and Licensing
 
-IPSX Desktop Client is mainteined [IPSX](https://ip.sx/) and licensed under the Apache 2.0 license. A license summary can be seem below:
+IPSX Desktop Client is maintained by [IPSX](https://ip.sx/) and licensed under the Apache 2.0 license. A license summary can be seem below:
 
 ```
 Copyright 2018 IP Exchange : https://ip.sx/
