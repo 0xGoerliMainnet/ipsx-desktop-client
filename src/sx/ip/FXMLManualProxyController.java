@@ -146,46 +146,13 @@ public class FXMLManualProxyController implements Initializable {
 
                         settings = new ProxySettings(host, port, ProxySettings.ProxyType.valueOf(type), null, bypassCB.isSelected(), proxyAuthe, proxyPass);
                         isActivated = true;
-                        Platform.runLater(() -> handleScene(isActivated));
+                        handleScene(isActivated);
                     } else {
                         settings = ProxySettings.getDirectConnectionSetting();
                         isActivated = false;
-                        Platform.runLater(() -> handleScene(isActivated));
+                        handleScene(isActivated);
                     }
-                    Task task = new Task<Void>() {
-                        @Override
-                        public Void call() throws ProxyManager.ProxySetupException {
-                            progressBar.setVisible(true);
-                            btnActivate.setDisable(true);
-                            manager.setProxySettings(settings);
-
-                            return null;
-                        }
-
-                        @Override
-                        protected void done() {
-                            super.done();
-                            updateProgress(100, 100);
-                            try {
-                                Thread.sleep(1000);
-                            } catch (InterruptedException ex) {
-                                Logger.getLogger(FXMLManualProxyController.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                            progressBar.setVisible(false);
-                            btnActivate.setDisable(false);
-                        }
-                    };
-
-                    progressBar.progressProperty().bind(task.progressProperty());
-                    task.setOnFailed(new EventHandler<WorkerStateEvent>() {
-                        @Override
-                        public void handle(WorkerStateEvent t) {
-                            ProxyUtils.createExceptionAlert("Internal Error", null, task.getException().getMessage(), (Exception) task.getException());
-                            Logger.getLogger(FXMLManualProxyController.class.getName()).log(Level.SEVERE, null, task.getException());
-                        }
-                    });
-                    new Thread(task).start();
-                    
+                    startProxyThread();
                 } else {
                     warningAlert.showAndWait();
                 }
@@ -244,5 +211,40 @@ public class FXMLManualProxyController implements Initializable {
             btnActivate.setStyle("-fx-background-color: #2aace0;");
         }
 
+    }
+
+    private void startProxyThread() {
+        Task task = new Task<Void>() {
+            @Override
+            public Void call() throws ProxyManager.ProxySetupException {
+                progressBar.setVisible(true);
+                btnActivate.setDisable(true);
+                manager.setProxySettings(settings);
+                return null;
+            }
+
+            @Override
+            protected void done() {
+                super.done();
+                updateProgress(100, 100);
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(FXMLManualProxyController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                progressBar.setVisible(false);
+                btnActivate.setDisable(false);
+            }
+        };
+
+        progressBar.progressProperty().bind(task.progressProperty());
+        task.setOnFailed(new EventHandler<WorkerStateEvent>() {
+            @Override
+            public void handle(WorkerStateEvent t) {
+                ProxyUtils.createExceptionAlert("Internal Error", null, task.getException().getMessage(), (Exception) task.getException());
+                Logger.getLogger(FXMLManualProxyController.class.getName()).log(Level.SEVERE, null, task.getException());
+            }
+        });
+        new Thread(task).start();
     }
 }
