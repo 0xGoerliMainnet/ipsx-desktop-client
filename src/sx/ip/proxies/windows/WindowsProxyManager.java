@@ -38,9 +38,9 @@ public class WindowsProxyManager extends ProxyManager {
         try {
             commandResult = setInternetProxy(settings);
         } catch (IOException ex) {
-            throw new ProxySetupException("Internal error: "+ex.getMessage(), ex);
+            throw new ProxySetupException(ex.getMessage(), ex);
         } catch (PowerShellNotAvailableException ex){
-            throw  new ProxySetupException("Internal error: "+ex.getMessage(), ex);
+            throw  new ProxySetupException(ex.getMessage(), ex);
         }
         return commandResult;
     }
@@ -53,9 +53,9 @@ public class WindowsProxyManager extends ProxyManager {
         try {
             return getInternetProxy();
         } catch (IOException ex) {
-            throw new ProxySetupException("Internal error: "+ex.getMessage(), ex);
+            throw new ProxySetupException(ex.getMessage(), ex);
         } catch (PowerShellNotAvailableException ex){
-            throw  new ProxySetupException("Internal error: "+ex.getMessage(), ex);
+            throw  new ProxySetupException(ex.getMessage(), ex);
         }
     }
 
@@ -85,26 +85,27 @@ public class WindowsProxyManager extends ProxyManager {
     public static boolean setInternetProxy(ProxySettings settings) throws IOException,PowerShellNotAvailableException  {
         String result = "false";
         String powerShellScript = IOUtils.resourceToString("/sx/ip/proxies/windows/scripts/windows-set-internet-proxy.ps1", Charset.forName("UTF-8"));
-
-        switch (settings.getType()) {
-            case HTTP:
-                result = runPowerShellMethod(powerShellScript, "http", settings, false, false, null, false).get("result");
-                break;
-            case HTTPS:
-                result = runPowerShellMethod(powerShellScript, "https", settings, false, false, null, false).get("result");
-                break;
-            case SOCKS:
-                result = runPowerShellMethod(powerShellScript, "socks", settings, false, false, null, false).get("result");
-                break;
-            case FTP:
-                result = runPowerShellMethod(powerShellScript, "ftp", settings, false, false, null, false).get("result");
-                break;
-            case HTTP_AND_HTTPS:
-                result = runPowerShellMethod(powerShellScript, "http", settings, false, false, null, false).get("result");
-                if ("true".equals(result)) {
+        if(settings.getProxyHost() != null){
+            switch (settings.getType()) {
+                case HTTP:
+                    result = runPowerShellMethod(powerShellScript, "http", settings, false, false, null, false).get("result");
+                    break;
+                case HTTPS:
                     result = runPowerShellMethod(powerShellScript, "https", settings, false, false, null, false).get("result");
-                }
-                break;
+                    break;
+                case SOCKS:
+                    result = runPowerShellMethod(powerShellScript, "socks", settings, false, false, null, false).get("result");
+                    break;
+                case FTP:
+                    result = runPowerShellMethod(powerShellScript, "ftp", settings, false, false, null, false).get("result");
+                    break;
+                case HTTP_AND_HTTPS:
+                    result = runPowerShellMethod(powerShellScript, "http_https", settings, false, false, null, false).get("result");
+                    
+                    break;
+            }
+        }else{
+            result = disableInternetProxy();
         }
         return "true".equals(result);
     }
@@ -122,7 +123,7 @@ public class WindowsProxyManager extends ProxyManager {
         String proxyEnable = runPowerShellMethod(powerShellScript, null, null, false, true, "ProxyEnable", false).get("output").trim();
         ProxySettings settings = null;
 
-        if (proxyEnable.equals("1")) {
+        if ((proxyEnable != null) && ("1".equals(proxyEnable))) {
             String[] output = runPowerShellMethod(powerShellScript, null, null, false, true, "ProxyServer", false).get("output").trim().split("=");
             String bypass = runPowerShellMethod(powerShellScript, null, null, false, true, "ProxyOverride", false).get("output");
             String acs = runPowerShellMethod(powerShellScript, null, null, false, true, "AutoConfigURL", false).get("output");
@@ -144,16 +145,16 @@ public class WindowsProxyManager extends ProxyManager {
      * @throws IOException The IO exception
      *
      */
-    public static boolean disableInternetProxy() throws IOException, PowerShellNotAvailableException {
+    public static String disableInternetProxy() throws IOException, PowerShellNotAvailableException {
         String powerShellScript = IOUtils.resourceToString("/sx/ip/proxies/windows/scripts/windows-disable-internet-proxy.ps1", Charset.forName("UTF-8"));
-        return "true".equals(runPowerShellMethod(powerShellScript, null, null, true, false, null, false).get("result"));
+        return runPowerShellMethod(powerShellScript, null, null, true, false, null, false).get("result");
     }
 
     /**
      * Function responsible for execute the calls to the PowerShell Script
      * Methods.
      *
-     * @param powerShellScript ...
+     * @param powerShellScript The power shell script for proxy setting
      *
      * @param proxyType Type of proxy, what can be (http, https, socks and ftp)
      *
@@ -187,14 +188,26 @@ public class WindowsProxyManager extends ProxyManager {
                 psMethod = "Get-InternetProxy";
             }
         } else {
-            psMethod = "Set-InternetProxy -proxy \"" + proxyType + "=" + settings.getProxyHost() + ":" + settings.getProxyPort() + "\" "
-                    + (settings.getAcsUrl() != null && !settings.getAcsUrl().isEmpty() ? "-acs \"" + settings.getAcsUrl() + "\"" : "")
-                    + " "
-                    + (settings.getAuthUser() != null && !settings.getAuthUser().isEmpty() ? "-authuser \"" + settings.getAuthUser() + "\"" : "")
-                    + " "
-                    + (settings.getAuthPass() != null && !settings.getAuthPass().isEmpty() ? "-authpass \"" + settings.getAuthPass() + "\"" : "")
-                    + " "
-                    + (settings.getBypassOnLocal() ? "-bypass \"true\"" : "");
+            if("http_https".equals(proxyType)){
+                psMethod = "Set-InternetProxy -proxy \"http=" + settings.getProxyHost() + ":" + settings.getProxyPort()
+                        +";https=" + settings.getProxyHost() + ":" + settings.getProxyPort() + "\" "
+                        + (settings.getAcsUrl() != null && !settings.getAcsUrl().isEmpty() ? "-acs \"" + settings.getAcsUrl() + "\"" : "")
+                        + " "
+                        + (settings.getAuthUser() != null && !settings.getAuthUser().isEmpty() ? "-authuser \"" + settings.getAuthUser() + "\"" : "")
+                        + " "
+                        + (settings.getAuthPass() != null && !settings.getAuthPass().isEmpty() ? "-authpass \"" + settings.getAuthPass() + "\"" : "")
+                        + " "
+                        + (settings.getBypassOnLocal() ? "-bypass \"true\"" : "");
+            }else{
+                psMethod = "Set-InternetProxy -proxy \"" + proxyType + "=" + settings.getProxyHost() + ":" + settings.getProxyPort() + "\" "
+                        + (settings.getAcsUrl() != null && !settings.getAcsUrl().isEmpty() ? "-acs \"" + settings.getAcsUrl() + "\"" : "")
+                        + " "
+                        + (settings.getAuthUser() != null && !settings.getAuthUser().isEmpty() ? "-authuser \"" + settings.getAuthUser() + "\"" : "")
+                        + " "
+                        + (settings.getAuthPass() != null && !settings.getAuthPass().isEmpty() ? "-authpass \"" + settings.getAuthPass() + "\"" : "")
+                        + " "
+                        + (settings.getBypassOnLocal() ? "-bypass \"true\"" : "");
+            }
         }
 
         try {

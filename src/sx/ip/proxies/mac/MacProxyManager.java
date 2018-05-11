@@ -13,15 +13,12 @@
  */
 package sx.ip.proxies.mac;
 
-import com.profesorfalken.jpowershell.PowerShellNotAvailableException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecuteResultHandler;
