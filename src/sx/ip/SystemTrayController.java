@@ -14,15 +14,21 @@
 package sx.ip;
 
 import java.awt.AWTException;
+import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.MenuItem;
 import java.awt.PopupMenu;
 import java.awt.SystemTray;
 import java.awt.Toolkit;
 import java.awt.TrayIcon;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
+
+import javax.imageio.ImageIO;
+
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -65,16 +71,15 @@ public class SystemTrayController {
             SystemTray tray = SystemTray.getSystemTray();
             
             // set up a system tray icon.
-            TrayIcon trayIcon = setupTrayIcon();
+            TrayIcon trayIcon = setupTrayIcon(tray);
 
             // if the user double-clicks on the tray icon, show the main app stage.
             trayIcon.addActionListener(event -> Platform.runLater(this::showStage));
 
-            trayIcon.setPopupMenu(buildPopupMenu());
-
+            trayIcon.setPopupMenu(buildPopupMenu(tray, trayIcon));
             // add the application tray icon to the system tray.
             tray.add(trayIcon);
-        } catch (AWTException e) {
+        } catch (IOException | AWTException e) {
             System.out.println("Unable to init system tray: " + e);
         }
     }
@@ -83,11 +88,12 @@ public class SystemTrayController {
      * Construct all Popup menu content available on the System Tray
      * @return all the Popup menu content available
      */
-    private PopupMenu buildPopupMenu() {
+    private PopupMenu buildPopupMenu(SystemTray tray, TrayIcon trayIcon) {
         
         // Create a pop-up menu components
         MenuItem exitItem = new MenuItem(bundle.getString("key.systray.menu.exit"));
         exitItem.addActionListener(event -> {
+        	tray.remove(trayIcon);
             System.exit(0);
         });
         
@@ -121,11 +127,13 @@ public class SystemTrayController {
     /**
      * set up the system tray icon.
      * @return the system tray icon generated
+     * @throws IOException 
      */
-    private TrayIcon setupTrayIcon() {
-        URL imageLoc = getClass().getResource("imgs/systray-icon.png");
+    private TrayIcon setupTrayIcon(SystemTray tray) throws IOException {
+        URL imageLoc = getClass().getResource("imgs/icon.png");
         Image image = Toolkit.getDefaultToolkit().getImage(imageLoc);
-        return new TrayIcon(image);
+        Dimension trayIconSize = tray.getTrayIconSize();
+        return new TrayIcon(image.getScaledInstance(trayIconSize.width, trayIconSize.height, Image.SCALE_SMOOTH));
     }
     
     /**
