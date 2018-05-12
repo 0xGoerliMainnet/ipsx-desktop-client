@@ -66,7 +66,8 @@ public class FXMLManualProxyController implements Initializable {
 
     @FXML
     private JFXButton btnClose;
-
+    
+    @FXML
     private JFXButton btnActivate;
 
     @FXML
