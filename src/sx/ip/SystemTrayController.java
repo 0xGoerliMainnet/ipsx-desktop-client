@@ -27,6 +27,8 @@ import javafx.stage.Stage;
 
 /**
  * Class responsible to have all System Tray content in the application
+ * 
+ * System Tray Library took from this repository: https://github.com/dorkbox/SystemTray
  */
 public class SystemTrayController {
     
@@ -65,6 +67,7 @@ public class SystemTrayController {
             
             
             systemTray.setImage(SYSTRAY_ICON);
+            systemTray.setTooltip("IP.SX");
             
             Menu mainMenu = systemTray.getMenu();
             
@@ -74,7 +77,7 @@ public class SystemTrayController {
                 void actionPerformed(final java.awt.event.ActionEvent e) {
     	            Platform.runLater(new Runnable() {
     	                @Override public void run() {
-    	                	showStage();
+                            showStage();
     	                }
     	            });
                 	        
@@ -105,7 +108,7 @@ public class SystemTrayController {
                 }
             })).setShortcut('q'); // case does not matter
             
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
             System.out.println("Unable to init system tray: " + e);
         }
     }
@@ -120,5 +123,4 @@ public class SystemTrayController {
             stage.toFront();
         } 
     }
-    
 }
