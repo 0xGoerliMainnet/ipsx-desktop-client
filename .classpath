@@ -27,5 +27,20 @@
 	<classpathentry kind="lib" path="lib/junit_4/junit-4.12-javadoc.jar"/>
 	<classpathentry kind="lib" path="lib/junit_4/junit-4.12-sources.jar"/>
 	<classpathentry kind="lib" path="lib/junit_4/junit-4.12.jar"/>
+	<classpathentry kind="lib" path="lib/dorkbox/javassist-3.22.0-GA/javassist-3.22.0-GA.jar"/>
+	<classpathentry kind="lib" path="lib/dorkbox/javassist-3.22.0-GA/javassist-3.22.0-GA-javadoc.jar"/>
+	<classpathentry kind="lib" path="lib/dorkbox/javassist-3.22.0-GA/javassist-3.22.0-GA-sources.jar"/>
+	<classpathentry kind="lib" path="lib/dorkbox/jna-4.5.1/jna-4.5.1.jar"/>
+	<classpathentry kind="lib" path="lib/dorkbox/jna-4.5.1/jna-4.5.1-javadoc.jar"/>
+	<classpathentry kind="lib" path="lib/dorkbox/jna-4.5.1/jna-4.5.1-sources.jar"/>
+	<classpathentry kind="lib" path="lib/dorkbox/jna-platform-4.5.1/jna-platform-4.5.1.jar"/>
+	<classpathentry kind="lib" path="lib/dorkbox/jna-platform-4.5.1/jna-platform-4.5.1-javadoc.jar"/>
+	<classpathentry kind="lib" path="lib/dorkbox/jna-platform-4.5.1/jna-platform-4.5.1-sources.jar"/>
+	<classpathentry kind="lib" path="lib/dorkbox/slf4j-api-1.7.25/slf4j-api-1.7.25.jar"/>
+	<classpathentry kind="lib" path="lib/dorkbox/slf4j-api-1.7.25/slf4j-api-1.7.25-javadoc.jar"/>
+	<classpathentry kind="lib" path="lib/dorkbox/slf4j-api-1.7.25/slf4j-api-1.7.25-sources.jar"/>
+	<classpathentry kind="lib" path="lib/dorkbox/SystemTray-3.14/SystemTray-3.14.jar"/>
+	<classpathentry kind="lib" path="lib/dorkbox/SystemTray-3.14/SystemTray-3.14-javadoc.jar"/>
+	<classpathentry kind="lib" path="lib/dorkbox/SystemTray-3.14/SystemTray-3.14-sources.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
