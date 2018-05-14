@@ -12,7 +12,8 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javax.swing.SwingUtilities;
+
+import dorkbox.util.OS;
 import sx.ip.factories.HostServicesControllerFactory;
 
 /**
@@ -36,11 +37,8 @@ public class IPSXDesktopClient extends Application {
         
         SystemTrayController systemTray = new SystemTrayController(stage, getBundle());
         
-        // sets up the tray icon (using awt code run on the swing thread).
-        SwingUtilities.invokeLater(() -> {
-            systemTray.addAppToTray();
-        });
-
+        systemTray.addAppToTray();
+        
         FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLManualProxy.fxml"));
 
         loader.setControllerFactory(new HostServicesControllerFactory(getHostServices()));
@@ -76,6 +74,7 @@ public class IPSXDesktopClient extends Application {
         stage.getIcons().add(new Image(getClass().getResourceAsStream("imgs/icon.png")));
         stage.setScene(scene);
         stage.show();
+            
     }
 
     /**
@@ -84,6 +83,11 @@ public class IPSXDesktopClient extends Application {
      *
      */
     public static void main(String[] args) {
+        if (OS.isMacOsX() && OS.javaVersion <= 7) {
+            System.setProperty("javafx.macosx.embedded", "true");
+            java.awt.Toolkit.getDefaultToolkit();
+        }
+        
         launch(args);
     }
 

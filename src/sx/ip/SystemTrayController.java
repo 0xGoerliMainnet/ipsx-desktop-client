@@ -13,25 +13,16 @@
  */
 package sx.ip;
 
-import java.awt.AWTException;
-import java.awt.Dimension;
-import java.awt.Image;
-import java.awt.MenuItem;
-import java.awt.PopupMenu;
-import java.awt.SystemTray;
-import java.awt.Toolkit;
-import java.awt.TrayIcon;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
+import dorkbox.systemTray.Menu;
+import dorkbox.systemTray.MenuItem;
+import dorkbox.systemTray.SystemTray;
+import dorkbox.util.JavaFX;
+
+import java.awt.event.ActionListener;
 import java.net.URL;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
-import javax.imageio.ImageIO;
-
 import javafx.application.Platform;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 
 /**
@@ -45,6 +36,10 @@ public class SystemTrayController {
     // language support for the application
     private final ResourceBundle bundle;
     
+    private SystemTray systemTray;
+    
+    private static final URL SYSTRAY_ICON = SystemTrayController.class.getResource("imgs/systray-icon-32x32.png");
+
     /**
      * Constructor responsible to load the necessary data
      * @param stage current stage in the application window
@@ -60,80 +55,59 @@ public class SystemTrayController {
      */
     public void addAppToTray() {
         try {
-            // ensure awt toolkit is initialized.
-            Toolkit.getDefaultToolkit();
-
+            
+            this.systemTray = SystemTray.get();
+            
             // app requires system tray support, just exit if there is no support.
-            if (!SystemTray.isSupported()) {
-                openFatalErrorAlert();
+            if (systemTray == null) {
+            	throw new RuntimeException("Unable to load SystemTray!");
             }
             
-            SystemTray tray = SystemTray.getSystemTray();
             
-            // set up a system tray icon.
-            TrayIcon trayIcon = setupTrayIcon(tray);
+            systemTray.setImage(SYSTRAY_ICON);
+            
+            Menu mainMenu = systemTray.getMenu();
+            
+            mainMenu.add(new MenuItem(bundle.getString("key.systray.menu.mainwindow"), new ActionListener() {
+                @Override
+                public
+                void actionPerformed(final java.awt.event.ActionEvent e) {
+    	            Platform.runLater(new Runnable() {
+    	                @Override public void run() {
+    	                	showStage();
+    	                }
+    	            });
+                	        
+                }
+            })).setShortcut('o'); // case does not matter
 
-            // if the user double-clicks on the tray icon, show the main app stage.
-            trayIcon.addActionListener(event -> Platform.runLater(this::showStage));
+            systemTray.getMenu().add(new MenuItem(bundle.getString("key.systray.menu.exit"), new ActionListener() {
+                @Override
+                public
+                void actionPerformed(final java.awt.event.ActionEvent e) {
+                    systemTray.shutdown();
 
-            trayIcon.setPopupMenu(buildPopupMenu(tray, trayIcon));
-            // add the application tray icon to the system tray.
-            tray.add(trayIcon);
-        } catch (IOException | AWTException e) {
+                    if (!JavaFX.isEventThread()) {
+                        JavaFX.dispatch(new Runnable() {
+                            @Override
+                            public
+                            void run() {
+                            	stage.hide(); // must do this BEFORE Platform.exit() otherwise odd errors show up
+                                Platform.exit();  // necessary to close javaFx
+                            }
+                        });
+                    } else {
+                    	stage.hide(); // must do this BEFORE Platform.exit() otherwise odd errors show up
+                        Platform.exit();  // necessary to close javaFx
+                    }
+
+                    //System.exit(0);  not necessary if all non-daemon threads have stopped.
+                }
+            })).setShortcut('q'); // case does not matter
+            
+        } catch (Exception e) {
             System.out.println("Unable to init system tray: " + e);
         }
-    }
-    
-    /**
-     * Construct all Popup menu content available on the System Tray
-     * @return all the Popup menu content available
-     */
-    private PopupMenu buildPopupMenu(SystemTray tray, TrayIcon trayIcon) {
-        
-        // Create a pop-up menu components
-        MenuItem exitItem = new MenuItem(bundle.getString("key.systray.menu.exit"));
-        exitItem.addActionListener(event -> {
-        	tray.remove(trayIcon);
-            System.exit(0);
-        });
-        
-        MenuItem mainWindowItem = new MenuItem(bundle.getString("key.systray.menu.mainwindow"));
-        mainWindowItem.addActionListener(event -> Platform.runLater(this::showStage));
-        
-        // setup the popup menu for the application.
-        final PopupMenu popup = new PopupMenu();
-        popup.add(mainWindowItem);
-        popup.add(exitItem);
-        
-        return popup;
-    }
-    
-    /**
-     * Alert screen that will open if the System Tray is not supported by the OS
-     */
-    private void openFatalErrorAlert(){
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setResizable(false);
-        alert.setTitle(bundle.getString("key.systray.error.fatal.title"));
-        alert.setHeaderText(bundle.getString("key.systray.error.fatal.header"));
-        alert.setContentText(bundle.getString("key.systray.error.fatal.content"));
-        alert.showAndWait();
-        Optional<ButtonType> result = alert.showAndWait();
-        if(result.get() == ButtonType.OK || result.get() == ButtonType.CLOSE){
-            System.exit(0);
-        }
-    }
-    
-    /**
-     * set up the system tray icon.
-     * @return the system tray icon generated
-     * @throws IOException 
-     */
-    private TrayIcon setupTrayIcon(SystemTray tray) throws IOException {
-        URL imageLoc = getClass().getResource("imgs/icon.png");
-        Image image = Toolkit.getDefaultToolkit().getImage(imageLoc);
-        Dimension trayIconSize = tray.getTrayIconSize();
-        return new TrayIcon(image.getScaledInstance(trayIconSize.width, trayIconSize.height, Image.SCALE_SMOOTH));
     }
     
     /**
