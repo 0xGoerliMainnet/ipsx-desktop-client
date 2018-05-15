@@ -24,6 +24,8 @@ import java.util.ResourceBundle;
 
 import javafx.application.Platform;
 import javafx.stage.Stage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Class responsible to have all System Tray content in the application
@@ -31,6 +33,8 @@ import javafx.stage.Stage;
  * System Tray Library took from this repository: https://github.com/dorkbox/SystemTray
  */
 public class SystemTrayController {
+    
+    static Logger LOGGER = LoggerFactory.getLogger(SystemTrayController.class);
     
     // application stage is stored so that it can be shown and hidden based on system tray icon operations.
     private final Stage stage;
@@ -109,7 +113,7 @@ public class SystemTrayController {
             })).setShortcut('q'); // case does not matter
             
         } catch (RuntimeException e) {
-            System.out.println("Unable to init system tray: " + e);
+            LOGGER.error("Unable to init system tray", e);
         }
     }
     

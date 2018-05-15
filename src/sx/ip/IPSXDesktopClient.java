@@ -14,12 +14,17 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import dorkbox.util.OS;
+import org.apache.log4j.PropertyConfigurator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import sx.ip.factories.HostServicesControllerFactory;
 
 /**
  * Main class responsible to load the main window application
  */
 public class IPSXDesktopClient extends Application {
+    
+    static Logger LOGGER = LoggerFactory.getLogger(IPSXDesktopClient.class);
 
     //define your offsets here
     private double xOffset = 0;
@@ -83,10 +88,14 @@ public class IPSXDesktopClient extends Application {
      *
      */
     public static void main(String[] args) {
+        PropertyConfigurator.configure("log4j.properties");
+        
         if (OS.isMacOsX() && OS.javaVersion <= 7) {
             System.setProperty("javafx.macosx.embedded", "true");
             java.awt.Toolkit.getDefaultToolkit();
         }
+        
+        LOGGER.info("Initializing IPSX service...");
         
         launch(args);
     }
