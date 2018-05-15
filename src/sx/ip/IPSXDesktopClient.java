@@ -44,7 +44,7 @@ public class IPSXDesktopClient extends Application {
         
         systemTray.addAppToTray();
         
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLManualProxy.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLManualProxy.fxml"),getBundle());
 
         loader.setControllerFactory(new HostServicesControllerFactory(getHostServices()));
 
@@ -77,6 +77,7 @@ public class IPSXDesktopClient extends Application {
         Scene scene = new Scene(root);
         stage.initStyle(StageStyle.UNDECORATED);
         stage.getIcons().add(new Image(getClass().getResourceAsStream("imgs/icon.png")));
+        stage.setTitle("IP Exchange");
         stage.setScene(scene);
         stage.show();
             

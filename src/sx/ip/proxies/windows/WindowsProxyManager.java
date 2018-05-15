@@ -214,9 +214,7 @@ public class WindowsProxyManager extends ProxyManager {
         }
 
         try {
-            Map<String, String> myConfig = new HashMap<>();
-            myConfig.put("maxWait", "80000");
-
+            
             powerShell = PowerShell.openSession();
             powerShell.executeCommand(powerShellScript);
 

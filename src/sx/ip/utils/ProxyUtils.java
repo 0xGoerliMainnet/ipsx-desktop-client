@@ -13,7 +13,6 @@
  */
 package sx.ip.utils;
 
-import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import javafx.application.Platform;
@@ -115,14 +114,27 @@ public class ProxyUtils {
         return dialog;
     }
     
-    public static void createExceptionAlert(String title, String header, String content, Exception ex){
+    
+    /**
+     * Method resposible for create the exception alert.
+     *
+     * @param title The title of the alert
+     *
+     * @param header The header of the alert
+     * 
+     * @param content The content text 
+     * 
+     * @param ex The exception
+     *
+     */
+    public static void createExceptionAlert(String title, String header, String content, String stackMessage,  Exception ex) {
         Alert alert = new Alert(AlertType.ERROR);
         alert.setTitle(title);
         alert.setHeaderText(header);
         alert.setContentText(content);
 
-        Label label = new Label("The exception stacktrace was:");
-        
+        Label label = new Label(stackMessage); // "The exception stacktrace was:"
+
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
         ex.printStackTrace(pw);
@@ -141,9 +153,9 @@ public class ProxyUtils {
         expContent.setMaxWidth(Double.MAX_VALUE);
         expContent.add(label, 0, 0);
         expContent.add(textArea, 0, 1);
-        
+
         alert.getDialogPane().setExpandableContent(expContent);
-        
+
         alert.showAndWait();
     }
 
