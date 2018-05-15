@@ -37,7 +37,7 @@ import sx.ip.proxies.ProxySettings;
  * Proxy Manager to be used when the OS is Mac
  */
 public class MacProxyManager extends ProxyManager {
-    
+
     static org.slf4j.Logger LOGGER = LoggerFactory.getLogger(MacProxyManager.class);
 
     /**
@@ -65,10 +65,10 @@ public class MacProxyManager extends ProxyManager {
             commandResult = setInternetProxy(settings);
         } catch (IOException ex) {
             LOGGER.error(ex.getMessage(), ex);
-            throw new ProxySetupException("Internal error: "+ex.getMessage(), ex);
+            throw new ProxySetupException("Internal error: " + ex.getMessage(), ex);
         } catch (InterruptedException ex) {
             LOGGER.error(ex.getMessage(), ex);
-            throw new ProxySetupException("Internal error: "+ex.getMessage(), ex);
+            throw new ProxySetupException("Internal error: " + ex.getMessage(), ex);
         }
         return commandResult;
     }
@@ -82,13 +82,13 @@ public class MacProxyManager extends ProxyManager {
             return getInternetProxy();
         } catch (IOException ex) {
             LOGGER.error(ex.getMessage(), ex);
-            throw new ProxySetupException("Internal error: "+ex.getMessage(), ex);
+            throw new ProxySetupException("Internal error: " + ex.getMessage(), ex);
         } catch (ParseException ex) {
             LOGGER.error(ex.getMessage(), ex);
-            throw new ProxySetupException("Internal error: "+ex.getMessage(), ex);
+            throw new ProxySetupException("Internal error: " + ex.getMessage(), ex);
         } catch (InterruptedException ex) {
             LOGGER.error(ex.getMessage(), ex);
-            throw new ProxySetupException("Internal error: "+ex.getMessage(), ex);
+            throw new ProxySetupException("Internal error: " + ex.getMessage(), ex);
         }
     }
 
@@ -100,9 +100,9 @@ public class MacProxyManager extends ProxyManager {
      * @throws IOException The IO exception
      *
      * @throws InterruptedException The interrupted exception
-     * 
+     *
      * @throws ProxySetupException The proxy setup exception
-     * 
+     *
      * @throws ParseException The parse exception
      */
     public static void main(String[] args) throws IOException, InterruptedException, ProxySetupException, ParseException {
@@ -116,7 +116,7 @@ public class MacProxyManager extends ProxyManager {
      *
      * @param settings A ProxySettings instance that hold all necessary
      * configurations
-     * 
+     *
      * @return If the command was executed or not
      *
      * @throws IOException The IO exception
@@ -125,67 +125,66 @@ public class MacProxyManager extends ProxyManager {
      */
     public static boolean setInternetProxy(ProxySettings settings) throws IOException, InterruptedException {
         //Just a test call for valid the command line execution
-        List<String[]> commandList = new ArrayList<>(); 
+        List<String[]> commandList = new ArrayList<>();
         Map<String, String> response = new HashMap<>();
-        
-        if (settings.getProxyHost() != null) {
+
+        if (settings.getProxyHost() != null && settings.getProxyHost().length() > 0) {
             switch (settings.getType()) {
                 case HTTP:
                     if ((settings.getAuthUser() != null) && (settings.getAuthUser().isEmpty())) {
-                        commandList.add(new String[] {"-setwebproxy", "\"Ethernet\"",settings.getProxyHost(),String.valueOf(settings.getProxyPort()),"on",settings.getAuthUser(),settings.getAuthPass()});
-                    }else{
-                        commandList.add(new String[] {"-setwebproxy", "\"Ethernet\"",settings.getProxyHost(),String.valueOf(settings.getProxyPort())});
+                        commandList.add(new String[]{"-setwebproxy", "\"Ethernet\"", settings.getProxyHost(), String.valueOf(settings.getProxyPort()), "on", settings.getAuthUser(), settings.getAuthPass()});
+                    } else {
+                        commandList.add(new String[]{"-setwebproxy", "\"Ethernet\"", settings.getProxyHost(), String.valueOf(settings.getProxyPort())});
                     }
                     break;
                 case HTTPS:
-                    if ((settings.getAuthUser() != null) && (settings.getAuthUser().isEmpty())) {                        
-                        commandList.add(new String[] {"-setsecurewebproxy", "\"Ethernet\"",settings.getProxyHost(),String.valueOf(settings.getProxyPort()),"on",settings.getAuthUser(),settings.getAuthPass()});
-                    }else{
-                        commandList.add(new String[] {"-setsecurewebproxy", "\"Ethernet\"",settings.getProxyHost(),String.valueOf(settings.getProxyPort())});
+                    if ((settings.getAuthUser() != null) && (settings.getAuthUser().isEmpty())) {
+                        commandList.add(new String[]{"-setsecurewebproxy", "\"Ethernet\"", settings.getProxyHost(), String.valueOf(settings.getProxyPort()), "on", settings.getAuthUser(), settings.getAuthPass()});
+                    } else {
+                        commandList.add(new String[]{"-setsecurewebproxy", "\"Ethernet\"", settings.getProxyHost(), String.valueOf(settings.getProxyPort())});
                     }
                     break;
                 case SOCKS:
                     if ((settings.getAuthUser() != null) && (settings.getAuthUser().isEmpty())) {
-                        commandList.add(new String[] {"-setsocksfirewallproxy", "\"Ethernet\"",settings.getProxyHost(),String.valueOf(settings.getProxyPort())});
-                    }else{
-                        commandList.add(new String[] {"-setsocksfirewallproxy", "\"Ethernet\"",settings.getProxyHost(),String.valueOf(settings.getProxyPort())});
+                        commandList.add(new String[]{"-setsocksfirewallproxy", "\"Ethernet\"", settings.getProxyHost(), String.valueOf(settings.getProxyPort())});
+                    } else {
+                        commandList.add(new String[]{"-setsocksfirewallproxy", "\"Ethernet\"", settings.getProxyHost(), String.valueOf(settings.getProxyPort())});
                     }
                     break;
                 case FTP:
                     if ((settings.getAuthUser() != null) && (settings.getAuthUser().isEmpty())) {
-                        commandList.add(new String[] {"-setftpproxy", "\"Ethernet\"",settings.getProxyHost(),String.valueOf(settings.getProxyPort())});
-                    }else{
-                        commandList.add(new String[] {"-setftpproxy", "\"Ethernet\"",settings.getProxyHost(),String.valueOf(settings.getProxyPort())});
+                        commandList.add(new String[]{"-setftpproxy", "\"Ethernet\"", settings.getProxyHost(), String.valueOf(settings.getProxyPort())});
+                    } else {
+                        commandList.add(new String[]{"-setftpproxy", "\"Ethernet\"", settings.getProxyHost(), String.valueOf(settings.getProxyPort())});
                     }
                     break;
                 case HTTP_AND_HTTPS:
                     if ((settings.getAuthUser() != null) && (settings.getAuthUser().isEmpty())) {
-                        commandList.add(new String[] {"-setwebproxy", "\"Ethernet\"",settings.getProxyHost(),String.valueOf(settings.getProxyPort()),"on",settings.getAuthUser(),settings.getAuthPass()});
-                        commandList.add(new String[] {"-setsecurewebproxy", "\"Ethernet\"",settings.getProxyHost(),String.valueOf(settings.getProxyPort()),"on",settings.getAuthUser(),settings.getAuthPass()});
-                    }else{                        
-                        commandList.add(new String[] {"-setwebproxy", "\"Ethernet\"",settings.getProxyHost(),String.valueOf(settings.getProxyPort())});
-                        commandList.add(new String[] {"-setsecurewebproxy", "\"Ethernet\"",settings.getProxyHost(),String.valueOf(settings.getProxyPort())});
+                        commandList.add(new String[]{"-setwebproxy", "\"Ethernet\"", settings.getProxyHost(), String.valueOf(settings.getProxyPort()), "on", settings.getAuthUser(), settings.getAuthPass()});
+                        commandList.add(new String[]{"-setsecurewebproxy", "\"Ethernet\"", settings.getProxyHost(), String.valueOf(settings.getProxyPort()), "on", settings.getAuthUser(), settings.getAuthPass()});
+                    } else {
+                        commandList.add(new String[]{"-setwebproxy", "\"Ethernet\"", settings.getProxyHost(), String.valueOf(settings.getProxyPort())});
+                        commandList.add(new String[]{"-setsecurewebproxy", "\"Ethernet\"", settings.getProxyHost(), String.valueOf(settings.getProxyPort())});
                     }
-                    
+
                     break;
             }
             if (settings.getBypassOnLocal()) {
-                commandList.add(new String[] {"-setproxybypassdomains", "\"Ethernet\""});
+                commandList.add(new String[]{"-setproxybypassdomains", "\"Ethernet\""});
             }
 
-            if((settings.getAcsUrl() != null) && (settings.getAcsUrl().isEmpty())){
-                commandList.add(new String[] {"-setautoproxyurl", "\"Ethernet\"",settings.getAcsUrl()});
-            }
-            
+        } else if ((settings.getAcsUrl() != null) && (settings.getAcsUrl().isEmpty())) {
+            commandList.add(new String[]{"-setautoproxyurl", "\"Ethernet\"", settings.getAcsUrl()});
+
         } else {
             return disableInternetProxy();
-        }        
-        
-        for(String[] command : commandList){
-           response.putAll(runCommandLine(command, null, null, 3000));
-           if(response.get("result").equals("false")){
-               return false;
-           }
+        }
+
+        for (String[] command : commandList) {
+            response.putAll(runCommandLine(command, null, null, 3000));
+            if (response.get("result").equals("false")) {
+                return false;
+            }
         }
         return true;
     }
@@ -194,39 +193,40 @@ public class MacProxyManager extends ProxyManager {
      * Method resposible for disable the Proxy connection.
      *
      * @return If the command was executed or not
-     * 
+     *
      * @throws IOException The IO exception
-     * 
+     *
      * @throws InterruptedException The interrupted exception
      *
      */
     public static boolean disableInternetProxy() throws IOException, InterruptedException {
-        List<String[]> commandList = new ArrayList<>();       
+        List<String[]> commandList = new ArrayList<>();
         Map<String, String> response = new HashMap<>();
-        commandList.add(new String[] {"-setftpproxystate", "\"Ethernet\"","off"});
-        commandList.add(new String[] {"-setwebproxystate",  "\"Ethernet\"","off"});
-        commandList.add(new String[] {"-setsecurewebproxystate", "\"Ethernet\"","off"});
-        commandList.add(new String[] {"-setsocksfirewallproxystate", "\"Ethernet\"","off"});
-        
-        for(String[] command : commandList){
-           response.putAll(runCommandLine(command, null, null, 3000));
-           if(response.get("result").equals("false")){
-               return false;
-           }
+        commandList.add(new String[]{"-setftpproxystate", "\"Ethernet\"", "off"});
+        commandList.add(new String[]{"-setwebproxystate", "\"Ethernet\"", "off"});
+        commandList.add(new String[]{"-setsecurewebproxystate", "\"Ethernet\"", "off"});
+        commandList.add(new String[]{"-setsocksfirewallproxystate", "\"Ethernet\"", "off"});
+        commandList.add(new String[]{"-setautoproxyurl", "\"Ethernet\"", ""});
+
+        for (String[] command : commandList) {
+            response.putAll(runCommandLine(command, null, null, 3000));
+            if (response.get("result").equals("false")) {
+                return false;
+            }
         }
         return true;
-        
+
     }
-    
+
     /**
      * Method resposible for get the Proxy connection.
      *
      * @return The latest ProxySettings
-     * 
+     *
      * @throws IOException The IO exception
-     * 
+     *
      * @throws ParseException The Parse exception
-     * 
+     *
      * @throws InterruptedException The interrupted exception
      *
      */
@@ -234,31 +234,31 @@ public class MacProxyManager extends ProxyManager {
         List<String[]> commandList = new ArrayList<>();
         JSONParser parser = new JSONParser();
         ProxySettings settings;
-        String type = null;        
+        String type = null;
         String proxyServer = null;
         String proxyPort = null;
         String proxyAuth;
         String url = null;
         Boolean byPass = false;
-        
-        commandList.add(new String[] {"-getftpproxy", "\"Ethernet\""});
-        commandList.add(new String[] {"-getwebproxy", "\"Ethernet\""});
-        commandList.add(new String[] {"-getsecurewebproxy", "\"Ethernet\""});
-        commandList.add(new String[] {"-getsocksfirewallproxy", "\"Ethernet\""});        
-        commandList.add(new String[] {"-getautoproxyurl", "\"Ethernet\""});
-        
-        String [] byPassCommand = new String[] {"-getproxybypassdomains", "\"Ethernet\""};        
-        
-        for(String[] command : commandList){
+
+        commandList.add(new String[]{"-getftpproxy", "\"Ethernet\""});
+        commandList.add(new String[]{"-getwebproxy", "\"Ethernet\""});
+        commandList.add(new String[]{"-getsecurewebproxy", "\"Ethernet\""});
+        commandList.add(new String[]{"-getsocksfirewallproxy", "\"Ethernet\""});
+        commandList.add(new String[]{"-getautoproxyurl", "\"Ethernet\""});
+
+        String[] byPassCommand = new String[]{"-getproxybypassdomains", "\"Ethernet\""};
+
+        for (String[] command : commandList) {
             Map<String, String> response = runCommandLine(command, null, null, 3000);
             String proxyEnable;
-            if(response.get("result").equals("true")){
+            if (response.get("result").equals("true")) {
                 String output = response.get("output");
                 Object obj = parser.parse(output);
                 JSONObject jsonObject = (JSONObject) obj;
-                if(jsonObject.containsKey("Enabled")){
+                if (jsonObject.containsKey("Enabled")) {
                     proxyEnable = (String) jsonObject.get("Enabled");
-                    if(proxyEnable.equals("Yes")){
+                    if (proxyEnable.equals("Yes")) {
                         switch (command[0]) {
                             case "-getftpproxy":
                                 type = "FTP";
@@ -279,22 +279,22 @@ public class MacProxyManager extends ProxyManager {
                         url = (String) jsonObject.get("URL");
                     }
                 }
-                System.err.println(command[0]+":"+output);
+                System.err.println(command[0] + ":" + output);
             }
-        }        
-        
+        }
+
         Map<String, String> response = runCommandLine(byPassCommand, null, null, 3000);
 
-        if(response.get("result").equals("true")){
+        if (response.get("result").equals("true")) {
             String output = response.get("output");
-            if(!output.trim().isEmpty()){
+            if (!output.trim().isEmpty()) {
                 byPass = true;
             }
-            System.err.println(byPassCommand[0]+":"+output);
-        }        
-        
+            System.err.println(byPassCommand[0] + ":" + output);
+        }
+
         settings = new ProxySettings(proxyServer, Integer.valueOf(proxyPort), ProxySettings.ProxyType.valueOf(type),
-                                     url, byPass, "", "");
+                url, byPass, "", "");
         return settings;
     }
 
@@ -305,13 +305,13 @@ public class MacProxyManager extends ProxyManager {
      * @param pumpStreamHandle Handle with sub-processes output and errors
      * @param executeResultHandle Handle with the execution result
      * @param timeout The watchdog timeout
-     * 
-     *@return A boolean indicating if the command was executed or not
+     *
+     * @return A boolean indicating if the command was executed or not
      */
-    private static Map<String,String> runCommandLine(String[] args, PumpStreamHandler pumpStreamHandle,
+    private static Map<String, String> runCommandLine(String[] args, PumpStreamHandler pumpStreamHandle,
             DefaultExecuteResultHandler executeResultHandle, int timeout) throws IOException, InterruptedException {
         System.out.println("Test commands starting....");
-        Map<String,String> response = new HashMap<>();
+        Map<String, String> response = new HashMap<>();
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
         executor = new DefaultExecutor();
@@ -326,7 +326,7 @@ public class MacProxyManager extends ProxyManager {
 
         CommandLine commandLine = new CommandLine("networksetup");
 
-        executor.setStreamHandler(pumpStreamHandle);       
+        executor.setStreamHandler(pumpStreamHandle);
 
         watchdog = new ExecuteWatchdog(timeout);
 
@@ -342,14 +342,13 @@ public class MacProxyManager extends ProxyManager {
         System.out.println("Executing command:" + commandLine.toString());
 
         if (exitValue != 0) {
-            response.put("result","false");
-        }else{
-            response.put("result","true");
+            response.put("result", "false");
+        } else {
+            response.put("result", "true");
         }
 
-        response.put("output",outputStream.toString());
-        
-        
+        response.put("output", outputStream.toString());
+
         return response;
     }
 
