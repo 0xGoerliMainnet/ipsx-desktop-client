@@ -15,6 +15,8 @@ package sx.ip.utils;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -75,7 +77,7 @@ public class ProxyUtils {
         dialog.setTitle(title);
         dialog.setHeaderText(header);
 
-        ButtonType btnLoginType = new ButtonType("Confirm", ButtonData.OK_DONE);
+        ButtonType btnLoginType = new ButtonType(getBundle().getString("key.main.button.confirm"), ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(btnLoginType, ButtonType.CANCEL);
 
         GridPane gridPane = new GridPane();
@@ -84,13 +86,13 @@ public class ProxyUtils {
         gridPane.setPadding(new Insets(20, 150, 10, 10));
 
         TextField proxyUser = new TextField();
-        proxyUser.setPromptText("Username");
+        proxyUser.setPromptText(getBundle().getString("key.main.dialog.auth.username.prompt"));
         PasswordField proxyPass = new PasswordField();
-        proxyPass.setPromptText("Password");
+        proxyPass.setPromptText(getBundle().getString("key.main.dialog.auth.password.prompt"));
 
-        gridPane.add(new Label("Proxy User:"), 0, 0);
+        gridPane.add(new Label(getBundle().getString("key.main.dialog.auth.username.label")), 0, 0);
         gridPane.add(proxyUser, 1, 0);
-        gridPane.add(new Label("Proxy Password:"), 0, 1);
+        gridPane.add(new Label(getBundle().getString("key.main.dialog.auth.password.label")), 0, 1);
         gridPane.add(proxyPass, 1, 1);
 
         Node loginButton = dialog.getDialogPane().lookupButton(btnLoginType);
@@ -124,6 +126,8 @@ public class ProxyUtils {
      * 
      * @param content The content text 
      * 
+     * @param stackMessage The stack title 
+     * 
      * @param ex The exception
      *
      */
@@ -133,7 +137,7 @@ public class ProxyUtils {
         alert.setHeaderText(header);
         alert.setContentText(content);
 
-        Label label = new Label(stackMessage); // "The exception stacktrace was:"
+        Label label = new Label(stackMessage);
 
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
@@ -157,6 +161,13 @@ public class ProxyUtils {
         alert.getDialogPane().setExpandableContent(expContent);
 
         alert.showAndWait();
+    }
+    
+    /**
+     * @return the bundle language
+     */
+    public static ResourceBundle getBundle() {
+        return ResourceBundle.getBundle("sx.ip.bundles.bundle", new Locale("en", "EN"));
     }
 
 }

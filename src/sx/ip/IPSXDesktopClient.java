@@ -1,7 +1,5 @@
 package sx.ip;
 
-import java.util.Locale;
-import java.util.ResourceBundle;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -18,19 +16,20 @@ import org.apache.log4j.PropertyConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sx.ip.factories.HostServicesControllerFactory;
+import sx.ip.utils.ProxyUtils;
 
 /**
  * Main class responsible to load the main window application
  */
 public class IPSXDesktopClient extends Application {
-    
+
     static Logger LOGGER = LoggerFactory.getLogger(IPSXDesktopClient.class);
 
     //define your offsets here
     private double xOffset = 0;
 
     private double yOffset = 0;
-    
+
     /**
      * {@inheritDoc}
      */
@@ -39,21 +38,21 @@ public class IPSXDesktopClient extends Application {
 
         // instructs the javafx system not to exit implicitly when the last application window is shut.
         Platform.setImplicitExit(false);
-        
-        SystemTrayController systemTray = new SystemTrayController(stage, getBundle());
-        
+
+        SystemTrayController systemTray = new SystemTrayController(stage, ProxyUtils.getBundle());
+
         systemTray.addAppToTray();
-        
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLManualProxy.fxml"),getBundle());
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLManualProxy.fxml"), ProxyUtils.getBundle());
 
         loader.setControllerFactory(new HostServicesControllerFactory(getHostServices()));
 
         Parent root = loader.load();
 
         FXMLManualProxyController controller = loader.getController();
-        
+
         controller.setStage(stage);
-        
+
         //grab your root here
         root.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
@@ -80,7 +79,7 @@ public class IPSXDesktopClient extends Application {
         stage.setTitle("IP Exchange");
         stage.setScene(scene);
         stage.show();
-            
+
     }
 
     /**
@@ -90,22 +89,15 @@ public class IPSXDesktopClient extends Application {
      */
     public static void main(String[] args) {
         PropertyConfigurator.configure("log4j.properties");
-        
+
         if (OS.isMacOsX() && OS.javaVersion <= 7) {
             System.setProperty("javafx.macosx.embedded", "true");
             java.awt.Toolkit.getDefaultToolkit();
         }
-        
-        LOGGER.info("Initializing IPSX service...");
-        
-        launch(args);
-    }
 
-    /**
-     * @return the bundle language
-     */
-    public ResourceBundle getBundle() {
-        return ResourceBundle.getBundle("sx.ip.bundles.bundle", new Locale("en", "EN"));
+        LOGGER.info("Initializing IPSX service...");
+
+        launch(args);
     }
 
 }

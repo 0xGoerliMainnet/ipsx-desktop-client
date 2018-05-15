@@ -29,6 +29,7 @@ import org.apache.commons.exec.PumpStreamHandler;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.slf4j.LoggerFactory;
 import sx.ip.proxies.ProxyManager;
 import sx.ip.proxies.ProxySettings;
 
@@ -36,6 +37,8 @@ import sx.ip.proxies.ProxySettings;
  * Proxy Manager to be used when the OS is Mac
  */
 public class MacProxyManager extends ProxyManager {
+    
+    static org.slf4j.Logger LOGGER = LoggerFactory.getLogger(MacProxyManager.class);
 
     /**
      * Object responsible for manage the command line executions.
@@ -61,8 +64,10 @@ public class MacProxyManager extends ProxyManager {
         try {
             commandResult = setInternetProxy(settings);
         } catch (IOException ex) {
+            LOGGER.error(ex.getMessage(), ex);
             throw new ProxySetupException("Internal error: "+ex.getMessage(), ex);
         } catch (InterruptedException ex) {
+            LOGGER.error(ex.getMessage(), ex);
             throw new ProxySetupException("Internal error: "+ex.getMessage(), ex);
         }
         return commandResult;
@@ -76,10 +81,13 @@ public class MacProxyManager extends ProxyManager {
         try {
             return getInternetProxy();
         } catch (IOException ex) {
+            LOGGER.error(ex.getMessage(), ex);
             throw new ProxySetupException("Internal error: "+ex.getMessage(), ex);
         } catch (ParseException ex) {
+            LOGGER.error(ex.getMessage(), ex);
             throw new ProxySetupException("Internal error: "+ex.getMessage(), ex);
         } catch (InterruptedException ex) {
+            LOGGER.error(ex.getMessage(), ex);
             throw new ProxySetupException("Internal error: "+ex.getMessage(), ex);
         }
     }

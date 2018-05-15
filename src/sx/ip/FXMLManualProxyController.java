@@ -41,6 +41,7 @@ import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Pair;
 import javafx.util.converter.IntegerStringConverter;
+import org.slf4j.LoggerFactory;
 import sx.ip.proxies.ProxyManager;
 import sx.ip.proxies.ProxySettings;
 import sx.ip.models.ProxyType;
@@ -50,6 +51,8 @@ import sx.ip.utils.ProxyUtils;
  * Main controller for the main application window
  */
 public class FXMLManualProxyController implements Initializable {
+    
+    static org.slf4j.Logger LOGGER = LoggerFactory.getLogger(FXMLManualProxyController.class);
 
     private HostServices hostServices;
 
@@ -251,7 +254,7 @@ public class FXMLManualProxyController implements Initializable {
             @Override
             public void handle(WorkerStateEvent t) {
                 ProxyUtils.createExceptionAlert(bundle.getString("key.main.dialog.exception.title"), null, task.getException().getMessage(), bundle.getString("key.main.dialog.exception.stack.text"), (Exception) task.getException());
-                Logger.getLogger(FXMLManualProxyController.class.getName()).log(Level.SEVERE, null, task.getException());
+                LOGGER.error(task.getException().getMessage(), task.getException());
             }
         });
         new Thread(task).start();

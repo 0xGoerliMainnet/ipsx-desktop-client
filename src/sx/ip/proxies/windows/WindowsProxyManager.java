@@ -21,6 +21,7 @@ import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.commons.io.IOUtils;
+import org.slf4j.LoggerFactory;
 import sx.ip.proxies.ProxyManager;
 import sx.ip.proxies.ProxySettings;
 
@@ -28,6 +29,8 @@ import sx.ip.proxies.ProxySettings;
  * Proxy Manager to be used when the OS is Windows
  */
 public class WindowsProxyManager extends ProxyManager {
+    
+    static org.slf4j.Logger LOGGER = LoggerFactory.getLogger(WindowsProxyManager.class);
 
     /**
      * {@inheritDoc}
@@ -38,8 +41,11 @@ public class WindowsProxyManager extends ProxyManager {
         try {
             commandResult = setInternetProxy(settings);
         } catch (IOException ex) {
+            LOGGER.error(ex.getMessage(), ex);
             throw new ProxySetupException(ex.getMessage(), ex);
+            
         } catch (PowerShellNotAvailableException ex){
+            LOGGER.error(ex.getMessage(), ex);
             throw  new ProxySetupException(ex.getMessage(), ex);
         }
         return commandResult;
@@ -53,8 +59,10 @@ public class WindowsProxyManager extends ProxyManager {
         try {
             return getInternetProxy();
         } catch (IOException ex) {
+            LOGGER.error(ex.getMessage(), ex);
             throw new ProxySetupException(ex.getMessage(), ex);
         } catch (PowerShellNotAvailableException ex){
+            LOGGER.error(ex.getMessage(), ex);
             throw  new ProxySetupException(ex.getMessage(), ex);
         }
     }

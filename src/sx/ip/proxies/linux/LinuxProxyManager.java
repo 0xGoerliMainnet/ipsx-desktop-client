@@ -29,11 +29,14 @@ import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.exec.ExecuteWatchdog;
 import org.apache.commons.exec.Executor;
 import org.apache.commons.exec.PumpStreamHandler;
+import org.slf4j.LoggerFactory;
 
 /**
  * Proxy Manager to be used when the OS is Linux
  */
 public class LinuxProxyManager extends ProxyManager {
+    
+    static org.slf4j.Logger LOGGER = LoggerFactory.getLogger(LinuxProxyManager.class);
 
     /**
      * Object responsible for manage the command line executions.
@@ -59,6 +62,7 @@ public class LinuxProxyManager extends ProxyManager {
         try {
             commandResult = setInternetProxy(settings);
         } catch (IOException | InterruptedException ex) {
+            LOGGER.error(ex.getMessage(), ex);
             Logger.getLogger(LinuxProxyManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         return commandResult;
@@ -72,6 +76,7 @@ public class LinuxProxyManager extends ProxyManager {
         try {
             return getInternetProxy();
         } catch (IOException ex) {
+            LOGGER.error(ex.getMessage(), ex);
             Logger.getLogger(LinuxProxyManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
