@@ -19,11 +19,11 @@ import sx.ip.proxies.mac.MacProxyManager;
 import sx.ip.proxies.windows.WindowsProxyManager;
 
 /**
- *
- *
+ *Proxy Manager Super class.
  */
 public abstract class ProxyManager {
-
+    
+    /** The ProxyManager instance. */
     private static ProxyManager instance = null;
 
     protected ProxyManager() {
@@ -34,19 +34,22 @@ public abstract class ProxyManager {
      * Set the proxy options into the operation system settings for the current
      * user.
      *
-     * @param settings The settings list
+     * @param settings 
+     *          The settings list
+     * @throws ProxySetupException If something goes really bad.
+     * 
      * @return True of the operation was successful. False if something couldn't
      * be set.
-     * @throws ProxySetupException If something goes really bad.
      */
     public abstract boolean setProxySettings(ProxySettings settings) throws ProxySetupException;
 
     /**
      * Reads the proxy settings from the OS for the current user
-     *
+     * 
+     * @throws ProxySetupException If something goes really bad.
+     * 
      * @return The current proxy settings that are set on the OS for the current
      * user.
-     * @throws ProxySetupException If something goes really bad.
      */
     public abstract ProxySettings getProxySettings() throws ProxySetupException;
 
@@ -73,14 +76,15 @@ public abstract class ProxyManager {
 
     /**
      * Exception that happens when something goes bad when setting a proxy on
-     * the OS level
+     * the OS level.
      */
     public class ProxySetupException extends Exception {
 
         /**
          * Create a new exception with a custom message
          *
-         * @param message The string message
+         * @param message 
+         *          The string message
          */
         public ProxySetupException(String message) {
             super(message);
@@ -89,8 +93,10 @@ public abstract class ProxyManager {
         /**
          * Create a new exception with a custom message
          *
-         * @param message The string message
-         * @param ex The original Exception
+         * @param message 
+         *          The string message
+         * @param ex 
+         *          The original Exception
          */
         public ProxySetupException(String message, Throwable ex) {
             super(message, ex);

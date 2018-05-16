@@ -34,25 +34,20 @@ import sx.ip.proxies.ProxyManager;
 import sx.ip.proxies.ProxySettings;
 
 /**
- * Proxy Manager to be used when the OS is Mac
+ * Proxy Manager to be used when the OS is Mac.
  */
 public class MacProxyManager extends ProxyManager {
-
+    
+    /** The logger Object.  */
     static org.slf4j.Logger LOGGER = LoggerFactory.getLogger(MacProxyManager.class);
 
-    /**
-     * Object responsible for manage the command line executions.
-     */
+    /** Object responsible for manage the command line executions. */
     static Executor executor;
 
-    /**
-     * Object responsible for handle of the process.
-     */
+    /** Object responsible for handle of the process. */
     static ExecuteWatchdog watchdog;
 
-    /**
-     * Object responsible for handle with the respective result.
-     */
+    /** Object responsible for handle with the respective result. */
     static DefaultExecuteResultHandler resultHandler;
 
     /**
@@ -93,17 +88,18 @@ public class MacProxyManager extends ProxyManager {
     }
 
     /**
-     * Main function.
+     * Main function for tests.
      *
-     * @param args the command line arguments
+     * @param args 
+     *          The command line arguments
      *
-     * @throws IOException The IO exception
+     * @throws IOException The IO exception.
      *
-     * @throws InterruptedException The interrupted exception
+     * @throws InterruptedException The interrupted exception.
      *
-     * @throws ProxySetupException The proxy setup exception
+     * @throws ProxySetupException The proxy setup exception.
      *
-     * @throws ParseException The parse exception
+     * @throws ParseException The parse exception.
      */
     public static void main(String[] args) throws IOException, InterruptedException, ProxySetupException, ParseException {
         ProxySettings settings = new ProxySettings(null, 8080, ProxySettings.ProxyType.HTTP_AND_HTTPS, null, true, null, null);
@@ -114,14 +110,14 @@ public class MacProxyManager extends ProxyManager {
     /**
      * Method resposible for start the Proxy connection.
      *
-     * @param settings A ProxySettings instance that hold all necessary
-     * configurations
+     * @param settings 
+     *          A ProxySettings instance that hold all necessary configurations
      *
-     * @return If the command was executed or not
+     * @throws IOException The IO exception.
      *
-     * @throws IOException The IO exception
-     *
-     * @throws InterruptedException The interrupted exception
+     * @throws InterruptedException The interrupted exception.
+     * 
+     *  @return If the command was executed or not.
      */
     public static boolean setInternetProxy(ProxySettings settings) throws IOException, InterruptedException {
         //Just a test call for valid the command line execution
@@ -191,12 +187,12 @@ public class MacProxyManager extends ProxyManager {
 
     /**
      * Method resposible for disable the Proxy connection.
+     * 
+     * @throws IOException The IO exception.
      *
-     * @return If the command was executed or not
-     *
-     * @throws IOException The IO exception
-     *
-     * @throws InterruptedException The interrupted exception
+     * @throws InterruptedException The interrupted exception.
+     * 
+     * @return If the command was executed or not.
      *
      */
     public static boolean disableInternetProxy() throws IOException, InterruptedException {
@@ -221,13 +217,13 @@ public class MacProxyManager extends ProxyManager {
     /**
      * Method resposible for get the Proxy connection.
      *
+     * @throws IOException The IO exception.
+     *
+     * @throws ParseException The Parse exception.
+     *
+     * @throws InterruptedException The interrupted exception.
+     * 
      * @return The latest ProxySettings
-     *
-     * @throws IOException The IO exception
-     *
-     * @throws ParseException The Parse exception
-     *
-     * @throws InterruptedException The interrupted exception
      *
      */
     public static ProxySettings getInternetProxy() throws IOException, ParseException, InterruptedException {
@@ -301,12 +297,16 @@ public class MacProxyManager extends ProxyManager {
     /**
      * Method responsible for execute the command lines.
      *
-     * @param commandList List of commands to be executed
-     * @param pumpStreamHandle Handle with sub-processes output and errors
-     * @param executeResultHandle Handle with the execution result
-     * @param timeout The watchdog timeout
+     * @param commandList 
+     *              List of commands to be executed
+     * @param pumpStreamHandle 
+     *              Handle with sub-processes output and errors
+     * @param executeResultHandle 
+     *              Handle with the execution result
+     * @param timeout 
+     *              The watchdog timeout
      *
-     * @return A boolean indicating if the command was executed or not
+     * @return A boolean indicating if the command was executed or not.
      */
     private static Map<String, String> runCommandLine(String[] args, PumpStreamHandler pumpStreamHandle,
             DefaultExecuteResultHandler executeResultHandle, int timeout) throws IOException, InterruptedException {

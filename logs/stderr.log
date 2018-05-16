@@ -10,3 +10,39 @@
 2018-05-15 11:37:35 INFO  IPSXDesktopClient:98 - Initializing IPSX service...
 2018-05-15 11:37:35 INFO  SystemTray:1007 - Successfully loaded
 2018-05-15 11:37:35 WARN  SystemTray:370 - Tooltips are not consistent across all platforms and tray types.
+2018-05-16 11:12:35 INFO  IPSXDesktopClient:98 - Initializing IPSX service...
+2018-05-16 11:12:35 INFO  SystemTray:1007 - Successfully loaded
+2018-05-16 11:12:35 WARN  SystemTray:370 - Tooltips are not consistent across all platforms and tray types.
+2018-05-16 11:15:23 INFO  IPSXDesktopClient:98 - Initializing IPSX service...
+2018-05-16 11:15:23 INFO  SystemTray:1007 - Successfully loaded
+2018-05-16 11:15:23 WARN  SystemTray:370 - Tooltips are not consistent across all platforms and tray types.
+2018-05-16 11:17:04 INFO  IPSXDesktopClient:98 - Initializing IPSX service...
+2018-05-16 11:17:04 INFO  SystemTray:1007 - Successfully loaded
+2018-05-16 11:17:04 WARN  SystemTray:370 - Tooltips are not consistent across all platforms and tray types.
+2018-05-16 11:19:05 INFO  IPSXDesktopClient:98 - Initializing IPSX service...
+2018-05-16 11:19:05 INFO  SystemTray:1007 - Successfully loaded
+2018-05-16 11:19:05 WARN  SystemTray:370 - Tooltips are not consistent across all platforms and tray types.
+2018-05-16 11:20:27 INFO  IPSXDesktopClient:98 - Initializing IPSX service...
+2018-05-16 11:20:28 INFO  SystemTray:1007 - Successfully loaded
+2018-05-16 11:20:28 WARN  SystemTray:370 - Tooltips are not consistent across all platforms and tray types.
+2018-05-16 11:22:16 ERROR FXMLManualProxyController:294 - 
+java.lang.NullPointerException
+	at sx.ip.proxies.linux.LinuxProxyManager.setInternetProxy(LinuxProxyManager.java:123)
+	at sx.ip.proxies.linux.LinuxProxyManager.setProxySettings(LinuxProxyManager.java:63)
+	at sx.ip.FXMLManualProxyController$1.call(FXMLManualProxyController.java:271)
+	at sx.ip.FXMLManualProxyController$1.call(FXMLManualProxyController.java:266)
+	at javafx.concurrent.Task$TaskCallable.call(Task.java:1423)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.lang.Thread.run(Thread.java:748)
+2018-05-16 11:22:41 INFO  IPSXDesktopClient:98 - Initializing IPSX service...
+2018-05-16 11:22:41 INFO  SystemTray:1007 - Successfully loaded
+2018-05-16 11:22:41 WARN  SystemTray:370 - Tooltips are not consistent across all platforms and tray types.
+2018-05-16 11:23:03 ERROR FXMLManualProxyController:294 - 
+java.lang.NullPointerException
+	at sx.ip.proxies.linux.LinuxProxyManager.setInternetProxy(LinuxProxyManager.java:123)
+	at sx.ip.proxies.linux.LinuxProxyManager.setProxySettings(LinuxProxyManager.java:63)
+	at sx.ip.FXMLManualProxyController$1.call(FXMLManualProxyController.java:271)
+	at sx.ip.FXMLManualProxyController$1.call(FXMLManualProxyController.java:266)
+	at javafx.concurrent.Task$TaskCallable.call(Task.java:1423)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.lang.Thread.run(Thread.java:748)

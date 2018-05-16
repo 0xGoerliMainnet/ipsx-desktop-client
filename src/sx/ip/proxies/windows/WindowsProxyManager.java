@@ -26,10 +26,11 @@ import sx.ip.proxies.ProxyManager;
 import sx.ip.proxies.ProxySettings;
 
 /**
- * Proxy Manager to be used when the OS is Windows
+ * Proxy Manager to be used when the OS is Windows.
  */
 public class WindowsProxyManager extends ProxyManager {
     
+    /** The logger Object.  */
     static org.slf4j.Logger LOGGER = LoggerFactory.getLogger(WindowsProxyManager.class);
 
     /**
@@ -68,8 +69,10 @@ public class WindowsProxyManager extends ProxyManager {
     }
 
     /**
-     * @param args the command line arguments
-     *
+     * Main function for tests.
+     * 
+     * @param args 
+     *          the command line arguments
      */
     public static void main(String[] args) throws IOException {
         ProxySettings settings = new ProxySettings("127.0.0.1", 8080, ProxySettings.ProxyType.HTTP, "http://proxy:7892", true, "user", "pass");
@@ -83,12 +86,11 @@ public class WindowsProxyManager extends ProxyManager {
     /**
      * Method resposible for start the Proxy connection.
      *
-     * @param settings A ProxySettings instance that hold all necessary
-     * configurations
-     *
-     * @return If the command was executed or not
-     *
-     * @throws IOException The IO exception
+     * @param settings 
+     *          A ProxySettings instance that hold all necessary configurations
+     * @throws IOException The IO exception.
+     * 
+     * @return If the command was executed or not.
      */
     public static boolean setInternetProxy(ProxySettings settings) throws IOException,PowerShellNotAvailableException  {
         String result = "false";
@@ -124,9 +126,9 @@ public class WindowsProxyManager extends ProxyManager {
     /**
      * Method resposible for get the Proxy connection.
      *
-     * @return The latest ProxySettings
-     *
-     * @throws IOException The IO exception
+     * @throws IOException The IO exception.
+     * 
+     * @return The latest ProxySettings.
      *
      */
     public static ProxySettings getInternetProxy() throws IOException, PowerShellNotAvailableException {
@@ -151,9 +153,9 @@ public class WindowsProxyManager extends ProxyManager {
     /**
      * Method resposible for disable the Proxy connection.
      *
-     * @return If the command was executed or not
-     *
-     * @throws IOException The IO exception
+     * @throws IOException The IO exception.
+     * 
+     * @return If the command was executed or not.
      *
      */
     public static String disableInternetProxy() throws IOException, PowerShellNotAvailableException {
@@ -165,23 +167,24 @@ public class WindowsProxyManager extends ProxyManager {
      * Function responsible for execute the calls to the PowerShell Script
      * Methods.
      *
-     * @param powerShellScript The power shell script for proxy setting
+     * @param powerShellScript 
+     *              The power shell script for proxy setting
+     * @param proxyType 
+     *              Type of proxy, what can be (http, https, socks and ftp)
+     * @param settings 
+     *              ProxySettings instance containing all proxy configurations
+     * @param disable 
+     *              Flag to indicate if is to use the disable script
+     * @param getScript 
+     *              Flag to indicate if is to use the get script
+     * @param settingName 
+     *              Name of the setting to get
+     * @param getCredentials 
+     *              Flag to indicate if is to get the credentials of the proxy
      *
-     * @param proxyType Type of proxy, what can be (http, https, socks and ftp)
-     *
-     * @param settings ProxySettings instance containing all proxy
-     * configurations
-     *
-     * @param disable Flag to indicate if is to use the disable script
-     *
-     * @param getScript Flag to indicate if is to use the get script
-     *
-     * @param settingName Name of the setting to get
-     *
-     * @param getCredentials Flag to indicate if is to get the credentials of
-     * the proxy
-     *
-     * @return A map result and output message
+     * @return A map result and output message.
+     * 
+     * @throws PowerShellNotAvailableException The PowerShell Exception.
      */
     private static Map<String, String> runPowerShellMethod(String powerShellScript, String proxyType, ProxySettings settings, 
                                                            boolean disable, boolean getScript, String settingName, boolean getCredentials) throws PowerShellNotAvailableException{

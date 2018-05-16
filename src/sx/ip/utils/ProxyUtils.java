@@ -13,6 +13,8 @@
  */
 package sx.ip.utils;
 
+import com.jfoenix.controls.JFXPasswordField;
+import com.jfoenix.controls.JFXTextField;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Locale;
@@ -26,31 +28,29 @@ import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.util.Pair;
 
 /**
- *
- * @author hygor
+ * Class responsible for hold all useful functions.
  */
 public class ProxyUtils {
 
     /**
      * Method resposible for create a alert.
      *
-     * @param type Represent the type of the alert
-     *
-     * @param title The title of the alert
-     *
-     * @param header The header of the alert
-     *
-     * @param content The content text of the alert
-     *
-     * @return The Alert instance
+     * @param type 
+     *          Represent the type of the alert
+     * @param title 
+     *          The title of the alert
+     * @param header 
+     *          The header of the alert
+     * @param content 
+     *          The content text of the alert
+     * 
+     * @return The Alert instance.
      *
      */
     public static Alert createAlert(Alert.AlertType type, String title, String header, String content) {
@@ -65,10 +65,11 @@ public class ProxyUtils {
     /**
      * Method resposible for create the authentication dialog.
      *
-     * @param title The title of the dialog
-     *
-     * @param header The header of the dialog
-     *
+     * @param title 
+     *          The title of the dialog
+     * @param header 
+     *          The header of the dialog
+     * 
      * @return The Dialog instance
      *
      */
@@ -77,17 +78,17 @@ public class ProxyUtils {
         dialog.setTitle(title);
         dialog.setHeaderText(header);
 
-        ButtonType btnLoginType = new ButtonType(getBundle().getString("key.main.button.confirm"), ButtonData.OK_DONE);
-        dialog.getDialogPane().getButtonTypes().addAll(btnLoginType, ButtonType.CANCEL);
+        ButtonType btnConfirmType = new ButtonType(getBundle().getString("key.main.button.confirm"), ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(btnConfirmType, ButtonType.CANCEL);
 
         GridPane gridPane = new GridPane();
         gridPane.setHgap(10);
         gridPane.setVgap(10);
         gridPane.setPadding(new Insets(20, 150, 10, 10));
-
-        TextField proxyUser = new TextField();
+        
+        JFXTextField proxyUser = new JFXTextField();
         proxyUser.setPromptText(getBundle().getString("key.main.dialog.auth.username.prompt"));
-        PasswordField proxyPass = new PasswordField();
+        JFXPasswordField proxyPass = new JFXPasswordField();
         proxyPass.setPromptText(getBundle().getString("key.main.dialog.auth.password.prompt"));
 
         gridPane.add(new Label(getBundle().getString("key.main.dialog.auth.username.label")), 0, 0);
@@ -95,11 +96,11 @@ public class ProxyUtils {
         gridPane.add(new Label(getBundle().getString("key.main.dialog.auth.password.label")), 0, 1);
         gridPane.add(proxyPass, 1, 1);
 
-        Node loginButton = dialog.getDialogPane().lookupButton(btnLoginType);
-        loginButton.setDisable(true);
+        Node confirmButton = dialog.getDialogPane().lookupButton(btnConfirmType);
+        confirmButton.setDisable(true);
 
         proxyUser.textProperty().addListener((observable, oldValue, newValue) -> {
-            loginButton.setDisable(newValue.trim().isEmpty());
+            confirmButton.setDisable(newValue.trim().isEmpty());
         });
 
         dialog.getDialogPane().setContent(gridPane);
@@ -107,7 +108,7 @@ public class ProxyUtils {
         Platform.runLater(() -> proxyUser.requestFocus());
 
         dialog.setResultConverter(dialogButton -> {
-            if (dialogButton == btnLoginType) {
+            if (dialogButton == btnConfirmType) {
                 return new Pair<>(proxyUser.getText(), proxyPass.getText());
             }
             return null;
@@ -120,15 +121,16 @@ public class ProxyUtils {
     /**
      * Method resposible for create the exception alert.
      *
-     * @param title The title of the alert
-     *
-     * @param header The header of the alert
+     * @param title 
+     *          The title of the alert
+     * @param header 
+     *          The header of the alert
+     * @param content 
+     *          The content text
+     * @param stackMessage 
+     *          The stack title 
      * 
-     * @param content The content text 
-     * 
-     * @param stackMessage The stack title 
-     * 
-     * @param ex The exception
+     * @param ex The exception.
      *
      */
     public static void createExceptionAlert(String title, String header, String content, String stackMessage,  Exception ex) {
@@ -164,7 +166,7 @@ public class ProxyUtils {
     }
     
     /**
-     * @return the bundle language
+     * @return the bundle language.
      */
     public static ResourceBundle getBundle() {
         return ResourceBundle.getBundle("sx.ip.bundles.bundle", new Locale("en", "EN"));

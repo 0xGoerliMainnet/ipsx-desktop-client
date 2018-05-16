@@ -52,83 +52,144 @@ import sx.ip.utils.ProxyUtils;
  */
 public class FXMLManualProxyController implements Initializable {
     
+    /** The logger Object.  */
     static org.slf4j.Logger LOGGER = LoggerFactory.getLogger(FXMLManualProxyController.class);
-
+    
+    /** The object that provides Host Services for the Application.  */
     private HostServices hostServices;
-
+    
+    /** The JavaFX Stage instance.  */
     private Stage stage;
-
+    
+    /** The ProxyManager instance.  */
     private final ProxyManager manager = ProxyManager.getInstance();
-
+    
+    /** The ProxySettings instance.  */
     private ProxySettings settings;
-
+    
+    /** Simple flag to say if the proxy is active or not instance.  */
     private boolean isActivated = false;
-
+    
+    /** The ResourceBundle instance.  */
     private ResourceBundle bundle;
 
+    /** The main anchorPane instance.  */
     @FXML
     private AnchorPane anchorPane;
 
+    /** The close button instance.  */
     @FXML
     private JFXButton btnClose;
-
+    
+    /** The activate button instance.  */
     @FXML
     private JFXButton btnActivate;
-
+    
+    /** The Protocol combobox instance.  */
     @FXML
     private JFXComboBox<ProxyType> comboProtocol;
-
+    
+    /** The agree pane instance.  */
     @FXML
     private AnchorPane agreePane;
-
+    
+    /** The proxy pane instance.  */
     @FXML
     private AnchorPane proxyPane;
-
+    
+    /** The proxy url pane instance.  */
     @FXML
     private AnchorPane proxyUrlPane;
-
+    
+    /** The host text field instance.  */
     @FXML
     private JFXTextField proxyId;
-
+    
+     /** The proxy url text field instance.  */
     @FXML
     private JFXTextField proxyUrl;
-
+    
+     /** The port text field instance.  */
     @FXML
     private JFXTextField proxyPort;
-
+    
+    /** The terms button instance.  */
     @FXML
     private Hyperlink btnTerms;
-
+    
+    /** The bypass checkbox instance.  */
     @FXML
     private JFXCheckBox bypassCB;
-
+    
+    /** The authetication checkbox instance.  */
     @FXML
     private JFXCheckBox proxyAuthentication;
-
+    
+    /** The agree terms checkbox instance.  */
     @FXML
     private JFXCheckBox agreeCheckBox;
-
+    
+    /** The Advanced Settings checkbox instance.  */
     @FXML
     private JFXCheckBox advancedSettings;
-
+    
+    /** The progress bar instance.  */
     @FXML
     private JFXProgressBar progressBar;
 
+    /**
+     * Method responsible for set the current stage
+     *
+     * @param stage 
+     *          The current stage
+     */
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }    
+    
+    /**
+     * Method responsible for set the current hostServices
+     *
+     * @param hostServices 
+     *          The current hostServices
+     */
     public FXMLManualProxyController(HostServices hostServices) {
         this.hostServices = hostServices;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        this.bundle = rb;
+        ObservableList<ProxyType> data
+                = FXCollections.observableArrayList(
+                        new ProxyType("SOCKS", "SOCKS"),
+                        new ProxyType("HTTP & HTTPS", "HTTP_AND_HTTPS"));
+
+        comboProtocol.getItems().addAll(data);
+        comboProtocol.setPromptText(bundle.getString("key.main.combo.prompt"));
+        proxyPort.setTextFormatter(new TextFormatter<>(new IntegerStringConverter()));
     }
 
     /**
      * Method resposible for handle with the close action.
      *
-     * @param event An Event representing that the button has been fired.
-     *
+     * @param event 
+     *          An Event representing that the button has been fired.
      */
     @FXML
     private void handleCloseAction(ActionEvent event) {
         stage.close();
     }
-
+    
+    /**
+     * Method resposible for handle with the Advanced Settings checkbox.
+     *
+     * @param event 
+     *          An Event representing that the button has been fired.
+     */
     @FXML
     private void handleAdvancedSettings(ActionEvent event) {
         proxyPane.setVisible(!proxyPane.isVisible());
@@ -138,8 +199,8 @@ public class FXMLManualProxyController implements Initializable {
     /**
      * Method resposible for handle with the activate action.
      *
-     * @param event An Event representing that the button has been fired.
-     *
+     * @param event 
+     *          An Event representing that the button has been fired.
      */
     @FXML
     private void handleActivateAction(ActionEvent event) {
@@ -163,34 +224,19 @@ public class FXMLManualProxyController implements Initializable {
     /**
      * Method resposible for open the browser.
      *
-     * @param event An Event representing that the Button has been fired.
-     *
+     * @param event 
+     *          An Event representing that the Button has been fired.
      */
     @FXML
     public void openBrowser(ActionEvent event) {
         hostServices.showDocument(btnTerms.getAccessibleText());
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        this.bundle = rb;
-        ObservableList<ProxyType> data
-                = FXCollections.observableArrayList(
-                        new ProxyType("SOCKS", "SOCKS"),
-                        new ProxyType("HTTP & HTTPS", "HTTP_AND_HTTPS"));
-
-        comboProtocol.getItems().addAll(data);
-        comboProtocol.setPromptText(bundle.getString("key.main.combo.prompt"));
-        proxyPort.setTextFormatter(new TextFormatter<>(new IntegerStringConverter()));
-    }
+    }    
 
     /**
      * Method responsible for control the display layout.
      *
-     * @param activate Flag to indicate if the proxy server is active or not
+     * @param activate 
+     *          Flag to indicate if the proxy server is active or not
      */
     private void handleScene(boolean activate) {
         agreePane.setDisable(!agreePane.isDisable());
@@ -210,16 +256,7 @@ public class FXMLManualProxyController implements Initializable {
             btnActivate.setStyle("-fx-background-color: #2aace0;");
         }
 
-    }
-
-    /**
-     * Method responsible for set the current stage
-     *
-     * @param stage
-     */
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }
+    }    
 
     /**
      * Method responsible for handle with the proxy activation / deactivation
@@ -263,15 +300,16 @@ public class FXMLManualProxyController implements Initializable {
     /**
      * Method responsible for handle with the advanced proxy activation / deactivation.
      * 
-     * @param host The proxy host
-     * 
-     * @param port The proxy port
-     * 
-     * @param type The proxy protocol type
-     * 
-     * @param proxyAuthe The proxy user for authentication
-     * 
-     * @param proxyPass The proxy pass for authentication
+     * @param host 
+     *          The proxy host
+     * @param port 
+     *          The proxy port
+     * @param type 
+     *          The proxy protocol type
+     * @param proxyAuthe 
+     *          The proxy user for authentication
+     * @param proxyPass 
+     *          The proxy pass for authentication
      */
     private void advancedProxyServer(String host, Integer port, String type, String proxyAuthe, String proxyPass) {
         Alert warningAlert = ProxyUtils.createAlert(AlertType.WARNING, bundle.getString("key.main.alert.warning.title"), null, bundle.getString("key.main.alert.warning.message.v1"));
@@ -313,11 +351,12 @@ public class FXMLManualProxyController implements Initializable {
     /**
      * Method responsible for handle with the default proxy activation / deactivation.
      * 
-     * @param acs The proxy Automatic Configuration Script
-     * 
-     * @param proxyAuthe The proxy user for authentication
-     * 
-     * @param proxyPass The proxy pass for authentication
+     * @param acs 
+     *          The proxy Automatic Configuration Script
+     * @param proxyAuthe 
+     *          The proxy user for authentication
+     * @param proxyPass 
+     *          The proxy pass for authentication
      */
     private void defaultProxyServer(String acs, String proxyAuthe, String proxyPass) {
         Alert warningAlert = ProxyUtils.createAlert(AlertType.WARNING, bundle.getString("key.main.alert.warning.title"), null, bundle.getString("key.main.alert.warning.message.v2"));

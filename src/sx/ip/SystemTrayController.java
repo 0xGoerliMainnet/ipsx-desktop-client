@@ -28,28 +28,33 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Class responsible to have all System Tray content in the application
+ * Class responsible to have all System Tray content in the application.
  * 
  * System Tray Library took from this repository: https://github.com/dorkbox/SystemTray
  */
 public class SystemTrayController {
     
+    /** The logger Object.  */
     static Logger LOGGER = LoggerFactory.getLogger(SystemTrayController.class);
     
-    // application stage is stored so that it can be shown and hidden based on system tray icon operations.
+    /** application stage is stored so that it can be shown and hidden based on system tray icon operations. */
     private final Stage stage;
     
-    // language support for the application
+    /** language support for the application. */
     private final ResourceBundle bundle;
     
+    /** The SystemTray instance.  */
     private SystemTray systemTray;
     
+    /** The SystemTray icon.  */
     private static final URL SYSTRAY_ICON = SystemTrayController.class.getResource("imgs/systray-icon-32x32.png");
 
     /**
      * Constructor responsible to load the necessary data
-     * @param stage current stage in the application window
-     * @param bundle language support choose
+     * @param stage 
+     *          Current stage in the application window
+     * @param bundle 
+     *          Language support choose
      */
     public SystemTrayController(Stage stage, ResourceBundle bundle){
         this.stage = stage;
