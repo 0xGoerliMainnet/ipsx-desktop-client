@@ -165,7 +165,8 @@ public class FXMLManualProxyController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         this.bundle = rb;
         NumberValidator numValidator = new  NumberValidator();
-        RequiredFieldValidator validator = new RequiredFieldValidator();
+        RequiredFieldValidator validatorIP = new RequiredFieldValidator();
+        RequiredFieldValidator validatorURL = new RequiredFieldValidator();
         
         ObservableList<ProxyType> data
                 = FXCollections.observableArrayList(
@@ -175,8 +176,8 @@ public class FXMLManualProxyController implements Initializable {
         comboProtocol.getItems().addAll(data);
         comboProtocol.setPromptText(bundle.getString("key.main.combo.prompt"));
         
-        proxyIp.getValidators().setAll(validator);
-        validator.setMessage(bundle.getString("key.main.validator.proxyid"));
+        proxyIp.getValidators().setAll(validatorIP);
+        validatorIP.setMessage(bundle.getString("key.main.validator.proxyid"));
         
         proxyIp.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if(!newValue){
@@ -184,8 +185,8 @@ public class FXMLManualProxyController implements Initializable {
             }
         });
         
-        proxyUrl.getValidators().setAll(validator);
-        validator.setMessage(bundle.getString("key.main.validator.proxyid"));
+        proxyUrl.getValidators().setAll(validatorURL);
+        validatorURL.setMessage(bundle.getString("key.main.validator.proxyid"));
         
         proxyUrl.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if(!newValue){
