@@ -46,3 +46,33 @@ java.lang.NullPointerException
 	at javafx.concurrent.Task$TaskCallable.call(Task.java:1423)
 	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
 	at java.lang.Thread.run(Thread.java:748)
+2018-05-17 10:36:54 INFO  IPSXDesktopClient:98 - Initializing IPSX service...
+2018-05-17 10:36:56 INFO  SystemTray:1007 - Successfully loaded
+2018-05-17 10:36:56 WARN  SystemTray:370 - Tooltips are not consistent across all platforms and tray types.
+2018-05-17 10:55:16 INFO  IPSXDesktopClient:98 - Initializing IPSX service...
+2018-05-17 10:55:17 INFO  SystemTray:1007 - Successfully loaded
+2018-05-17 10:55:17 WARN  SystemTray:370 - Tooltips are not consistent across all platforms and tray types.
+2018-05-17 11:17:58 INFO  IPSXDesktopClient:98 - Initializing IPSX service...
+2018-05-17 11:17:58 INFO  SystemTray:1007 - Successfully loaded
+2018-05-17 11:17:58 WARN  SystemTray:370 - Tooltips are not consistent across all platforms and tray types.
+2018-05-17 11:20:24 INFO  IPSXDesktopClient:98 - Initializing IPSX service...
+2018-05-17 11:20:26 INFO  SystemTray:1007 - Successfully loaded
+2018-05-17 11:20:27 WARN  SystemTray:370 - Tooltips are not consistent across all platforms and tray types.
+2018-05-17 11:21:34 INFO  IPSXDesktopClient:98 - Initializing IPSX service...
+2018-05-17 11:21:35 INFO  SystemTray:1007 - Successfully loaded
+2018-05-17 11:21:35 WARN  SystemTray:370 - Tooltips are not consistent across all platforms and tray types.
+2018-05-17 11:29:54 INFO  IPSXDesktopClient:98 - Initializing IPSX service...
+2018-05-17 11:29:56 INFO  SystemTray:1007 - Successfully loaded
+2018-05-17 11:29:56 WARN  SystemTray:370 - Tooltips are not consistent across all platforms and tray types.
+2018-05-17 11:34:08 INFO  IPSXDesktopClient:98 - Initializing IPSX service...
+2018-05-17 11:34:09 INFO  SystemTray:1007 - Successfully loaded
+2018-05-17 11:34:09 WARN  SystemTray:370 - Tooltips are not consistent across all platforms and tray types.
+2018-05-17 11:37:02 INFO  IPSXDesktopClient:98 - Initializing IPSX service...
+2018-05-17 11:37:03 INFO  SystemTray:1007 - Successfully loaded
+2018-05-17 11:37:03 WARN  SystemTray:370 - Tooltips are not consistent across all platforms and tray types.
+2018-05-17 11:40:22 INFO  IPSXDesktopClient:98 - Initializing IPSX service...
+2018-05-17 11:40:23 INFO  SystemTray:1007 - Successfully loaded
+2018-05-17 11:40:24 WARN  SystemTray:370 - Tooltips are not consistent across all platforms and tray types.
+2018-05-17 11:44:30 INFO  IPSXDesktopClient:98 - Initializing IPSX service...
+2018-05-17 11:44:31 INFO  SystemTray:1007 - Successfully loaded
+2018-05-17 11:44:31 WARN  SystemTray:370 - Tooltips are not consistent across all platforms and tray types.

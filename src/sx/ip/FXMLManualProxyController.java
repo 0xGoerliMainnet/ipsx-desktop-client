@@ -18,6 +18,8 @@ import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXProgressBar;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.validation.NumberValidator;
+import com.jfoenix.validation.RequiredFieldValidator;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -32,7 +34,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Hyperlink;
@@ -103,7 +104,7 @@ public class FXMLManualProxyController implements Initializable {
     
     /** The host text field instance.  */
     @FXML
-    private JFXTextField proxyId;
+    private JFXTextField proxyIp;
     
      /** The proxy url text field instance.  */
     @FXML
@@ -163,6 +164,9 @@ public class FXMLManualProxyController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.bundle = rb;
+        NumberValidator numValidator = new  NumberValidator();
+        RequiredFieldValidator validator = new RequiredFieldValidator();
+        
         ObservableList<ProxyType> data
                 = FXCollections.observableArrayList(
                         new ProxyType("SOCKS", "SOCKS"),
@@ -170,7 +174,34 @@ public class FXMLManualProxyController implements Initializable {
 
         comboProtocol.getItems().addAll(data);
         comboProtocol.setPromptText(bundle.getString("key.main.combo.prompt"));
+        
+        proxyIp.getValidators().setAll(validator);
+        validator.setMessage(bundle.getString("key.main.validator.proxyid"));
+        
+        proxyIp.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if(!newValue){
+                proxyIp.validate();
+            }
+        });
+        
+        proxyUrl.getValidators().setAll(validator);
+        validator.setMessage(bundle.getString("key.main.validator.proxyid"));
+        
+        proxyUrl.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if(!newValue){
+                proxyUrl.validate();
+            }
+        });
+        
         proxyPort.setTextFormatter(new TextFormatter<>(new IntegerStringConverter()));
+        proxyPort.getValidators().setAll(numValidator);
+        numValidator.setMessage(bundle.getString("key.main.validator.proxyport"));
+        
+        proxyPort.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if(!newValue){
+                proxyPort.validate();
+            }
+        });
     }
 
     /**
@@ -204,7 +235,7 @@ public class FXMLManualProxyController implements Initializable {
      */
     @FXML
     private void handleActivateAction(ActionEvent event) {
-        String host = proxyPane.isVisible() ? proxyId.getText().trim() : proxyUrl.getText().trim();
+        String host = proxyPane.isVisible() ? proxyIp.getText().trim() : proxyUrl.getText().trim();
         String type = (comboProtocol.getValue() != null) ? comboProtocol.getValue().getValue() : null;
         Integer port = null;
         String proxyAuthe = null;
@@ -216,8 +247,8 @@ public class FXMLManualProxyController implements Initializable {
                 defaultProxyServer(host, proxyAuthe, proxyPass);
             }
         } else {
-            Alert infoAlert = ProxyUtils.createAlert(AlertType.INFORMATION, bundle.getString("key.main.alert.info.title"), null, bundle.getString("key.main.alert.info.message"));
-            infoAlert.showAndWait();
+            ProxyUtils.createAndShowAlert(AlertType.INFORMATION, bundle.getString("key.main.alert.info.title"), null, bundle.getString("key.main.alert.info.message"));
+            
         }
     }
 
@@ -242,7 +273,7 @@ public class FXMLManualProxyController implements Initializable {
         agreePane.setDisable(!agreePane.isDisable());
         if (proxyPane.isVisible()) {
             comboProtocol.setDisable(!comboProtocol.isDisable());
-            proxyId.setDisable(!proxyId.isDisable());
+            proxyIp.setDisable(!proxyIp.isDisable());
             proxyPort.setDisable(!proxyPort.isDisable());
         } else {
             proxyUrlPane.setDisable(!proxyUrlPane.isDisable());
@@ -312,38 +343,39 @@ public class FXMLManualProxyController implements Initializable {
      *          The proxy pass for authentication
      */
     private void advancedProxyServer(String host, Integer port, String type, String proxyAuthe, String proxyPass) {
-        Alert warningAlert = ProxyUtils.createAlert(AlertType.WARNING, bundle.getString("key.main.alert.warning.title"), null, bundle.getString("key.main.alert.warning.message.v1"));
-        if (proxyPort.getText() != null && proxyPort.getText().trim().length() > 0) {
-            port = Integer.valueOf(proxyPort.getText());
-        }
-
         if ((host != null && host.length() > 0)) {
-            if (type != null && port != null) {
+            if (proxyPort.getText() != null && proxyPort.getText().trim().length() > 0) {
+                port = Integer.valueOf(proxyPort.getText());
+            
+                if (type != null && port != null) {
 
-                if (!isActivated) {
-                    if (proxyAuthentication.isSelected()) {
-                        Dialog dialog = ProxyUtils.createAuthenticationDialog(bundle.getString("key.main.dialog.authentication.title"), bundle.getString("key.main.dialog.authentication.message"));
-                        Optional<Pair<String, String>> result = dialog.showAndWait();
-                        if (result.isPresent()) {
-                            proxyAuthe = result.get().getKey();
-                            proxyPass = result.get().getValue();
+                    if (!isActivated) {
+                        if (proxyAuthentication.isSelected()) {
+                            Dialog dialog = ProxyUtils.createAuthenticationDialog(bundle.getString("key.main.dialog.authentication.title"), bundle.getString("key.main.dialog.authentication.message"));
+                            Optional<Pair<String, String>> result = dialog.showAndWait();
+                            if (result.isPresent()) {
+                                proxyAuthe = result.get().getKey();
+                                proxyPass = result.get().getValue();
+                            }
                         }
-                    }
 
-                    settings = new ProxySettings(host, port, ProxySettings.ProxyType.valueOf(type), null, bypassCB.isSelected(), proxyAuthe, proxyPass);
-                    isActivated = true;
-                    handleScene(isActivated);
+                        settings = new ProxySettings(host, port, ProxySettings.ProxyType.valueOf(type), null, bypassCB.isSelected(), proxyAuthe, proxyPass);
+                        isActivated = true;
+                        handleScene(isActivated);
+                    } else {
+                        settings = ProxySettings.getDirectConnectionSetting();
+                        isActivated = false;
+                        handleScene(isActivated);
+                    }
+                    startProxyThread();
                 } else {
-                    settings = ProxySettings.getDirectConnectionSetting();
-                    isActivated = false;
-                    handleScene(isActivated);
+                    ProxyUtils.createAndShowAlert(AlertType.WARNING, bundle.getString("key.main.alert.warning.title"), null, bundle.getString("key.main.alert.warning.message.v1"));
                 }
-                startProxyThread();
-            } else {
-                warningAlert.showAndWait();
+            }else{
+                ProxyUtils.createAndShowAlert(AlertType.WARNING, bundle.getString("key.main.alert.warning.title"), null, bundle.getString("key.main.alert.warning.message.v1"));
             }
         } else {
-            warningAlert.showAndWait();
+            ProxyUtils.createAndShowAlert(AlertType.WARNING, bundle.getString("key.main.alert.warning.title"), null, bundle.getString("key.main.alert.warning.message.v1"));
         }
     }
     
@@ -359,8 +391,6 @@ public class FXMLManualProxyController implements Initializable {
      *          The proxy pass for authentication
      */
     private void defaultProxyServer(String acs, String proxyAuthe, String proxyPass) {
-        Alert warningAlert = ProxyUtils.createAlert(AlertType.WARNING, bundle.getString("key.main.alert.warning.title"), null, bundle.getString("key.main.alert.warning.message.v2"));
-
         if ((acs != null && acs.length() > 0)) {
 
             if (!isActivated) {
@@ -384,7 +414,7 @@ public class FXMLManualProxyController implements Initializable {
             startProxyThread();
 
         } else {
-            warningAlert.showAndWait();
+            ProxyUtils.createAndShowAlert(AlertType.WARNING, bundle.getString("key.main.alert.warning.title"), null, bundle.getString("key.main.alert.warning.message.v2"));
         }
     }
 }

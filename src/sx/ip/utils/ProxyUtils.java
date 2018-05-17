@@ -61,6 +61,25 @@ public class ProxyUtils {
 
         return alert;
     }
+    
+    /**
+     * Method resposible for create and show a alert.
+     *
+     * @param type 
+     *          Represent the type of the alert
+     * @param title 
+     *          The title of the alert
+     * @param header 
+     *          The header of the alert
+     * @param content 
+     *          The content text of the alert
+     *
+     */
+    public static void createAndShowAlert(Alert.AlertType type, String title, String header, String content) {
+        Alert alert = createAlert(type, title, header, content);        
+        alert.showAndWait();
+    }
+    
 
     /**
      * Method resposible for create the authentication dialog.
