@@ -26,7 +26,7 @@ Function Set-InternetProxy
 {
     [CmdletBinding()]
     Param(        
-        [Parameter(Mandatory=$True,ValueFromPipeline=$true,ValueFromPipelineByPropertyName=$true)]
+        [Parameter(Mandatory=$False,ValueFromPipeline=$true,ValueFromPipelineByPropertyName=$true)]
         [String]$proxy,
 
         [Parameter(Mandatory=$False,ValueFromPipeline=$true,ValueFromPipelineByPropertyName=$true)]
@@ -77,7 +77,10 @@ Function Set-InternetProxy
     End
     {
         Write-Output "Proxy is now enabled"
-        Write-Output "Proxy Server : $proxy"
+        if($proxy)
+        {
+            Write-Output "Proxy Server : $proxy"
+        }
         if ($acs)
         {            
             Write-Output "Automatic Configuration Script : $acs"

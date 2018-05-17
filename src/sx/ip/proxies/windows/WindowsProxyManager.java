@@ -92,10 +92,11 @@ public class WindowsProxyManager extends ProxyManager {
      * 
      * @return If the command was executed or not.
      */
-    public static boolean setInternetProxy(ProxySettings settings) throws IOException,PowerShellNotAvailableException  {
+    public static boolean setInternetProxy(ProxySettings settings) throws IOException,PowerShellNotAvailableException  {        
         String result = "false";
         String powerShellScript = IOUtils.resourceToString("/sx/ip/proxies/windows/scripts/windows-set-internet-proxy.ps1", Charset.forName("UTF-8"));
         if(settings.getProxyHost() != null && settings.getProxyHost().length() > 0){
+            LOGGER.info("Starting setInternetProxy....");
             switch (settings.getType()) {
                 case HTTP:
                     result = runPowerShellMethod(powerShellScript, "http", settings, false, false, null, false).get("result");
@@ -114,12 +115,14 @@ public class WindowsProxyManager extends ProxyManager {
                     
                     break;
             }
+            LOGGER.info("Ending setInternetProxy....");
         }else if(settings.getAcsUrl() != null){
             result = runPowerShellMethod(powerShellScript, "", settings, false, false, null, false).get("result");
         }else{
             result = disableInternetProxy();
             
         }
+        
         return "true".equals(result);
     }
 
@@ -132,6 +135,7 @@ public class WindowsProxyManager extends ProxyManager {
      *
      */
     public static ProxySettings getInternetProxy() throws IOException, PowerShellNotAvailableException {
+        LOGGER.info("Starting getInternetProxy....");
         String powerShellScript = IOUtils.resourceToString("/sx/ip/proxies/windows/scripts/windows-get-internet-proxy.ps1", Charset.forName("UTF-8"));
         String proxyEnable = runPowerShellMethod(powerShellScript, null, null, false, true, "ProxyEnable", false).get("output").trim();
         ProxySettings settings = null;
@@ -147,6 +151,7 @@ public class WindowsProxyManager extends ProxyManager {
             settings = new ProxySettings(server[0], Integer.valueOf(server[1]), ProxySettings.ProxyType.valueOf(output[0].toUpperCase()),
                                          acs.trim(), hasByPass, credentials[0], credentials[1].trim());
         }
+        LOGGER.info("Ending getInternetProxy....");
         return settings;
     }
 
@@ -159,8 +164,11 @@ public class WindowsProxyManager extends ProxyManager {
      *
      */
     public static String disableInternetProxy() throws IOException, PowerShellNotAvailableException {
+        LOGGER.info("Starting disableInternetProxy....");
         String powerShellScript = IOUtils.resourceToString("/sx/ip/proxies/windows/scripts/windows-disable-internet-proxy.ps1", Charset.forName("UTF-8"));
-        return runPowerShellMethod(powerShellScript, null, null, true, false, null, false).get("result");
+        String result = runPowerShellMethod(powerShellScript, null, null, true, false, null, false).get("result");
+        LOGGER.info("Ending disableInternetProxy....");
+        return result;
     }
 
     /**
@@ -189,6 +197,7 @@ public class WindowsProxyManager extends ProxyManager {
     private static Map<String, String> runPowerShellMethod(String powerShellScript, String proxyType, ProxySettings settings, 
                                                            boolean disable, boolean getScript, String settingName, boolean getCredentials) throws PowerShellNotAvailableException{
         System.out.println("Starting runPowerShellMethod....");
+        LOGGER.info("Starting runPowerShellMethod....");
         Map<String, String> response = new HashMap<>();
         String psMethod;
         PowerShell powerShell = null;
@@ -203,8 +212,10 @@ public class WindowsProxyManager extends ProxyManager {
             }
         } else {
             if("http_https".equals(proxyType)){
-                psMethod = "Set-InternetProxy -proxy \"http=" + settings.getProxyHost() + ":" + settings.getProxyPort()
-                        +";https=" + settings.getProxyHost() + ":" + settings.getProxyPort() + "\" "
+                psMethod = "Set-InternetProxy -proxy \"http=" 
+                        + settings.getProxyHost() + ":" + settings.getProxyPort()
+                        +";https=" + settings.getProxyHost() + ":" + settings.getProxyPort() 
+                        + "\" "
                         + (settings.getAcsUrl() != null && !settings.getAcsUrl().isEmpty() ? "-acs \"" + settings.getAcsUrl() + "\"" : "")
                         + " "
                         + (settings.getAuthUser() != null && !settings.getAuthUser().isEmpty() ? "-authuser \"" + settings.getAuthUser() + "\"" : "")
@@ -213,7 +224,11 @@ public class WindowsProxyManager extends ProxyManager {
                         + " "
                         + (settings.getBypassOnLocal() ? "-bypass \"true\"" : "");
             }else{
-                psMethod = "Set-InternetProxy -proxy \"" + proxyType + "=" + settings.getProxyHost() + ":" + settings.getProxyPort() + "\" "
+                psMethod = "Set-InternetProxy " 
+                        + (proxyType != null && !proxyType.isEmpty() ? "-proxy \"" + proxyType + "=" : "") 
+                        + (settings.getProxyHost() != null && !settings.getProxyHost().isEmpty() ? settings.getProxyHost() + ":" : "") 
+                        + (settings.getProxyPort() != null ? String.valueOf(settings.getProxyPort()) : "") 
+                        + "\" "
                         + (settings.getAcsUrl() != null && !settings.getAcsUrl().isEmpty() ? "-acs \"" + settings.getAcsUrl() + "\"" : "")
                         + " "
                         + (settings.getAuthUser() != null && !settings.getAuthUser().isEmpty() ? "-authuser \"" + settings.getAuthUser() + "\"" : "")
@@ -236,12 +251,14 @@ public class WindowsProxyManager extends ProxyManager {
             } else {
                 response.put("result", "true");
             }
-
+            
+            LOGGER.info(psResponse.getCommandOutput());
             System.out.println("Output:" + psResponse.getCommandOutput());
             response.put("output", psResponse.getCommandOutput());
         } catch (PowerShellNotAvailableException ex) {
             throw ex;
         } finally {
+            LOGGER.info("Ending runPowerShellMethod....");
             System.out.println("Ending runPowerShellMethod....");
 
             if (powerShell != null) {

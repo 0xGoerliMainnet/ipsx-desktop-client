@@ -121,6 +121,7 @@ public class MacProxyManager extends ProxyManager {
      */
     public static boolean setInternetProxy(ProxySettings settings) throws IOException, InterruptedException {
         //Just a test call for valid the command line execution
+        LOGGER.info("Starting setInternetProxy....");
         List<String[]> commandList = new ArrayList<>();
         Map<String, String> response = new HashMap<>();
 
@@ -182,6 +183,7 @@ public class MacProxyManager extends ProxyManager {
                 return false;
             }
         }
+        LOGGER.info("Ending setInternetProxy....");
         return true;
     }
 
@@ -196,6 +198,7 @@ public class MacProxyManager extends ProxyManager {
      *
      */
     public static boolean disableInternetProxy() throws IOException, InterruptedException {
+        LOGGER.info("Starting disableInternetProxy....");
         List<String[]> commandList = new ArrayList<>();
         Map<String, String> response = new HashMap<>();
         commandList.add(new String[]{"-setftpproxystate", "\"Ethernet\"", "off"});
@@ -210,6 +213,7 @@ public class MacProxyManager extends ProxyManager {
                 return false;
             }
         }
+        LOGGER.info("Ending disableInternetProxy....");
         return true;
 
     }
@@ -227,6 +231,8 @@ public class MacProxyManager extends ProxyManager {
      *
      */
     public static ProxySettings getInternetProxy() throws IOException, ParseException, InterruptedException {
+        LOGGER.info("Starting getInternetProxy....");
+        
         List<String[]> commandList = new ArrayList<>();
         JSONParser parser = new JSONParser();
         ProxySettings settings;
@@ -275,7 +281,8 @@ public class MacProxyManager extends ProxyManager {
                         url = (String) jsonObject.get("URL");
                     }
                 }
-                System.err.println(command[0] + ":" + output);
+                System.out.println(command[0] + ":" + output);
+                LOGGER.info(byPassCommand[0] + ":" + output);
             }
         }
 
@@ -286,11 +293,13 @@ public class MacProxyManager extends ProxyManager {
             if (!output.trim().isEmpty()) {
                 byPass = true;
             }
-            System.err.println(byPassCommand[0] + ":" + output);
+            System.out.println(byPassCommand[0] + ":" + output);
+            LOGGER.info(byPassCommand[0] + ":" + output);
         }
 
         settings = new ProxySettings(proxyServer, Integer.valueOf(proxyPort), ProxySettings.ProxyType.valueOf(type),
                 url, byPass, "", "");
+        LOGGER.info("Ending getInternetProxy....");
         return settings;
     }
 
@@ -310,7 +319,9 @@ public class MacProxyManager extends ProxyManager {
      */
     private static Map<String, String> runCommandLine(String[] args, PumpStreamHandler pumpStreamHandle,
             DefaultExecuteResultHandler executeResultHandle, int timeout) throws IOException, InterruptedException {
-        System.out.println("Test commands starting....");
+        System.out.println("Starting runCommandLine....");
+        LOGGER.info("Starting runCommandLine....");
+        
         Map<String, String> response = new HashMap<>();
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
@@ -340,6 +351,7 @@ public class MacProxyManager extends ProxyManager {
         int exitValue = executeResultHandle.getExitValue();
 
         System.out.println("Executing command:" + commandLine.toString());
+        LOGGER.info("Executing command:" + commandLine.toString());
 
         if (exitValue != 0) {
             response.put("result", "false");
