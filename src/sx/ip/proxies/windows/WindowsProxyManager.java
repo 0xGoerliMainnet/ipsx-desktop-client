@@ -224,12 +224,11 @@ public class WindowsProxyManager extends ProxyManager {
                         + " "
                         + (settings.getBypassOnLocal() ? "-bypass \"true\"" : "");
             }else{
-                psMethod = "Set-InternetProxy " 
-                        + (proxyType != null && !proxyType.isEmpty() ? "-proxy \"" + proxyType + "=" : "") 
+                psMethod = "Set-InternetProxy" 
+                        + (proxyType != null && !proxyType.isEmpty() ? " -proxy \"" + proxyType + "=" : "") 
                         + (settings.getProxyHost() != null && !settings.getProxyHost().isEmpty() ? settings.getProxyHost() + ":" : "") 
-                        + (settings.getProxyPort() != null ? String.valueOf(settings.getProxyPort()) : "") 
-                        + "\" "
-                        + (settings.getAcsUrl() != null && !settings.getAcsUrl().isEmpty() ? "-acs \"" + settings.getAcsUrl() + "\"" : "")
+                        + (settings.getProxyPort() != null ? String.valueOf(settings.getProxyPort()) + "\"" : "")
+                        + (settings.getAcsUrl() != null && !settings.getAcsUrl().isEmpty() ? " -acs \"" + settings.getAcsUrl() + "\"" : "")
                         + " "
                         + (settings.getAuthUser() != null && !settings.getAuthUser().isEmpty() ? "-authuser \"" + settings.getAuthUser() + "\"" : "")
                         + " "
