@@ -270,6 +270,14 @@ public class FXMLManualProxyController implements Initializable {
      *          Flag to indicate if the proxy server is active or not
      */
     private void handleScene(boolean activate) {
+        if (activate) {
+            btnActivate.setText(bundle.getString("key.main.button.deactivate"));
+            btnActivate.setStyle("-fx-background-color: #2ecc71;");
+        } else {
+            btnActivate.setText(bundle.getString("key.main.button.activate"));
+            btnActivate.setStyle("-fx-background-color: #2aace0;");
+        }
+        
         agreePane.setDisable(!agreePane.isDisable());
         if (proxyPane.isVisible()) {
             comboProtocol.setDisable(!comboProtocol.isDisable());
@@ -279,13 +287,7 @@ public class FXMLManualProxyController implements Initializable {
             proxyUrlPane.setDisable(!proxyUrlPane.isDisable());
         }
 
-        if (activate) {
-            btnActivate.setText(bundle.getString("key.main.button.activate"));
-            btnActivate.setStyle("-fx-background-color: #2ecc71;");
-        } else {
-            btnActivate.setText(bundle.getString("key.main.button.deactivate"));
-            btnActivate.setStyle("-fx-background-color: #2aace0;");
-        }
+        
 
     }    
 
