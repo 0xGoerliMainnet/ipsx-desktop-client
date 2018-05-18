@@ -114,7 +114,7 @@ limitations under the License.
             </JFXCheckBox>
          </children>
       </AnchorPane>
-      <JFXButton fx:id="btnActivate" defaultButton="true" layoutX="120.0" layoutY="345.0" onAction="#handleActivateAction" prefHeight="36.0" prefWidth="140.0" ripplerFill="WHITE" style="-fx-background-color: #2aace0;" text="Activate Proxy" textAlignment="CENTER" textFill="WHITE">
+      <JFXButton fx:id="btnActivate" defaultButton="true" disable="true" layoutX="120.0" layoutY="345.0" onAction="#handleActivateAction" prefHeight="36.0" prefWidth="140.0" ripplerFill="WHITE" style="-fx-background-color: #2aace0;" text="Activate Proxy" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font size="16.0" />
          </font>

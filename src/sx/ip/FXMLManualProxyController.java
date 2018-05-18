@@ -46,6 +46,8 @@ import org.slf4j.LoggerFactory;
 import sx.ip.proxies.ProxyManager;
 import sx.ip.proxies.ProxySettings;
 import sx.ip.models.ProxyType;
+import sx.ip.utils.CharValidator;
+import sx.ip.utils.BlankSpacesValidator;
 import sx.ip.utils.ProxyUtils;
 
 /**
@@ -165,42 +167,70 @@ public class FXMLManualProxyController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         this.bundle = rb;
         NumberValidator numValidator = new  NumberValidator();
-        RequiredFieldValidator validatorIP = new RequiredFieldValidator();
-        RequiredFieldValidator validatorURL = new RequiredFieldValidator();
+        numValidator.setMessage(bundle.getString("key.main.validator.proxyport"));
+        
+        BlankSpacesValidator validatorIP = new BlankSpacesValidator();
+        validatorIP.setMessage(bundle.getString("key.main.validator.proxyid"));
+        
+        BlankSpacesValidator validatorURL = new BlankSpacesValidator();
+        validatorURL.setMessage(bundle.getString("key.main.validator.proxyid"));
+        
+        CharValidator validatorCharIP = new CharValidator();
+        validatorCharIP.setMessage(bundle.getString("key.main.validator.char"));
+        
+        CharValidator validatorCharURL = new CharValidator();
+        validatorCharURL.setMessage(bundle.getString("key.main.validator.char"));
         
         ObservableList<ProxyType> data
                 = FXCollections.observableArrayList(
-                        new ProxyType("SOCKS", "SOCKS"),
-                        new ProxyType("HTTP & HTTPS", "HTTP_AND_HTTPS"));
+                        new ProxyType("HTTP & HTTPS", "HTTP_AND_HTTPS"),
+                        new ProxyType("SOCKS", "SOCKS"));
 
         comboProtocol.getItems().addAll(data);
-        comboProtocol.setPromptText(bundle.getString("key.main.combo.prompt"));
+        comboProtocol.getSelectionModel().select(0);
         
-        proxyIp.getValidators().setAll(validatorIP);
-        validatorIP.setMessage(bundle.getString("key.main.validator.proxyid"));
-        
-        proxyIp.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if(!newValue){
-                proxyIp.validate();
+        proxyIp.textProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue.isEmpty()){
+                proxyIp.getValidators().add(validatorIP);
+                if(!proxyIp.validate()){
+                    btnActivate.setDisable(true);
+                }else{
+                    btnActivate.setDisable(false);
+                }
+            }else{
+                proxyIp.getValidators().add(validatorCharIP);
+                if(!proxyIp.validate()){
+                    btnActivate.setDisable(true);
+                }else{
+                    btnActivate.setDisable(false);
+                }
             }
         });
         
-        proxyUrl.getValidators().setAll(validatorURL);
-        validatorURL.setMessage(bundle.getString("key.main.validator.proxyid"));
-        
-        proxyUrl.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if(!newValue){
-                proxyUrl.validate();
+        proxyUrl.textProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue.isEmpty()){
+                proxyUrl.getValidators().add(validatorURL);
+                if(!proxyUrl.validate()){
+                    btnActivate.setDisable(true);
+                }else{
+                    btnActivate.setDisable(false);
+                }
+            }else{
+                proxyUrl.getValidators().add(validatorCharURL);
+                if(!proxyUrl.validate()){
+                    btnActivate.setDisable(true);
+                }else{
+                    btnActivate.setDisable(false);
+                }
             }
         });
         
         proxyPort.setTextFormatter(new TextFormatter<>(new IntegerStringConverter()));
-        proxyPort.getValidators().setAll(numValidator);
-        numValidator.setMessage(bundle.getString("key.main.validator.proxyport"));
+        proxyPort.getValidators().add(numValidator);
         
-        proxyPort.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if(!newValue){
-                proxyPort.validate();
+        proxyPort.textProperty().addListener((observable, oldValue, newValue) -> {
+            if(!newValue.isEmpty()){
+                proxyPort.validate();                
             }
         });
     }
@@ -375,7 +405,7 @@ public class FXMLManualProxyController implements Initializable {
                     ProxyUtils.createAndShowAlert(AlertType.WARNING, bundle.getString("key.main.alert.warning.title"), null, bundle.getString("key.main.alert.warning.message.v1"));
                 }
             }else{
-                ProxyUtils.createAndShowAlert(AlertType.WARNING, bundle.getString("key.main.alert.warning.title"), null, bundle.getString("key.main.alert.warning.message.v1"));
+                ProxyUtils.createAndShowAlert(AlertType.WARNING, bundle.getString("key.main.alert.warning.title"), null, bundle.getString("key.main.alert.warning.message.v3"));
             }
         } else {
             ProxyUtils.createAndShowAlert(AlertType.WARNING, bundle.getString("key.main.alert.warning.title"), null, bundle.getString("key.main.alert.warning.message.v1"));
