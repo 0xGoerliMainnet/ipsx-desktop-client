@@ -40,7 +40,6 @@
 	<classpathentry kind="lib" path="lib/dorkbox/slf4j-api-1.7.25/slf4j-api-1.7.25-javadoc.jar"/>
 	<classpathentry kind="lib" path="lib/dorkbox/slf4j-api-1.7.25/slf4j-api-1.7.25-sources.jar"/>
 	<classpathentry kind="lib" path="lib/dorkbox/SystemTray-3.14/SystemTray-3.14.jar"/>
-	<classpathentry kind="lib" path="lib/dorkbox/SystemTray-3.14/SystemTray-3.14-javadoc.jar"/>
 	<classpathentry kind="lib" path="lib/dorkbox/SystemTray-3.14/SystemTray-3.14-sources.jar"/>
 	<classpathentry kind="lib" path="lib/log4j-1.2.17/log4j-1.2.17-javadoc.jar"/>
 	<classpathentry kind="lib" path="lib/log4j-1.2.17/log4j-1.2.17-sources.jar"/>
@@ -48,5 +47,6 @@
 	<classpathentry kind="lib" path="lib/slf4j-log4j12-1.7.25/slf4j-log4j12-1.7.25-javadoc.jar"/>
 	<classpathentry kind="lib" path="lib/slf4j-log4j12-1.7.25/slf4j-log4j12-1.7.25-sources.jar"/>
 	<classpathentry kind="lib" path="lib/slf4j-log4j12-1.7.25/slf4j-log4j12-1.7.25.jar"/>
+	<classpathentry kind="lib" path="lib/json-simple/json-simple-1.1.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

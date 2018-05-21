@@ -15,4 +15,4 @@ nbdist/
 /bin/
 
 # Log
-/logs/*
+logs/stderr.log
