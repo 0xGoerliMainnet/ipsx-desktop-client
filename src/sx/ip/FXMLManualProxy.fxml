@@ -50,14 +50,9 @@ limitations under the License.
             <MaterialIconView fill="#707070" glyphName="CLOSE" size="16.0" textAlignment="CENTER" />
          </graphic>
       </JFXButton>
-      <JFXCheckBox fx:id="advancedSettings" checkedColor="#2aace0" focusTraversable="false" layoutX="20.0" layoutY="110.0" onAction="#handleAdvancedSettings" prefHeight="18.0" prefWidth="230.0" text="Advanced Settings" textFill="#707070" unCheckedColor="#ced4da">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </JFXCheckBox>
       <AnchorPane fx:id="proxyUrlPane" layoutX="-2.0" layoutY="130.0" prefHeight="143.0" prefWidth="375.0">
          <children>
-            <Label layoutX="74.0" layoutY="35.0" text="PROXY IP" textFill="#707070">
+            <Label layoutX="74.0" layoutY="35.0" text="PAC URL" textFill="#707070">
                <font>
                   <Font size="11.0" />
                </font>
@@ -94,7 +89,7 @@ limitations under the License.
       </AnchorPane>
       <AnchorPane fx:id="agreePane" layoutX="2.0" layoutY="245.0" prefHeight="92.0" prefWidth="375.0">
          <children>
-            <JFXCheckBox fx:id="bypassCB" checkedColor="#2aace0" layoutX="64.0" layoutY="30.0" prefHeight="18.0" prefWidth="230.0" selected="true" text="Bypass proxy server for local addresses" textFill="#707070" unCheckedColor="#ced4da">
+            <JFXCheckBox fx:id="bypassCB" checkedColor="#2aace0" disable="true" layoutX="64.0" layoutY="30.0" prefHeight="18.0" prefWidth="230.0" text="Bypass proxy server for local addresses" textFill="#707070" unCheckedColor="#ced4da" visible="false">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
@@ -108,6 +103,11 @@ limitations under the License.
                </graphic>
             </JFXCheckBox>
             <JFXCheckBox fx:id="proxyAuthentication" checkedColor="#2aace0" layoutX="64.0" layoutY="4.0" prefHeight="18.0" prefWidth="230.0" text="Proxy Authentication" textFill="#707070" unCheckedColor="#ced4da" visible="false">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </JFXCheckBox>
+            <JFXCheckBox fx:id="advancedSettings" checkedColor="#2aace0" focusTraversable="false" layoutX="64.0" layoutY="30.0" onAction="#handleAdvancedSettings" prefHeight="18.0" prefWidth="230.0" text="Advanced Settings" textFill="#707070" unCheckedColor="#ced4da">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
