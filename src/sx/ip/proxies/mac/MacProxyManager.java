@@ -384,7 +384,7 @@ public class MacProxyManager extends ProxyManager {
             LOGGER.info(command[0] + ":" + output);
         }
         
-        return output.split(" ");
+        return output.split("\n");
     }
 
 }
