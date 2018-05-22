@@ -354,12 +354,12 @@ public class MacProxyManager extends ProxyManager {
                 commandLine.addArgument(arg);
             }
         }
-        executor.execute(commandLine, executeResultHandle);
-        executeResultHandle.waitFor();
-        int exitValue = executeResultHandle.getExitValue();
-
         System.out.println("Executing command:" + commandLine.toString());
         LOGGER.info("Executing command:" + commandLine.toString());
+        
+        executor.execute(commandLine, executeResultHandle);
+        executeResultHandle.waitFor();
+        int exitValue = executeResultHandle.getExitValue();       
 
         if (exitValue != 0) {
             response.put("result", "false");
