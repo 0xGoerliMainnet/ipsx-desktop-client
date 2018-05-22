@@ -362,13 +362,13 @@ public class FXMLManualProxyController implements Initializable {
                         }
 
                         settings = new ProxySettings(host, port, ProxySettings.ProxyType.valueOf(type), null, bypassCB.isSelected(), proxyAuthe, proxyPass);
-                        isActivated = true;
-                        handleScene(isActivated);
+                        isActivated = true;                        
                     } else {
                         settings = ProxySettings.getDirectConnectionSetting();
-                        isActivated = false;
-                        handleScene(isActivated);
+                        isActivated = false;                        
                     }
+                    
+                    handleScene(isActivated);
                     startProxyThread();
                 } else {
                     ProxyUtils.createAndShowAlert(AlertType.WARNING, bundle.getString("key.main.alert.warning.title"), null, bundle.getString("key.main.alert.warning.message.v1"));
@@ -405,12 +405,13 @@ public class FXMLManualProxyController implements Initializable {
 
                 settings = new ProxySettings("", null, null, acs, false, proxyAuthe, proxyPass);
                 isActivated = true;
-                handleScene(isActivated);
+                
             } else {
                 settings = ProxySettings.getDirectConnectionSetting();
                 isActivated = false;
-                handleScene(isActivated);
             }
+            
+            handleScene(isActivated);
             startProxyThread();
 
         } else {
@@ -426,6 +427,7 @@ public class FXMLManualProxyController implements Initializable {
         Task task = new Task<Void>() {
             @Override
             public Void call() throws ProxyManager.ProxySetupException {
+                restartSettingsMsg.setVisible(false);  
                 progressBar.setVisible(true);
                 btnActivate.setDisable(true);
                 manager.setProxySettings(settings);
@@ -443,7 +445,7 @@ public class FXMLManualProxyController implements Initializable {
                 }
                 progressBar.setVisible(false);
                 btnActivate.setDisable(false);                  
-                restartSettingsMsg.setVisible(!restartSettingsMsg.isVisible());    
+                restartSettingsMsg.setVisible(isActivated);    
             }
         };
 
