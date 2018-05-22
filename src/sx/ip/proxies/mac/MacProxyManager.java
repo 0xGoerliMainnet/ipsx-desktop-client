@@ -390,7 +390,7 @@ public class MacProxyManager extends ProxyManager {
         }
         
         System.out.println(command[0] + ":" + output);
-            LOGGER.info(command[0] + ":" + output);
+        LOGGER.info(command[0] + ":" + output);
         
         return output.split("\n");
     }

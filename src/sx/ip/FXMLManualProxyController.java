@@ -19,7 +19,6 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXProgressBar;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.validation.NumberValidator;
-import com.jfoenix.validation.RequiredFieldValidator;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -173,7 +172,7 @@ public class FXMLManualProxyController implements Initializable {
         validatorIP.setMessage(bundle.getString("key.main.validator.proxyid"));
         
         BlankSpacesValidator validatorURL = new BlankSpacesValidator();
-        validatorURL.setMessage(bundle.getString("key.main.validator.proxyid"));
+        validatorURL.setMessage(bundle.getString("key.main.validator.pac"));
         
         CharValidator validatorCharIP = new CharValidator();
         validatorCharIP.setMessage(bundle.getString("key.main.validator.char"));
