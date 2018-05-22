@@ -124,54 +124,59 @@ public class MacProxyManager extends ProxyManager {
         LOGGER.info("Starting setInternetProxy....");
         List<String[]> commandList = new ArrayList<>();
         Map<String, String> response = new HashMap<>();
-
+        String[] networkServices = getNetworkServices();
+        
         if (settings.getProxyHost() != null && settings.getProxyHost().length() > 0) {
-            switch (settings.getType()) {
-                case HTTP:
-                    if ((settings.getAuthUser() != null) && (settings.getAuthUser().isEmpty())) {
-                        commandList.add(new String[]{"-setwebproxy", "\"Ethernet\"", settings.getProxyHost(), String.valueOf(settings.getProxyPort()), "on", settings.getAuthUser(), settings.getAuthPass()});
-                    } else {
-                        commandList.add(new String[]{"-setwebproxy", "\"Ethernet\"", settings.getProxyHost(), String.valueOf(settings.getProxyPort())});
-                    }
-                    break;
-                case HTTPS:
-                    if ((settings.getAuthUser() != null) && (settings.getAuthUser().isEmpty())) {
-                        commandList.add(new String[]{"-setsecurewebproxy", "\"Ethernet\"", settings.getProxyHost(), String.valueOf(settings.getProxyPort()), "on", settings.getAuthUser(), settings.getAuthPass()});
-                    } else {
-                        commandList.add(new String[]{"-setsecurewebproxy", "\"Ethernet\"", settings.getProxyHost(), String.valueOf(settings.getProxyPort())});
-                    }
-                    break;
-                case SOCKS:
-                    if ((settings.getAuthUser() != null) && (settings.getAuthUser().isEmpty())) {
-                        commandList.add(new String[]{"-setsocksfirewallproxy", "\"Ethernet\"", settings.getProxyHost(), String.valueOf(settings.getProxyPort())});
-                    } else {
-                        commandList.add(new String[]{"-setsocksfirewallproxy", "\"Ethernet\"", settings.getProxyHost(), String.valueOf(settings.getProxyPort())});
-                    }
-                    break;
-                case FTP:
-                    if ((settings.getAuthUser() != null) && (settings.getAuthUser().isEmpty())) {
-                        commandList.add(new String[]{"-setftpproxy", "\"Ethernet\"", settings.getProxyHost(), String.valueOf(settings.getProxyPort())});
-                    } else {
-                        commandList.add(new String[]{"-setftpproxy", "\"Ethernet\"", settings.getProxyHost(), String.valueOf(settings.getProxyPort())});
-                    }
-                    break;
-                case HTTP_AND_HTTPS:
-                    if ((settings.getAuthUser() != null) && (settings.getAuthUser().isEmpty())) {
-                        commandList.add(new String[]{"-setwebproxy", "\"Ethernet\"", settings.getProxyHost(), String.valueOf(settings.getProxyPort()), "on", settings.getAuthUser(), settings.getAuthPass()});
-                        commandList.add(new String[]{"-setsecurewebproxy", "\"Ethernet\"", settings.getProxyHost(), String.valueOf(settings.getProxyPort()), "on", settings.getAuthUser(), settings.getAuthPass()});
-                    } else {
-                        commandList.add(new String[]{"-setwebproxy", "\"Ethernet\"", settings.getProxyHost(), String.valueOf(settings.getProxyPort())});
-                        commandList.add(new String[]{"-setsecurewebproxy", "\"Ethernet\"", settings.getProxyHost(), String.valueOf(settings.getProxyPort())});
-                    }
+            
+            for(String service : networkServices){
+                switch (settings.getType()) {
+                    case HTTP:
+                        if ((settings.getAuthUser() != null) && (settings.getAuthUser().isEmpty())) {
+                            commandList.add(new String[]{"-setwebproxy", "\""+service+"\"", settings.getProxyHost(), String.valueOf(settings.getProxyPort()), "on", settings.getAuthUser(), settings.getAuthPass()});
+                        } else {
+                            commandList.add(new String[]{"-setwebproxy", "\""+service+"\"", settings.getProxyHost(), String.valueOf(settings.getProxyPort())});
+                        }
+                        break;
+                    case HTTPS:
+                        if ((settings.getAuthUser() != null) && (settings.getAuthUser().isEmpty())) {
+                            commandList.add(new String[]{"-setsecurewebproxy", "\""+service+"\"", settings.getProxyHost(), String.valueOf(settings.getProxyPort()), "on", settings.getAuthUser(), settings.getAuthPass()});
+                        } else {
+                            commandList.add(new String[]{"-setsecurewebproxy", "\""+service+"\"", settings.getProxyHost(), String.valueOf(settings.getProxyPort())});
+                        }
+                        break;
+                    case SOCKS:
+                        if ((settings.getAuthUser() != null) && (settings.getAuthUser().isEmpty())) {
+                            commandList.add(new String[]{"-setsocksfirewallproxy", "\""+service+"\"", settings.getProxyHost(), String.valueOf(settings.getProxyPort())});
+                        } else {
+                            commandList.add(new String[]{"-setsocksfirewallproxy", "\""+service+"\"", settings.getProxyHost(), String.valueOf(settings.getProxyPort())});
+                        }
+                        break;
+                    case FTP:
+                        if ((settings.getAuthUser() != null) && (settings.getAuthUser().isEmpty())) {
+                            commandList.add(new String[]{"-setftpproxy", "\""+service+"\"", settings.getProxyHost(), String.valueOf(settings.getProxyPort())});
+                        } else {
+                            commandList.add(new String[]{"-setftpproxy", "\""+service+"\"", settings.getProxyHost(), String.valueOf(settings.getProxyPort())});
+                        }
+                        break;
+                    case HTTP_AND_HTTPS:
+                        if ((settings.getAuthUser() != null) && (settings.getAuthUser().isEmpty())) {
+                            commandList.add(new String[]{"-setwebproxy", "\""+service+"\"", settings.getProxyHost(), String.valueOf(settings.getProxyPort()), "on", settings.getAuthUser(), settings.getAuthPass()});
+                            commandList.add(new String[]{"-setsecurewebproxy", "\""+service+"\"", settings.getProxyHost(), String.valueOf(settings.getProxyPort()), "on", settings.getAuthUser(), settings.getAuthPass()});
+                        } else {
+                            commandList.add(new String[]{"-setwebproxy", "\""+service+"\"", settings.getProxyHost(), String.valueOf(settings.getProxyPort())});
+                            commandList.add(new String[]{"-setsecurewebproxy", "\""+service+"\"", settings.getProxyHost(), String.valueOf(settings.getProxyPort())});
+                        }
 
-                    break;
+                        break;
+                }
+                if (settings.getBypassOnLocal()) {
+                    commandList.add(new String[]{"-setproxybypassdomains", "\""+service+"\""});
+                }
             }
-            if (settings.getBypassOnLocal()) {
-                commandList.add(new String[]{"-setproxybypassdomains", "\"Ethernet\""});
-            }
-
         } else if ((settings.getAcsUrl() != null) && (settings.getAcsUrl().isEmpty())) {
-            commandList.add(new String[]{"-setautoproxyurl", "\"Ethernet\"", settings.getAcsUrl()});
+            for(String service : networkServices){
+                commandList.add(new String[]{"-setautoproxyurl", "\""+service+"\"", settings.getAcsUrl()});            
+            }
 
         } else {
             return disableInternetProxy();
@@ -200,12 +205,15 @@ public class MacProxyManager extends ProxyManager {
     public static boolean disableInternetProxy() throws IOException, InterruptedException {
         LOGGER.info("Starting disableInternetProxy....");
         List<String[]> commandList = new ArrayList<>();
-        Map<String, String> response = new HashMap<>();
-        commandList.add(new String[]{"-setftpproxystate", "\"Ethernet\"", "off"});
-        commandList.add(new String[]{"-setwebproxystate", "\"Ethernet\"", "off"});
-        commandList.add(new String[]{"-setsecurewebproxystate", "\"Ethernet\"", "off"});
-        commandList.add(new String[]{"-setsocksfirewallproxystate", "\"Ethernet\"", "off"});
-        commandList.add(new String[]{"-setautoproxyurl", "\"Ethernet\"", ""});
+        Map<String, String> response = new HashMap<>();        
+        String[] networkServices = getNetworkServices();
+        for(String service : networkServices){
+            commandList.add(new String[]{"-setftpproxystate", "\""+service+"\"", "off"});
+            commandList.add(new String[]{"-setwebproxystate", "\""+service+"\"", "off"});
+            commandList.add(new String[]{"-setsecurewebproxystate", "\""+service+"\"", "off"});
+            commandList.add(new String[]{"-setsocksfirewallproxystate", "\""+service+"\"", "off"});
+            commandList.add(new String[]{"-setautoproxyurl", "\""+service+"\"", ""});        
+        }
 
         for (String[] command : commandList) {
             response.putAll(runCommandLine(command, null, null, 3000));
@@ -362,6 +370,21 @@ public class MacProxyManager extends ProxyManager {
         response.put("output", outputStream.toString());
 
         return response;
+    }
+    
+    private static String[] getNetworkServices() throws IOException, InterruptedException{
+        String[] command = new String[]{"-listallnetworkservices"};
+        Map<String, String> response = runCommandLine(command, null, null, 3000);
+        String output = "";
+        
+        if (response.get("result").equals("true")) {
+            output = response.get("output");
+            
+            System.out.println(command[0] + ":" + output);
+            LOGGER.info(command[0] + ":" + output);
+        }
+        
+        return output.split(" ");
     }
 
 }
