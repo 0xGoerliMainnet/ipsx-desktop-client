@@ -115,7 +115,7 @@ public class LinuxProxyManager extends ProxyManager {
         List<String[]> commandList = new ArrayList<>();
         Map<String, String> response = new HashMap<>();
 
-        if (settings.getProxyHost() != null) {
+        if(settings.getProxyHost() != null && settings.getProxyHost().length() > 0){
             commandList.add(new String[]{"reset-recursively", "org.gnome.system.proxy"});
             commandList.add(new String[]{"set", "org.gnome.system.proxy", "mode", "'manual'"});
             commandList.add(new String[]{"set", "org.gnome.system.proxy.http", "enabled", "true"});
@@ -152,12 +152,9 @@ public class LinuxProxyManager extends ProxyManager {
             if (settings.getBypassOnLocal()) {
                 //commandList.add(new String[]{"set", "org.gnome.system.proxy", "ignore-hosts", "\"['localhost',  '127.0.0.1', 'all', 'other', 'hosts']\""});
             }
-
-            if ((settings.getAcsUrl() != null) && (settings.getAcsUrl().isEmpty())) {
-                commandList.add(new String[]{"set", "org.gnome.system.proxy", "mode", "'auto'"});
-                commandList.add(new String[]{"set", "org.gnome.system.proxy", "autoconfig-url", settings.getAcsUrl()});
-            }
-
+        }else if(settings.getAcsUrl() != null){
+            commandList.add(new String[]{"set", "org.gnome.system.proxy", "mode", "'auto'"});
+            commandList.add(new String[]{"set", "org.gnome.system.proxy", "autoconfig-url", settings.getAcsUrl()});
         } else {
             return disableInternetProxy();
         }

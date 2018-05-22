@@ -36,6 +36,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Hyperlink;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.AnchorPane;
@@ -138,6 +139,10 @@ public class FXMLManualProxyController implements Initializable {
     /** The progress bar instance.  */
     @FXML
     private JFXProgressBar progressBar;
+    
+    /** The progress bar instance.  */
+    @FXML
+    private Label restartSettingsMsg;
 
     /**
      * Method responsible for set the current stage
@@ -266,15 +271,11 @@ public class FXMLManualProxyController implements Initializable {
     @FXML
     private void handleActivateAction(ActionEvent event) {
         String host = proxyPane.isVisible() ? proxyIp.getText().trim() : proxyUrl.getText().trim();
-        String type = (comboProtocol.getValue() != null) ? comboProtocol.getValue().getValue() : null;
-        Integer port = null;
-        String proxyAuthe = null;
-        String proxyPass = null;
         if (agreeCheckBox.isSelected()) {
             if (proxyPane.isVisible()) {
-                advancedProxyServer(host, port, type, proxyAuthe, proxyPass);
+                advancedProxyServer(host);
             } else {
-                defaultProxyServer(host, proxyAuthe, proxyPass);
+                defaultProxyServer(host);
             }
         } else {
             ProxyUtils.createAndShowAlert(AlertType.INFORMATION, bundle.getString("key.main.alert.info.title"), null, bundle.getString("key.main.alert.info.message"));
@@ -291,6 +292,20 @@ public class FXMLManualProxyController implements Initializable {
     @FXML
     public void openBrowser(ActionEvent event) {
         hostServices.showDocument(btnTerms.getAccessibleText());
+    }
+
+    /**
+     * Method resposible for remove all settings action.
+     *
+     * @param event 
+     *          An Event representing that the button has been fired.
+     */
+    @FXML
+    private void removeAllSettings(ActionEvent event){
+        settings = ProxySettings.getDirectConnectionSetting();
+        isActivated = false;
+        handleScene(isActivated);
+        startProxyThread();    
     }    
 
     /**
@@ -308,73 +323,29 @@ public class FXMLManualProxyController implements Initializable {
             btnActivate.setStyle("-fx-background-color: #2aace0;");
         }
         
-        agreePane.setDisable(!agreePane.isDisable());
+        restartSettingsMsg.setVisible(activate);
+        agreePane.setDisable(activate);
         if (proxyPane.isVisible()) {
-            comboProtocol.setDisable(!comboProtocol.isDisable());
-            proxyIp.setDisable(!proxyIp.isDisable());
-            proxyPort.setDisable(!proxyPort.isDisable());
+            comboProtocol.setDisable(activate);
+            proxyIp.setDisable(activate);
+            proxyPort.setDisable(activate);
         } else {
-            proxyUrlPane.setDisable(!proxyUrlPane.isDisable());
+            proxyUrlPane.setDisable(activate);
         }
-
         
-
-    }    
-
-    /**
-     * Method responsible for handle with the proxy activation / deactivation
-     * thread.
-     */
-    private void startProxyThread() {
-        Task task = new Task<Void>() {
-            @Override
-            public Void call() throws ProxyManager.ProxySetupException {
-                progressBar.setVisible(true);
-                btnActivate.setDisable(true);
-                manager.setProxySettings(settings);
-                return null;
-            }
-
-            @Override
-            protected void done() {
-                super.done();
-                updateProgress(100, 100);
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(FXMLManualProxyController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                progressBar.setVisible(false);
-                btnActivate.setDisable(false);
-            }
-        };
-
-        progressBar.progressProperty().bind(task.progressProperty());
-        task.setOnFailed(new EventHandler<WorkerStateEvent>() {
-            @Override
-            public void handle(WorkerStateEvent t) {
-                ProxyUtils.createExceptionAlert(bundle.getString("key.main.dialog.exception.title"), null, task.getException().getMessage(), bundle.getString("key.main.dialog.exception.stack.text"), (Exception) task.getException());
-                LOGGER.error(task.getException().getMessage(), task.getException());
-            }
-        });
-        new Thread(task).start();
-    }
+    }       
     
     /**
      * Method responsible for handle with the advanced proxy activation / deactivation.
      * 
      * @param host 
      *          The proxy host
-     * @param port 
-     *          The proxy port
-     * @param type 
-     *          The proxy protocol type
-     * @param proxyAuthe 
-     *          The proxy user for authentication
-     * @param proxyPass 
-     *          The proxy pass for authentication
      */
-    private void advancedProxyServer(String host, Integer port, String type, String proxyAuthe, String proxyPass) {
+    private void advancedProxyServer(String host) {        
+        String type = (comboProtocol.getValue() != null) ? comboProtocol.getValue().getValue() : null;
+        Integer port;
+        String proxyAuthe = null;
+        String proxyPass = null;
         if ((host != null && host.length() > 0)) {
             if (proxyPort.getText() != null && proxyPort.getText().trim().length() > 0) {
                 port = Integer.valueOf(proxyPort.getText());
@@ -417,12 +388,10 @@ public class FXMLManualProxyController implements Initializable {
      * 
      * @param acs 
      *          The proxy Automatic Configuration Script
-     * @param proxyAuthe 
-     *          The proxy user for authentication
-     * @param proxyPass 
-     *          The proxy pass for authentication
      */
-    private void defaultProxyServer(String acs, String proxyAuthe, String proxyPass) {
+    private void defaultProxyServer(String acs) {        
+        String proxyAuthe = null;
+        String proxyPass = null;
         if ((acs != null && acs.length() > 0)) {
 
             if (!isActivated) {
@@ -449,4 +418,45 @@ public class FXMLManualProxyController implements Initializable {
             ProxyUtils.createAndShowAlert(AlertType.WARNING, bundle.getString("key.main.alert.warning.title"), null, bundle.getString("key.main.alert.warning.message.v2"));
         }
     }
+    
+    /**
+     * Method responsible for handle with the proxy activation / deactivation
+     * thread.
+     */
+    private void startProxyThread() {
+        Task task = new Task<Void>() {
+            @Override
+            public Void call() throws ProxyManager.ProxySetupException {
+                progressBar.setVisible(true);
+                btnActivate.setDisable(true);
+                manager.setProxySettings(settings);
+                return null;
+            }
+
+            @Override
+            protected void done() {
+                super.done();
+                updateProgress(100, 100);
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(FXMLManualProxyController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                progressBar.setVisible(false);
+                btnActivate.setDisable(false);
+            }
+        };
+
+        progressBar.progressProperty().bind(task.progressProperty());
+        task.setOnFailed(new EventHandler<WorkerStateEvent>() {
+            @Override
+            public void handle(WorkerStateEvent t) {
+                ProxyUtils.createExceptionAlert(bundle.getString("key.main.dialog.exception.title"), null, task.getException().getMessage(), bundle.getString("key.main.dialog.exception.stack.text"), (Exception) task.getException());
+                LOGGER.error(task.getException().getMessage(), task.getException());
+            }
+        });
+        new Thread(task).start();
+    }
+    
+    
 }
