@@ -380,6 +380,16 @@ public class MacProxyManager extends ProxyManager {
         return response;
     }
     
+    /**
+     * Method resposible for get the network services.
+     * 
+     * @throws IOException The IO exception.
+     *
+     * @throws InterruptedException The interrupted exception.
+     * 
+     * @return All network services.
+     *
+     */
     private static String[] getNetworkServices() throws IOException, InterruptedException{
         String[] command = new String[]{"-listallnetworkservices"};
         Map<String, String> response = runCommandLine(command, null, null, 3000);
