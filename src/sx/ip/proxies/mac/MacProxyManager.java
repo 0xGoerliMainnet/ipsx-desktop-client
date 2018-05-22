@@ -184,9 +184,12 @@ public class MacProxyManager extends ProxyManager {
 
         for (String[] command : commandList) {
             response.putAll(runCommandLine(command, null, null, 3000));
+            String output = response.get("output");
             if (response.get("result").equals("false")) {
                 return false;
             }
+            System.out.println(command[0] + ":" + output);
+            LOGGER.info(command[0] + ":" + output);
         }
         LOGGER.info("Ending setInternetProxy....");
         return true;
@@ -217,10 +220,14 @@ public class MacProxyManager extends ProxyManager {
 
         for (String[] command : commandList) {
             response.putAll(runCommandLine(command, null, null, 3000));
+            String output = response.get("output");
             if (response.get("result").equals("false")) {
                 return false;
             }
+            System.out.println(command[0] + ":" + output);
+            LOGGER.info(command[0] + ":" + output);
         }
+        
         LOGGER.info("Ending disableInternetProxy....");
         return true;
 
@@ -261,9 +268,9 @@ public class MacProxyManager extends ProxyManager {
 
         for (String[] command : commandList) {
             Map<String, String> response = runCommandLine(command, null, null, 3000);
+            String output = response.get("output");
             String proxyEnable;
-            if (response.get("result").equals("true")) {
-                String output = response.get("output");
+            if (response.get("result").equals("true")) {                
                 Object obj = parser.parse(output);
                 JSONObject jsonObject = (JSONObject) obj;
                 if (jsonObject.containsKey("Enabled")) {
@@ -288,22 +295,23 @@ public class MacProxyManager extends ProxyManager {
                         proxyAuth = (String) jsonObject.get("Authenticated Proxy Enabled");
                         url = (String) jsonObject.get("URL");
                     }
-                }
-                System.out.println(command[0] + ":" + output);
-                LOGGER.info(byPassCommand[0] + ":" + output);
+                }                
             }
+            System.out.println(command[0] + ":" + output);
+            LOGGER.info(byPassCommand[0] + ":" + output);
         }
 
         Map<String, String> response = runCommandLine(byPassCommand, null, null, 3000);
-
+        String output = "";
         if (response.get("result").equals("true")) {
-            String output = response.get("output");
+            output = response.get("output");
             if (!output.trim().isEmpty()) {
                 byPass = true;
             }
-            System.out.println(byPassCommand[0] + ":" + output);
-            LOGGER.info(byPassCommand[0] + ":" + output);
         }
+        
+        System.out.println(byPassCommand[0] + ":" + output);
+        LOGGER.info(byPassCommand[0] + ":" + output);
 
         settings = new ProxySettings(proxyServer, Integer.valueOf(proxyPort), ProxySettings.ProxyType.valueOf(type),
                 url, byPass, "", "");
@@ -379,10 +387,10 @@ public class MacProxyManager extends ProxyManager {
         
         if (response.get("result").equals("true")) {
             output = response.get("output");
-            
-            System.out.println(command[0] + ":" + output);
-            LOGGER.info(command[0] + ":" + output);
         }
+        
+        System.out.println(command[0] + ":" + output);
+            LOGGER.info(command[0] + ":" + output);
         
         return output.split("\n");
     }
