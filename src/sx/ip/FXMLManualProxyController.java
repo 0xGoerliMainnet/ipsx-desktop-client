@@ -140,7 +140,7 @@ public class FXMLManualProxyController implements Initializable {
     @FXML
     private JFXProgressBar progressBar;
     
-    /** The progress bar instance.  */
+    /** The restart setting message instance.  */
     @FXML
     private Label restartSettingsMsg;
 
@@ -323,7 +323,6 @@ public class FXMLManualProxyController implements Initializable {
             btnActivate.setStyle("-fx-background-color: #2aace0;");
         }
         
-        restartSettingsMsg.setVisible(activate);
         agreePane.setDisable(activate);
         if (proxyPane.isVisible()) {
             comboProtocol.setDisable(activate);
@@ -443,7 +442,8 @@ public class FXMLManualProxyController implements Initializable {
                     Logger.getLogger(FXMLManualProxyController.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 progressBar.setVisible(false);
-                btnActivate.setDisable(false);
+                btnActivate.setDisable(false);                  
+                restartSettingsMsg.setVisible(!restartSettingsMsg.isVisible());    
             }
         };
 
