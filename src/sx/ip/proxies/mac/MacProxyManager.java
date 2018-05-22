@@ -128,54 +128,54 @@ public class MacProxyManager extends ProxyManager {
         
         if (settings.getProxyHost() != null && settings.getProxyHost().length() > 0) {
             
-            for(String service : networkServices){
+            for(int i = 1; i < networkServices.length; i++){
                 switch (settings.getType()) {
                     case HTTP:
                         if ((settings.getAuthUser() != null) && (settings.getAuthUser().isEmpty())) {
-                            commandList.add(new String[]{"-setwebproxy", "\""+service+"\"", settings.getProxyHost(), String.valueOf(settings.getProxyPort()), "on", settings.getAuthUser(), settings.getAuthPass()});
+                            commandList.add(new String[]{"-setwebproxy", "\""+networkServices[i]+"\"", settings.getProxyHost(), String.valueOf(settings.getProxyPort()), "on", settings.getAuthUser(), settings.getAuthPass()});
                         } else {
-                            commandList.add(new String[]{"-setwebproxy", "\""+service+"\"", settings.getProxyHost(), String.valueOf(settings.getProxyPort())});
+                            commandList.add(new String[]{"-setwebproxy", "\""+networkServices[i]+"\"", settings.getProxyHost(), String.valueOf(settings.getProxyPort())});
                         }
                         break;
                     case HTTPS:
                         if ((settings.getAuthUser() != null) && (settings.getAuthUser().isEmpty())) {
-                            commandList.add(new String[]{"-setsecurewebproxy", "\""+service+"\"", settings.getProxyHost(), String.valueOf(settings.getProxyPort()), "on", settings.getAuthUser(), settings.getAuthPass()});
+                            commandList.add(new String[]{"-setsecurewebproxy", "\""+networkServices[i]+"\"", settings.getProxyHost(), String.valueOf(settings.getProxyPort()), "on", settings.getAuthUser(), settings.getAuthPass()});
                         } else {
-                            commandList.add(new String[]{"-setsecurewebproxy", "\""+service+"\"", settings.getProxyHost(), String.valueOf(settings.getProxyPort())});
+                            commandList.add(new String[]{"-setsecurewebproxy", "\""+networkServices[i]+"\"", settings.getProxyHost(), String.valueOf(settings.getProxyPort())});
                         }
                         break;
                     case SOCKS:
                         if ((settings.getAuthUser() != null) && (settings.getAuthUser().isEmpty())) {
-                            commandList.add(new String[]{"-setsocksfirewallproxy", "\""+service+"\"", settings.getProxyHost(), String.valueOf(settings.getProxyPort())});
+                            commandList.add(new String[]{"-setsocksfirewallproxy", "\""+networkServices[i]+"\"", settings.getProxyHost(), String.valueOf(settings.getProxyPort())});
                         } else {
-                            commandList.add(new String[]{"-setsocksfirewallproxy", "\""+service+"\"", settings.getProxyHost(), String.valueOf(settings.getProxyPort())});
+                            commandList.add(new String[]{"-setsocksfirewallproxy", "\""+networkServices[i]+"\"", settings.getProxyHost(), String.valueOf(settings.getProxyPort())});
                         }
                         break;
                     case FTP:
                         if ((settings.getAuthUser() != null) && (settings.getAuthUser().isEmpty())) {
-                            commandList.add(new String[]{"-setftpproxy", "\""+service+"\"", settings.getProxyHost(), String.valueOf(settings.getProxyPort())});
+                            commandList.add(new String[]{"-setftpproxy", "\""+networkServices[i]+"\"", settings.getProxyHost(), String.valueOf(settings.getProxyPort())});
                         } else {
-                            commandList.add(new String[]{"-setftpproxy", "\""+service+"\"", settings.getProxyHost(), String.valueOf(settings.getProxyPort())});
+                            commandList.add(new String[]{"-setftpproxy", "\""+networkServices[i]+"\"", settings.getProxyHost(), String.valueOf(settings.getProxyPort())});
                         }
                         break;
                     case HTTP_AND_HTTPS:
                         if ((settings.getAuthUser() != null) && (settings.getAuthUser().isEmpty())) {
-                            commandList.add(new String[]{"-setwebproxy", "\""+service+"\"", settings.getProxyHost(), String.valueOf(settings.getProxyPort()), "on", settings.getAuthUser(), settings.getAuthPass()});
-                            commandList.add(new String[]{"-setsecurewebproxy", "\""+service+"\"", settings.getProxyHost(), String.valueOf(settings.getProxyPort()), "on", settings.getAuthUser(), settings.getAuthPass()});
+                            commandList.add(new String[]{"-setwebproxy", "\""+networkServices[i]+"\"", settings.getProxyHost(), String.valueOf(settings.getProxyPort()), "on", settings.getAuthUser(), settings.getAuthPass()});
+                            commandList.add(new String[]{"-setsecurewebproxy", "\""+networkServices[i]+"\"", settings.getProxyHost(), String.valueOf(settings.getProxyPort()), "on", settings.getAuthUser(), settings.getAuthPass()});
                         } else {
-                            commandList.add(new String[]{"-setwebproxy", "\""+service+"\"", settings.getProxyHost(), String.valueOf(settings.getProxyPort())});
-                            commandList.add(new String[]{"-setsecurewebproxy", "\""+service+"\"", settings.getProxyHost(), String.valueOf(settings.getProxyPort())});
+                            commandList.add(new String[]{"-setwebproxy", "\""+networkServices[i]+"\"", settings.getProxyHost(), String.valueOf(settings.getProxyPort())});
+                            commandList.add(new String[]{"-setsecurewebproxy", "\""+networkServices[i]+"\"", settings.getProxyHost(), String.valueOf(settings.getProxyPort())});
                         }
 
                         break;
                 }
                 if (settings.getBypassOnLocal()) {
-                    commandList.add(new String[]{"-setproxybypassdomains", "\""+service+"\""});
+                    commandList.add(new String[]{"-setproxybypassdomains", "\""+networkServices[i]+"\""});
                 }
             }
         } else if ((settings.getAcsUrl() != null) && (settings.getAcsUrl().isEmpty())) {
-            for(String service : networkServices){
-                commandList.add(new String[]{"-setautoproxyurl", "\""+service+"\"", settings.getAcsUrl()});            
+            for(int i = 1; i < networkServices.length; i++){
+                commandList.add(new String[]{"-setautoproxyurl", "\""+networkServices[i]+"\"", settings.getAcsUrl()});            
             }
 
         } else {
@@ -207,12 +207,12 @@ public class MacProxyManager extends ProxyManager {
         List<String[]> commandList = new ArrayList<>();
         Map<String, String> response = new HashMap<>();        
         String[] networkServices = getNetworkServices();
-        for(String service : networkServices){
-            commandList.add(new String[]{"-setftpproxystate", "\""+service+"\"", "off"});
-            commandList.add(new String[]{"-setwebproxystate", "\""+service+"\"", "off"});
-            commandList.add(new String[]{"-setsecurewebproxystate", "\""+service+"\"", "off"});
-            commandList.add(new String[]{"-setsocksfirewallproxystate", "\""+service+"\"", "off"});
-            commandList.add(new String[]{"-setautoproxyurl", "\""+service+"\"", ""});        
+        for(int i = 1; i < networkServices.length; i++){
+            commandList.add(new String[]{"-setftpproxystate", "\""+networkServices[i]+"\"", "off"});
+            commandList.add(new String[]{"-setwebproxystate", "\""+networkServices[i]+"\"", "off"});
+            commandList.add(new String[]{"-setsecurewebproxystate", "\""+networkServices[i]+"\"", "off"});
+            commandList.add(new String[]{"-setsocksfirewallproxystate", "\""+networkServices[i]+"\"", "off"});
+            commandList.add(new String[]{"-setautoproxyurl", "\""+networkServices[i]+"\"", ""});        
         }
 
         for (String[] command : commandList) {
