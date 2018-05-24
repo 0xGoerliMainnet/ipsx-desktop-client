@@ -1,4 +1,15 @@
+![IPSX Desktop Client Screenshots](https://github.com/ip-exchange/ipsx-desktop-client/raw/master/extra/screenshots/ipsx-logo-230x45.png)
 # IPSX Desktop Client
+
+IPSX is a decentralized exchange for sharing IPs and a framework for building applications, on top of the existing IPs shared by the community members and data centers.
+
+A smart contract based, blockchain protocols and utility token incentivized mechanism of sharing IPs among actors from all over the world and a framework to build applications that require IPs built in a reliable and open source environment.
+
+The IPSX Desktop client will allow our users to easily set up new IPs and protect his internet connection using the IPSX framework.
+
+## Screenshots
+
+![IPSX Desktop Client Screenshots](https://github.com/ip-exchange/ipsx-desktop-client/raw/master/extra/screenshots/screnshots-ipsx-desktop-client-readme.jpg)
 
 ## Development Tools
  * [Java SE Development Kit 8u162](http://www.oracle.com/technetwork/java/javase/downloads/index.html)

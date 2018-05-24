@@ -15,4 +15,5 @@ nbdist/
 /bin/
 
 # Log
-logs/stderr.log
+logs/*
+!logs/.gitkeep

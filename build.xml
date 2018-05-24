@@ -5,8 +5,10 @@
     <!-- Copy java JRE and windows launcher -->
     <target name="-post-compile">        
         <copy file="extra\installer\launcher\ipsx-desktop-client.ico" todir="${dist.dir}" overwrite="true" />   
-        <copy file="extra\installer\launcher\ipsx-desktop-client.exe" todir="${dist.dir}" overwrite="true" />      
-        <unzip src="extra\jre\jre-1.8.zip" dest="${dist.dir}"/>        
+        <copy file="extra\installer\launcher\ipsx-desktop-client.exe" todir="${dist.dir}" overwrite="true" />  
+        <copy file="log4j.properties" todir="${dist.dir}" overwrite="true" />
+        <copy file="logs\.gitkeep" todir="${dist.dir}\logs\" overwrite="true"/>
+        <unzip src="extra\jre\jre-1.8.zip" dest="${dist.dir}"/>   
     </target>
     
     <!-- Delete unused JavaFX web app -->
