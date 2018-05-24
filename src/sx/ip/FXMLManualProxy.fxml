@@ -135,10 +135,7 @@ limitations under the License.
          </cursor>
       </JFXButton>
       <JFXProgressBar fx:id="progressBar" layoutX="90.0" layoutY="389.0" progress="0.0" visible="false" />
-      <Hyperlink alignment="BOTTOM_RIGHT" contentDisplay="RIGHT" layoutX="219.0" layoutY="423.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#removeAllSettings" text="Remove all settings" textAlignment="RIGHT" textFill="#2aace0" underline="true" wrapText="true">
-         <font>
-            <Font size="15.0" />
-         </font></Hyperlink>
+      <Hyperlink alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="120.0" layoutY="413.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#removeAllSettings" prefHeight="23.0" prefWidth="239.0" text="Remove all settings" textAlignment="RIGHT" textFill="#2aace0" underline="true" wrapText="true" />
       <Label fx:id="restartSettingsMsg" layoutX="81.0" layoutY="392.0" text="Restart your browser to reload settings" textFill="#707070" visible="false">
          <font>
             <Font size="11.0" />
