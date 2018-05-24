@@ -111,7 +111,7 @@ limitations under the License.
                   <Cursor fx:constant="HAND" />
                </cursor>
                <graphic>
-                  <Hyperlink fx:id="btnTerms" accessibleText="https://www.google.com" contentDisplay="TOP" onAction="#openBrowser" prefHeight="23.0" prefWidth="145.0" text="terms and conditions" textFill="#2aace0" underline="true" />
+                  <Hyperlink fx:id="btnTerms" accessibleText="https://www.google.com" contentDisplay="TOP" onAction="#openBrowser" prefHeight="23.0" prefWidth="125.0" text="terms and conditions" textFill="#2aace0" underline="true" />
                </graphic>
             </JFXCheckBox>
             <JFXCheckBox fx:id="proxyAuthentication" checkedColor="#2aace0" layoutX="64.0" layoutY="4.0" text="Proxy Authentication" textFill="#707070" unCheckedColor="#ced4da" visible="false">
