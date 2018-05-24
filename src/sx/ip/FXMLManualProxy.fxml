@@ -94,7 +94,7 @@ limitations under the License.
                   <Cursor fx:constant="HAND" />
                </cursor>
             </JFXCheckBox>
-            <JFXCheckBox fx:id="agreeCheckBox" checkedColor="#2aace0" contentDisplay="RIGHT" graphicTextGap="0.0" layoutX="64.0" layoutY="54.0" selected="true" text="I agree with the" textFill="#707070" unCheckedColor="#ced4da">
+            <JFXCheckBox fx:id="agreeCheckBox" checkedColor="#2aace0" contentDisplay="RIGHT" graphicTextGap="0.0" layoutX="74.0" layoutY="54.0" selected="true" text="I agree with the" textFill="#707070" unCheckedColor="#ced4da">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
@@ -107,7 +107,7 @@ limitations under the License.
                   <Cursor fx:constant="HAND" />
                </cursor>
             </JFXCheckBox>
-            <JFXCheckBox fx:id="advancedSettings" checkedColor="#2aace0" focusTraversable="false" layoutX="64.0" layoutY="30.0" onAction="#handleAdvancedSettings" text="Advanced Settings" textFill="#707070" unCheckedColor="#ced4da">
+            <JFXCheckBox fx:id="advancedSettings" checkedColor="#2aace0" focusTraversable="false" layoutX="74.0" layoutY="30.0" onAction="#handleAdvancedSettings" text="Advanced Settings" textFill="#707070" unCheckedColor="#ced4da">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
@@ -123,7 +123,7 @@ limitations under the License.
          </cursor>
       </JFXButton>
       <JFXProgressBar fx:id="progressBar" layoutX="90.0" layoutY="389.0" progress="0.0" visible="false" />
-      <Hyperlink layoutX="231.0" layoutY="420.0" onAction="#removeAllSettings" text="Remove all settings" textFill="#2aace0" underline="true" wrapText="true" />
+      <Hyperlink layoutX="230.0" layoutY="420.0" onAction="#removeAllSettings" text="Remove all settings" textFill="#2aace0" underline="true" wrapText="true" />
       <Label fx:id="restartSettingsMsg" layoutX="81.0" layoutY="392.0" text="Restart your browser to reload settings" textFill="#707070" visible="false">
          <font>
             <Font size="11.0" />
