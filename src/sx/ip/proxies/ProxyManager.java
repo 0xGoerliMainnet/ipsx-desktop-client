@@ -52,7 +52,15 @@ public abstract class ProxyManager {
      * user.
      */
     public abstract ProxySettings getProxySettings() throws ProxySetupException;
-
+    
+    /**
+     * Return the ProxyManager for the current user OS
+     * 
+     * @throws UnsupportedOperationException If something goes really bad.
+     * 
+     * @return The ProxyManager for the current OS
+     * user.
+     */
     public static ProxyManager getInstance() throws UnsupportedOperationException {
 
         if (instance == null) {
