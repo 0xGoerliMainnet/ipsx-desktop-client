@@ -106,12 +106,12 @@ limitations under the License.
                   <Cursor fx:constant="HAND" />
                </cursor>
             </JFXCheckBox>
-            <JFXCheckBox fx:id="agreeCheckBox" checkedColor="#2aace0" contentDisplay="RIGHT" graphicTextGap="0.0" layoutX="71.0" layoutY="30.0" prefHeight="23.0" prefWidth="258.0" selected="true" text="I agree with the" textFill="#707070" unCheckedColor="#ced4da">
+            <JFXCheckBox fx:id="agreeCheckBox" checkedColor="#2aace0" contentDisplay="RIGHT" graphicTextGap="0.0" layoutX="71.0" layoutY="30.0" prefHeight="23.0" prefWidth="275.0" selected="true" text="I agree with the" textFill="#707070" unCheckedColor="#ced4da">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
                <graphic>
-                  <Hyperlink fx:id="btnTerms" accessibleText="https://www.google.com" contentDisplay="TOP" onAction="#openBrowser" prefHeight="23.0" prefWidth="143.0" text="terms and conditions" textFill="#2aace0" underline="true" />
+                  <Hyperlink fx:id="btnTerms" accessibleText="https://www.google.com" contentDisplay="TOP" onAction="#openBrowser" prefHeight="23.0" prefWidth="131.0" text="terms and conditions" textFill="#2aace0" underline="true" />
                </graphic>
             </JFXCheckBox>
             <JFXCheckBox fx:id="proxyAuthentication" checkedColor="#2aace0" layoutX="64.0" layoutY="4.0" text="Proxy Authentication" textFill="#707070" unCheckedColor="#ced4da" visible="false">
@@ -119,7 +119,7 @@ limitations under the License.
                   <Cursor fx:constant="HAND" />
                </cursor>
             </JFXCheckBox>
-            <JFXCheckBox fx:id="advancedSettings" checkedColor="#2aace0" focusTraversable="false" layoutX="70.0" onAction="#handleAdvancedSettings" prefHeight="18.0" prefWidth="231.0" text="Advanced Settings" textFill="#707070" unCheckedColor="#ced4da">
+            <JFXCheckBox fx:id="advancedSettings" checkedColor="#2aace0" focusTraversable="false" layoutX="70.0" onAction="#handleAdvancedSettings" prefHeight="18.0" prefWidth="239.0" text="Advanced Settings" textFill="#707070" unCheckedColor="#ced4da">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
