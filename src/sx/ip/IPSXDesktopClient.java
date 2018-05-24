@@ -109,7 +109,7 @@ public class IPSXDesktopClient extends Application {
             LOGGER.warn("Problems to set the look and feel", ex);
         }
 
-        // Imrpove toolkit
+        // Improve toolkit
         if (OS.isMacOsX() && OS.javaVersion <= 7) {
             System.setProperty("javafx.macosx.embedded", "true");
             java.awt.Toolkit.getDefaultToolkit();
