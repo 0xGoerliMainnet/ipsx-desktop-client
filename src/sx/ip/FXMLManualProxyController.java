@@ -98,23 +98,31 @@ public class FXMLManualProxyController implements Initializable {
     
     /** The proxy pane instance.  */
     @FXML
-    private AnchorPane proxyPane;
+    private AnchorPane advancedPane;
     
     /** The proxy url pane instance.  */
     @FXML
-    private AnchorPane proxyUrlPane;
+    private AnchorPane pacPane;
     
     /** The host text field instance.  */
     @FXML
     private JFXTextField proxyIp;
     
-     /** The proxy url text field instance.  */
+    /** The proxy url text field instance.  */
     @FXML
     private JFXTextField proxyUrl;
     
-     /** The port text field instance.  */
+    /** The port text field instance.  */
     @FXML
     private JFXTextField proxyPort;
+    
+    /** The user text field instance.  */
+    @FXML
+    private JFXTextField proxyUser;
+    
+    /** The password text field instance.  */
+    @FXML
+    private JFXTextField proxyPass;
     
     /** The terms button instance.  */
     @FXML
@@ -123,10 +131,6 @@ public class FXMLManualProxyController implements Initializable {
     /** The bypass checkbox instance.  */
     @FXML
     private JFXCheckBox bypassCB;
-    
-    /** The authetication checkbox instance.  */
-    @FXML
-    private JFXCheckBox proxyAuthentication;
     
     /** The agree terms checkbox instance.  */
     @FXML
@@ -258,8 +262,8 @@ public class FXMLManualProxyController implements Initializable {
      */
     @FXML
     private void handleAdvancedSettings(ActionEvent event) {
-        proxyPane.setVisible(!proxyPane.isVisible());
-        proxyUrlPane.setVisible(!proxyUrlPane.isVisible());
+        advancedPane.setVisible(!advancedPane.isVisible());
+        pacPane.setVisible(!pacPane.isVisible());
     }
 
     /**
@@ -270,9 +274,9 @@ public class FXMLManualProxyController implements Initializable {
      */
     @FXML
     private void handleActivateAction(ActionEvent event) {
-        String host = proxyPane.isVisible() ? proxyIp.getText().trim() : proxyUrl.getText().trim();
+        String host = advancedPane.isVisible() ? proxyIp.getText().trim() : proxyUrl.getText().trim();
         if (agreeCheckBox.isSelected()) {
-            if (proxyPane.isVisible()) {
+            if (advancedPane.isVisible()) {
                 advancedProxyServer(host);
             } else {
                 defaultProxyServer(host);
@@ -324,12 +328,12 @@ public class FXMLManualProxyController implements Initializable {
         }
         
         agreePane.setDisable(activate);
-        if (proxyPane.isVisible()) {
+        if (advancedPane.isVisible()) {
             comboProtocol.setDisable(activate);
             proxyIp.setDisable(activate);
             proxyPort.setDisable(activate);
         } else {
-            proxyUrlPane.setDisable(activate);
+            pacPane.setDisable(activate);
         }
         
     }       
@@ -343,8 +347,8 @@ public class FXMLManualProxyController implements Initializable {
     private void advancedProxyServer(String host) {        
         String type = (comboProtocol.getValue() != null) ? comboProtocol.getValue().getValue() : null;
         Integer port;
-        String proxyAuthe = null;
-        String proxyPass = null;
+        String autheUser = advancedPane.isVisible() ? proxyUser.getText().trim() : null;
+        String authPass = advancedPane.isVisible() ? proxyPass.getText().trim() : null;
         if ((host != null && host.length() > 0)) {
             if (proxyPort.getText() != null && proxyPort.getText().trim().length() > 0) {
                 port = Integer.valueOf(proxyPort.getText());
@@ -352,16 +356,7 @@ public class FXMLManualProxyController implements Initializable {
                 if (type != null && port != null) {
 
                     if (!isActivated) {
-                        if (proxyAuthentication.isSelected()) {
-                            Dialog dialog = ProxyUtils.createAuthenticationDialog(bundle.getString("key.main.dialog.authentication.title"), bundle.getString("key.main.dialog.authentication.message"));
-                            Optional<Pair<String, String>> result = dialog.showAndWait();
-                            if (result.isPresent()) {
-                                proxyAuthe = result.get().getKey();
-                                proxyPass = result.get().getValue();
-                            }
-                        }
-
-                        settings = new ProxySettings(host, port, ProxySettings.ProxyType.valueOf(type), null, bypassCB.isSelected(), proxyAuthe, proxyPass);
+                        settings = new ProxySettings(host, port, ProxySettings.ProxyType.valueOf(type), null, bypassCB.isSelected(), autheUser, authPass);
                         isActivated = true;                        
                     } else {
                         settings = ProxySettings.getDirectConnectionSetting();
@@ -389,21 +384,12 @@ public class FXMLManualProxyController implements Initializable {
      *          The proxy Automatic Configuration Script
      */
     private void defaultProxyServer(String acs) {        
-        String proxyAuthe = null;
-        String proxyPass = null;
+        String autheUser = advancedPane.isVisible() ? proxyUser.getText().trim() : null;
+        String authPass = advancedPane.isVisible() ? proxyPass.getText().trim() : null;
         if ((acs != null && acs.length() > 0)) {
 
             if (!isActivated) {
-                if (proxyAuthentication.isSelected()) {
-                    Dialog dialog = ProxyUtils.createAuthenticationDialog(bundle.getString("key.main.dialog.authentication.title"), bundle.getString("key.main.dialog.authentication.message"));
-                    Optional<Pair<String, String>> result = dialog.showAndWait();
-                    if (result.isPresent()) {
-                        proxyAuthe = result.get().getKey();
-                        proxyPass = result.get().getValue();
-                    }
-                }
-
-                settings = new ProxySettings("", null, null, acs, false, proxyAuthe, proxyPass);
+                settings = new ProxySettings("", null, null, acs, false, autheUser, authPass);
                 isActivated = true;
                 
             } else {

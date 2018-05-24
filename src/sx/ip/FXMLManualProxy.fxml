@@ -50,7 +50,7 @@ limitations under the License.
             <MaterialIconView fill="#707070" glyphName="CLOSE" size="16.0" textAlignment="CENTER" />
          </graphic>
       </JFXButton>
-      <AnchorPane fx:id="proxyUrlPane" layoutX="-2.0" layoutY="130.0" prefHeight="143.0" prefWidth="375.0">
+      <AnchorPane fx:id="pacPane" layoutX="-2.0" layoutY="130.0" prefHeight="143.0" prefWidth="375.0">
          <children>
             <Label layoutX="74.0" layoutY="35.0" text="PAC URL" textFill="#707070">
                <font>
@@ -60,41 +60,53 @@ limitations under the License.
             <JFXTextField fx:id="proxyUrl" focusColor="#80bdff" labelFloat="true" layoutX="74.0" layoutY="50.0" prefHeight="26.0" prefWidth="230.0" style="-fx-background-color: rgba(255,255,255,0.8);" unFocusColor="#ced4da" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="proxyPane" layoutY="130.0" minHeight="-Infinity" prefHeight="121.0" prefWidth="375.0" visible="false">
+      <AnchorPane fx:id="advancedPane" layoutY="110.0" minHeight="-Infinity" prefHeight="162.0" prefWidth="375.0" visible="false">
          <children>
-            <Label layoutX="74.0" layoutY="15.0" text="PROTOCOL" textFill="#707070">
+            <Label layoutX="74.0" text="PROTOCOL" textFill="#707070">
                <font>
                   <Font size="11.0" />
                </font>
             </Label>
-            <JFXComboBox fx:id="comboProtocol" focusColor="#80bdff" layoutX="74.0" layoutY="31.0" prefHeight="25.0" prefWidth="230.0" style="-fx-background-color: rgba(255,255,255,0.8);" unFocusColor="#ced4da" />
-            <Label layoutX="74.0" layoutY="68.0" text="PROXY IP" textFill="#707070">
+            <JFXComboBox fx:id="comboProtocol" focusColor="#80bdff" layoutX="74.0" layoutY="15.0" prefHeight="26.0" prefWidth="230.0" style="-fx-background-color: rgba(255,255,255,0.8);" unFocusColor="#ced4da" />
+            <Label layoutX="74.0" layoutY="53.0" text="PROXY IP" textFill="#707070">
                <font>
                   <Font size="11.0" />
                </font>
             </Label>
-            <JFXTextField fx:id="proxyIp" focusColor="#80bdff" labelFloat="true" layoutX="74.0" layoutY="83.0" prefHeight="25.0" prefWidth="150.0" style="-fx-background-color: rgba(255,255,255,0.8);" unFocusColor="#ced4da" />
-            <Label layoutX="233.0" layoutY="83.0" text=":" textFill="#707070">
+            <JFXTextField fx:id="proxyIp" focusColor="#80bdff" labelFloat="true" layoutX="74.0" layoutY="68.0" prefHeight="25.0" prefWidth="150.0" style="-fx-background-color: rgba(255,255,255,0.8);" unFocusColor="#ced4da" />
+            <Label layoutX="233.0" layoutY="68.0" text=":" textFill="#707070">
                <font>
                   <Font size="16.0" />
                </font>
             </Label>
-            <Label layoutX="250.0" layoutY="68.0" text="PORT" textFill="#707070">
+            <Label layoutX="250.0" layoutY="53.0" text="PORT" textFill="#707070">
                <font>
                   <Font size="11.0" />
                </font>
             </Label>
-            <JFXTextField fx:id="proxyPort" focusColor="#80bdff" labelFloat="true" layoutX="250.0" layoutY="83.0" prefHeight="26.0" prefWidth="56.0" style="-fx-background-color: rgba(255,255,255,0.8);" unFocusColor="#ced4da" />
+            <JFXTextField fx:id="proxyPort" focusColor="#80bdff" labelFloat="true" layoutX="250.0" layoutY="68.0" prefHeight="26.0" prefWidth="54.0" style="-fx-background-color: rgba(255,255,255,0.8);" unFocusColor="#ced4da" />
+            <Label layoutX="74.0" layoutY="105.0" text="USER" textFill="#707070">
+               <font>
+                  <Font size="11.0" />
+               </font>
+            </Label>
+            <JFXTextField fx:id="proxyUser" focusColor="#80bdff" labelFloat="true" layoutX="74.0" layoutY="119.0" prefHeight="26.0" prefWidth="115.0" style="-fx-background-color: rgba(255,255,255,0.8);" unFocusColor="#ced4da" />
+            <Label layoutX="199.0" layoutY="105.0" text="PASSWORD" textFill="#707070">
+               <font>
+                  <Font size="11.0" />
+               </font>
+            </Label>
+            <JFXTextField fx:id="proxyPass" focusColor="#80bdff" labelFloat="true" layoutX="199.0" layoutY="119.0" prefHeight="26.0" prefWidth="105.0" style="-fx-background-color: rgba(255,255,255,0.8);" unFocusColor="#ced4da" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="agreePane" layoutX="2.0" layoutY="245.0" prefHeight="92.0" prefWidth="375.0">
+      <AnchorPane fx:id="agreePane" layoutX="2.0" layoutY="278.0" prefHeight="59.0" prefWidth="375.0">
          <children>
             <JFXCheckBox fx:id="bypassCB" checkedColor="#2aace0" disable="true" layoutX="64.0" layoutY="30.0" text="Bypass proxy server for local addresses" textFill="#707070" unCheckedColor="#ced4da" visible="false">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </JFXCheckBox>
-            <JFXCheckBox fx:id="agreeCheckBox" checkedColor="#2aace0" contentDisplay="RIGHT" graphicTextGap="0.0" layoutX="74.0" layoutY="54.0" selected="true" text="I agree with the" textFill="#707070" unCheckedColor="#ced4da">
+            <JFXCheckBox fx:id="agreeCheckBox" checkedColor="#2aace0" contentDisplay="RIGHT" graphicTextGap="0.0" layoutX="74.0" layoutY="30.0" selected="true" text="I agree with the" textFill="#707070" unCheckedColor="#ced4da">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
@@ -107,7 +119,7 @@ limitations under the License.
                   <Cursor fx:constant="HAND" />
                </cursor>
             </JFXCheckBox>
-            <JFXCheckBox fx:id="advancedSettings" checkedColor="#2aace0" focusTraversable="false" layoutX="74.0" layoutY="30.0" onAction="#handleAdvancedSettings" text="Advanced Settings" textFill="#707070" unCheckedColor="#ced4da">
+            <JFXCheckBox fx:id="advancedSettings" checkedColor="#2aace0" focusTraversable="false" layoutX="74.0" onAction="#handleAdvancedSettings" text="Advanced Settings" textFill="#707070" unCheckedColor="#ced4da">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
