@@ -17,6 +17,7 @@ import dorkbox.systemTray.Menu;
 import dorkbox.systemTray.MenuItem;
 import dorkbox.systemTray.SystemTray;
 import dorkbox.util.JavaFX;
+import dorkbox.util.OS;
 
 import java.awt.event.ActionListener;
 import java.util.ResourceBundle;
@@ -79,25 +80,30 @@ public class SystemTrayController {
                 throw new RuntimeException("Unable to load SystemTray!");
             }
 
-            String systrayImageFile = "imgs/systray/icon64.png";
+            // IconFolder
+            String iconfolder = "default";
+            if (OS.isMacOsX()) {
+                iconfolder = "macos";
+            }
 
             // We support the sizes: 16, 22, 24, 32 and 64
+            String systrayImageFile = "imgs/systray/" + iconfolder + "/icon64.png";
             if (systemTray.getTrayImageSize() <= 16) {
-                systrayImageFile = "imgs/systray/icon16.png";
+                systrayImageFile = "imgs/systray/" + iconfolder + "/icon16.png";
             } else {
                 if (systemTray.getTrayImageSize() <= 18) {
-                    systrayImageFile = "imgs/systray/icon18.png";
+                    systrayImageFile = "imgs/systray/" + iconfolder + "/icon18.png";
                 } else {
                     if (systemTray.getTrayImageSize() <= 22) {
-                        systrayImageFile = "imgs/systray/icon22.png";
+                        systrayImageFile = "imgs/systray/" + iconfolder + "/icon22.png";
                     } else {
                         if (systemTray.getTrayImageSize() <= 24) {
-                            systrayImageFile = "imgs/systray/icon24.png";
+                            systrayImageFile = "imgs/systray/" + iconfolder + "/icon24.png";
                         } else {
                             if (systemTray.getTrayImageSize() <= 32) {
-                                systrayImageFile = "imgs/systray/icon32.png";
+                                systrayImageFile = "imgs/systray/" + iconfolder + "/icon32.png";
                             } else {
-                                systrayImageFile = "imgs/systray/icon64.png";
+                                systrayImageFile = "imgs/systray/" + iconfolder + "/icon64.png";
                             }
                         }
                     }
