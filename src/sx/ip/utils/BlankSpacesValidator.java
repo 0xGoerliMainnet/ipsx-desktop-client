@@ -17,8 +17,7 @@ import com.jfoenix.validation.base.ValidatorBase;
 import javafx.scene.control.TextInputControl;
 
 /**
- *
- * @author Hygor
+ * Blank spaces validator.
  */
 public class BlankSpacesValidator extends ValidatorBase {
 
@@ -32,6 +31,9 @@ public class BlankSpacesValidator extends ValidatorBase {
         }
     }
 
+    /**
+     * Validate if the text is empty.
+     */
     private void evalTextInputField() {
         TextInputControl textField = (TextInputControl) srcControl.get();
         String text = textField.getText();

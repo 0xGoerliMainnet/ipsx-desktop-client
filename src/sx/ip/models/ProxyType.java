@@ -14,35 +14,63 @@
 package sx.ip.models;
 
 /**
- *
- * @author Hygor
+ * Class that will storage all Proxy types for the system.
  */
 public class ProxyType {
     private String description;
     private String value;
 
+    /**
+     * @return the description
+     */
     @Override
     public String toString() {
         return description;
     }
 
+    /**
+    * Create a <code>ProxyType</code> that will hold the proxy type name and description.
+    *
+    * @param description
+    *            The proxy type display name
+    * @param value
+    *            The proxy type value
+    */
     public ProxyType(String description, String value) {
         this.description = description;
         this.value = value;
     }
 
+    /**
+     * @return the description
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * Set the displayed name
+     * 
+     * @param name
+     *          The displayed name
+     */
     public void setDescription(String name) {
         this.description = name;
     }
 
+    /**
+     * @return the value
+     */
     public String getValue() {
         return value;
     }
 
+    /**
+     * Set the value
+     * 
+     * @param value
+     *          The value 
+     */
     public void setValue(String value) {
         this.value = value;
     }

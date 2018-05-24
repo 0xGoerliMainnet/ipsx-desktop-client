@@ -18,12 +18,19 @@ import javafx.application.HostServices;
 import javafx.util.Callback;
 
 /**
- * Factory to manage the host services in order, for example, to open an URL in the browser
+ * Factory to manage the host services in order, for example, to open an URL in the browser.
  */
 public class HostServicesControllerFactory implements Callback<Class<?>,Object> {
 
+    /** The host services. */
     private final HostServices hostServices ;
 
+    /**
+    * Create a <code>HostServices</code> that will hold the proxy type name and description.
+    *
+    * @param hostServices
+    *            The host services
+    */
     public HostServicesControllerFactory(HostServices hostServices) {
         this.hostServices = hostServices ;
     }

@@ -18,7 +18,7 @@ import javafx.scene.control.TextInputControl;
 
 /**
  *
- * @author Hygor
+ * Special char validator.
  */
 public class CharValidator extends ValidatorBase {
 
@@ -31,7 +31,10 @@ public class CharValidator extends ValidatorBase {
             evalTextInputField();
         }
     }
-
+    
+    /**
+     * Validate if the text has double quotes.
+     */
     private void evalTextInputField() {
         TextInputControl textField = (TextInputControl) srcControl.get();
         String text = textField.getText();
