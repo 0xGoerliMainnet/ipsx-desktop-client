@@ -8,8 +8,9 @@ A smart contract based, blockchain protocols and utility token incentivized mech
 The IPSX Desktop client will allow our users to easily set up new IPs and protect his internet connection using the IPSX framework.
 
 ## Screenshots
-
-![IPSX Desktop Client Screenshots](https://github.com/ip-exchange/ipsx-desktop-client/raw/master/extra/screenshots/screnshots-ipsx-desktop-client-readme.jpg)
+<p align="center">
+  <img alt="IPSX Desktop Client Screenshots" src="https://github.com/ip-exchange/ipsx-desktop-client/raw/master/extra/screenshots/screnshots-ipsx-desktop-client-readme.jpg">
+</p>
 
 ## Development Tools
  * [Java SE Development Kit 8u162](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
