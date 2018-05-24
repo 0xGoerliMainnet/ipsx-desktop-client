@@ -10,8 +10,8 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-
 import dorkbox.util.OS;
+import javax.swing.UIManager;
 import org.apache.log4j.PropertyConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,11 +23,19 @@ import sx.ip.utils.ProxyUtils;
  */
 public class IPSXDesktopClient extends Application {
 
+    /**
+     * Class logger
+     */
     static Logger LOGGER = LoggerFactory.getLogger(IPSXDesktopClient.class);
 
-    //define your offsets here
+    /**
+     * Define the window x offsets
+     */
     private double xOffset = 0;
 
+    /**
+     * Define the window y offsets
+     */
     private double yOffset = 0;
 
     /**
@@ -39,8 +47,8 @@ public class IPSXDesktopClient extends Application {
         // instructs the javafx system not to exit implicitly when the last application window is shut.
         Platform.setImplicitExit(false);
 
+        // Create Systray
         SystemTrayController systemTray = new SystemTrayController(stage, ProxyUtils.getBundle());
-
         systemTray.addAppToTray();
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLManualProxy.fxml"), ProxyUtils.getBundle());
@@ -63,7 +71,7 @@ public class IPSXDesktopClient extends Application {
 
         });
 
-        //move around here
+        // Makes the window be draggable
         root.setOnMouseDragged(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -73,6 +81,7 @@ public class IPSXDesktopClient extends Application {
 
         });
 
+        // Setup the scene
         Scene scene = new Scene(root);
         stage.setResizable(false);
         stage.initStyle(StageStyle.UNDECORATED);
@@ -84,13 +93,23 @@ public class IPSXDesktopClient extends Application {
     }
 
     /**
+     * The start point of the application.
      *
      * @param args the command line arguments
-     *
      */
     public static void main(String[] args) {
+
+        // Load the log4j properties file
         PropertyConfigurator.configure("log4j.properties");
 
+        try {
+            // Set the system look and feel
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception ex) {
+            LOGGER.warn("Problems to set the look and feel", ex);
+        }
+
+        // Imrpove toolkit
         if (OS.isMacOsX() && OS.javaVersion <= 7) {
             System.setProperty("javafx.macosx.embedded", "true");
             java.awt.Toolkit.getDefaultToolkit();
@@ -98,6 +117,7 @@ public class IPSXDesktopClient extends Application {
 
         LOGGER.info("Initializing IPSX service...");
 
+        // Start the APP
         launch(args);
     }
 

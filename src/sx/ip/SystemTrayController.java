@@ -118,7 +118,6 @@ public class SystemTrayController {
                             showStage();
                         }
                     });
-
                 }
             })).setShortcut('o'); // case does not matter
 
