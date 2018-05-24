@@ -102,6 +102,8 @@ public class IPSXDesktopClient extends Application {
         // Load the log4j properties file
         PropertyConfigurator.configure("log4j.properties");
 
+        System.setProperty("systemProp.apple.awt.UIElement", "true");
+        
         try {
             // Set the system look and feel
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
