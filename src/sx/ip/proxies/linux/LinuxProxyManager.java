@@ -144,7 +144,7 @@ public class LinuxProxyManager extends ProxyManager {
                     commandList.add(new String[]{"set", "org.gnome.system.proxy.https", "port", String.valueOf(settings.getProxyPort())});
                     break;
             }
-            if ((settings.getAuthUser() != null) && (settings.getAuthUser().isEmpty())) {
+            if ((settings.getAuthUser() != null) && (!settings.getAuthUser().isEmpty())) {
                 commandList.add(new String[]{"set", "org.gnome.system.proxy.http", "authentication-user", settings.getAuthUser()});
                 commandList.add(new String[]{"set", "org.gnome.system.proxy.http", "authentication-password", settings.getAuthPass()});
             }

@@ -81,6 +81,10 @@ Function Set-InternetProxy
         {
             Write-Output "Proxy Server : $proxy"
         }
+        if($authuser)
+        {
+            Write-Output "Proxy User : $authuser"
+        }
         if ($acs)
         {            
             Write-Output "Automatic Configuration Script : $acs"
