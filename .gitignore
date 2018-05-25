@@ -17,3 +17,6 @@ nbdist/
 # Log
 logs/*
 !logs/.gitkeep
+
+# Ignore some updated netbeans config backups
+nbproject/jfx-impl_*
