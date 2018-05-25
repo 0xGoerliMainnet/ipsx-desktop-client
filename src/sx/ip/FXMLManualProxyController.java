@@ -16,6 +16,7 @@ package sx.ip;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXProgressBar;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.validation.NumberValidator;
@@ -119,7 +120,7 @@ public class FXMLManualProxyController implements Initializable {
     
     /** The password text field instance.  */
     @FXML
-    private JFXTextField proxyPass;
+    private JFXPasswordField proxyPass;
     
     /** The terms button instance.  */
     @FXML
@@ -175,10 +176,8 @@ public class FXMLManualProxyController implements Initializable {
         numValidator.setMessage(bundle.getString("key.main.validator.proxyport"));
         
         BlankSpacesValidator validatorIP = new BlankSpacesValidator();
-        validatorIP.setMessage(bundle.getString("key.main.validator.proxyid"));
         
         BlankSpacesValidator validatorURL = new BlankSpacesValidator();
-        validatorURL.setMessage(bundle.getString("key.main.validator.pac"));
         
         CharValidator validatorCharIP = new CharValidator();
         validatorCharIP.setMessage(bundle.getString("key.main.validator.char"));
@@ -188,8 +187,8 @@ public class FXMLManualProxyController implements Initializable {
         
         ObservableList<ProxyType> data
                 = FXCollections.observableArrayList(
-                        new ProxyType("HTTP & HTTPS", "HTTP_AND_HTTPS"),
-                        new ProxyType("SOCKS", "SOCKS"));
+                        new ProxyType("SOCKS", "SOCKS"),
+                        new ProxyType("HTTP & HTTPS", "HTTP_AND_HTTPS"));
 
         comboProtocol.getItems().addAll(data);
         comboProtocol.getSelectionModel().select(0);
@@ -282,6 +281,7 @@ public class FXMLManualProxyController implements Initializable {
             ProxyUtils.createAndShowAlert(AlertType.INFORMATION, bundle.getString("key.main.alert.info.title"), null, bundle.getString("key.main.alert.info.message"));
             
         }
+        btnActivate.setFocusTraversable(true);
     }
 
     /**
@@ -329,11 +329,29 @@ public class FXMLManualProxyController implements Initializable {
             comboProtocol.setDisable(activate);
             proxyIp.setDisable(activate);
             proxyPort.setDisable(activate);
+            proxyPass.setDisable(activate);
+            proxyUser.setDisable(activate);
         } else {
             pacPane.setDisable(activate);
         }
         
-    }       
+        if(!activate){
+            resetPanes();
+        }
+        
+    }
+    
+    private void resetPanes(){
+        proxyIp.setText("");
+        proxyUrl.setText("");
+        proxyPass.setText("");
+        proxyUser.setText("");
+        comboProtocol.getSelectionModel().select(0);
+        advancedSettings.setSelected(false);
+        advancedPane.setVisible(false);
+        pacPane.setVisible(true);
+        
+    }
     
     /**
      * Method responsible for handle with the advanced proxy activation / deactivation.
@@ -426,9 +444,11 @@ public class FXMLManualProxyController implements Initializable {
                 } catch (InterruptedException ex) {
                     Logger.getLogger(FXMLManualProxyController.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                progressBar.setVisible(false);
-                btnActivate.setDisable(false);                  
-                restartSettingsMsg.setVisible(isActivated);    
+                progressBar.setVisible(false);                 
+                restartSettingsMsg.setVisible(isActivated);
+                if(isActivated){                    
+                    btnActivate.setDisable(false); 
+                }
             }
         };
 

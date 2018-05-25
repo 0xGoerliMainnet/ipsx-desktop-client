@@ -17,6 +17,7 @@ limitations under the License.
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXCheckBox?>
 <?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXProgressBar?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import de.jensd.fx.glyphs.materialicons.MaterialIconView?>
@@ -85,18 +86,18 @@ limitations under the License.
                </font>
             </Label>
             <JFXTextField fx:id="proxyPort" focusColor="#80bdff" labelFloat="true" layoutX="250.0" layoutY="68.0" prefHeight="26.0" prefWidth="54.0" style="-fx-background-color: rgba(255,255,255,0.8);" unFocusColor="#ced4da" />
-            <Label layoutX="74.0" layoutY="105.0" text="USER" textFill="#707070">
+            <Label layoutX="74.0" layoutY="114.0" text="USER" textFill="#707070">
                <font>
                   <Font size="11.0" />
                </font>
             </Label>
-            <JFXTextField fx:id="proxyUser" focusColor="#80bdff" labelFloat="true" layoutX="74.0" layoutY="119.0" prefHeight="26.0" prefWidth="115.0" style="-fx-background-color: rgba(255,255,255,0.8);" unFocusColor="#ced4da" />
-            <Label layoutX="199.0" layoutY="105.0" text="PASSWORD" textFill="#707070">
+            <JFXTextField fx:id="proxyUser" focusColor="#80bdff" labelFloat="true" layoutX="74.0" layoutY="128.0" prefHeight="26.0" prefWidth="115.0" style="-fx-background-color: rgba(255,255,255,0.8);" unFocusColor="#ced4da" />
+            <Label layoutX="199.0" layoutY="114.0" text="PASSWORD" textFill="#707070">
                <font>
                   <Font size="11.0" />
                </font>
             </Label>
-            <JFXTextField fx:id="proxyPass" focusColor="#80bdff" labelFloat="true" layoutX="199.0" layoutY="119.0" prefHeight="26.0" prefWidth="105.0" style="-fx-background-color: rgba(255,255,255,0.8);" unFocusColor="#ced4da" />
+            <JFXPasswordField fx:id="proxyPass" focusColor="#80bdff" layoutX="199.0" layoutY="128.0" prefHeight="26.0" prefWidth="105.0" unFocusColor="#ced4da" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="agreePane" layoutX="2.0" layoutY="278.0" prefHeight="59.0" prefWidth="375.0">
@@ -135,7 +136,7 @@ limitations under the License.
          </cursor>
       </JFXButton>
       <JFXProgressBar fx:id="progressBar" layoutX="90.0" layoutY="389.0" progress="0.0" visible="false" />
-      <Hyperlink alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="120.0" layoutY="413.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#removeAllSettings" prefHeight="23.0" prefWidth="239.0" text="Remove all settings" textAlignment="RIGHT" textFill="#2aace0" underline="true" wrapText="true" />
+      <Hyperlink alignment="CENTER_RIGHT" contentDisplay="RIGHT" focusTraversable="false" layoutX="120.0" layoutY="422.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#removeAllSettings" prefHeight="24.0" prefWidth="239.0" text="Remove all settings" textAlignment="RIGHT" textFill="#2aace0" underline="true" wrapText="true" />
       <Label fx:id="restartSettingsMsg" layoutX="81.0" layoutY="392.0" text="Restart your browser to reload settings" textFill="#707070" visible="false">
          <font>
             <Font size="11.0" />
