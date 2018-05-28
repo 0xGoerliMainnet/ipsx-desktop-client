@@ -32,6 +32,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.util.Pair;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  * Class responsible for hold all useful functions.
@@ -60,6 +62,28 @@ public class ProxyUtils {
         alert.setContentText(content);
 
         return alert;
+    }
+    
+    /**
+     * Method resposible for create a confirm alert.
+     * 
+     * @return A boolean indicating the user response
+     *
+     */
+    public static boolean createQuestionPane(){
+
+        Alert dialogoExe = new Alert(Alert.AlertType.CONFIRMATION);
+        ButtonType confirm = new ButtonType(getBundle().getString("key.main.dialog.yes"));
+        ButtonType cancel = new ButtonType(getBundle().getString("key.main.dialog.no"));
+        dialogoExe.setTitle(getBundle().getString("key.main.dialog.title"));
+        dialogoExe.setHeaderText(null);
+        dialogoExe.setContentText(getBundle().getString("key.main.dialog.message"));
+        dialogoExe.getButtonTypes().setAll(confirm, cancel);
+        
+        dialogoExe.showAndWait();
+        
+        return dialogoExe.getResult() == confirm;
+        
     }
     
     /**

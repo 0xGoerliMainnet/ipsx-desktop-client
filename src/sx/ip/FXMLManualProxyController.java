@@ -306,10 +306,12 @@ public class FXMLManualProxyController implements Initializable {
      */
     @FXML
     private void removeAllSettings(ActionEvent event){
-        settings = ProxySettings.getDirectConnectionSetting();
-        isActivated = false;
-        handleScene(isActivated);
-        startProxyThread();    
+        if(ProxyUtils.createQuestionPane()){
+            settings = ProxySettings.getDirectConnectionSetting();
+            isActivated = false;
+            handleScene(isActivated);
+            startProxyThread();            
+        }
     }    
 
     /**
@@ -344,6 +346,9 @@ public class FXMLManualProxyController implements Initializable {
         
     }
     
+    /**
+     * Method responsible for reset the panes for the default state.
+     */
     private void resetPanes(){
         proxyIp.setText("");
         proxyUrl.setText("");
@@ -434,8 +439,8 @@ public class FXMLManualProxyController implements Initializable {
                 restartSettingsMsg.setVisible(false);  
                 progressBar.setVisible(true);
                 btnActivate.setDisable(true);
-                manager.setProxySettings(settings);                
                 removeAll.setDisable(true);
+                manager.setProxySettings(settings);                
                 return null;
             }
 
