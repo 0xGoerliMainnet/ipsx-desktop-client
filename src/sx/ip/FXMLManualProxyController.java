@@ -145,6 +145,10 @@ public class FXMLManualProxyController implements Initializable {
     /** The restart setting message instance.  */
     @FXML
     private Label restartSettingsMsg;
+    
+    /** The remove all setting instance.  */
+    @FXML
+    private Hyperlink removeAll;
 
     /**
      * Method responsible for set the current stage
@@ -172,8 +176,7 @@ public class FXMLManualProxyController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.bundle = rb;
-        NumberValidator numValidator = new  NumberValidator();
-        numValidator.setMessage(bundle.getString("key.main.validator.proxyport"));
+        NumberValidator numValidator = new  NumberValidator();        
         
         BlankSpacesValidator validatorIP = new BlankSpacesValidator();
         
@@ -431,7 +434,8 @@ public class FXMLManualProxyController implements Initializable {
                 restartSettingsMsg.setVisible(false);  
                 progressBar.setVisible(true);
                 btnActivate.setDisable(true);
-                manager.setProxySettings(settings);
+                manager.setProxySettings(settings);                
+                removeAll.setDisable(true);
                 return null;
             }
 
@@ -445,7 +449,8 @@ public class FXMLManualProxyController implements Initializable {
                     Logger.getLogger(FXMLManualProxyController.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 progressBar.setVisible(false);                 
-                restartSettingsMsg.setVisible(isActivated);
+                restartSettingsMsg.setVisible(isActivated);               
+                removeAll.setDisable(false);
                 if(isActivated){                    
                     btnActivate.setDisable(false); 
                 }
