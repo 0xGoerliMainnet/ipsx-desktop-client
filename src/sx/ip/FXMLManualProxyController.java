@@ -20,6 +20,7 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXProgressBar;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.validation.NumberValidator;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -276,11 +277,24 @@ public class FXMLManualProxyController implements Initializable {
     private void handleActivateAction(ActionEvent event) {
         String host = advancedPane.isVisible() ? proxyIp.getText().trim() : proxyUrl.getText().trim();
         InputStream is = getClass().getResourceAsStream("imgs/icon.png");
+        boolean res = true;
         if (agreeCheckBox.isSelected()) {
-            if (advancedPane.isVisible()) {
+            if (advancedPane.isVisible()) {                              
                 advancedProxyServer(host);
+                    
             } else {
-                defaultProxyServer(host);
+                try { 
+                    if(!ProxyUtils.validateUrl(host) && !isActivated){                        
+                        res = ProxyUtils.createQuestionPane(is, bundle.getString("key.main.alert.error.title"), bundle.getString("key.main.alert.error.invalid.pac.message"));
+                    }
+                    
+                    if(res){
+                        defaultProxyServer(host);                        
+                    }
+                } catch (IOException ex) {
+                    ProxyUtils.createExceptionAlert(bundle.getString("key.main.dialog.exception.title"), null, ex.getMessage(), bundle.getString("key.main.dialog.exception.stack.text"), ex, is);
+                    LOGGER.error(ex.getMessage(), ex);
+                }
             }
         } else {
             ProxyUtils.createAndShowAlert(AlertType.INFORMATION, bundle.getString("key.main.alert.info.title"), null, bundle.getString("key.main.alert.info.message"), is);
@@ -309,7 +323,7 @@ public class FXMLManualProxyController implements Initializable {
     @FXML
     private void removeAllSettings(ActionEvent event){
         InputStream is = getClass().getResourceAsStream("imgs/icon.png");
-        if(ProxyUtils.createQuestionPane(is)){
+        if(ProxyUtils.createQuestionRemoveAll(is)){
             settings = ProxySettings.getDirectConnectionSetting();
             isActivated = false;
             handleScene(isActivated);

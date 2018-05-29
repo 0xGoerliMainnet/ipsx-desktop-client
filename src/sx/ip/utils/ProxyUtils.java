@@ -15,11 +15,16 @@ package sx.ip.utils;
 
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -78,7 +83,7 @@ public class ProxyUtils {
      * @return A boolean indicating the user response
      *
      */
-    public static boolean createQuestionPane(InputStream is){
+    public static boolean createQuestionRemoveAll(InputStream is){
 
         Alert dialogoExe = new Alert(Alert.AlertType.CONFIRMATION);
         ButtonType confirm = new ButtonType(getBundle().getString("key.main.dialog.yes"));
@@ -88,6 +93,33 @@ public class ProxyUtils {
         alertStage.getIcons().add(new Image(is));
         dialogoExe.setHeaderText(null);
         dialogoExe.setContentText(getBundle().getString("key.main.dialog.message"));
+        dialogoExe.getButtonTypes().setAll(confirm, cancel);
+        
+        dialogoExe.showAndWait();
+        
+        return dialogoExe.getResult() == confirm;
+        
+    }
+    
+    /**
+     * Method resposible for create a confirm alert.
+     * 
+     * @param is 
+     *          InputStream representing the IPSX icon
+     * 
+     * @return A boolean indicating the user response
+     *
+     */
+    public static boolean createQuestionPane(InputStream is, String title, String content){
+
+        Alert dialogoExe = new Alert(Alert.AlertType.CONFIRMATION);
+        ButtonType confirm = new ButtonType(getBundle().getString("key.main.dialog.yes"));
+        ButtonType cancel = new ButtonType(getBundle().getString("key.main.dialog.no"));
+        dialogoExe.setTitle(title);
+        Stage alertStage = (Stage) dialogoExe.getDialogPane().getScene().getWindow();
+        alertStage.getIcons().add(new Image(is));
+        dialogoExe.setHeaderText(null);
+        dialogoExe.setContentText(content);
         dialogoExe.getButtonTypes().setAll(confirm, cancel);
         
         dialogoExe.showAndWait();
@@ -236,5 +268,41 @@ public class ProxyUtils {
     public static ResourceBundle getBundle() {
         return ResourceBundle.getBundle("sx.ip.bundles.bundle", new Locale("en", "EN"));
     }
+    
+    /**
+     * Method resposible for verify the URL format.
+     *
+     * @param url
+     *          The URL to be verified
+     * 
+     * @return A boolean indicating if the url is valid or not 
+     *
+     */
+    public static boolean isValid(String url){
+        String urlRegex = "^(http|https)://[-a-zA-Z0-9+&@#/%?=~_|,!:.;]*[-a-zA-Z0-9+@#/%=&_|]";
+        Pattern pattern = Pattern.compile(urlRegex);
+        Matcher m = pattern.matcher(url);
+        return m.matches();
+    }
+    
+    /**
+     * Method resposible for validate the url response code.
+     *
+     * @param url
+     *          The URL to be validated
+     * 
+     * @throws IOException
+     *
+     * @return A boolean indicating if the url is valid or not
+     */
+    public static boolean validateUrl(String url) throws IOException{
+        if(isValid(url)){
+            URL myURL = new URL(url);
+            HttpURLConnection myConnection = (HttpURLConnection) myURL.openConnection();
+
+            return myConnection.getResponseCode() == URLStatus.HTTP_OK.getStatusCode();         
+        }
+        return false;
+    }  
 
 }
