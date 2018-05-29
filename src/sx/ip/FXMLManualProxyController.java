@@ -20,6 +20,7 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXProgressBar;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.validation.NumberValidator;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -274,6 +275,7 @@ public class FXMLManualProxyController implements Initializable {
     @FXML
     private void handleActivateAction(ActionEvent event) {
         String host = advancedPane.isVisible() ? proxyIp.getText().trim() : proxyUrl.getText().trim();
+        InputStream is = getClass().getResourceAsStream("imgs/icon.png");
         if (agreeCheckBox.isSelected()) {
             if (advancedPane.isVisible()) {
                 advancedProxyServer(host);
@@ -281,7 +283,7 @@ public class FXMLManualProxyController implements Initializable {
                 defaultProxyServer(host);
             }
         } else {
-            ProxyUtils.createAndShowAlert(AlertType.INFORMATION, bundle.getString("key.main.alert.info.title"), null, bundle.getString("key.main.alert.info.message"));
+            ProxyUtils.createAndShowAlert(AlertType.INFORMATION, bundle.getString("key.main.alert.info.title"), null, bundle.getString("key.main.alert.info.message"), is);
             
         }
         btnActivate.setFocusTraversable(true);
@@ -306,7 +308,8 @@ public class FXMLManualProxyController implements Initializable {
      */
     @FXML
     private void removeAllSettings(ActionEvent event){
-        if(ProxyUtils.createQuestionPane(getClass().getResourceAsStream("imgs/icon.png"))){
+        InputStream is = getClass().getResourceAsStream("imgs/icon.png");
+        if(ProxyUtils.createQuestionPane(is)){
             settings = ProxySettings.getDirectConnectionSetting();
             isActivated = false;
             handleScene(isActivated);
@@ -372,6 +375,7 @@ public class FXMLManualProxyController implements Initializable {
         Integer port;
         String autheUser = advancedPane.isVisible() ? proxyUser.getText().trim() : null;
         String authPass = advancedPane.isVisible() ? proxyPass.getText().trim() : null;
+        InputStream is = getClass().getResourceAsStream("imgs/icon.png");
         if ((host != null && host.length() > 0)) {
             if (proxyPort.getText() != null && proxyPort.getText().trim().length() > 0) {
                 port = Integer.valueOf(proxyPort.getText());
@@ -389,13 +393,13 @@ public class FXMLManualProxyController implements Initializable {
                     handleScene(isActivated);
                     startProxyThread();
                 } else {
-                    ProxyUtils.createAndShowAlert(AlertType.WARNING, bundle.getString("key.main.alert.warning.title"), null, bundle.getString("key.main.alert.warning.message.v1"));
+                    ProxyUtils.createAndShowAlert(AlertType.WARNING, bundle.getString("key.main.alert.warning.title"), null, bundle.getString("key.main.alert.warning.message.v1"), is);
                 }
             }else{
-                ProxyUtils.createAndShowAlert(AlertType.WARNING, bundle.getString("key.main.alert.warning.title"), null, bundle.getString("key.main.alert.warning.message.v3"));
+                ProxyUtils.createAndShowAlert(AlertType.WARNING, bundle.getString("key.main.alert.warning.title"), null, bundle.getString("key.main.alert.warning.message.v3"), is);
             }
         } else {
-            ProxyUtils.createAndShowAlert(AlertType.WARNING, bundle.getString("key.main.alert.warning.title"), null, bundle.getString("key.main.alert.warning.message.v1"));
+            ProxyUtils.createAndShowAlert(AlertType.WARNING, bundle.getString("key.main.alert.warning.title"), null, bundle.getString("key.main.alert.warning.message.v1"), is);
         }
     }
     
@@ -409,6 +413,7 @@ public class FXMLManualProxyController implements Initializable {
     private void defaultProxyServer(String acs) {        
         String autheUser = advancedPane.isVisible() ? proxyUser.getText().trim() : null;
         String authPass = advancedPane.isVisible() ? proxyPass.getText().trim() : null;
+        InputStream is = getClass().getResourceAsStream("imgs/icon.png");
         if ((acs != null && acs.length() > 0)) {
 
             if (!isActivated) {
@@ -424,7 +429,7 @@ public class FXMLManualProxyController implements Initializable {
             startProxyThread();
 
         } else {
-            ProxyUtils.createAndShowAlert(AlertType.WARNING, bundle.getString("key.main.alert.warning.title"), null, bundle.getString("key.main.alert.warning.message.v2"));
+            ProxyUtils.createAndShowAlert(AlertType.WARNING, bundle.getString("key.main.alert.warning.title"), null, bundle.getString("key.main.alert.warning.message.v2"), is);
         }
     }
     
@@ -433,6 +438,7 @@ public class FXMLManualProxyController implements Initializable {
      * thread.
      */
     private void startProxyThread() {
+        InputStream is = getClass().getResourceAsStream("imgs/icon.png");
         Task task = new Task<Void>() {
             @Override
             public Void call() throws ProxyManager.ProxySetupException {
@@ -466,7 +472,7 @@ public class FXMLManualProxyController implements Initializable {
         task.setOnFailed(new EventHandler<WorkerStateEvent>() {
             @Override
             public void handle(WorkerStateEvent t) {
-                ProxyUtils.createExceptionAlert(bundle.getString("key.main.dialog.exception.title"), null, task.getException().getMessage(), bundle.getString("key.main.dialog.exception.stack.text"), (Exception) task.getException());
+                ProxyUtils.createExceptionAlert(bundle.getString("key.main.dialog.exception.title"), null, task.getException().getMessage(), bundle.getString("key.main.dialog.exception.stack.text"), (Exception) task.getException(), is);
                 LOGGER.error(task.getException().getMessage(), task.getException());
             }
         });

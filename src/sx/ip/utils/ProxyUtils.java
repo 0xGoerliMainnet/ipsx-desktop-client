@@ -52,21 +52,28 @@ public class ProxyUtils {
      *          The header of the alert
      * @param content 
      *          The content text of the alert
+     * @param is 
+     *          InputStream representing the IPSX icon
      * 
      * @return The Alert instance.
      *
      */
-    public static Alert createAlert(Alert.AlertType type, String title, String header, String content) {
+    public static Alert createAlert(Alert.AlertType type, String title, String header, String content, InputStream is) {
         Alert alert = new Alert(type);
         alert.setTitle(title);
         alert.setHeaderText(header);
         alert.setContentText(content);
+        Stage alertStage = (Stage) alert.getDialogPane().getScene().getWindow();
+        alertStage.getIcons().add(new Image(is));
 
         return alert;
     }
     
     /**
      * Method resposible for create a confirm alert.
+     * 
+     * @param is 
+     *          InputStream representing the IPSX icon
      * 
      * @return A boolean indicating the user response
      *
@@ -100,10 +107,12 @@ public class ProxyUtils {
      *          The header of the alert
      * @param content 
      *          The content text of the alert
+     * @param is 
+     *          InputStream representing the IPSX icon
      *
      */
-    public static void createAndShowAlert(Alert.AlertType type, String title, String header, String content) {
-        Alert alert = createAlert(type, title, header, content);        
+    public static void createAndShowAlert(Alert.AlertType type, String title, String header, String content, InputStream is) {
+        Alert alert = createAlert(type, title, header, content, is);        
         alert.showAndWait();
     }
     
@@ -115,15 +124,20 @@ public class ProxyUtils {
      *          The title of the dialog
      * @param header 
      *          The header of the dialog
+     * @param is 
+     *          InputStream representing the IPSX icon
      * 
      * @return The Dialog instance
      *
      */
-    public static Dialog createAuthenticationDialog(String title, String header) {
+    public static Dialog createAuthenticationDialog(String title, String header, InputStream is) {
         Dialog<Pair<String, String>> dialog = new Dialog<>();
         dialog.setTitle(title);
-        dialog.setHeaderText(header);
-
+        dialog.setHeaderText(header);        
+        
+        Stage alertStage = (Stage) dialog.getDialogPane().getScene().getWindow();
+        alertStage.getIcons().add(new Image(is));
+        
         ButtonType btnConfirmType = new ButtonType(getBundle().getString("key.main.button.confirm"), ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(btnConfirmType, ButtonType.CANCEL);
 
@@ -174,16 +188,21 @@ public class ProxyUtils {
      * @param content 
      *          The content text
      * @param stackMessage 
-     *          The stack title 
+     *          The stack title
+     * @param is 
+     *          InputStream representing the IPSX icon
      * 
      * @param ex The exception.
      *
      */
-    public static void createExceptionAlert(String title, String header, String content, String stackMessage,  Exception ex) {
+    public static void createExceptionAlert(String title, String header, String content, String stackMessage,  Exception ex, InputStream is) {
         Alert alert = new Alert(AlertType.ERROR);
         alert.setTitle(title);
         alert.setHeaderText(header);
         alert.setContentText(content);
+        
+        Stage alertStage = (Stage) alert.getDialogPane().getScene().getWindow();
+        alertStage.getIcons().add(new Image(is));
 
         Label label = new Label(stackMessage);
 
