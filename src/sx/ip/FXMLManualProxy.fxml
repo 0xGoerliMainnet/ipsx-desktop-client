@@ -51,14 +51,14 @@ limitations under the License.
             <MaterialIconView fill="#707070" glyphName="CLOSE" size="16.0" textAlignment="CENTER" />
          </graphic>
       </JFXButton>
-      <AnchorPane fx:id="pacPane" layoutX="-2.0" layoutY="130.0" prefHeight="143.0" prefWidth="375.0">
+      <AnchorPane fx:id="pacPane" layoutX="-2.0" layoutY="130.0" prefHeight="124.0" prefWidth="375.0">
          <children>
-            <Label layoutX="74.0" layoutY="35.0" text="PAC URL" textFill="#707070">
+            <Label layoutX="74.0" layoutY="40.0" text="PAC URL" textFill="#707070">
                <font>
                   <Font size="11.0" />
                </font>
             </Label>
-            <JFXTextField fx:id="proxyUrl" focusColor="#80bdff" labelFloat="true" layoutX="74.0" layoutY="50.0" prefHeight="26.0" prefWidth="230.0" style="-fx-background-color: rgba(255,255,255,0.8);" unFocusColor="#ced4da" />
+            <JFXTextField fx:id="proxyUrl" focusColor="#80bdff" labelFloat="true" layoutX="74.0" layoutY="55.0" prefHeight="26.0" prefWidth="230.0" style="-fx-background-color: rgba(255,255,255,0.8);" unFocusColor="#ced4da" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="advancedPane" layoutY="110.0" minHeight="-Infinity" prefHeight="162.0" prefWidth="375.0" visible="false">
@@ -100,7 +100,7 @@ limitations under the License.
             <JFXPasswordField fx:id="proxyPass" focusColor="#80bdff" layoutX="199.0" layoutY="128.0" prefHeight="26.0" prefWidth="105.0" unFocusColor="#ced4da" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="agreePane" layoutX="2.0" layoutY="278.0" prefHeight="59.0" prefWidth="375.0">
+      <AnchorPane fx:id="agreePane" layoutX="2.0" layoutY="228.0" prefHeight="59.0" prefWidth="375.0">
          <children>
             <JFXCheckBox fx:id="bypassCB" checkedColor="#2aace0" disable="true" layoutX="64.0" layoutY="30.0" text="Bypass proxy server for local addresses" textFill="#707070" unCheckedColor="#ced4da" visible="false">
                <cursor>

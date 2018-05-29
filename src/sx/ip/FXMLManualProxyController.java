@@ -265,6 +265,12 @@ public class FXMLManualProxyController implements Initializable {
     private void handleAdvancedSettings(ActionEvent event) {
         advancedPane.setVisible(!advancedPane.isVisible());
         pacPane.setVisible(!pacPane.isVisible());
+        
+        if(advancedPane.isVisible()){
+            agreePane.setLayoutY(278);
+        }else{
+            agreePane.setLayoutY(228);
+        }
     }
 
     /**
