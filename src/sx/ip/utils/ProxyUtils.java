@@ -15,6 +15,7 @@ package sx.ip.utils;
 
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Locale;
@@ -29,11 +30,11 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
+import javafx.stage.Stage;
 import javafx.util.Pair;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 
 /**
  * Class responsible for hold all useful functions.
@@ -70,12 +71,14 @@ public class ProxyUtils {
      * @return A boolean indicating the user response
      *
      */
-    public static boolean createQuestionPane(){
+    public static boolean createQuestionPane(InputStream is){
 
         Alert dialogoExe = new Alert(Alert.AlertType.CONFIRMATION);
         ButtonType confirm = new ButtonType(getBundle().getString("key.main.dialog.yes"));
         ButtonType cancel = new ButtonType(getBundle().getString("key.main.dialog.no"));
         dialogoExe.setTitle(getBundle().getString("key.main.dialog.title"));
+        Stage alertStage = (Stage) dialogoExe.getDialogPane().getScene().getWindow();
+        alertStage.getIcons().add(new Image(is));
         dialogoExe.setHeaderText(null);
         dialogoExe.setContentText(getBundle().getString("key.main.dialog.message"));
         dialogoExe.getButtonTypes().setAll(confirm, cancel);

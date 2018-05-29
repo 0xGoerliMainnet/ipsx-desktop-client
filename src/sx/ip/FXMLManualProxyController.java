@@ -306,7 +306,7 @@ public class FXMLManualProxyController implements Initializable {
      */
     @FXML
     private void removeAllSettings(ActionEvent event){
-        if(ProxyUtils.createQuestionPane()){
+        if(ProxyUtils.createQuestionPane(getClass().getResourceAsStream("imgs/icon.png"))){
             settings = ProxySettings.getDirectConnectionSetting();
             isActivated = false;
             handleScene(isActivated);
