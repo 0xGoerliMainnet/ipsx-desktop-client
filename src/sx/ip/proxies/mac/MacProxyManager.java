@@ -218,8 +218,7 @@ public class MacProxyManager extends ProxyManager {
                 commandList.add(new String[]{"-setwebproxystate", networkServices[i], "off"});
                 commandList.add(new String[]{"-setsecurewebproxystate", networkServices[i], "off"});
                 commandList.add(new String[]{"-setsocksfirewallproxystate", networkServices[i], "off"});
-                commandList.add(new String[]{"-setproxyautodiscovery", networkServices[i], "off"});
-                commandList.add(new String[]{"-setautoproxyurl", networkServices[i], " "});            
+                commandList.add(new String[]{"-setautoproxystate", networkServices[i], "off"});            
             }        
         }
 
