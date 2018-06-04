@@ -175,7 +175,7 @@ public class MacProxyManager extends ProxyManager {
                     }
                 }
             }
-        } else if ((settings.getAcsUrl() != null) && (settings.getAcsUrl().isEmpty())) {
+        } else if ((settings.getAcsUrl() != null) && (!settings.getAcsUrl().isEmpty())) {
             for(int i = 1; i < networkServices.length; i++){
                 if("Wi-Fi".equals(networkServices[i])){
                     commandList.add(new String[]{"-setautoproxyurl", networkServices[i], settings.getAcsUrl()});                
