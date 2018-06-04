@@ -145,12 +145,13 @@ public class LinuxProxyManager extends ProxyManager {
                     break;
             }
             if ((settings.getAuthUser() != null) && (!settings.getAuthUser().isEmpty())) {
+                commandList.add(new String[]{"set", "org.gnome.system.proxy.http", "use-authentication", "true"});
                 commandList.add(new String[]{"set", "org.gnome.system.proxy.http", "authentication-user", settings.getAuthUser()});
                 commandList.add(new String[]{"set", "org.gnome.system.proxy.http", "authentication-password", settings.getAuthPass()});
             }
 
             if (settings.getBypassOnLocal()) {
-                //commandList.add(new String[]{"set", "org.gnome.system.proxy", "ignore-hosts", "\"['localhost',  '127.0.0.1', 'all', 'other', 'hosts']\""});
+                commandList.add(new String[]{"set", "org.gnome.system.proxy", "ignore-hosts", "['localhost',  '127.0.0.1', 'all', 'other', 'hosts']"});
             }
         }else if(settings.getAcsUrl() != null){
             commandList.add(new String[]{"set", "org.gnome.system.proxy", "mode", "'auto'"});

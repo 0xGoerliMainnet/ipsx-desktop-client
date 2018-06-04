@@ -222,7 +222,9 @@ public class WindowsProxyManager extends ProxyManager {
                         + " "
                         + (settings.getAuthPass() != null && !settings.getAuthPass().isEmpty() ? "-authpass \"" + settings.getAuthPass() + "\"" : "")
                         + " "
-                        + (settings.getBypassOnLocal() ? "-bypass \"true\"" : "");
+                        + (settings.getBypassOnLocal() ? "-bypass \"true\"" : "")
+                        + " "
+                        + (settings.getProxyHost() != null && !settings.getProxyHost().isEmpty() ? "-host \"" + settings.getProxyHost() + "\"" : "");
             }else{
                 psMethod = "Set-InternetProxy" 
                         + (proxyType != null && !proxyType.isEmpty() ? " -proxy \"" + proxyType + "=" : "") 
@@ -234,7 +236,9 @@ public class WindowsProxyManager extends ProxyManager {
                         + " "
                         + (settings.getAuthPass() != null && !settings.getAuthPass().isEmpty() ? "-authpass \"" + settings.getAuthPass() + "\"" : "")
                         + " "
-                        + (settings.getBypassOnLocal() ? "-bypass \"true\"" : "");
+                        + (settings.getBypassOnLocal() ? "-bypass \"true\"" : "")
+                        + " "
+                        + (settings.getProxyHost() != null && !settings.getProxyHost().isEmpty() ? "-host \"" + settings.getProxyHost() + "\"" : "");
             }
         }
 

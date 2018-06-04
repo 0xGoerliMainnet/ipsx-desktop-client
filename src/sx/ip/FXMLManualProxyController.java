@@ -373,7 +373,7 @@ public class FXMLManualProxyController implements Initializable {
         }else if(PlatformUtil.isMac()){
             restartSettingsMsg.setText(bundle.getString("key.main.restart.message.mac"));
         }else if(PlatformUtil.isLinux()){
-            restartSettingsMsg.setText(bundle.getString("key.main.restart.message.mac"));
+            restartSettingsMsg.setText(bundle.getString("key.main.restart.message"));
         }
         
     }
@@ -383,6 +383,7 @@ public class FXMLManualProxyController implements Initializable {
      */
     private void resetPanes(){
         proxyIp.setText("");
+        proxyPort.setText("");
         proxyUrl.setText("");
         proxyPass.setText("");
         proxyUser.setText("");

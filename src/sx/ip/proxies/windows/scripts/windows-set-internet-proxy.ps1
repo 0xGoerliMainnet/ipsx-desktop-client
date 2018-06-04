@@ -43,7 +43,11 @@ Function Set-InternetProxy
 
         [Parameter(Mandatory=$False,ValueFromPipeline=$true,ValueFromPipelineByPropertyName=$true)]
         [AllowEmptyString()]
-        [String]$bypass
+        [String]$bypass,
+
+        [Parameter(Mandatory=$False,ValueFromPipeline=$true,ValueFromPipelineByPropertyName=$true)]
+        [AllowEmptyString()]
+        [String]$host
     )
 
     Begin
@@ -70,7 +74,7 @@ Function Set-InternetProxy
 
         if($authuser)
         {
-            cmdkey /generic:$proxy /user:$authuser /pass:$authpass 
+            cmdkey /generic:$host /user:$authuser /pass:$authpass 
         }
     } 
     
