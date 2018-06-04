@@ -20,6 +20,7 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXProgressBar;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.validation.NumberValidator;
+import com.sun.javafx.PlatformUtil;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -367,6 +368,14 @@ public class FXMLManualProxyController implements Initializable {
             resetPanes();
         }
         
+        if(PlatformUtil.isWindows()){
+            restartSettingsMsg.setText(bundle.getString("key.main.restart.message"));
+        }else if(PlatformUtil.isMac()){
+            restartSettingsMsg.setText(bundle.getString("key.main.restart.message.mac"));
+        }else if(PlatformUtil.isLinux()){
+            restartSettingsMsg.setText(bundle.getString("key.main.restart.message.mac"));
+        }
+        
     }
     
     /**
@@ -479,7 +488,8 @@ public class FXMLManualProxyController implements Initializable {
                 } catch (InterruptedException ex) {
                     Logger.getLogger(FXMLManualProxyController.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                progressBar.setVisible(false);                 
+                progressBar.setVisible(false);
+                
                 restartSettingsMsg.setVisible(isActivated);               
                 removeAll.setDisable(false);
                 if(isActivated){                    

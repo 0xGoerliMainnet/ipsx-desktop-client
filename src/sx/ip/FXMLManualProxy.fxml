@@ -112,7 +112,7 @@ limitations under the License.
                   <Cursor fx:constant="HAND" />
                </cursor>
                <graphic>
-                  <Hyperlink fx:id="btnTerms" accessibleText="https://www.google.com" contentDisplay="TOP" onAction="#openBrowser" prefHeight="23.0" prefWidth="153.0" text="terms and conditions" textFill="#2aace0" textOverrun="CLIP" underline="true" />
+                  <Hyperlink fx:id="btnTerms" accessibleText="https://ip.sx/dist/IPSX-Terms-of-Service.pdf" contentDisplay="TOP" onAction="#openBrowser" prefHeight="23.0" prefWidth="153.0" text="terms and conditions" textFill="#2aace0" textOverrun="CLIP" underline="true" />
                </graphic>
             </JFXCheckBox>
             <JFXCheckBox fx:id="proxyAuthentication" checkedColor="#2aace0" layoutX="64.0" layoutY="4.0" text="Proxy Authentication" textFill="#707070" unCheckedColor="#ced4da" visible="false">
@@ -137,7 +137,7 @@ limitations under the License.
       </JFXButton>
       <JFXProgressBar fx:id="progressBar" layoutX="90.0" layoutY="389.0" progress="0.0" visible="false" />
       <Hyperlink fx:id="removeAll" alignment="CENTER_RIGHT" contentDisplay="RIGHT" focusTraversable="false" layoutX="120.0" layoutY="422.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#removeAllSettings" prefHeight="24.0" prefWidth="239.0" text="Remove all settings" textAlignment="RIGHT" textFill="#2aace0" underline="true" wrapText="true" />
-      <Label fx:id="restartSettingsMsg" layoutX="81.0" layoutY="392.0" text="Restart your browser to reload settings" textFill="#707070" visible="false">
+      <Label fx:id="restartSettingsMsg" alignment="CENTER" contentDisplay="CENTER" layoutX="2.0" layoutY="383.0" prefHeight="45.0" prefWidth="375.0" textAlignment="CENTER" textFill="#707070" visible="false">
          <font>
             <Font size="11.0" />
          </font>
