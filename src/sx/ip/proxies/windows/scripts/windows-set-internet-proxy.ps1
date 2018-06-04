@@ -16,7 +16,7 @@
 #       Set-InternetProxy -proxy "proxy:7890" -acs "http://proxy:7892"
 #
 #   Setting proxy information, (optinal) Automatic Configuration and (optinal) Authentication Script:
-#       Set-InternetProxy -proxy "proxy:7890" -acs "http://proxy:7892" -authuser "username" -authpass "password" -bypass
+#       Set-InternetProxy -proxy "proxy:7890" -acs "http://proxy:7892" -authuser "username" -authpass "password" -bypass -host "hostname"
 #
 # SOURCE
 #   https://gallery.technet.microsoft.com/scriptcenter/PowerShell-function-Get-cba2abf5
@@ -47,7 +47,7 @@ Function Set-InternetProxy
 
         [Parameter(Mandatory=$False,ValueFromPipeline=$true,ValueFromPipelineByPropertyName=$true)]
         [AllowEmptyString()]
-        [String]$host
+        [String]$hostname
     )
 
     Begin
@@ -74,7 +74,7 @@ Function Set-InternetProxy
 
         if($authuser)
         {
-            cmdkey /generic:$host /user:$authuser /pass:$authpass 
+            cmdkey /generic:$hostname /user:$authuser /pass:$authpass 
         }
     } 
     

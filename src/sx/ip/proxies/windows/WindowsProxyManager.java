@@ -224,7 +224,7 @@ public class WindowsProxyManager extends ProxyManager {
                         + " "
                         + (settings.getBypassOnLocal() ? "-bypass \"true\"" : "")
                         + " "
-                        + (settings.getProxyHost() != null && !settings.getProxyHost().isEmpty() ? "-host \"" + settings.getProxyHost() + "\"" : "");
+                        + (settings.getProxyHost() != null && !settings.getProxyHost().isEmpty() ? "-hostname \"" + settings.getProxyHost() + "\"" : "");
             }else{
                 psMethod = "Set-InternetProxy" 
                         + (proxyType != null && !proxyType.isEmpty() ? " -proxy \"" + proxyType + "=" : "") 
@@ -238,7 +238,7 @@ public class WindowsProxyManager extends ProxyManager {
                         + " "
                         + (settings.getBypassOnLocal() ? "-bypass \"true\"" : "")
                         + " "
-                        + (settings.getProxyHost() != null && !settings.getProxyHost().isEmpty() ? "-host \"" + settings.getProxyHost() + "\"" : "");
+                        + (settings.getProxyHost() != null && !settings.getProxyHost().isEmpty() ? "-hostname \"" + settings.getProxyHost() + "\"" : "");
             }
         }
 
