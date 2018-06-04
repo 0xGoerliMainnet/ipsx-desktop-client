@@ -12,6 +12,8 @@ nbdist/
 
 # Versions
 /versions/ipsx-desktop-client-setup-latest.exe
+/versions/ipsx-desktop-client-setup-latest.zip
+/versions/ipsx-desktop-client-setup-latest.dmg
 /bin/
 
 # Log

@@ -279,7 +279,7 @@ public class ProxyUtils {
      *
      */
     public static boolean isValid(String url){
-        String urlRegex = "^(http|https)://[-a-zA-Z0-9+&@#/%?=~_|,!:.;]*[-a-zA-Z0-9+@#/%=&_|]";
+        String urlRegex = "^(http|https):(//)?[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,4}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)";
         Pattern pattern = Pattern.compile(urlRegex);
         Matcher m = pattern.matcher(url);
         return m.matches();
