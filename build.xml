@@ -3,23 +3,22 @@
     <import file="nbproject/build-impl.xml"/>
 
     <!-- Copy java JRE and windows launcher -->
-    <target name="-post-clean">        
+    <target name="-pre-compile">        
         <copy file="extra\installer\launcher\ipsx-desktop-client.ico" todir="${dist.dir}" overwrite="true" />   
         <copy file="extra\installer\launcher\ipsx-desktop-client.exe" todir="${dist.dir}" overwrite="true" />  
         <copy file="extra\linux\ipsx-desktop-client.sh" todir="${dist.dir}" overwrite="true" />  
         <copy file="log4j.properties" todir="${dist.dir}" overwrite="true" />
         <copy file="logs\.gitkeep" todir="${dist.dir}\logs\" overwrite="true"/>
     </target>
-
-    <!-- Delete unused JavaFX web app -->
-    <target name="-post-jfx-deploy">
+    
+    <target name="-post-jfx-deploy"> 
         
         <delete file="${dist.dir}\IPSX-Desktop-Client.html"/>
         <delete file="${dist.dir}\IPSX-Desktop-Client.jnlp"/>
         <delete dir="${dist.dir}\web-files" />
-         
-        <!-- Generate the linux version -->
-        <zip basedir="${dist.dir}/" destfile="${dist.dir}/../versions/ipsx-desktop-client-setup-latest.zip" compress="true" 
+        
+        <zip basedir="${dist.dir}/" destfile="${dist.dir}/../versions/ipsx-desktop-client-setup-latest.zip" compress="true"
+             excludes="bundles/*,bundles,jre,jre/*"
              comment=" IPSX Desktop Client${line.separator} ${line.separator}
 In order to execute the application try to execute the jar file using the following command:${line.separator}
 java -jar IPSX-Desktop-Client.jar${line.separator}
@@ -27,9 +26,16 @@ ${line.separator}
 Or try to use the commands below if you are on Linux:${line.separator}
 chmod +x ipsx-desktop-client.sh${line.separator}
 ./ipsx-desktop-client.sh"/>
-
+        
         <!-- Make sure this one is after the linux version -->
-        <unzip src="extra\jre\jre-1.8.zip" dest="${dist.dir}" />        
+        <unzip src="extra\jre\jre-1.8.zip" dest="${dist.dir}" /> 
+        
+    </target> 
+
+
+    <target name="-post-jfx-native">
+        <copy file="${dist.dir}/bundles/IPSX-Desktop-Client-1.0.dmg" 
+              tofile="${dist.dir}/../versions/ipsx-desktop-client-setup-latest.dmg" overwrite="true" /> 
     </target>
 
     <!--
