@@ -83,7 +83,30 @@ public class ProxySettings {
      *
      */
     public enum ProxyType {
-        SOCKS, HTTP, HTTPS, FTP, HTTP_AND_HTTPS;
+        /**
+         * Socks proxyes
+         */
+        SOCKS, 
+        
+        /**
+         * HTTP only proxy
+         */
+        HTTP, 
+        
+        /**
+         * HTTPS only proxy
+         */
+        HTTPS, 
+        
+        /**
+         * FTP proxy
+         */
+        FTP,
+        
+        /**
+         * HTTP and HTTPS proxy
+         */
+        HTTP_AND_HTTPS;
     }
 
     /**

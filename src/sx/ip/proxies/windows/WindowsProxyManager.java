@@ -73,6 +73,7 @@ public class WindowsProxyManager extends ProxyManager {
      * 
      * @param args 
      *          the command line arguments
+     * @throws java.io.IOException When a IOException happen
      */
     public static void main(String[] args) throws IOException {
         ProxySettings settings = new ProxySettings("127.0.0.1", 8080, ProxySettings.ProxyType.HTTP, "http://proxy:7892", true, "user", "pass");

@@ -17,20 +17,55 @@ package sx.ip.utils;
  * Enum data type to store the HTTP response code.
  */
 public enum URLStatus {
-    HTTP_OK(200, "OK", "SUCCESS"), NO_CONTENT(204, "No Content", "SUCCESS"),
-    MOVED_PERMANENTLY(301, "Moved Permanently", "SUCCESS"), NOT_MODIFIED(304, "Not modified", "SUCCESS"),
-    USE_PROXY(305, "Use Proxy", "SUCCESS"), INTERNAL_SERVER_ERROR(500, "Internal Server Error", "ERROR"),
+    
+    /**
+     * HTTP CODE 200 - Everything OK
+     */
+    HTTP_OK(200, "OK", "SUCCESS"), 
+    
+    /**
+     * HTTP CODE 204 - No Content
+     */
+    NO_CONTENT(204, "No Content", "SUCCESS"),
+    
+    /**
+     * HTTP CODE 301 - Moved Permanently
+     */
+    MOVED_PERMANENTLY(301, "Moved Permanently", "SUCCESS"),
+    
+    /**
+     * HTTP CODE 304 - Not modified
+     */
+    NOT_MODIFIED(304, "Not modified", "SUCCESS"),
+    
+    /**
+     * HTTP CODE 305 - Use Proxy
+     */
+    USE_PROXY(305, "Use Proxy", "SUCCESS"), 
+    
+    /**
+     * HTTP CODE 500 - Internal Server Error
+     */
+    INTERNAL_SERVER_ERROR(500, "Internal Server Error", "ERROR"),
+    
+    /**
+     * HTTP CODE 400 - Not Found
+     */
     NOT_FOUND(404, "Not Found", "ERROR");
     
     /** The status code. */
     private int statusCode;
     
-    /** The http message. */
+    /** The HTTP message. */
     private String httpMessage;
     
-    /** The http result. */
+    /** The HTTP result. */
     private String result;
     
+    /**
+     * Return the status code
+     * @return
+     */
     public int getStatusCode() {
         return statusCode;
     }

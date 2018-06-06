@@ -25,6 +25,7 @@
             <definitions>.\lib\nblibraries.properties</definitions>
         </libraries>
         <spellchecker-wordlist xmlns="http://www.netbeans.org/ns/spellchecker-wordlist/1">
+            <word>Enum</word>
             <word>Linux</word>
         </spellchecker-wordlist>
     </configuration>

@@ -102,10 +102,12 @@ public class ProxyUtils {
     }
     
     /**
-     * Method resposible for create a confirm alert.
+     * Method that will create a confirmation alert.
      * 
      * @param is 
      *          InputStream representing the IPSX icon
+     * @param title The title of the window
+     * @param content The content of the window (main text)
      * 
      * @return A boolean indicating the user response
      *

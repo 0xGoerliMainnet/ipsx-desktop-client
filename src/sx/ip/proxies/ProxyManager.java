@@ -26,6 +26,9 @@ public abstract class ProxyManager {
     /** The ProxyManager instance. */
     private static ProxyManager instance = null;
 
+    /**
+     * Create a instance of ProxyManager, but, as this is a singleton, can be only called by the class itself.
+     */
     protected ProxyManager() {
         // Prevents the creation of new instances
     }
