@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+Copyright 2018 IP Exchange : https://ip.sx/
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" fx:id="mainAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="375.0" style="-fx-background-color: rgba(255,255,255,0); -fx-border-color: #ced4da; -fx-border-width: 1px; -fx-border-insets: 0px; -fx-border-radius: 0px;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sx.login.FXMLLoginController">
+    <children>
+      <BorderPane prefHeight="450.0" prefWidth="374.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="0.0">
+         <center>
+            <ImageView blendMode="DARKEN" fitHeight="450.0" fitWidth="374.0" pickOnBounds="true" BorderPane.alignment="CENTER">
+               <image>
+                  <Image url="@../ip/imgs/bg-375x450.jpg" />
+               </image>
+               <viewport>
+                  <Rectangle2D />
+               </viewport>
+            </ImageView>
+         </center>
+      </BorderPane>
+      <BorderPane prefHeight="75.0" prefWidth="375.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-1.0">
+         <center>
+            <ImageView fitHeight="45.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+               <image>
+                  <Image url="@../ip/imgs/ipsx-logo-230x45.png" />
+               </image>
+            </ImageView>
+         </center>
+      </BorderPane>
+      <JFXButton fx:id="btnLoginEmail" defaultButton="true" layoutX="106.0" layoutY="254.0" prefHeight="36.0" prefWidth="160.0" ripplerFill="WHITE" style="-fx-background-color: #2aace0;" text="Login with Email" textAlignment="CENTER" textFill="WHITE" AnchorPane.leftAnchor="105.0" AnchorPane.rightAnchor="109.0">
+         <font>
+            <Font size="12.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <JFXButton fx:id="btnLoginFacebook" defaultButton="true" layoutX="106.0" layoutY="298.0" prefHeight="36.0" prefWidth="160.0" ripplerFill="WHITE" style="-fx-background-color: #2aace0;" text="Login with Facebook" textAlignment="CENTER" textFill="WHITE" AnchorPane.leftAnchor="106.0" AnchorPane.rightAnchor="110.0">
+         <font>
+            <Font size="12.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <AnchorPane fx:id="loginInfoPane" layoutX="-2.0" layoutY="130.0" prefHeight="124.0" prefWidth="349.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="10.0">
+         <children>
+            <Label layoutX="38.0" layoutY="11.0" text="Login" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="58.0">
+               <font>
+                  <Font size="26.0" />
+               </font>
+            </Label>
+            <Label layoutX="40.0" layoutY="43.0" prefHeight="64.0" prefWidth="253.0" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore." textOverrun="CLIP" wrapText="true" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="58.0" />
+         </children>
+      </AnchorPane>
+    </children>
+   <opaqueInsets>
+      <Insets />
+   </opaqueInsets>
+</AnchorPane>
