@@ -1,5 +1,7 @@
 package sx.ip;
 
+import sx.ip.controllers.SystemTrayController;
+import sx.ip.controllers.FXMLManualProxyController;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -51,7 +53,7 @@ public class IPSXDesktopClient extends Application {
         SystemTrayController systemTray = new SystemTrayController(stage, ProxyUtils.getBundle());
         systemTray.addAppToTray();
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLManualProxy.fxml"), ProxyUtils.getBundle());
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("resources/fxml/FXMLManualProxy.fxml"), ProxyUtils.getBundle());
 
         loader.setControllerFactory(new HostServicesControllerFactory(getHostServices()));
 
@@ -85,7 +87,7 @@ public class IPSXDesktopClient extends Application {
         Scene scene = new Scene(root);
         stage.setResizable(false);
         stage.initStyle(StageStyle.UNDECORATED);
-        stage.getIcons().add(new Image(getClass().getResourceAsStream("imgs/icon.png")));
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("resources/imgs/icon.png")));
         stage.setTitle("IP Exchange");
         stage.setScene(scene);
         stage.show();

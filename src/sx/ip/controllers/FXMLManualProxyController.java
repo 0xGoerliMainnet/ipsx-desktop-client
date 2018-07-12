@@ -11,7 +11,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package sx.ip;
+package sx.ip.controllers;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
@@ -283,7 +283,7 @@ public class FXMLManualProxyController implements Initializable {
     @FXML
     private void handleActivateAction(ActionEvent event) {
         String host = advancedPane.isVisible() ? proxyIp.getText().trim() : proxyUrl.getText().trim();
-        InputStream is = getClass().getResourceAsStream("imgs/icon.png");
+        InputStream is = getClass().getResourceAsStream("resources/imgs/icon.png");
         boolean res = true;
         if (agreeCheckBox.isSelected()) {
             if (advancedPane.isVisible()) {                              
@@ -329,7 +329,7 @@ public class FXMLManualProxyController implements Initializable {
      */
     @FXML
     private void removeAllSettings(ActionEvent event){
-        InputStream is = getClass().getResourceAsStream("imgs/icon.png");
+        InputStream is = getClass().getResourceAsStream("resources/imgs/icon.png");
         if(ProxyUtils.createQuestionRemoveAll(is)){
             settings = ProxySettings.getDirectConnectionSetting();
             isActivated = false;
@@ -405,7 +405,7 @@ public class FXMLManualProxyController implements Initializable {
         Integer port;
         String autheUser = advancedPane.isVisible() ? proxyUser.getText().trim() : null;
         String authPass = advancedPane.isVisible() ? proxyPass.getText().trim() : null;
-        InputStream is = getClass().getResourceAsStream("imgs/icon.png");
+        InputStream is = getClass().getResourceAsStream("resources/imgs/icon.png");
         if ((host != null && host.length() > 0)) {
             if (proxyPort.getText() != null && proxyPort.getText().trim().length() > 0) {
                 port = Integer.valueOf(proxyPort.getText());
@@ -443,7 +443,7 @@ public class FXMLManualProxyController implements Initializable {
     private void defaultProxyServer(String acs) {        
         String autheUser = advancedPane.isVisible() ? proxyUser.getText().trim() : null;
         String authPass = advancedPane.isVisible() ? proxyPass.getText().trim() : null;
-        InputStream is = getClass().getResourceAsStream("imgs/icon.png");
+        InputStream is = getClass().getResourceAsStream("resources/imgs/icon.png");
         if ((acs != null && acs.length() > 0)) {
 
             if (!isActivated) {
@@ -468,7 +468,7 @@ public class FXMLManualProxyController implements Initializable {
      * thread.
      */
     private void startProxyThread() {
-        InputStream is = getClass().getResourceAsStream("imgs/icon.png");
+        InputStream is = getClass().getResourceAsStream("resources/imgs/icon.png");
         Task task = new Task<Void>() {
             @Override
             public Void call() throws ProxyManager.ProxySetupException {
