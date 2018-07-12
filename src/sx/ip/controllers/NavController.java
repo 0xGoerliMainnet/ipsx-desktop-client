@@ -83,7 +83,9 @@ public class NavController{
     public void startScene() throws IOException{        
         Scene scene = new Scene(root);        
         stage.setScene(scene);
-        stage.show();
-    }   
+        if(!stage.isShowing()){
+            stage.show();        
+        }
+    }
     
 }
