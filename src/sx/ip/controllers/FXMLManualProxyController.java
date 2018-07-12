@@ -41,9 +41,9 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 import javafx.util.converter.IntegerStringConverter;
 import org.slf4j.LoggerFactory;
+import sx.ip.IPSXDesktopClient;
 import sx.ip.models.ProxyType;
 import sx.ip.proxies.ProxyManager;
 import sx.ip.proxies.ProxySettings;
@@ -162,7 +162,7 @@ public class FXMLManualProxyController extends NavController implements Initiali
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        this.bundle = rb;
+        //bundle = rb;
         NumberValidator numValidator = new  NumberValidator();        
         
         BlankSpacesValidator validatorIP = new BlankSpacesValidator();
@@ -170,10 +170,10 @@ public class FXMLManualProxyController extends NavController implements Initiali
         BlankSpacesValidator validatorURL = new BlankSpacesValidator();
         
         CharValidator validatorCharIP = new CharValidator();
-        validatorCharIP.setMessage(bundle.getString("key.main.validator.char"));
+        validatorCharIP.setMessage(rb.getString("key.main.validator.char"));
         
         CharValidator validatorCharURL = new CharValidator();
-        validatorCharURL.setMessage(bundle.getString("key.main.validator.char"));
+        validatorCharURL.setMessage(rb.getString("key.main.validator.char"));
         
         ObservableList<ProxyType> data
                 = FXCollections.observableArrayList(
@@ -267,7 +267,7 @@ public class FXMLManualProxyController extends NavController implements Initiali
     @FXML
     private void handleActivateAction(ActionEvent event) {
         String host = advancedPane.isVisible() ? proxyIp.getText().trim() : proxyUrl.getText().trim();
-        InputStream is = getClass().getResourceAsStream("resources/imgs/icon.png");
+        InputStream is = IPSXDesktopClient.class.getResourceAsStream("resources/imgs/icon.png");
         boolean res = true;
         if (agreeCheckBox.isSelected()) {
             if (advancedPane.isVisible()) {                              

@@ -28,14 +28,17 @@ import sx.ip.utils.ProxyUtils;
 public class NavControllerHandle {
     
     public static void initializeStageScene(FXMLLoader loader, Stage stage, Application app) throws IOException{
-        loader.setControllerFactory(new HostServicesControllerFactory(app.getHostServices()));
-
+        //loader.setControllerFactory(new HostServicesControllerFactory(app.getHostServices()));
+        navigateTo(loader, stage, app);        
+    }
+    
+    public static void navigateTo(FXMLLoader loader, Stage stage, Application app) throws IOException{
         Parent root = loader.load();
 
         NavController controller = loader.getController();
 
-        controller.setupController(stage, root, ProxyUtils.getBundle());
+        controller.setupController(stage, root, ProxyUtils.getBundle(), app);
         controller.startScene();
-    }
     
+    }
 }

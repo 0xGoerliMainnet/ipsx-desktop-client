@@ -15,6 +15,7 @@ package sx.ip.controllers;
 
 import java.io.IOException;
 import java.util.ResourceBundle;
+import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -30,7 +31,7 @@ import sx.ip.IPSXDesktopClient;
  */
 public class NavController{
     
-     /** The JavaFX Stage instance.  */
+    /** The JavaFX Stage instance.  */
     Stage stage;
     
     /** The Parent instance.  */
@@ -39,16 +40,19 @@ public class NavController{
     /** The ResourceBundle instance.  */
     ResourceBundle bundle;
     
+    Application app;
+    
     /** Define the window x offsets. */
     private double xOffset = 0;
 
     /** Define the window y offsets. */
     private double yOffset = 0;
     
-    public void setupController(Stage stage,Parent root, ResourceBundle bundle){        
+    public void setupController(Stage stage,Parent root, ResourceBundle bundle, Application app){        
         this.root = root;
         this.stage = stage;
         this.bundle = bundle;
+        this.app = app;
         
         root.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
@@ -70,7 +74,10 @@ public class NavController{
         });
         
         stage.setResizable(false);
-        stage.initStyle(StageStyle.UNDECORATED);
+        if(stage.isShowing()){
+            stage.initStyle(StageStyle.UNDECORATED);
+        }
+        
         stage.getIcons().add(new Image(IPSXDesktopClient.class.getResourceAsStream("resources/imgs/icon.png")));
         stage.setTitle("IP Exchange");
     }
