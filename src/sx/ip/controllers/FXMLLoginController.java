@@ -22,6 +22,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.web.WebView;
 import sx.ip.IPSXDesktopClient;
 import sx.ip.factories.HostServicesControllerFactory;
 import sx.ip.utils.ProxyUtils;
@@ -48,6 +49,9 @@ public class FXMLLoginController extends NavController implements Initializable{
     /** The close button instance.  */
     @FXML
     private JFXButton btnClose;
+   /** The close button instance.  */
+    @FXML
+    private WebView webviewFacebook;
 
     /** The main anchor pane instance.  */
     @FXML
@@ -86,6 +90,12 @@ public class FXMLLoginController extends NavController implements Initializable{
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
+        this.webviewFacebook.getEngine().load("https://www.facebook.com/v3.0/dialog/oauth?" +
+        "client_id=" +
+        "&redirect_uri=https://www.facebook.com/connect/login_success.html" +
+        "&state={{\"st=state123abc,ds=123456789\"}}");
+        
         
     }
 
