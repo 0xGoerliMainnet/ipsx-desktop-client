@@ -54,16 +54,13 @@ import sx.ip.utils.ProxyUtils;
 /**
  * Main controller for the main application window
  */
-public class FXMLManualProxyController implements Initializable {
+public class FXMLManualProxyController extends NavController implements Initializable {
     
     /** The logger Object.  */
     static org.slf4j.Logger LOGGER = LoggerFactory.getLogger(FXMLManualProxyController.class);
     
     /** The object that provides Host Services for the Application.  */
     private HostServices hostServices;
-    
-    /** The JavaFX Stage instance.  */
-    private Stage stage;
     
     /** The ProxyManager instance.  */
     private final ProxyManager manager = ProxyManager.getInstance();
@@ -73,9 +70,6 @@ public class FXMLManualProxyController implements Initializable {
     
     /** Simple flag to say if the proxy is active or not instance.  */
     private boolean isActivated = false;
-    
-    /** The ResourceBundle instance.  */
-    private ResourceBundle bundle;
 
     /** The main anchorPane instance.  */
     @FXML
@@ -153,16 +147,6 @@ public class FXMLManualProxyController implements Initializable {
     @FXML
     private Hyperlink removeAll;
 
-    /**
-     * Method responsible for set the current stage
-     *
-     * @param stage 
-     *          The current stage
-     */
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }    
-    
     /**
      * Method responsible for set the current hostServices
      *

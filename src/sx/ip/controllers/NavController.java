@@ -15,7 +15,6 @@ package sx.ip.controllers;
 
 import java.io.IOException;
 import java.util.ResourceBundle;
-import javafx.application.HostServices;
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -32,7 +31,7 @@ import sx.ip.IPSXDesktopClient;
 public class NavController{
     
      /** The JavaFX Stage instance.  */
-    final Stage stage;
+    Stage stage;
     
     /** The Parent instance.  */
     Parent root;
@@ -40,26 +39,16 @@ public class NavController{
     /** The ResourceBundle instance.  */
     ResourceBundle bundle;
     
-    /** The object that provides Host Services for the Application.  */
-    HostServices hostServices;
-    
     /** Define the window x offsets. */
     private double xOffset = 0;
 
     /** Define the window y offsets. */
     private double yOffset = 0;
     
-    public NavController(Stage stage){
-        this.stage = stage;
-    }
-
-    public void setController(Stage stage, Parent root, ResourceBundle bundle){        
+    public void setController(Stage stage,Parent root, ResourceBundle bundle){        
         this.root = root;
+        this.stage = stage;
         this.bundle = bundle;
-    }
-    
-    public void hideStage(){
-        stage.close();
     }
     
     public void startScene() throws IOException{        
