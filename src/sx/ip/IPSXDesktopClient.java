@@ -1,17 +1,10 @@
 package sx.ip;
 
 import sx.ip.controllers.SystemTrayController;
-import sx.ip.controllers.FXMLManualProxyController;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import dorkbox.util.OS;
 import javax.swing.UIManager;
 import org.apache.log4j.PropertyConfigurator;
@@ -44,8 +37,8 @@ public class IPSXDesktopClient extends Application {
         SystemTrayController systemTray = new SystemTrayController(stage, ProxyUtils.getBundle());
         systemTray.addAppToTray();
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("resources/fxml/FXMLManualProxy.fxml"), ProxyUtils.getBundle());
-
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("resources/fxml/FXMLLandingPage.fxml"), ProxyUtils.getBundle());
+        loader.setControllerFactory(new HostServicesControllerFactory(getHostServices()));
         NavControllerHandle.initializeStageScene(loader, stage, this);
 
     }
