@@ -74,7 +74,7 @@ public class NavController{
         });
         
         stage.setResizable(false);
-        if(stage.isShowing()){
+        if(!stage.isShowing()){
             stage.initStyle(StageStyle.UNDECORATED);
         }
         
