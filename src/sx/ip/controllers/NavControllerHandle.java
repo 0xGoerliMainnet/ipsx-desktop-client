@@ -34,7 +34,7 @@ public class NavControllerHandle {
 
         NavController controller = loader.getController();
 
-        controller.setController(stage, root, ProxyUtils.getBundle());
+        controller.setupController(stage, root, ProxyUtils.getBundle());
         controller.startScene();
     }
     

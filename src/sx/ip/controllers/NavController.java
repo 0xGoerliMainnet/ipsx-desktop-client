@@ -45,15 +45,11 @@ public class NavController{
     /** Define the window y offsets. */
     private double yOffset = 0;
     
-    public void setController(Stage stage,Parent root, ResourceBundle bundle){        
+    public void setupController(Stage stage,Parent root, ResourceBundle bundle){        
         this.root = root;
         this.stage = stage;
         this.bundle = bundle;
-    }
-    
-    public void startScene() throws IOException{        
-        Scene scene = new Scene(root);
-        //grab your root here
+        
         root.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -77,6 +73,10 @@ public class NavController{
         stage.initStyle(StageStyle.UNDECORATED);
         stage.getIcons().add(new Image(IPSXDesktopClient.class.getResourceAsStream("resources/imgs/icon.png")));
         stage.setTitle("IP Exchange");
+    }
+    
+    public void startScene() throws IOException{        
+        Scene scene = new Scene(root);        
         stage.setScene(scene);
         stage.show();
     }   

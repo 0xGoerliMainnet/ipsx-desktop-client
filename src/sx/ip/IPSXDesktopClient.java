@@ -32,16 +32,6 @@ public class IPSXDesktopClient extends Application {
     static Logger LOGGER = LoggerFactory.getLogger(IPSXDesktopClient.class);
 
     /**
-     * Define the window x offsets
-     */
-    private double xOffset = 0;
-
-    /**
-     * Define the window y offsets
-     */
-    private double yOffset = 0;
-
-    /**
      * {@inheritDoc}
      */
     @Override
