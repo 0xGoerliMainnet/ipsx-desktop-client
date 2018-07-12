@@ -11,7 +11,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package sx.login;
+package sx.ip.controllers;
 
 import com.jfoenix.controls.JFXButton;
 import java.net.URL;
@@ -19,13 +19,12 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 
 /**
  *
  * @author caio
  */
-public class FXMLLoginController implements Initializable{
+public class FXMLLoginController extends NavController implements Initializable{
     
     
     /** The login with email button instance.  */
@@ -45,26 +44,11 @@ public class FXMLLoginController implements Initializable{
     private AnchorPane mainAnchorPane;
     
     
-    /* The JavaFX Stage instance.  */
-    private Stage stage;
-    
-    /* The ResourceBundle instance.  */
-    private ResourceBundle bundle;
-    
-    /**
-     * Method responsible for set the current stage
-     *
-     * @param stage 
-     *          The current stage
-     */
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }
-     
+
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        this.bundle = rb;
+        
     }
 
 

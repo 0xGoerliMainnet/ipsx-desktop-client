@@ -25,13 +25,13 @@ limitations under the License.
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="mainAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="375.0" style="-fx-background-color: rgba(255,255,255,0); -fx-border-color: #ced4da; -fx-border-width: 1px; -fx-border-insets: 0px; -fx-border-radius: 0px;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sx.login.FXMLLoginController">
+<AnchorPane id="AnchorPane" fx:id="mainAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="375.0" style="-fx-background-color: rgba(255,255,255,0); -fx-border-color: #ced4da; -fx-border-width: 1px; -fx-border-insets: 0px; -fx-border-radius: 0px;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sx.ip.controllers.FXMLLoginController">
     <children>
       <BorderPane prefHeight="450.0" prefWidth="374.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="0.0">
          <center>
             <ImageView blendMode="DARKEN" fitHeight="450.0" fitWidth="374.0" pickOnBounds="true" BorderPane.alignment="CENTER">
                <image>
-                  <Image url="@../ip/imgs/bg-375x450.jpg" />
+                  <Image url="@../imgs/bg-375x450.jpg" />
                </image>
                <viewport>
                   <Rectangle2D />
@@ -43,7 +43,7 @@ limitations under the License.
          <center>
             <ImageView fitHeight="45.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
                <image>
-                  <Image url="@../ip/imgs/ipsx-logo-230x45.png" />
+                  <Image url="@../imgs/ipsx-logo-230x45.png" />
                </image>
             </ImageView>
          </center>
