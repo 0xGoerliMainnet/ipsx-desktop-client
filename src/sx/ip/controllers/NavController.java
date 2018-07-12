@@ -72,14 +72,12 @@ public class NavController{
             }
 
         });
-        
-        stage.setResizable(false);
         if(!stage.isShowing()){
+            stage.setResizable(false);        
             stage.initStyle(StageStyle.UNDECORATED);
+            stage.getIcons().add(new Image(IPSXDesktopClient.class.getResourceAsStream("resources/imgs/icon.png")));
+            stage.setTitle("IP Exchange");
         }
-        
-        stage.getIcons().add(new Image(IPSXDesktopClient.class.getResourceAsStream("resources/imgs/icon.png")));
-        stage.setTitle("IP Exchange");
     }
     
     public void startScene() throws IOException{        
