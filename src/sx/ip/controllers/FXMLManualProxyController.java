@@ -11,7 +11,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package sx.ip;
+package sx.ip.controllers;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
@@ -41,9 +41,9 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 import javafx.util.converter.IntegerStringConverter;
 import org.slf4j.LoggerFactory;
+import sx.ip.IPSXDesktopClient;
 import sx.ip.models.ProxyType;
 import sx.ip.proxies.ProxyManager;
 import sx.ip.proxies.ProxySettings;
@@ -54,16 +54,13 @@ import sx.ip.utils.ProxyUtils;
 /**
  * Main controller for the main application window
  */
-public class FXMLManualProxyController implements Initializable {
+public class FXMLManualProxyController extends NavController implements Initializable {
     
     /** The logger Object.  */
     static org.slf4j.Logger LOGGER = LoggerFactory.getLogger(FXMLManualProxyController.class);
     
     /** The object that provides Host Services for the Application.  */
     private HostServices hostServices;
-    
-    /** The JavaFX Stage instance.  */
-    private Stage stage;
     
     /** The ProxyManager instance.  */
     private final ProxyManager manager = ProxyManager.getInstance();
@@ -73,9 +70,6 @@ public class FXMLManualProxyController implements Initializable {
     
     /** Simple flag to say if the proxy is active or not instance.  */
     private boolean isActivated = false;
-    
-    /** The ResourceBundle instance.  */
-    private ResourceBundle bundle;
 
     /** The main anchorPane instance.  */
     @FXML
@@ -154,16 +148,6 @@ public class FXMLManualProxyController implements Initializable {
     private Hyperlink removeAll;
 
     /**
-     * Method responsible for set the current stage
-     *
-     * @param stage 
-     *          The current stage
-     */
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }    
-    
-    /**
      * Method responsible for set the current hostServices
      *
      * @param hostServices 
@@ -178,7 +162,7 @@ public class FXMLManualProxyController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        this.bundle = rb;
+        //bundle = rb;
         NumberValidator numValidator = new  NumberValidator();        
         
         BlankSpacesValidator validatorIP = new BlankSpacesValidator();
@@ -186,10 +170,10 @@ public class FXMLManualProxyController implements Initializable {
         BlankSpacesValidator validatorURL = new BlankSpacesValidator();
         
         CharValidator validatorCharIP = new CharValidator();
-        validatorCharIP.setMessage(bundle.getString("key.main.validator.char"));
+        validatorCharIP.setMessage(rb.getString("key.main.validator.char"));
         
         CharValidator validatorCharURL = new CharValidator();
-        validatorCharURL.setMessage(bundle.getString("key.main.validator.char"));
+        validatorCharURL.setMessage(rb.getString("key.main.validator.char"));
         
         ObservableList<ProxyType> data
                 = FXCollections.observableArrayList(
@@ -283,7 +267,7 @@ public class FXMLManualProxyController implements Initializable {
     @FXML
     private void handleActivateAction(ActionEvent event) {
         String host = advancedPane.isVisible() ? proxyIp.getText().trim() : proxyUrl.getText().trim();
-        InputStream is = getClass().getResourceAsStream("imgs/icon.png");
+        InputStream is = IPSXDesktopClient.class.getResourceAsStream("resources/imgs/icon.png");
         boolean res = true;
         if (agreeCheckBox.isSelected()) {
             if (advancedPane.isVisible()) {                              
@@ -329,7 +313,7 @@ public class FXMLManualProxyController implements Initializable {
      */
     @FXML
     private void removeAllSettings(ActionEvent event){
-        InputStream is = getClass().getResourceAsStream("imgs/icon.png");
+        InputStream is = getClass().getResourceAsStream("resources/imgs/icon.png");
         if(ProxyUtils.createQuestionRemoveAll(is)){
             settings = ProxySettings.getDirectConnectionSetting();
             isActivated = false;
@@ -405,7 +389,7 @@ public class FXMLManualProxyController implements Initializable {
         Integer port;
         String autheUser = advancedPane.isVisible() ? proxyUser.getText().trim() : null;
         String authPass = advancedPane.isVisible() ? proxyPass.getText().trim() : null;
-        InputStream is = getClass().getResourceAsStream("imgs/icon.png");
+        InputStream is = getClass().getResourceAsStream("resources/imgs/icon.png");
         if ((host != null && host.length() > 0)) {
             if (proxyPort.getText() != null && proxyPort.getText().trim().length() > 0) {
                 port = Integer.valueOf(proxyPort.getText());
@@ -443,7 +427,7 @@ public class FXMLManualProxyController implements Initializable {
     private void defaultProxyServer(String acs) {        
         String autheUser = advancedPane.isVisible() ? proxyUser.getText().trim() : null;
         String authPass = advancedPane.isVisible() ? proxyPass.getText().trim() : null;
-        InputStream is = getClass().getResourceAsStream("imgs/icon.png");
+        InputStream is = getClass().getResourceAsStream("resources/imgs/icon.png");
         if ((acs != null && acs.length() > 0)) {
 
             if (!isActivated) {
@@ -468,7 +452,7 @@ public class FXMLManualProxyController implements Initializable {
      * thread.
      */
     private void startProxyThread() {
-        InputStream is = getClass().getResourceAsStream("imgs/icon.png");
+        InputStream is = getClass().getResourceAsStream("resources/imgs/icon.png");
         Task task = new Task<Void>() {
             @Override
             public Void call() throws ProxyManager.ProxySetupException {

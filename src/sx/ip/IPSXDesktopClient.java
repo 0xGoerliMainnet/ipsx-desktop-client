@@ -1,5 +1,7 @@
 package sx.ip;
 
+import sx.ip.controllers.SystemTrayController;
+import sx.ip.controllers.FXMLManualProxyController;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -15,6 +17,7 @@ import javax.swing.UIManager;
 import org.apache.log4j.PropertyConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sx.ip.controllers.NavControllerHandle;
 import sx.ip.factories.HostServicesControllerFactory;
 import sx.ip.utils.ProxyUtils;
 
@@ -29,16 +32,6 @@ public class IPSXDesktopClient extends Application {
     static Logger LOGGER = LoggerFactory.getLogger(IPSXDesktopClient.class);
 
     /**
-     * Define the window x offsets
-     */
-    private double xOffset = 0;
-
-    /**
-     * Define the window y offsets
-     */
-    private double yOffset = 0;
-
-    /**
      * {@inheritDoc}
      */
     @Override
@@ -51,44 +44,9 @@ public class IPSXDesktopClient extends Application {
         SystemTrayController systemTray = new SystemTrayController(stage, ProxyUtils.getBundle());
         systemTray.addAppToTray();
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLManualProxy.fxml"), ProxyUtils.getBundle());
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("resources/fxml/FXMLManualProxy.fxml"), ProxyUtils.getBundle());
 
-        loader.setControllerFactory(new HostServicesControllerFactory(getHostServices()));
-
-        Parent root = loader.load();
-
-        FXMLManualProxyController controller = loader.getController();
-
-        controller.setStage(stage);
-
-        //grab your root here
-        root.setOnMousePressed(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                xOffset = event.getSceneX();
-                yOffset = event.getSceneY();
-            }
-
-        });
-
-        // Makes the window be draggable
-        root.setOnMouseDragged(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                stage.setX(event.getScreenX() - xOffset);
-                stage.setY(event.getScreenY() - yOffset);
-            }
-
-        });
-
-        // Setup the scene
-        Scene scene = new Scene(root);
-        stage.setResizable(false);
-        stage.initStyle(StageStyle.UNDECORATED);
-        stage.getIcons().add(new Image(getClass().getResourceAsStream("imgs/icon.png")));
-        stage.setTitle("IP Exchange");
-        stage.setScene(scene);
-        stage.show();
+        NavControllerHandle.initializeStageScene(loader, stage, this);
 
     }
 

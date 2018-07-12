@@ -11,7 +11,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package sx.ip;
+package sx.ip.controllers;
 
 import dorkbox.systemTray.Menu;
 import dorkbox.systemTray.MenuItem;
@@ -26,6 +26,7 @@ import javafx.application.Platform;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sx.ip.IPSXDesktopClient;
 
 /**
  * Class responsible to have all System Tray content in the application.
@@ -78,39 +79,12 @@ public class SystemTrayController {
             // app requires system tray support, just exit if there is no support.
             if (systemTray == null) {
                 throw new RuntimeException("Unable to load SystemTray!");
-            }
-
-            // IconFolder
-            String iconfolder = "default";
-            if (OS.isMacOsX()) {
-                iconfolder = "macos";
-            }
+            }           
 
             // We support the sizes: 16, 22, 24, 32 and 64
-            String systrayImageFile = "imgs/systray/" + iconfolder + "/icon64.png";
-            if (systemTray.getTrayImageSize() <= 16) {
-                systrayImageFile = "imgs/systray/" + iconfolder + "/icon16.png";
-            } else {
-                if (systemTray.getTrayImageSize() <= 18) {
-                    systrayImageFile = "imgs/systray/" + iconfolder + "/icon18.png";
-                } else {
-                    if (systemTray.getTrayImageSize() <= 22) {
-                        systrayImageFile = "imgs/systray/" + iconfolder + "/icon22.png";
-                    } else {
-                        if (systemTray.getTrayImageSize() <= 24) {
-                            systrayImageFile = "imgs/systray/" + iconfolder + "/icon24.png";
-                        } else {
-                            if (systemTray.getTrayImageSize() <= 32) {
-                                systrayImageFile = "imgs/systray/" + iconfolder + "/icon32.png";
-                            } else {
-                                systrayImageFile = "imgs/systray/" + iconfolder + "/icon64.png";
-                            }
-                        }
-                    }
-                }
-            }
+            String systrayImageFile = getFilePath();
 
-            systemTray.setImage(SystemTrayController.class.getResource(systrayImageFile));
+            systemTray.setImage(IPSXDesktopClient.class.getResource(systrayImageFile));
             systemTray.setTooltip("IPSX Desktop Client");
 
             Menu mainMenu = systemTray.getMenu();
@@ -152,6 +126,40 @@ public class SystemTrayController {
         } catch (RuntimeException e) {
             LOGGER.error("Unable to init system tray", e);
         }
+    }
+    
+   /**
+     * Get the right image file for the systray.
+     */ 
+    private String getFilePath(){
+        // IconFolder
+        String iconfolder = "default";
+        if (OS.isMacOsX()) {
+            iconfolder = "macos";
+        }
+        String systrayImageFile = "resources/imgs/systray/" + iconfolder + "/icon64.png";
+            if (systemTray.getTrayImageSize() <= 16) {
+                systrayImageFile = "resources/imgs/systray/" + iconfolder + "/icon16.png";
+            } else {
+                if (systemTray.getTrayImageSize() <= 18) {
+                    systrayImageFile = "resources/imgs/systray/" + iconfolder + "/icon18.png";
+                } else {
+                    if (systemTray.getTrayImageSize() <= 22) {
+                        systrayImageFile = "resources/imgs/systray/" + iconfolder + "/icon22.png";
+                    } else {
+                        if (systemTray.getTrayImageSize() <= 24) {
+                            systrayImageFile = "resources/imgs/systray/" + iconfolder + "/icon24.png";
+                        } else {
+                            if (systemTray.getTrayImageSize() <= 32) {
+                                systrayImageFile = "resources/imgs/systray/" + iconfolder + "/icon32.png";
+                            } else {
+                                systrayImageFile = "resources/imgs/systray/" + iconfolder + "/icon64.png";
+                            }
+                        }
+                    }
+                }
+            }
+        return systrayImageFile;
     }
 
     /**
