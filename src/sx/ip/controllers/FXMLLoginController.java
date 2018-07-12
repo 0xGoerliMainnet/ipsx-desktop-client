@@ -72,9 +72,9 @@ public class FXMLLoginController extends NavController implements Initializable{
     */
     @FXML
     private void loginWithEmailAction(ActionEvent event) throws IOException{
-        FXMLLoader loader = new FXMLLoader(IPSXDesktopClient.class.getResource("resources/fxml/FXMLManualProxy.fxml"), ProxyUtils.getBundle());
-        loader.setControllerFactory(new HostServicesControllerFactory(app.getHostServices()));
-        NavControllerHandle.navigateTo(loader, stage, app);
+//        FXMLLoader loader = new FXMLLoader(IPSXDesktopClient.class.getResource("resources/fxml/FXMLManualProxy.fxml"), ProxyUtils.getBundle());
+//        loader.setControllerFactory(new HostServicesControllerFactory(app.getHostServices()));
+//        NavControllerHandle.navigateTo(loader, stage, app);
     }
     
     @FXML
