@@ -17,7 +17,6 @@ limitations under the License.
 <?import com.jfoenix.controls.JFXButton?>
 <?import de.jensd.fx.glyphs.materialicons.MaterialIconView?>
 <?import javafx.geometry.Insets?>
-<?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
@@ -27,13 +26,10 @@ limitations under the License.
 
 <AnchorPane id="AnchorPane" prefHeight="450.0" prefWidth="375.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sx.ip.controllers.FXMLLandingPageController">
     <children>
-      <ImageView blendMode="DARKEN" fitHeight="450.0" fitWidth="375.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="450.0" fitWidth="375.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../imgs/bg-375x450.jpg" />
          </image>
-         <viewport>
-            <Rectangle2D />
-         </viewport>
       </ImageView>
       <Label layoutX="149.0" layoutY="139.0" text="Welcome to" />
       <ImageView fitHeight="45.0" fitWidth="230.0" layoutX="73.0" layoutY="170.0" pickOnBounds="true" preserveRatio="true">
