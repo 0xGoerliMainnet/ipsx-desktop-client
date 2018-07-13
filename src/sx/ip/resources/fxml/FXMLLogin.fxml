@@ -29,7 +29,6 @@ limitations under the License.
 
 <AnchorPane id="AnchorPane" fx:id="mainAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="375.0" style="-fx-background-color: rgba(255,255,255,0); -fx-border-color: #ced4da; -fx-border-width: 1px; -fx-border-insets: 0px; -fx-border-radius: 0px;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sx.ip.controllers.FXMLLoginController">
     <children>
-      <WebView fx:id="webviewFacebook" prefHeight="444.0" prefWidth="375.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-1.0" />
       <BorderPane prefHeight="450.0" prefWidth="374.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="0.0">
          <center>
             <ImageView blendMode="DARKEN" fitHeight="450.0" fitWidth="374.0" pickOnBounds="true" BorderPane.alignment="CENTER">
@@ -82,6 +81,7 @@ limitations under the License.
             <MaterialIconView fill="#707070" glyphName="CLOSE" size="16.0" textAlignment="CENTER" />
          </graphic>
       </JFXButton>
+      <WebView fx:id="webviewFacebook" prefHeight="444.0" prefWidth="375.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-1.0" />
     </children>
    <opaqueInsets>
       <Insets />
