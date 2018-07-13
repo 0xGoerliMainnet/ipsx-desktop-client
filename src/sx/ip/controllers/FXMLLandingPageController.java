@@ -23,7 +23,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import sx.ip.IPSXDesktopClient;
-import sx.ip.factories.HostServicesControllerFactory;
 import sx.ip.utils.ProxyUtils;
 
 /**
@@ -75,8 +74,7 @@ public class FXMLLandingPageController extends NavController implements Initiali
      */
     @FXML
     private void handleLoginAction(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(IPSXDesktopClient.class.getResource("resources/fxml/FXMLManualProxy.fxml"), ProxyUtils.getBundle());
-        loader.setControllerFactory(new HostServicesControllerFactory(app.getHostServices()));
+        FXMLLoader loader = new FXMLLoader(IPSXDesktopClient.class.getResource("resources/fxml/FXMLLogin.fxml"), ProxyUtils.getBundle());
         NavControllerHandle.navigateTo(loader, stage, app);
     }
     
