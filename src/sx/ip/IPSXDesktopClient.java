@@ -11,6 +11,7 @@ import org.apache.log4j.PropertyConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sx.ip.controllers.NavControllerHandle;
+import sx.ip.factories.HostServicesControllerFactory;
 import sx.ip.utils.ProxyUtils;
 
 /**
@@ -36,8 +37,8 @@ public class IPSXDesktopClient extends Application {
         SystemTrayController systemTray = new SystemTrayController(stage, ProxyUtils.getBundle());
         systemTray.addAppToTray();
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("resources/fxml/FXMLLogin.fxml"), ProxyUtils.getBundle());
-
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("resources/fxml/FXMLLandingPage.fxml"), ProxyUtils.getBundle());
+        loader.setControllerFactory(new HostServicesControllerFactory(getHostServices()));
         NavControllerHandle.initializeStageScene(loader, stage, this);
 
     }
