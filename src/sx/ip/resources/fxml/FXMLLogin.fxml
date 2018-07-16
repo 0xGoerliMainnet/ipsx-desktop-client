@@ -81,6 +81,11 @@ limitations under the License.
             <MaterialIconView fill="#707070" glyphName="CLOSE" size="16.0" textAlignment="CENTER" />
          </graphic>
       </JFXButton>
+      <AnchorPane layoutX="60.0" layoutY="334.0" prefHeight="75.0" prefWidth="253.0">
+         <children>
+            <Label fx:id="loginErrorLabel" alignment="CENTER" layoutX="1.0" layoutY="2.0" prefHeight="75.0" prefWidth="253.0" text="Error" textAlignment="CENTER" textFill="RED" visible="false" wrapText="true" AnchorPane.bottomAnchor="-2.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="2.0" />
+         </children>
+      </AnchorPane>
       <WebView fx:id="webviewFacebook" prefHeight="444.0" prefWidth="375.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-1.0" />
     </children>
    <opaqueInsets>
