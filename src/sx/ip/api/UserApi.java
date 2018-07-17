@@ -13,24 +13,28 @@
  */
 package sx.ip.api;
 
+import com.mashape.unirest.http.exceptions.UnirestException;
+
 /**
  *
  * @author hygor
  */
 public interface UserApi {
     
-    public boolean authUser(String email, String password);
+    public static String userApiUrl = "http://devapi.ip.sx:3000/api/users";
     
-    public boolean loginUser(String credentials);
+    public boolean authUser(String email, String password) throws UnirestException;
     
-    public boolean logoutUser();
+    public boolean loginUser(String credentials) throws UnirestException;
     
-    public boolean loginUserFacebook(String accessToken);
+    public boolean logoutUser() throws UnirestException;
     
-    public boolean changePassword(String oldPassword, String newPassword);
+    public boolean loginUserFacebook(String accessToken) throws UnirestException;
     
-    public boolean resetPassword(String email);
+    public boolean changePassword(String oldPassword, String newPassword) throws UnirestException;
     
-    public boolean addEthAddress(String customName, String ethAddress);
+    public boolean resetPassword(String email) throws UnirestException;
+    
+    public boolean addEthAddress(String customName, String ethAddress) throws UnirestException;
     
 }
