@@ -18,10 +18,12 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import io.swagger.client.ApiException;
+import io.swagger.client.api.CountriesApi;
+import io.swagger.client.model.InlineResponse200;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Worker.State;
 import javafx.event.ActionEvent;
@@ -116,9 +118,15 @@ public class FXMLLoginController extends NavController implements Initializable 
      */
     @FXML
     private void loginWithEmailAction(ActionEvent event) throws IOException {
-//        FXMLLoader loader = new FXMLLoader(IPSXDesktopClient.class.getResource("resources/fxml/FXMLManualProxy.fxml"), ProxyUtils.getBundle());
-//        loader.setControllerFactory(new HostServicesControllerFactory(app.getHostServices()));
-//        NavControllerHandle.navigateTo(loader, stage, app);
+        CountriesApi apiInstance = new CountriesApi();
+        String where = ""; // String | Criteria to match model instances
+        try {
+            InlineResponse200 result = apiInstance.countriesCount(where);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling CountriesApi#countriesCount");
+            e.printStackTrace();
+        }
     }
 
     @FXML
