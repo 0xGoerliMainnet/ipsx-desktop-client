@@ -91,7 +91,7 @@ limitations under the License.
             </Label>
          </children>
       </AnchorPane>
-      <JFXButton fx:id="btnDone" defaultButton="true" layoutX="114.0" layoutY="376.0" onAction="#doneAction" prefHeight="36.0" prefWidth="160.0" ripplerFill="WHITE" style="-fx-background-color: #2aace0;" text="Done" textAlignment="CENTER" textFill="WHITE" AnchorPane.leftAnchor="114.0" AnchorPane.rightAnchor="118.0">
+      <JFXButton fx:id="btnDone" defaultButton="true" disable="true" layoutX="114.0" layoutY="376.0" onAction="#doneAction" prefHeight="36.0" prefWidth="160.0" ripplerFill="WHITE" style="-fx-background-color: #2aace0;" text="Done" textAlignment="CENTER" textFill="WHITE" AnchorPane.leftAnchor="114.0" AnchorPane.rightAnchor="118.0">
          <font>
             <Font size="12.0" />
          </font>
