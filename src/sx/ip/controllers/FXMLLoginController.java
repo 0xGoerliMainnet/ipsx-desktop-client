@@ -115,10 +115,10 @@ public class FXMLLoginController extends NavController implements Initializable 
      * @param event An Event representing that the button has been fired.
      */
     @FXML
-    private void loginWithEmailAction(ActionEvent event) throws IOException {
-//        FXMLLoader loader = new FXMLLoader(IPSXDesktopClient.class.getResource("resources/fxml/FXMLManualProxy.fxml"), ProxyUtils.getBundle());
+    private void loginWithEmailAction(ActionEvent event) throws IOException{
+        FXMLLoader loader = new FXMLLoader(IPSXDesktopClient.class.getResource("resources/fxml/FXMLLoginEmail.fxml"), ProxyUtils.getBundle());
 //        loader.setControllerFactory(new HostServicesControllerFactory(app.getHostServices()));
-//        NavControllerHandle.navigateTo(loader, stage, app);
+        NavControllerHandle.navigateTo(loader, stage, app);
     }
 
     @FXML
