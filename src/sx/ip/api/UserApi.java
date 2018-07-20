@@ -23,7 +23,7 @@ public interface UserApi {
     
     public static String userApiUrl = "http://devapi.ip.sx:3000/api/users";
     
-    public boolean authUser(String email, String password) throws UnirestException;
+    public String authUser(String email, String password) throws UnirestException;
     
     public boolean loginUser(String credentials) throws UnirestException;
     

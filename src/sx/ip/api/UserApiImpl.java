@@ -25,7 +25,8 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 public class UserApiImpl implements UserApi{
 
     @Override
-    public boolean authUser(String email, String password) throws UnirestException {
+    public String authUser(String email, String password) throws UnirestException {
+        String userID = "";
         HttpResponse<JsonNode> jsonResponse = Unirest.post(UserApi.userApiUrl + "/auth")
             .header("Content-Type", "application/x-www-form-urlencoded")
             .header("accept", "application/json")
@@ -33,7 +34,12 @@ public class UserApiImpl implements UserApi{
             .field("password", password)
             .asJson();
         
-        return !jsonResponse.getBody().getObject().has("error");
+        if(!jsonResponse.getBody().getObject().has("error")){
+            if(jsonResponse.getBody().getObject().has("id")){
+                userID = jsonResponse.getBody().getObject().getString("id");
+            }
+        }
+        return userID;
     }
 
     @Override
