@@ -26,6 +26,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.layout.AnchorPane;
 import sx.ip.IPSXDesktopClient;
@@ -90,6 +91,7 @@ public class FXMLLoginEmailController extends NavController implements Initializ
         
         try {
             String response = api.authUser(userEmail.getText().trim(), userPass.getText().trim());
+            ProxyUtils.createAndShowAlert(Alert.AlertType.INFORMATION, bundle.getString("key.main.alert.info.title"), null, "ID: " + response, null);
             System.out.println(response);
         } catch (UnirestException ex) {
             Logger.getLogger(FXMLLoginEmailController.class.getName()).log(Level.SEVERE, null, ex);
