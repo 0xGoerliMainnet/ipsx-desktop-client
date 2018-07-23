@@ -38,9 +38,9 @@ public class NavController{
     Parent root;
     
     /** The ResourceBundle instance.  */
-    ResourceBundle bundle;
+    public static ResourceBundle bundle;
     
-    Application app;   
+    public static Application app;   
     
     public static String accessToken = null; 
     
