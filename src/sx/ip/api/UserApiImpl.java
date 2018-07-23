@@ -17,8 +17,10 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import javafx.scene.control.Alert;
 import org.json.JSONObject;
 import sx.ip.controllers.NavController;
+import sx.ip.utils.ProxyUtils;
 
 /**
  *
@@ -28,7 +30,6 @@ public class UserApiImpl implements UserApi{
 
     @Override
     public boolean authUser(String email, String password) throws UnirestException {
-        String accessToken = "";
         HttpResponse<JsonNode> jsonResponse = Unirest.post(UserApi.userApiUrl + "/auth")
             .header("Content-Type", "application/x-www-form-urlencoded")
             .header("accept", "application/json")
@@ -38,8 +39,7 @@ public class UserApiImpl implements UserApi{
         
         if(!jsonResponse.getBody().getObject().has("error")){
             if(jsonResponse.getBody().getObject().has("id")){
-                accessToken = jsonResponse.getBody().getObject().getString("id");
-                NavController.accessToken = accessToken;
+                NavController.accessToken = jsonResponse.getBody().getObject().getString("id");
                 return true;
             }
         }
@@ -54,16 +54,19 @@ public class UserApiImpl implements UserApi{
 
     @Override
     public boolean logoutUser() throws UnirestException {
-        //Verificar accessToken
-        HttpResponse<JsonNode> jsonResponse = Unirest.post(UserApi.userApiUrl + "/logout")
-            .header("Content-Type", "application/json")
-            .header("accept", "application/json")
-            .queryString("access_token", NavController.accessToken)
-            .asJson();
-        
-        if(jsonResponse.getStatus() == 204 && jsonResponse.getBody() == null){
-            NavController.accessToken = null;
-            return true;
+        if(NavController.accessToken != null){
+            HttpResponse<JsonNode> jsonResponse = Unirest.post(UserApi.userApiUrl + "/logout")
+                .header("Content-Type", "application/json")
+                .header("accept", "application/json")
+                .queryString("access_token", NavController.accessToken)
+                .asJson();
+
+            if(jsonResponse.getStatus() == 204 && jsonResponse.getBody() == null){
+                NavController.accessToken = null;
+                return true;
+            }
+        }else{
+            ProxyUtils.createAndShowAlert(Alert.AlertType.INFORMATION, NavController.bundle.getString("key.main.alert.info.title"), null, NavController.bundle.getString("key.main.unauthorized"), null);
         }
         
         return false;
@@ -99,7 +102,6 @@ public class UserApiImpl implements UserApi{
         HttpResponse<JsonNode> jsonResponse = Unirest.post(UserApi.userApiUrl + "/reset")
             .header("Content-Type", "application/json")
             .header("accept", "application/json")
-            .queryString("access_token", NavController.accessToken)
             .body(options)            
             .asJson();
         
