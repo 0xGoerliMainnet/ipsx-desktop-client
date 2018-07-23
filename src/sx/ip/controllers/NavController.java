@@ -40,7 +40,9 @@ public class NavController{
     /** The ResourceBundle instance.  */
     ResourceBundle bundle;
     
-    Application app;
+    Application app;   
+    
+    public static String accessToken = null; 
     
     /** Define the window x offsets. */
     private double xOffset = 0;

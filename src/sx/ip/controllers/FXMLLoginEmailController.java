@@ -24,15 +24,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.layout.AnchorPane;
-import sx.ip.IPSXDesktopClient;
 import sx.ip.api.UserApi;
 import sx.ip.api.UserApiImpl;
-import sx.ip.factories.HostServicesControllerFactory;
 import sx.ip.utils.BlankSpacesValidator;
 import sx.ip.utils.EmailValidator;
 import sx.ip.utils.ProxyUtils;
@@ -90,10 +87,12 @@ public class FXMLLoginEmailController extends NavController implements Initializ
         UserApi api = new UserApiImpl();
         
         try {
-            String response = api.authUser(userEmail.getText().trim(), userPass.getText().trim());
-            ProxyUtils.createAndShowAlert(Alert.AlertType.INFORMATION, bundle.getString("key.main.alert.info.title"), null, "ID: " + response, null);
-            System.out.println(response);
-            api.resetPassword("hygor@georanker.com", response);
+            boolean response = api.authUser(userEmail.getText().trim(), userPass.getText().trim());
+            
+            if(response){
+                ProxyUtils.createAndShowAlert(Alert.AlertType.INFORMATION, bundle.getString("key.main.alert.info.title"), null, "foi", null);
+                //verificação de carteira eth
+            }
         } catch (UnirestException ex) {
             Logger.getLogger(FXMLLoginEmailController.class.getName()).log(Level.SEVERE, null, ex);
         }
