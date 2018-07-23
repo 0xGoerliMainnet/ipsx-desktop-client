@@ -40,6 +40,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
 import javafx.util.Pair;
+import sx.ip.IPSXDesktopClient;
 
 /**
  * Class responsible for hold all useful functions.
@@ -69,6 +70,11 @@ public class ProxyUtils {
         alert.setHeaderText(header);
         alert.setContentText(content);
         Stage alertStage = (Stage) alert.getDialogPane().getScene().getWindow();
+        
+        if(is == null){
+            is = IPSXDesktopClient.class.getResourceAsStream("resources/imgs/icon.png");
+        }
+        
         alertStage.getIcons().add(new Image(is));
 
         return alert;
