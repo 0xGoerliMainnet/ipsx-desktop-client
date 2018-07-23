@@ -87,6 +87,7 @@ public class FXMLLoginEmailController extends NavController implements Initializ
         UserApi api = new UserApiImpl();
         
         try {
+            api.logoutUser();
             boolean response = api.authUser(userEmail.getText().trim(), userPass.getText().trim());
             
             if(response){

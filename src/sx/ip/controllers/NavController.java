@@ -40,7 +40,7 @@ public class NavController{
     /** The ResourceBundle instance.  */
     public static ResourceBundle bundle;
     
-    public static Application app;   
+    Application app;   
     
     public static String accessToken = null; 
     
