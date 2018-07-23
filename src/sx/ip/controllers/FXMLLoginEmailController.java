@@ -93,6 +93,7 @@ public class FXMLLoginEmailController extends NavController implements Initializ
             String response = api.authUser(userEmail.getText().trim(), userPass.getText().trim());
             ProxyUtils.createAndShowAlert(Alert.AlertType.INFORMATION, bundle.getString("key.main.alert.info.title"), null, "ID: " + response, null);
             System.out.println(response);
+            api.resetPassword("hygor@georanker.com", response);
         } catch (UnirestException ex) {
             Logger.getLogger(FXMLLoginEmailController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -100,7 +101,8 @@ public class FXMLLoginEmailController extends NavController implements Initializ
     
     @FXML
     private void resetPassword(ActionEvent ae) throws IOException{
-        //FXMLLoader loader = new FXMLLoader(IPSXDesktopClient.class.getResource("resources/fxml/FXMLManualProxy.fxml"), ProxyUtils.getBundle());
+        //FXMLLoader loader = new FXMLLoader(IPSXDesktopClient.class.getResource("resources/fxml/FXMLResetPassword.fxml"), ProxyUtils.getBundle());
+        //loader.setControllerFactory(new HostServicesControllerFactory(app.getHostServices()));
         //NavControllerHandle.navigateTo(loader, stage, app);
     }
     

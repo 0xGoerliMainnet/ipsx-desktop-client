@@ -27,14 +27,14 @@ public interface UserApi {
     
     public boolean loginUser(String credentials) throws UnirestException;
     
-    public boolean logoutUser() throws UnirestException;
+    public boolean logoutUser(String accessToken) throws UnirestException;
     
-    public boolean loginUserFacebook(String accessToken) throws UnirestException;
+    public String loginUserFacebook(String token) throws UnirestException;
     
-    public boolean changePassword(String oldPassword, String newPassword) throws UnirestException;
+    public String changePassword(String oldPassword, String newPassword, String newPasswordConfirmation, String accessToken) throws UnirestException;
     
-    public boolean resetPassword(String email) throws UnirestException;
+    public boolean resetPassword(String email, String accessToken) throws UnirestException;
     
-    public boolean addEthAddress(String customName, String ethAddress) throws UnirestException;
+    public boolean addEthAddress(String customName, String ethAddress, String accessToken) throws UnirestException;
     
 }
