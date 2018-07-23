@@ -17,6 +17,8 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import org.json.JSONObject;
+import sx.ip.controllers.NavController;
 
 /**
  *
@@ -26,6 +28,7 @@ public class UserApiImpl implements UserApi{
 
     @Override
     public boolean authUser(String email, String password) throws UnirestException {
+        String accessToken = "";
         HttpResponse<JsonNode> jsonResponse = Unirest.post(UserApi.userApiUrl + "/auth")
             .header("Content-Type", "application/x-www-form-urlencoded")
             .header("accept", "application/json")
@@ -33,42 +36,79 @@ public class UserApiImpl implements UserApi{
             .field("password", password)
             .asJson();
         
-        return !jsonResponse.getBody().getObject().has("error");
+        if(!jsonResponse.getBody().getObject().has("error")){
+            if(jsonResponse.getBody().getObject().has("id")){
+                accessToken = jsonResponse.getBody().getObject().getString("id");
+                NavController.accessToken = accessToken;
+                return true;
+            }
+        }
+        
+        return false;
     }
 
     @Override
     public boolean loginUser(String credentials) throws UnirestException {
-        HttpResponse<JsonNode> jsonResponse = Unirest.post(UserApi.userApiUrl + "/login")
-            .header("Content-Type", "application/x-www-form-urlencoded")
-            .header("accept", "application/json")
-            .field("credentials", credentials)
-            .asJson();
-        
-        return !jsonResponse.getBody().getObject().has("error");
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public boolean logoutUser() throws UnirestException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //Verificar accessToken
+        HttpResponse<JsonNode> jsonResponse = Unirest.post(UserApi.userApiUrl + "/logout")
+            .header("Content-Type", "application/json")
+            .header("accept", "application/json")
+            .queryString("access_token", NavController.accessToken)
+            .asJson();
+        
+        if(jsonResponse.getStatus() == 204 && jsonResponse.getBody() == null){
+            NavController.accessToken = null;
+            return true;
+        }
+        
+        return false;
     }
 
     @Override
-    public boolean loginUserFacebook(String accessToken) throws UnirestException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String loginUserFacebook(String token) throws UnirestException {
+        String accessToken = "";
+        HttpResponse<JsonNode> jsonResponse = Unirest.post(UserApi.userApiUrl + "/social/login/facebook")
+            .header("Content-Type", "application/x-www-form-urlencoded")
+            .header("accept", "application/json")
+            .field("token", token)
+            .asJson();
+        
+        if(!jsonResponse.getBody().getObject().has("error")){
+            if(jsonResponse.getBody().getObject().has("id")){
+                accessToken = jsonResponse.getBody().getObject().getString("id");
+                NavController.accessToken = accessToken;
+            }
+        }
+        return accessToken;
     }
 
     @Override
-    public boolean changePassword(String oldPassword, String newPassword) throws UnirestException {
+    public String changePassword(String oldPassword, String newPassword, String newPasswordConfirmation) throws UnirestException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public boolean resetPassword(String email) throws UnirestException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        JSONObject options = new JSONObject();
+        options.append("email", email);
+        HttpResponse<JsonNode> jsonResponse = Unirest.post(UserApi.userApiUrl + "/reset")
+            .header("Content-Type", "application/json")
+            .header("accept", "application/json")
+            .queryString("access_token", NavController.accessToken)
+            .body(options)            
+            .asJson();
+        
+        return jsonResponse.getStatus() == 204 && jsonResponse.getBody() == null;
     }
 
     @Override
     public boolean addEthAddress(String customName, String ethAddress) throws UnirestException {
+        //Verificar accessToken
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
