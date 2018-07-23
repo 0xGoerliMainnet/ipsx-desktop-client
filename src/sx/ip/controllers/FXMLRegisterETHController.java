@@ -15,11 +15,7 @@ package sx.ip.controllers;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
-import io.swagger.client.ApiClient;
-import io.swagger.client.ApiException;
-import io.swagger.client.api.UserethsApi;
-import io.swagger.client.model.InlineResponse200;
-import io.swagger.client.model.Usereths;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -30,6 +26,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.layout.AnchorPane;
+import sx.ip.api.UserApi;
+import sx.ip.api.UserApiImpl;
 import sx.ip.utils.BlankSpacesValidator;
 
 /**
@@ -91,17 +89,12 @@ public class FXMLRegisterETHController extends NavController implements Initiali
      */
     @FXML
     private void doneAction(ActionEvent event) throws IOException {
-        UserethsApi apiInstance = new UserethsApi();
-        Usereths newWallet = new Usereths();
-        newWallet.setAddress(this.txtETHAdrr.getText());
-        //newWallet.setUserId(null);
-        newWallet.setAlias(this.txtWalletName.getText());
+        UserApi api = new UserApiImpl();
         try {
-            Usereths result = apiInstance.userethsCreate(newWallet);
-            //go to next screen
-        } catch (ApiException ex) {
+            //TODO: regex for valid eth addr.
+            api.addEthAddress(this.txtWalletName.getText(),this.txtETHAdrr.getText());
+        } catch (UnirestException ex) {
             Logger.getLogger(FXMLRegisterETHController.class.getName()).log(Level.SEVERE, null, ex);
-            // show error message
         }
     }
 

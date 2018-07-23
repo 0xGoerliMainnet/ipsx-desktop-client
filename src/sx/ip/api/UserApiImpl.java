@@ -17,6 +17,7 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import java.util.HashMap;
 import javafx.scene.control.Alert;
 import org.json.JSONObject;
 import sx.ip.controllers.NavController;
@@ -40,6 +41,7 @@ public class UserApiImpl implements UserApi{
         if(!jsonResponse.getBody().getObject().has("error")){
             if(jsonResponse.getBody().getObject().has("id")){
                 NavController.accessToken = jsonResponse.getBody().getObject().getString("id");
+                NavController.userId = jsonResponse.getBody().getObject().getInt("userId");
                 return true;
             }
         }
@@ -63,6 +65,7 @@ public class UserApiImpl implements UserApi{
 
             if(jsonResponse.getStatus() == 204 && jsonResponse.getBody() == null){
                 NavController.accessToken = null;
+                NavController.userId = null;
                 return true;
             }
         }else{
@@ -85,6 +88,7 @@ public class UserApiImpl implements UserApi{
             if(jsonResponse.getBody().getObject().has("id")){
                 accessToken = jsonResponse.getBody().getObject().getString("id");
                 NavController.accessToken = accessToken;
+                NavController.userId = jsonResponse.getBody().getObject().getInt("userId");
             }
         }
         return accessToken;
@@ -110,8 +114,65 @@ public class UserApiImpl implements UserApi{
 
     @Override
     public boolean addEthAddress(String customName, String ethAddress) throws UnirestException {
-        //Verificar accessToken
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //TODO: Verify accessToken
+        HashMap<String,Object> bodyMap = new HashMap<>();
+        bodyMap.put("user_id", NavController.userId);
+        bodyMap.put("address", ethAddress);
+        bodyMap.put("alias", customName);
+        JSONObject body = new JSONObject(bodyMap);
+        HttpResponse<JsonNode> jsonResponse = Unirest.post(UserApi.userApiUrl+"/{id}/eths")
+            .header("Content-Type", "application/json")
+            .header("accept", "application/json")
+            .queryString("access_token", NavController.accessToken)
+            .routeParam("id", NavController.userId.toString())
+            .body(body)
+            .asJson();
+        
+        if(!jsonResponse.getBody().getArray().getJSONObject(0).has("error")){
+            if(jsonResponse.getBody()
+                    .getArray()
+                    .getJSONObject(0)
+                    .has("status")
+                    && 
+               jsonResponse.getBody()
+                    .getArray()
+                    .getJSONObject(0)
+                    .getString("status")
+                    .equals("active")){
+                    return true;
+            }
+        }else{
+            throw new UnirestException("Error in userAPI: Cannot create user's wallet, " + jsonResponse.getBody().getArray().getJSONObject(0).get("error"));
+        }
+        return false;   
     }
-    
+
+    @Override
+    public boolean userHasEthWallet() throws UnirestException {
+        
+        HttpResponse<JsonNode> jsonResponse = Unirest.get(UserApi.userApiUrl+"/{id}/eths")
+            .header("Content-Type", "application/json")
+            .header("accept", "application/json")
+            .queryString("access_token", NavController.accessToken)
+            .routeParam("id", NavController.userId.toString())
+            .asJson();
+        
+        if(!jsonResponse.getBody().getArray().getJSONObject(0).has("error")){
+            if(jsonResponse.getBody()
+                    .getArray()
+                    .getJSONObject(0)
+                    .has("status")
+                    &&
+               jsonResponse.getBody()
+                    .getArray()
+                    .getJSONObject(0)
+                    .getString("status")
+                    .equals("active")){
+                    return true;
+            }
+        }else{
+            throw new UnirestException("Error in userAPI: Cannot retrieve user's wallet, " + jsonResponse.getBody().getArray().getJSONObject(0).get("error"));
+        }
+        return false;
+    } 
 }
