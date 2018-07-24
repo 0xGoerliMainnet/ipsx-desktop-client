@@ -26,9 +26,7 @@ import sx.ip.IPSXDesktopClient;
 import sx.ip.utils.ProxyUtils;
 
 /**
- * FXML Controller class
- *
- * @author hygor
+ * Landing page controller 
  */
 public class FXMLLandingPageController extends NavController implements Initializable {
     
@@ -48,7 +46,7 @@ public class FXMLLandingPageController extends NavController implements Initiali
     private HostServices hostServices;
 
     /**
-     * Initializes the controller class.
+     * {@inheritDoc}
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {

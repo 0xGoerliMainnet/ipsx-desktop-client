@@ -26,8 +26,7 @@ import javafx.stage.StageStyle;
 import sx.ip.IPSXDesktopClient;
 
 /**
- *
- * @author hygor
+ * Main class responsible for system configuration
  */
 public class NavController{
     
@@ -40,8 +39,10 @@ public class NavController{
     /** The ResourceBundle instance.  */
     public static ResourceBundle bundle;
     
+    /** The Application instance.  */
     Application app;   
     
+    /** The accessToken instance.  */
     public static String accessToken = null; 
     
     /** Define the window x offsets. */
@@ -50,6 +51,18 @@ public class NavController{
     /** Define the window y offsets. */
     private double yOffset = 0;
     
+    /**
+    * Method responsible for do the controller setup.
+    *
+    * @param stage
+    *          The instance of the current stage.
+    * @param root
+    *          The instance of the current parent.
+    * @param bundle
+    *          The instance of the current resource bundle.
+    * @param app
+    *          The instance of the current application.
+    */
     public void setupController(Stage stage,Parent root, ResourceBundle bundle, Application app){        
         this.root = root;
         this.stage = stage;
@@ -82,6 +95,11 @@ public class NavController{
         }
     }
     
+    /**
+    * Method responsible for start the stage.
+    * 
+    * @throws IOException
+    */
     public void startScene() throws IOException{        
         Scene scene = new Scene(root);        
         stage.setScene(scene);

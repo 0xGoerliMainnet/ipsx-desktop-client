@@ -36,17 +36,16 @@ import sx.ip.utils.EmailValidator;
 import sx.ip.utils.ProxyUtils;
 
 /**
- *
- * @author caio
+ * Reset password screen controller
  */
 public class FXMLResetPasswordController extends NavController implements Initializable{
     
     
-    /** The login with email button instance.  */
+    /** The back to Login button instance.  */
     @FXML
     private Hyperlink btnBackToLogin;
     
-    /** The login button instance.  */
+    /** The send link button instance.  */
     @FXML
     private JFXButton btnSendLink;
     
@@ -62,6 +61,7 @@ public class FXMLResetPasswordController extends NavController implements Initia
     @FXML
     private JFXTextField userEmail;
     
+    /** The FXMLLoarder instance.  */
     private FXMLLoader loader = new FXMLLoader(IPSXDesktopClient.class.getResource("resources/fxml/FXMLLoginEmail.fxml"), ProxyUtils.getBundle());
     
     /**
@@ -76,7 +76,7 @@ public class FXMLResetPasswordController extends NavController implements Initia
     }
     
     /**
-    * Method resposible for the transition to the login with email screen action.
+    * Method resposible for the send link action.
     *
     * @param event
     *          An Event representing that the button has been fired.
@@ -100,13 +100,19 @@ public class FXMLResetPasswordController extends NavController implements Initia
         }
     }
     
+    /**
+     * Method resposible for the transition to the Login screen.
+     *
+     * @param event An Event representing that the button has been fired.
+     */
     @FXML
     private void backToLoginAction(ActionEvent ae) throws IOException{        
         NavControllerHandle.navigateTo(loader, stage, app);
-    }
-    
+    }    
 
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         

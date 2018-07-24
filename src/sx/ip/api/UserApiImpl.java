@@ -27,7 +27,10 @@ import sx.ip.utils.ProxyUtils;
  * @author hygor
  */
 public class UserApiImpl implements UserApi{
-
+    
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean authUser(String email, String password) throws UnirestException {
         HttpResponse<JsonNode> jsonResponse = Unirest.post(UserApi.userApiUrl + "/auth")
@@ -46,12 +49,18 @@ public class UserApiImpl implements UserApi{
         
         return false;
     }
-
+    
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean loginUser(String credentials) throws UnirestException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean logoutUser() throws UnirestException {
         if(NavController.accessToken != null){
@@ -71,7 +80,10 @@ public class UserApiImpl implements UserApi{
         
         return false;
     }
-
+    
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String loginUserFacebook(String token) throws UnirestException {
         String accessToken = "";
@@ -89,12 +101,18 @@ public class UserApiImpl implements UserApi{
         }
         return accessToken;
     }
-
+    
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String changePassword(String oldPassword, String newPassword, String newPasswordConfirmation) throws UnirestException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean resetPassword(String email) throws UnirestException {
         JSONObject options = new JSONObject();
@@ -107,7 +125,10 @@ public class UserApiImpl implements UserApi{
         
         return jsonResponse.getStatus() == 204 && jsonResponse.getBody() == null;
     }
-
+    
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean addEthAddress(String customName, String ethAddress) throws UnirestException {
         //Verificar accessToken

@@ -37,13 +37,12 @@ import sx.ip.utils.EmailValidator;
 import sx.ip.utils.ProxyUtils;
 
 /**
- *
- * @author caio
+ * Login with email screen controller
  */
 public class FXMLLoginEmailController extends NavController implements Initializable{
     
     
-    /** The login with email button instance.  */
+    /** The reset button instance.  */
     @FXML
     private Hyperlink btnReset;
     
@@ -79,7 +78,7 @@ public class FXMLLoginEmailController extends NavController implements Initializ
     }
     
     /**
-    * Method resposible for the transition to the login with email screen action.
+    * Method resposible for the login with email action.
     *
     * @param event
     *          An Event representing that the button has been fired.
@@ -101,14 +100,21 @@ public class FXMLLoginEmailController extends NavController implements Initializ
         }
     }
     
+    /**
+     * Method resposible for the transition to the reset password screen
+     * action.
+     *
+     * @param event An Event representing that the button has been fired.
+     */
     @FXML
     private void resetPassword(ActionEvent ae) throws IOException{
         FXMLLoader loader = new FXMLLoader(IPSXDesktopClient.class.getResource("resources/fxml/FXMLResetPassword.fxml"), ProxyUtils.getBundle());
         NavControllerHandle.navigateTo(loader, stage, app);
-    }
-    
+    }    
 
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         

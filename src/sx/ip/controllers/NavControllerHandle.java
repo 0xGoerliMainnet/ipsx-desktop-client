@@ -18,20 +18,41 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
-import sx.ip.factories.HostServicesControllerFactory;
 import sx.ip.utils.ProxyUtils;
 
 /**
- *
- * @author hygor
+ * Class responsible for do the navigation
  */
 public class NavControllerHandle {
     
+    /**
+    * Method responsible for the first scene initialization.
+    *
+    * @param loader
+    *          The instance of the current loader.
+    * @param stage
+    *          The instance of the current stage.
+    * @param app
+    *          The instance of the current application.
+    * 
+    * @throws IOException
+    */
     public static void initializeStageScene(FXMLLoader loader, Stage stage, Application app) throws IOException{
-        //loader.setControllerFactory(new HostServicesControllerFactory(app.getHostServices()));
         navigateTo(loader, stage, app);        
     }
     
+    /**
+    * Method responsible for the navigation between scenes.
+    *
+    * @param loader
+    *          The instance of the current loader.
+    * @param stage
+    *          The instance of the current stage.
+    * @param app
+    *          The instance of the current application.
+    * 
+    * @throws IOException
+    */
     public static void navigateTo(FXMLLoader loader, Stage stage, Application app) throws IOException{
         Parent root = loader.load();
 
