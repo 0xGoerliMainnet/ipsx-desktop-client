@@ -38,7 +38,7 @@ public class EmailValidator extends ValidatorBase {
     }
     
     /**
-     * Validate if the text has double quotes.
+     * Validate if the text corresponds to an email pattern.
      */
     private void evalTextInputField() {
         TextInputControl textField = (TextInputControl) srcControl.get();
@@ -52,6 +52,9 @@ public class EmailValidator extends ValidatorBase {
         } 
     }
     
+    /**
+     * Validate if the text corresponds to an email pattern.
+     */
     public static boolean validate(String emailStr) {
         Matcher matcher = VALID_EMAIL_ADDRESS_REGEX .matcher(emailStr);
         return matcher.find();

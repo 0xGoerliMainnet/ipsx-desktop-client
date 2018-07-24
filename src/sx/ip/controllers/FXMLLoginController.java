@@ -21,7 +21,6 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Worker.State;
 import javafx.event.ActionEvent;
@@ -37,8 +36,7 @@ import sx.ip.factories.HostServicesControllerFactory;
 import sx.ip.utils.ProxyUtils;
 
 /**
- *
- * @author caio
+ * Login screen controller
  */
 public class FXMLLoginController extends NavController implements Initializable {
 
@@ -117,10 +115,15 @@ public class FXMLLoginController extends NavController implements Initializable 
     @FXML
     private void loginWithEmailAction(ActionEvent event) throws IOException{
         FXMLLoader loader = new FXMLLoader(IPSXDesktopClient.class.getResource("resources/fxml/FXMLLoginEmail.fxml"), ProxyUtils.getBundle());
-//        loader.setControllerFactory(new HostServicesControllerFactory(app.getHostServices()));
         NavControllerHandle.navigateTo(loader, stage, app);
     }
-
+    
+    /**
+     * Method resposible for the login with facebook
+     * action.
+     *
+     * @param event An Event representing that the button has been fired.
+     */
     @FXML
     private void loginWithFacebookAction(ActionEvent ae) throws IOException {
         this.webviewFacebook.setVisible(true);
@@ -130,7 +133,10 @@ public class FXMLLoginController extends NavController implements Initializable 
                 + "&redirect_uri=https://www.facebook.com/connect/login_success.html");
 
     }
-
+    
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.webEn = this.webviewFacebook.getEngine();
@@ -140,7 +146,6 @@ public class FXMLLoginController extends NavController implements Initializable 
 
         this.webEn.getLoadWorker().stateProperty().addListener((ObservableValue<? extends State> observable, State oldValue, State newValue) -> {
             if (newValue == State.SUCCEEDED) {
-//                System.out.println(this.webEn.getLocation());
                 if (this.webEn.getLocation().contains("https://www.facebook.com/connect/login_success.html?code=")) {
                     String[] code = this.webEn.getLocation().split("code=");
                     this.facebookCode = code[1];
@@ -173,7 +178,6 @@ public class FXMLLoginController extends NavController implements Initializable 
                             } else {
                                 try {
                                     Unirest.shutdown();
-                                    //LOAD POST LOGIN SCREEN
                                     FXMLLoader loader = new FXMLLoader(IPSXDesktopClient.class.getResource("resources/fxml/FXMLManualProxy.fxml"), ProxyUtils.getBundle());
                                     loader.setControllerFactory(new HostServicesControllerFactory(app.getHostServices()));
                                     NavControllerHandle.navigateTo(loader, stage, app);

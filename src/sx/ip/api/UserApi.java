@@ -16,25 +16,99 @@ package sx.ip.api;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
 /**
- *
- * @author hygor
- */
+* Interface responsible for describe the all user api methods
+*/
 public interface UserApi {
-    
+    /** Base ulr for User API.  */
     public static String userApiUrl = "http://devapi.ip.sx:3000/api/users";
     
+    /**
+    * Method responsible for do the login with email and password.
+    *
+    * @param email
+    *          The instance of the current loader.
+    * @param password
+    *          The instance of the current stage.
+    * 
+    * @throws UnirestException
+    * 
+    * @return boolean
+    */
     public boolean authUser(String email, String password) throws UnirestException;
     
+    /**
+    * Method responsible for do the login with credentials.
+    *
+    * @param credentials
+    *          The instance of the current loader.
+    * 
+    * @throws UnirestException
+    * 
+    * @return boolean
+    */
     public boolean loginUser(String credentials) throws UnirestException;
     
+    /**
+    * Method responsible for do the user logout.
+    * 
+    * @throws UnirestException
+    * 
+    * @return boolean
+    */
     public boolean logoutUser() throws UnirestException;
     
+    /**
+    * Method responsible for do the login with facebook credentials.
+    *
+    * @param token
+    *          The instance of the current loader.
+    * 
+    * @throws UnirestException
+    * 
+    * @return String
+    */
     public String loginUserFacebook(String token) throws UnirestException;
     
+    /**
+    * Method responsible for the user password change.
+    *
+    * @param oldPassword
+    *          The instance of the current loader.
+    * @param newPassword
+    *          The instance of the current stage.
+    * @param newPasswordConfirmation
+    *          The instance of the current application.
+    * 
+    * @throws UnirestException
+    * 
+    * @return String
+    */
     public String changePassword(String oldPassword, String newPassword, String newPasswordConfirmation) throws UnirestException;
     
+    /**
+    * Method responsible for send the password reset link.
+    *
+    * @param email
+    *          The instance of the current loader.
+    * 
+    * @throws UnirestException
+    * 
+    * @return boolean
+    */
     public boolean resetPassword(String email) throws UnirestException;
     
+    /**
+    * Method responsible for add a eth wallet address to the user account.
+    *
+    * @param customName
+    *          The instance of the current loader.
+    * @param ethAddress
+    *          The instance of the current stage.
+    * 
+    * @throws UnirestException
+    * 
+    * @return boolean
+    */
     public boolean addEthAddress(String customName, String ethAddress) throws UnirestException;
     
 }

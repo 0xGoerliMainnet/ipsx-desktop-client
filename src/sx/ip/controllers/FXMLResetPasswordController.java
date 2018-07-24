@@ -14,7 +14,6 @@
 package sx.ip.controllers;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import java.io.IOException;
@@ -37,18 +36,18 @@ import sx.ip.utils.EmailValidator;
 import sx.ip.utils.ProxyUtils;
 
 /**
- * Login with email screen controller
+ * Reset password screen controller
  */
-public class FXMLLoginEmailController extends NavController implements Initializable{
+public class FXMLResetPasswordController extends NavController implements Initializable{
     
     
-    /** The reset button instance.  */
+    /** The back to Login button instance.  */
     @FXML
-    private Hyperlink btnReset;
+    private Hyperlink btnBackToLogin;
     
-    /** The login button instance.  */
+    /** The send link button instance.  */
     @FXML
-    private JFXButton btnLoginEmail;
+    private JFXButton btnSendLink;
     
     /** The close button instance.  */
     @FXML
@@ -62,9 +61,8 @@ public class FXMLLoginEmailController extends NavController implements Initializ
     @FXML
     private JFXTextField userEmail;
     
-    /** The password text field instance.  */
-    @FXML
-    private JFXPasswordField userPass;
+    /** The FXMLLoarder instance.  */
+    private FXMLLoader loader = new FXMLLoader(IPSXDesktopClient.class.getResource("resources/fxml/FXMLLoginEmail.fxml"), ProxyUtils.getBundle());
     
     /**
     * Method resposible for handling the close action.
@@ -78,37 +76,37 @@ public class FXMLLoginEmailController extends NavController implements Initializ
     }
     
     /**
-    * Method resposible for the login with email action.
+    * Method resposible for the send link action.
     *
     * @param event
     *          An Event representing that the button has been fired.
     */
     @FXML
-    private void loginAction(ActionEvent event) throws IOException{
+    private void sendLinkAction(ActionEvent event) throws IOException{
         UserApi api = new UserApiImpl();
         
         try {
-            boolean response = api.authUser(userEmail.getText().trim(), userPass.getText().trim());
+            boolean response = api.resetPassword(userEmail.getText().trim());
             
             if(response){
-                //verificação de carteira eth
+                userEmail.clear();
+                ProxyUtils.createAndShowAlert(Alert.AlertType.INFORMATION, bundle.getString("key.main.alert.info.title"), null, bundle.getString("key.main.send.link"), null);
+                NavControllerHandle.navigateTo(loader, stage, app);
             }else{
-                ProxyUtils.createAndShowAlert(Alert.AlertType.INFORMATION, bundle.getString("key.main.alert.error.title"), null, "foi", null);
+               ProxyUtils.createAndShowAlert(Alert.AlertType.INFORMATION, bundle.getString("key.main.alert.error.title"), null, bundle.getString("key.main.send.link.error"), null); 
             }
         } catch (UnirestException ex) {
-            Logger.getLogger(FXMLLoginEmailController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FXMLResetPasswordController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
     /**
-     * Method resposible for the transition to the reset password screen
-     * action.
+     * Method resposible for the transition to the Login screen.
      *
      * @param event An Event representing that the button has been fired.
      */
     @FXML
-    private void resetPassword(ActionEvent ae) throws IOException{
-        FXMLLoader loader = new FXMLLoader(IPSXDesktopClient.class.getResource("resources/fxml/FXMLResetPassword.fxml"), ProxyUtils.getBundle());
+    private void backToLoginAction(ActionEvent ae) throws IOException{        
         NavControllerHandle.navigateTo(loader, stage, app);
     }    
 
@@ -129,16 +127,16 @@ public class FXMLLoginEmailController extends NavController implements Initializ
             if(newValue.isEmpty()){
                 userEmail.getValidators().add(blankValidatorEmail);
                 if(!userEmail.validate()){
-                    btnLoginEmail.setDisable(true);
+                    btnSendLink.setDisable(true);
                 }else{
-                    btnLoginEmail.setDisable(false);
+                    btnSendLink.setDisable(false);
                 }
             }else{
                 userEmail.getValidators().add(emailValidator);
                 if(!userEmail.validate()){
-                    btnLoginEmail.setDisable(true);
+                    btnSendLink.setDisable(true);
                 }else{
-                    btnLoginEmail.setDisable(false);
+                    btnSendLink.setDisable(false);
                 }
             }
             
