@@ -18,9 +18,6 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
-import io.swagger.client.ApiException;
-import io.swagger.client.api.CountriesApi;
-import io.swagger.client.model.InlineResponse200;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -35,6 +32,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import sx.ip.IPSXDesktopClient;
+import sx.ip.api.UserApi;
+import sx.ip.api.UserApiImpl;
 import sx.ip.factories.HostServicesControllerFactory;
 import sx.ip.utils.ProxyUtils;
 
@@ -117,7 +116,7 @@ public class FXMLLoginController extends NavController implements Initializable 
      * @param event An Event representing that the button has been fired.
      */
     @FXML
-    private void loginWithEmailAction(ActionEvent event) throws IOException{
+    private void loginWithEmailAction(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(IPSXDesktopClient.class.getResource("resources/fxml/FXMLLoginEmail.fxml"), ProxyUtils.getBundle());
 //        loader.setControllerFactory(new HostServicesControllerFactory(app.getHostServices()));
         NavControllerHandle.navigateTo(loader, stage, app);
@@ -128,13 +127,14 @@ public class FXMLLoginController extends NavController implements Initializable 
         this.webviewFacebook.setVisible(true);
         this.webviewFacebook.setDisable(false);
         this.webEn.load("https://www.facebook.com/v3.0/dialog/oauth?"
-                + "client_id=--"
+                + "client_id=193139868020075"
                 + "&redirect_uri=https://www.facebook.com/connect/login_success.html");
 
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        UserApi api = new UserApiImpl();
         this.webEn = this.webviewFacebook.getEngine();
         this.webEn.load(null);
         this.webviewFacebook.setVisible(false);
@@ -148,7 +148,7 @@ public class FXMLLoginController extends NavController implements Initializable 
                     this.facebookCode = code[1];
                     try {
                         HttpResponse<JsonNode> tokenResponse = Unirest.get("https://graph.facebook.com/v3.0/oauth/access_token?")
-                                .queryString("client_id", "--")
+                                .queryString("client_id", "193139868020075")
                                 .queryString("redirect_uri", "https://www.facebook.com/connect/login_success.html")
                                 .queryString("client_secret", "--")
                                 .queryString("code", this.facebookCode)
@@ -160,33 +160,37 @@ public class FXMLLoginController extends NavController implements Initializable 
                             this.loginErrorLabel.setText(errorMessage);
 
                         } else if (tokenResponse.getBody().getObject().has("access_token")) {
-
                             this.facebookAccessToken = tokenResponse.getBody().getObject().get("access_token").toString();
-                            HttpResponse<JsonNode> apiResponse = Unirest.post("--")
-                                    .header("Content-Type", "application/x-www-form-urlencoded")
-                                    .header("Accept", "application/json")
-                                    .field("token", this.facebookAccessToken)
-                                    .asJson();
-                            if (apiResponse.getBody().getObject().has("error")) {
-                                //IPSX error msg in frontend
-                                this.loginErrorLabel.setVisible(true);
-                                String error = apiResponse.getBody().getArray().getJSONObject(0).getJSONObject("error").getString("message");
-                                this.loginErrorLabel.setText(error);
-                            } else {
-                                try {
-                                    Unirest.shutdown();
-                                    //LOAD POST LOGIN SCREEN
-                                    FXMLLoader loader = new FXMLLoader(IPSXDesktopClient.class.getResource("resources/fxml/FXMLManualProxy.fxml"), ProxyUtils.getBundle());
+
+                            try {
+                                String apiResponse = api.loginUserFacebook(this.facebookAccessToken);
+                                if (api.userHasEthWallet()) {
+                                    //User goes to dashboard
+                                    //FXMLLoader loader = new FXMLLoader(IPSXDesktopClient.class.getResource("resources/fxml/FXMLResetPassword.fxml"), ProxyUtils.getBundle());
+                                    //loader.setControllerFactory(new HostServicesControllerFactory(app.getHostServices()));
+                                    //NavControllerHandle.navigateTo(loader, stage, app);
+                                } else {
+                                    FXMLLoader loader = new FXMLLoader(IPSXDesktopClient.class.getResource("resources/fxml/FXMLRegisterETH.fxml"), ProxyUtils.getBundle());
                                     loader.setControllerFactory(new HostServicesControllerFactory(app.getHostServices()));
                                     NavControllerHandle.navigateTo(loader, stage, app);
-                                } catch (Exception e) {
-                                    System.out.println(e.getMessage());
                                 }
+
+                            } catch (Exception e) {
+                                this.loginErrorLabel.setVisible(true);
+                                this.loginErrorLabel.setText(e.getMessage());
+                                this.webEn.load(null);
+                                this.webviewFacebook.setVisible(false);
+                                this.webviewFacebook.setDisable(true);
                             }
+
                         }
 
                     } catch (UnirestException e) {
-                        System.out.println(e.getStackTrace());
+                        this.loginErrorLabel.setVisible(true);
+                        this.loginErrorLabel.setText(e.getMessage());
+                        this.webEn.load(null);
+                        this.webviewFacebook.setVisible(false);
+                        this.webviewFacebook.setDisable(true);
                     }
 
                     this.webEn.load(null);

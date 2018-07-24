@@ -23,12 +23,18 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.layout.AnchorPane;
+import sx.ip.IPSXDesktopClient;
 import sx.ip.api.UserApi;
 import sx.ip.api.UserApiImpl;
+import static sx.ip.controllers.NavController.bundle;
+import sx.ip.factories.HostServicesControllerFactory;
 import sx.ip.utils.BlankSpacesValidator;
+import sx.ip.utils.ProxyUtils;
 
 /**
  *
@@ -91,8 +97,9 @@ public class FXMLRegisterETHController extends NavController implements Initiali
     private void doneAction(ActionEvent event) throws IOException {
         UserApi api = new UserApiImpl();
         try {
-            //TODO: regex for valid eth addr.
-            api.addEthAddress(this.txtWalletName.getText(),this.txtETHAdrr.getText());
+            //TODO: regex validator for valid eth addr.
+            api.addEthAddress(this.txtWalletName.getText(), this.txtETHAdrr.getText());
+            ProxyUtils.createAndShowAlert(Alert.AlertType.INFORMATION, bundle.getString("key.main.alert.info.title"), null, "foi", null);
         } catch (UnirestException ex) {
             Logger.getLogger(FXMLRegisterETHController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -105,8 +112,17 @@ public class FXMLRegisterETHController extends NavController implements Initiali
      */
     @FXML
     private void signInWithAnotherAccountAction(ActionEvent event) throws IOException {
-        //FXMLLoader loader = new FXMLLoader(IPSXDesktopClient.class.getResource("resources/fxml/FXMLManualProxy.fxml"), ProxyUtils.getBundle());
-        //NavControllerHandle.navigateTo(loader, stage, app);
+        UserApi api = new UserApiImpl();
+        try {
+            if (api.logoutUser()) {
+        FXMLLoader loader = new FXMLLoader(IPSXDesktopClient.class.getResource("resources/fxml/FXMLLogin.fxml"), ProxyUtils.getBundle());
+//        loader.setControllerFactory(new HostServicesControllerFactory(app.getHostServices()));
+        NavControllerHandle.navigateTo(loader, stage, app);
+            }
+        } catch (UnirestException ex) {
+            Logger.getLogger(FXMLRegisterETHController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     @Override

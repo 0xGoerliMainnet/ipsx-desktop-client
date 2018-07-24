@@ -29,7 +29,7 @@ public interface UserApi {
     
     public boolean logoutUser() throws UnirestException;
     
-    public String loginUserFacebook(String token) throws UnirestException;
+    public String loginUserFacebook(String token) throws UnirestException, Exception;
     
     public String changePassword(String oldPassword, String newPassword, String newPasswordConfirmation) throws UnirestException;
     

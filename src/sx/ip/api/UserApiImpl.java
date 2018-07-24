@@ -76,7 +76,7 @@ public class UserApiImpl implements UserApi{
     }
 
     @Override
-    public String loginUserFacebook(String token) throws UnirestException {
+    public String loginUserFacebook(String token) throws UnirestException, Exception {
         String accessToken = "";
         HttpResponse<JsonNode> jsonResponse = Unirest.post(UserApi.userApiUrl + "/social/login/facebook")
             .header("Content-Type", "application/x-www-form-urlencoded")
@@ -90,6 +90,8 @@ public class UserApiImpl implements UserApi{
                 NavController.accessToken = accessToken;
                 NavController.userId = jsonResponse.getBody().getObject().getInt("userId");
             }
+        }else{
+            throw new Exception(jsonResponse.getBody().getObject().getJSONObject("error").getString("message"));
         }
         return accessToken;
     }
