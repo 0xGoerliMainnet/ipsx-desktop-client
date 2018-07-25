@@ -84,11 +84,6 @@ limitations under the License.
                <font>
                   <Font size="11.0" />
                </font></Hyperlink>
-            <Label fx:id="lblPasteAddr" alignment="CENTER_RIGHT" layoutX="72.0" layoutY="151.0" prefHeight="14.0" prefWidth="45.0" text="Paste" textFill="#2aace0">
-               <font>
-                  <Font size="11.0" />
-               </font>
-            </Label>
          </children>
       </AnchorPane>
       <JFXButton fx:id="btnDone" defaultButton="true" disable="true" layoutX="114.0" layoutY="376.0" onAction="#doneAction" prefHeight="36.0" prefWidth="160.0" ripplerFill="WHITE" style="-fx-background-color: #2aace0;" text="Done" textAlignment="CENTER" textFill="WHITE" AnchorPane.leftAnchor="114.0" AnchorPane.rightAnchor="118.0">

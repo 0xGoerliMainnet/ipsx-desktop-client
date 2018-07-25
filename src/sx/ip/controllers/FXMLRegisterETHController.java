@@ -34,6 +34,7 @@ import sx.ip.api.UserApiImpl;
 import static sx.ip.controllers.NavController.bundle;
 import sx.ip.factories.HostServicesControllerFactory;
 import sx.ip.utils.BlankSpacesValidator;
+import sx.ip.utils.ETHWalletValidator;
 import sx.ip.utils.ProxyUtils;
 
 /**
@@ -115,9 +116,9 @@ public class FXMLRegisterETHController extends NavController implements Initiali
         UserApi api = new UserApiImpl();
         try {
             if (api.logoutUser()) {
-        FXMLLoader loader = new FXMLLoader(IPSXDesktopClient.class.getResource("resources/fxml/FXMLLogin.fxml"), ProxyUtils.getBundle());
+                FXMLLoader loader = new FXMLLoader(IPSXDesktopClient.class.getResource("resources/fxml/FXMLLogin.fxml"), ProxyUtils.getBundle());
 //        loader.setControllerFactory(new HostServicesControllerFactory(app.getHostServices()));
-        NavControllerHandle.navigateTo(loader, stage, app);
+                NavControllerHandle.navigateTo(loader, stage, app);
             }
         } catch (UnirestException ex) {
             Logger.getLogger(FXMLRegisterETHController.class.getName()).log(Level.SEVERE, null, ex);
@@ -130,13 +131,14 @@ public class FXMLRegisterETHController extends NavController implements Initiali
 
         BlankSpacesValidator blankValidatorWalletName = new BlankSpacesValidator();
         BlankSpacesValidator blankValidatorETHAddr = new BlankSpacesValidator();
+        ETHWalletValidator ethValidatorETHAddr = new ETHWalletValidator();
         blankValidatorETHAddr.setMessage(rb.getString("key.main.validator.empty"));
         blankValidatorWalletName.setMessage(rb.getString("key.main.validator.empty"));
-        txtETHAdrr.getValidators().add(blankValidatorETHAddr);
+        ethValidatorETHAddr.setMessage(rb.getString("key.main.validator.eth"));
         txtWalletName.getValidators().add(blankValidatorWalletName);
-
+        txtETHAdrr.getValidators().add(blankValidatorETHAddr);
+        
         txtWalletName.textProperty().addListener((observable, oldValue, newValue) -> {
-
             if (txtETHAdrr.validate() && txtWalletName.validate()) {
                 btnDone.setDisable(false);
             } else {
@@ -145,11 +147,22 @@ public class FXMLRegisterETHController extends NavController implements Initiali
         });
 
         txtETHAdrr.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (txtETHAdrr.validate() && txtWalletName.validate()) {
-                btnDone.setDisable(false);
+            if (newValue.isEmpty()) {
+                txtETHAdrr.getValidators().add(blankValidatorETHAddr);
+                if (txtETHAdrr.validate() && txtWalletName.validate()) {
+                    btnDone.setDisable(false);
+                } else {
+                    btnDone.setDisable(true);
+                }
             } else {
-                btnDone.setDisable(true);
+                txtETHAdrr.getValidators().add(ethValidatorETHAddr);
+                if (txtETHAdrr.validate() && txtWalletName.validate()) {
+                    btnDone.setDisable(false);
+                } else {
+                    btnDone.setDisable(true);
+                }
             }
+
         });
 
     }
