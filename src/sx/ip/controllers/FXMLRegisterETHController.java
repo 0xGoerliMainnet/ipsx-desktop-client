@@ -28,11 +28,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.layout.AnchorPane;
+import org.slf4j.LoggerFactory;
 import sx.ip.IPSXDesktopClient;
 import sx.ip.api.UserApi;
 import sx.ip.api.UserApiImpl;
 import static sx.ip.controllers.NavController.bundle;
-import sx.ip.factories.HostServicesControllerFactory;
 import sx.ip.utils.BlankSpacesValidator;
 import sx.ip.utils.ETHWalletValidator;
 import sx.ip.utils.ProxyUtils;
@@ -43,6 +43,9 @@ import sx.ip.utils.ProxyUtils;
  */
 public class FXMLRegisterETHController extends NavController implements Initializable {
 
+    /** The logger Object.  */
+    static org.slf4j.Logger LOGGER = LoggerFactory.getLogger(FXMLRegisterETHController.class);
+    
     /**
      * The sign in with another account button instance.
      */
@@ -102,6 +105,8 @@ public class FXMLRegisterETHController extends NavController implements Initiali
             api.addEthAddress(this.txtWalletName.getText(), this.txtETHAdrr.getText());
             ProxyUtils.createAndShowAlert(Alert.AlertType.INFORMATION, bundle.getString("key.main.alert.info.title"), null, "foi", null);
         } catch (UnirestException ex) {
+            ProxyUtils.createAndShowAlert(Alert.AlertType.ERROR, bundle.getString("key.main.alert.error.title"), null, ex.getMessage(), null);
+            LOGGER.error(ex.getMessage(), ex);
             Logger.getLogger(FXMLRegisterETHController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -117,10 +122,12 @@ public class FXMLRegisterETHController extends NavController implements Initiali
         try {
             if (api.logoutUser()) {
                 FXMLLoader loader = new FXMLLoader(IPSXDesktopClient.class.getResource("resources/fxml/FXMLLogin.fxml"), ProxyUtils.getBundle());
-//        loader.setControllerFactory(new HostServicesControllerFactory(app.getHostServices()));
+                //loader.setControllerFactory(new HostServicesControllerFactory(app.getHostServices()));
                 NavControllerHandle.navigateTo(loader, stage, app);
             }
         } catch (UnirestException ex) {
+            ProxyUtils.createExceptionAlert(bundle.getString("key.main.dialog.exception.title"), null, ex.getMessage(), bundle.getString("key.main.dialog.exception.stack.text"), ex, null);
+            LOGGER.error(ex.getMessage(), ex);
             Logger.getLogger(FXMLRegisterETHController.class.getName()).log(Level.SEVERE, null, ex);
         }
 

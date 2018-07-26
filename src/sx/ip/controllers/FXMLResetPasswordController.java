@@ -28,6 +28,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.layout.AnchorPane;
+import org.slf4j.LoggerFactory;
 import sx.ip.IPSXDesktopClient;
 import sx.ip.api.UserApi;
 import sx.ip.api.UserApiImpl;
@@ -40,6 +41,8 @@ import sx.ip.utils.ProxyUtils;
  */
 public class FXMLResetPasswordController extends NavController implements Initializable{
     
+    /** The logger Object.  */
+    static org.slf4j.Logger LOGGER = LoggerFactory.getLogger(FXMLResetPasswordController.class);
     
     /** The back to Login button instance.  */
     @FXML
@@ -96,6 +99,8 @@ public class FXMLResetPasswordController extends NavController implements Initia
                ProxyUtils.createAndShowAlert(Alert.AlertType.INFORMATION, bundle.getString("key.main.alert.error.title"), null, bundle.getString("key.main.send.link.error"), null); 
             }
         } catch (UnirestException ex) {
+            ProxyUtils.createExceptionAlert(bundle.getString("key.main.dialog.exception.title"), null, ex.getMessage(), bundle.getString("key.main.dialog.exception.stack.text"), ex, null);
+            LOGGER.error(ex.getMessage(), ex);
             Logger.getLogger(FXMLResetPasswordController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

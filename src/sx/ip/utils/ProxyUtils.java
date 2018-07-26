@@ -242,6 +242,9 @@ public class ProxyUtils {
         alert.setContentText(content);
         
         Stage alertStage = (Stage) alert.getDialogPane().getScene().getWindow();
+        if (is == null) {
+            is = IPSXDesktopClient.class.getResourceAsStream("resources/imgs/icon.png");
+        }
         alertStage.getIcons().add(new Image(is));
 
         Label label = new Label(stackMessage);
