@@ -65,9 +65,11 @@ public interface UserApi {
     * 
     * @throws UnirestException
     * 
+    * @throws Exception
+    * 
     * @return String
     */
-    public String loginUserFacebook(String token) throws UnirestException;
+    public String loginUserFacebook(String token) throws UnirestException, Exception;
     
     /**
     * Method responsible for the user password change.
@@ -110,5 +112,14 @@ public interface UserApi {
     * @return boolean
     */
     public boolean addEthAddress(String customName, String ethAddress) throws UnirestException;
+    
+    /**
+    * Method responsible for checking if the user has an active ETH wallet.
+    * 
+    * @throws UnirestException
+    * 
+    * @return boolean
+    */
+    public boolean userHasEthWallet() throws UnirestException;
     
 }
