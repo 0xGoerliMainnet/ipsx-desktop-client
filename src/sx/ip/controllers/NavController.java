@@ -45,6 +45,8 @@ public class NavController{
     /** The accessToken instance.  */
     public static String accessToken = null; 
     
+    public static Integer userId = null; 
+    
     /** Define the window x offsets. */
     private double xOffset = 0;
 

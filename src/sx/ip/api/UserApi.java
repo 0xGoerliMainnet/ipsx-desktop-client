@@ -111,4 +111,6 @@ public interface UserApi {
     */
     public boolean addEthAddress(String customName, String ethAddress) throws UnirestException;
     
+    public boolean userHasEthWallet() throws UnirestException;
+    
 }
