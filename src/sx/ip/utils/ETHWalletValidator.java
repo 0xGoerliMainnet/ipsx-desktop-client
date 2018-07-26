@@ -52,6 +52,9 @@ public class ETHWalletValidator extends ValidatorBase {
         } 
     }
     
+     /**
+     * Validate if the text corresponds to an ETH wallet pattern.
+     */
     public static boolean validate(String ethStr) {
         Matcher matcher = VALID_ETH_WALLET_ADDRESS_REGEX.matcher(ethStr);
         return matcher.find();

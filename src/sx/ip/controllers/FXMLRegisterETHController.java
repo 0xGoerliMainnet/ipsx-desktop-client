@@ -125,7 +125,10 @@ public class FXMLRegisterETHController extends NavController implements Initiali
         }
 
     }
-
+    
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 

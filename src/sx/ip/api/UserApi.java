@@ -113,6 +113,13 @@ public interface UserApi {
     */
     public boolean addEthAddress(String customName, String ethAddress) throws UnirestException;
     
+    /**
+    * Method responsible for checking if the user has an active ETH wallet.
+    * 
+    * @throws UnirestException
+    * 
+    * @return boolean
+    */
     public boolean userHasEthWallet() throws UnirestException;
     
 }

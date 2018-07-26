@@ -169,7 +169,10 @@ public class UserApiImpl implements UserApi{
         }
         return false;   
     }
-
+    
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean userHasEthWallet() throws UnirestException {
         
