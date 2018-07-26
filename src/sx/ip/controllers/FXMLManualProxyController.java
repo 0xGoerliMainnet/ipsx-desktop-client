@@ -471,6 +471,7 @@ public class FXMLManualProxyController extends NavController implements Initiali
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException ex) {
+                    LOGGER.error(ex.getMessage(), ex);
                     Logger.getLogger(FXMLManualProxyController.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 progressBar.setVisible(false);

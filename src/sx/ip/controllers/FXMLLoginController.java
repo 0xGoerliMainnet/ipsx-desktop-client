@@ -21,6 +21,8 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Worker.State;
 import javafx.event.ActionEvent;
@@ -31,6 +33,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import org.slf4j.LoggerFactory;
 import sx.ip.IPSXDesktopClient;
 import sx.ip.api.UserApi;
 import sx.ip.api.UserApiImpl;
@@ -42,6 +45,9 @@ import sx.ip.utils.ProxyUtils;
  */
 public class FXMLLoginController extends NavController implements Initializable {
 
+    /** The logger Object.  */
+    static org.slf4j.Logger LOGGER = LoggerFactory.getLogger(FXMLLoginController.class);
+    
     /**
      * The login with email button instance.
      */
@@ -164,7 +170,6 @@ public class FXMLLoginController extends NavController implements Initializable 
                             this.loginErrorLabel.setVisible(true);
                             String errorMessage = tokenResponse.getBody().getObject().getJSONObject("error").getString("message");
                             this.loginErrorLabel.setText(errorMessage);
-
                         } else if (tokenResponse.getBody().getObject().has("access_token")) {
                             this.facebookAccessToken = tokenResponse.getBody().getObject().get("access_token").toString();
 
@@ -181,9 +186,12 @@ public class FXMLLoginController extends NavController implements Initializable 
                                     NavControllerHandle.navigateTo(loader, stage, app);
                                 }
 
-                            } catch (Exception e) {
+                            } catch (Exception ex) {
+                                ProxyUtils.createExceptionAlert(bundle.getString("key.main.dialog.exception.title"), null, ex.getMessage(), bundle.getString("key.main.dialog.exception.stack.text"), ex, null);
+                                LOGGER.error(ex.getMessage(), ex);
+                                Logger.getLogger(FXMLLoginController.class.getName()).log(Level.SEVERE, null, ex);
                                 this.loginErrorLabel.setVisible(true);
-                                this.loginErrorLabel.setText(e.getMessage());
+                                this.loginErrorLabel.setText(ex.getMessage());
                                 this.webEn.load(null);
                                 this.webviewFacebook.setVisible(false);
                                 this.webviewFacebook.setDisable(true);
@@ -191,9 +199,12 @@ public class FXMLLoginController extends NavController implements Initializable 
 
                         }
 
-                    } catch (UnirestException e) {
+                    } catch (UnirestException ex) {
+                        ProxyUtils.createExceptionAlert(bundle.getString("key.main.dialog.exception.title"), null, ex.getMessage(), bundle.getString("key.main.dialog.exception.stack.text"), ex, null);
+                        LOGGER.error(ex.getMessage(), ex);
+                        Logger.getLogger(FXMLLoginController.class.getName()).log(Level.SEVERE, null, ex);
                         this.loginErrorLabel.setVisible(true);
-                        this.loginErrorLabel.setText(e.getMessage());
+                        this.loginErrorLabel.setText(ex.getMessage());
                         this.webEn.load(null);
                         this.webviewFacebook.setVisible(false);
                         this.webviewFacebook.setDisable(true);

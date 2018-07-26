@@ -29,6 +29,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.layout.AnchorPane;
+import org.slf4j.LoggerFactory;
 import sx.ip.IPSXDesktopClient;
 import sx.ip.api.UserApi;
 import sx.ip.api.UserApiImpl;
@@ -42,6 +43,7 @@ import sx.ip.utils.ProxyUtils;
  */
 public class FXMLLoginEmailController extends NavController implements Initializable{
     
+    static org.slf4j.Logger LOGGER = LoggerFactory.getLogger(FXMLLoginEmailController.class);
     
     /** The reset button instance.  */
     @FXML
@@ -105,6 +107,8 @@ public class FXMLLoginEmailController extends NavController implements Initializ
                 }
             }
         } catch (UnirestException ex) {
+            ProxyUtils.createExceptionAlert(bundle.getString("key.main.dialog.exception.title"), null, ex.getMessage(), bundle.getString("key.main.dialog.exception.stack.text"), ex, null);
+            LOGGER.error(ex.getMessage(), ex);
             Logger.getLogger(FXMLLoginEmailController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
