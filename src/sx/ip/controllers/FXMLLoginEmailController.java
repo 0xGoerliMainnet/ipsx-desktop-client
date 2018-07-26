@@ -91,8 +91,7 @@ public class FXMLLoginEmailController extends NavController implements Initializ
         try {
             boolean response = api.authUser(userEmail.getText().trim(), userPass.getText().trim());
             
-            if(response){
-                ProxyUtils.createAndShowAlert(Alert.AlertType.INFORMATION, bundle.getString("key.main.alert.info.title"), null, "foi", null);
+            if(response){                
                 if(api.userHasEthWallet()){
                     //User goes to dashboard
                     FXMLLoader loader = new FXMLLoader(IPSXDesktopClient.class.getResource("resources/fxml/FXMLManualProxy.fxml"), ProxyUtils.getBundle());
