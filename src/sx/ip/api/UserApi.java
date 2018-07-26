@@ -65,9 +65,11 @@ public interface UserApi {
     * 
     * @throws UnirestException
     * 
+    * @throws Exception
+    * 
     * @return String
     */
-    public String loginUserFacebook(String token) throws UnirestException;
+    public String loginUserFacebook(String token) throws UnirestException, Exception;
     
     /**
     * Method responsible for the user password change.
