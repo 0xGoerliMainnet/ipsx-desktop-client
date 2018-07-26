@@ -55,61 +55,66 @@ limitations under the License.
             </ImageView>
          </center>
       </BorderPane>
+      <Label layoutX="29.0" layoutY="100.0" prefHeight="25.0" prefWidth="173.0" text="New Proxy">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
       <JFXButton fx:id="btnClose" contentDisplay="CENTER" focusTraversable="false" layoutX="438.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleCloseAction" prefHeight="32.0" prefWidth="32.0" text=" " textAlignment="CENTER" textFill="#a4a4a4">
          <graphic>
             <MaterialIconView fill="#707070" glyphName="CLOSE" size="16.0" textAlignment="CENTER" />
          </graphic>
       </JFXButton>
-      <AnchorPane fx:id="pacPane" layoutX="13.0" layoutY="182.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="124.0" prefWidth="375.0" AnchorPane.leftAnchor="18.0" AnchorPane.rightAnchor="61.0">
+      <AnchorPane fx:id="pacPane" layoutX="1.0" layoutY="182.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="124.0" prefWidth="473.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <Label layoutX="74.0" layoutY="40.0" text="PAC URL" textFill="#707070" AnchorPane.leftAnchor="74.0" AnchorPane.rightAnchor="258.0">
+            <Label layoutX="54.0" layoutY="40.0" text="PAC URL" textFill="#707070" AnchorPane.leftAnchor="64.0" AnchorPane.rightAnchor="278.0">
                <font>
                   <Font size="11.0" />
                </font>
             </Label>
-            <JFXTextField fx:id="proxyUrl" focusColor="#80bdff" labelFloat="true" layoutX="74.0" layoutY="55.0" prefHeight="26.0" prefWidth="300.0" style="-fx-background-color: rgba(255,255,255,0.8);" unFocusColor="#ced4da" />
+            <JFXTextField fx:id="proxyUrl" focusColor="#80bdff" labelFloat="true" layoutX="54.0" layoutY="55.0" prefHeight="26.0" prefWidth="300.0" style="-fx-background-color: rgba(255,255,255,0.8);" unFocusColor="#ced4da" AnchorPane.leftAnchor="64.0" AnchorPane.rightAnchor="58.0" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="advancedPane" layoutX="15.0" layoutY="162.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="162.0" prefWidth="375.0" visible="false" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="84.0">
+      <AnchorPane fx:id="advancedPane" layoutX="-2.0" layoutY="162.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="202.0" prefWidth="475.0" visible="false" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <Label layoutX="74.0" text="PROTOCOL" textFill="#707070">
+            <Label layoutX="64.0" layoutY="9.0" text="Protocol" textFill="#707070" AnchorPane.leftAnchor="64.0" AnchorPane.rightAnchor="353.0">
                <font>
                   <Font size="11.0" />
                </font>
             </Label>
-            <JFXComboBox fx:id="comboProtocol" focusColor="#80bdff" layoutX="74.0" layoutY="15.0" prefHeight="26.0" prefWidth="230.0" style="-fx-background-color: rgba(255,255,255,0.8);" unFocusColor="#ced4da" />
-            <Label layoutX="74.0" layoutY="53.0" text="PROXY IP" textFill="#707070">
+            <JFXComboBox fx:id="comboProtocol" focusColor="#80bdff" layoutX="65.0" layoutY="24.0" prefHeight="26.0" prefWidth="250.0" style="-fx-background-color: rgba(255,255,255,0.8);" unFocusColor="#ced4da" AnchorPane.leftAnchor="64.0" AnchorPane.rightAnchor="58.0" />
+            <Label layoutX="64.0" layoutY="62.0" text="Proxy IP" textFill="#707070" AnchorPane.leftAnchor="64.0">
                <font>
                   <Font size="11.0" />
                </font>
             </Label>
-            <JFXTextField fx:id="proxyIp" focusColor="#80bdff" labelFloat="true" layoutX="74.0" layoutY="68.0" prefHeight="25.0" prefWidth="150.0" style="-fx-background-color: rgba(255,255,255,0.8);" unFocusColor="#ced4da" />
-            <Label layoutX="233.0" layoutY="68.0" text=":" textFill="#707070">
+            <JFXTextField fx:id="proxyIp" focusColor="#80bdff" labelFloat="true" layoutX="65.0" layoutY="77.0" prefHeight="25.0" prefWidth="272.0" style="-fx-background-color: rgba(255,255,255,0.8);" unFocusColor="#ced4da" AnchorPane.leftAnchor="64.0" AnchorPane.rightAnchor="137.0" />
+            <Label layoutX="346.0" layoutY="77.0" text=":" textFill="#707070" AnchorPane.rightAnchor="123.0">
                <font>
                   <Font size="16.0" />
                </font>
             </Label>
-            <Label layoutX="250.0" layoutY="53.0" text="PORT" textFill="#707070">
+            <Label layoutX="363.0" layoutY="62.0" text="Port" textFill="#707070" AnchorPane.rightAnchor="83.0">
                <font>
                   <Font size="11.0" />
                </font>
             </Label>
-            <JFXTextField fx:id="proxyPort" focusColor="#80bdff" labelFloat="true" layoutX="250.0" layoutY="68.0" prefHeight="26.0" prefWidth="54.0" style="-fx-background-color: rgba(255,255,255,0.8);" unFocusColor="#ced4da" />
-            <Label layoutX="74.0" layoutY="114.0" text="USER" textFill="#707070">
+            <JFXTextField fx:id="proxyPort" focusColor="#80bdff" labelFloat="true" layoutX="361.0" layoutY="77.0" prefHeight="26.0" prefWidth="54.0" style="-fx-background-color: rgba(255,255,255,0.8);" unFocusColor="#ced4da" AnchorPane.rightAnchor="58.0" />
+            <Label layoutX="64.0" layoutY="123.0" text="User" textFill="#707070" AnchorPane.leftAnchor="64.0">
                <font>
                   <Font size="11.0" />
                </font>
             </Label>
-            <JFXTextField fx:id="proxyUser" focusColor="#80bdff" labelFloat="true" layoutX="74.0" layoutY="128.0" prefHeight="26.0" prefWidth="115.0" style="-fx-background-color: rgba(255,255,255,0.8);" unFocusColor="#ced4da" />
-            <Label layoutX="199.0" layoutY="114.0" text="PASSWORD" textFill="#707070">
+            <JFXTextField fx:id="proxyUser" focusColor="#80bdff" labelFloat="true" layoutX="65.0" layoutY="137.0" prefHeight="26.0" prefWidth="165.0" style="-fx-background-color: rgba(255,255,255,0.8);" unFocusColor="#ced4da" AnchorPane.leftAnchor="64.0" AnchorPane.rightAnchor="240.0" />
+            <Label layoutX="251.0" layoutY="123.0" text="Password" textFill="#707070" AnchorPane.leftAnchor="251.0" AnchorPane.rightAnchor="164.0">
                <font>
                   <Font size="11.0" />
                </font>
             </Label>
-            <JFXPasswordField fx:id="proxyPass" focusColor="#80bdff" layoutX="199.0" layoutY="128.0" prefHeight="26.0" prefWidth="105.0" unFocusColor="#ced4da" />
+            <JFXPasswordField fx:id="proxyPass" focusColor="#80bdff" layoutX="250.0" layoutY="137.0" prefHeight="26.0" prefWidth="105.0" unFocusColor="#ced4da" AnchorPane.leftAnchor="250.0" AnchorPane.rightAnchor="58.0" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="agreePane" layoutX="17.0" layoutY="325.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="59.0" prefWidth="375.0" AnchorPane.bottomAnchor="165.0" AnchorPane.leftAnchor="17.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="325.0">
+      <AnchorPane fx:id="agreePane" layoutX="-2.0" layoutY="350.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="59.0" prefWidth="473.0" AnchorPane.bottomAnchor="140.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="350.0">
          <children>
             <JFXCheckBox fx:id="bypassCB" checkedColor="#2aace0" disable="true" layoutX="64.0" layoutY="30.0" text="Bypass proxy server for local addresses" textFill="#707070" unCheckedColor="#ced4da" visible="false">
                <cursor>
@@ -149,11 +154,6 @@ limitations under the License.
       <Label fx:id="restartSettingsMsg" alignment="CENTER" contentDisplay="CENTER" layoutX="52.0" layoutY="470.0" prefHeight="45.0" prefWidth="375.0" textAlignment="CENTER" textFill="#707070" visible="false">
          <font>
             <Font size="11.0" />
-         </font>
-      </Label>
-      <Label layoutX="29.0" layoutY="100.0" prefHeight="25.0" prefWidth="173.0" text="New Proxy">
-         <font>
-            <Font size="20.0" />
          </font>
       </Label>
     </children>
