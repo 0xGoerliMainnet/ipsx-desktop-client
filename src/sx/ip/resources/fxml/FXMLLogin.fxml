@@ -27,11 +27,11 @@ limitations under the License.
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.web.WebView?>
 
-<AnchorPane id="AnchorPane" fx:id="mainAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="375.0" style="-fx-background-color: rgba(255,255,255,0); -fx-border-color: #ced4da; -fx-border-width: 1px; -fx-border-insets: 0px; -fx-border-radius: 0px;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sx.ip.controllers.FXMLLoginController">
+<AnchorPane id="AnchorPane" fx:id="mainAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="475.0" style="-fx-background-color: rgba(255,255,255,0); -fx-border-color: #ced4da; -fx-border-width: 1px; -fx-border-insets: 0px; -fx-border-radius: 0px;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sx.ip.controllers.FXMLLoginController">
     <children>
       <BorderPane prefHeight="450.0" prefWidth="374.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="0.0">
          <center>
-            <ImageView blendMode="DARKEN" fitHeight="450.0" fitWidth="374.0" pickOnBounds="true" BorderPane.alignment="CENTER">
+            <ImageView blendMode="DARKEN" fitHeight="549.0" fitWidth="475.0" pickOnBounds="true" BorderPane.alignment="CENTER">
                <image>
                   <Image url="@../imgs/bg-375x450.jpg" />
                </image>
@@ -50,7 +50,7 @@ limitations under the License.
             </ImageView>
          </center>
       </BorderPane>
-      <AnchorPane fx:id="loginInfoPane" layoutX="-2.0" layoutY="130.0" prefHeight="124.0" prefWidth="349.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="10.0">
+      <AnchorPane fx:id="loginInfoPane" layoutX="20.0" layoutY="205.0" prefHeight="124.0" prefWidth="441.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="13.0">
          <children>
             <Label layoutX="38.0" layoutY="11.0" text="Login" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="58.0">
                <font>
@@ -60,7 +60,7 @@ limitations under the License.
             <Label layoutX="40.0" layoutY="43.0" prefHeight="64.0" prefWidth="253.0" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore." textOverrun="CLIP" wrapText="true" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="58.0" />
          </children>
       </AnchorPane>
-      <JFXButton fx:id="btnLoginFacebook" defaultButton="true" layoutX="106.0" layoutY="298.0" onAction="#loginWithFacebookAction" prefHeight="36.0" prefWidth="160.0" ripplerFill="WHITE" style="-fx-background-color: #2aace0;" text="Login with Facebook" textAlignment="CENTER" textFill="WHITE" AnchorPane.leftAnchor="106.0" AnchorPane.rightAnchor="110.0">
+      <JFXButton fx:id="btnLoginFacebook" defaultButton="true" layoutX="123.0" layoutY="373.0" onAction="#loginWithFacebookAction" prefHeight="40.0" prefWidth="230.0" ripplerFill="WHITE" style="-fx-background-color: #2aace0;" text="Login with Facebook" textAlignment="CENTER" textFill="WHITE" AnchorPane.leftAnchor="122.0" AnchorPane.rightAnchor="122.0">
          <font>
             <Font size="12.0" />
          </font>
@@ -68,7 +68,7 @@ limitations under the License.
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <JFXButton fx:id="btnLoginEmail" defaultButton="true" layoutX="106.0" layoutY="254.0" onAction="#loginWithEmailAction" prefHeight="36.0" prefWidth="160.0" ripplerFill="WHITE" style="-fx-background-color: #2aace0;" text="Login with Email" textAlignment="CENTER" textFill="WHITE" AnchorPane.leftAnchor="105.0" AnchorPane.rightAnchor="109.0">
+      <JFXButton fx:id="btnLoginEmail" defaultButton="true" layoutX="122.0" layoutY="329.0" onAction="#loginWithEmailAction" prefHeight="40.0" prefWidth="230.0" ripplerFill="WHITE" style="-fx-background-color: #2aace0;" text="Login with Email" textAlignment="CENTER" textFill="WHITE" AnchorPane.leftAnchor="122.0" AnchorPane.rightAnchor="122.0">
          <font>
             <Font size="12.0" />
          </font>
@@ -81,12 +81,12 @@ limitations under the License.
             <MaterialIconView fill="#707070" glyphName="CLOSE" size="16.0" textAlignment="CENTER" />
          </graphic>
       </JFXButton>
-      <AnchorPane layoutX="60.0" layoutY="334.0" prefHeight="75.0" prefWidth="253.0">
+      <AnchorPane layoutX="113.0" layoutY="423.0" prefHeight="75.0" prefWidth="253.0" AnchorPane.leftAnchor="113.0" AnchorPane.rightAnchor="108.0">
          <children>
             <Label fx:id="loginErrorLabel" alignment="CENTER" layoutX="1.0" layoutY="2.0" prefHeight="75.0" prefWidth="253.0" text="Error" textAlignment="CENTER" textFill="RED" visible="false" wrapText="true" AnchorPane.bottomAnchor="-2.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="2.0" />
          </children>
       </AnchorPane>
-      <WebView fx:id="webviewFacebook" prefHeight="444.0" prefWidth="375.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-1.0" />
+      <WebView fx:id="webviewFacebook" layoutX="2.0" prefHeight="550.0" prefWidth="474.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="0.0" />
     </children>
    <opaqueInsets>
       <Insets />

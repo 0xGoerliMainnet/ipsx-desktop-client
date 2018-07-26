@@ -29,11 +29,11 @@ limitations under the License.
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="mainAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="375.0" style="-fx-background-color: rgba(255,255,255,0); -fx-border-color: #ced4da; -fx-border-width: 1px; -fx-border-insets: 0px; -fx-border-radius: 0px;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sx.ip.controllers.FXMLLoginEmailController">
+<AnchorPane id="AnchorPane" fx:id="mainAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="475.0" style="-fx-background-color: rgba(255,255,255,0); -fx-border-color: #ced4da; -fx-border-width: 1px; -fx-border-insets: 0px; -fx-border-radius: 0px;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sx.ip.controllers.FXMLLoginEmailController">
     <children>
-      <BorderPane prefHeight="450.0" prefWidth="374.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="0.0">
+      <BorderPane layoutX="3.0" prefHeight="550.0" prefWidth="472.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="1.0">
          <center>
-            <ImageView blendMode="DARKEN" fitHeight="450.0" fitWidth="374.0" pickOnBounds="true" BorderPane.alignment="CENTER">
+            <ImageView blendMode="DARKEN" fitHeight="549.0" fitWidth="470.0" pickOnBounds="true" BorderPane.alignment="CENTER">
                <image>
                   <Image url="@../imgs/bg-375x450.jpg" />
                </image>
@@ -77,11 +77,11 @@ limitations under the License.
                </font>
             </Label>
             <JFXPasswordField fx:id="userPass" focusColor="#80bdff" layoutX="65.0" layoutY="114.0" prefHeight="26.0" prefWidth="249.0" unFocusColor="#ced4da" AnchorPane.leftAnchor="65.0" AnchorPane.rightAnchor="58.0" />
-            <Hyperlink fx:id="btnReset" accessibleText="https://ip.sx/dist/IPSX-Terms-of-Service.pdf" alignment="CENTER_RIGHT" contentDisplay="TOP" layoutX="198.0" layoutY="162.0" onAction="#resetPassword" prefHeight="24.0" prefWidth="160.0" text="Forgot Your Password?" textFill="#2aace0" textOverrun="CLIP" AnchorPane.leftAnchor="198.0" AnchorPane.rightAnchor="0.0" />
+            <Hyperlink fx:id="btnReset" accessibleText="https://ip.sx/dist/IPSX-Terms-of-Service.pdf" alignment="CENTER_RIGHT" contentDisplay="TOP" layoutX="198.0" layoutY="162.0" onAction="#resetPassword" prefHeight="24.0" prefWidth="160.0" text="Forgot Your Password?" textFill="#2aace0" textOverrun="CLIP" AnchorPane.leftAnchor="198.0" AnchorPane.rightAnchor="5.0" />
             <MaterialIconView fill="#707070" glyphName="LOCK_OUTLINE" layoutX="30.0" layoutY="139.0" size="24.0" />
          </children>
       </AnchorPane>
-      <JFXButton fx:id="btnLoginEmail" defaultButton="true" layoutX="114.0" layoutY="376.0" onAction="#loginAction" prefHeight="36.0" prefWidth="160.0" ripplerFill="WHITE" style="-fx-background-color: #2aace0;" text="Login" textAlignment="CENTER" textFill="WHITE" AnchorPane.leftAnchor="114.0" AnchorPane.rightAnchor="118.0">
+      <JFXButton fx:id="btnLoginEmail" defaultButton="true" layoutX="124.0" layoutY="376.0" onAction="#loginAction" prefHeight="40.0" prefWidth="230.0" ripplerFill="WHITE" style="-fx-background-color: #2aace0;" text="Login" textAlignment="CENTER" textFill="WHITE" AnchorPane.leftAnchor="124.0" AnchorPane.rightAnchor="120.0">
          <font>
             <Font size="12.0" />
          </font>
