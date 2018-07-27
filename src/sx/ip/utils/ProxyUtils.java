@@ -23,6 +23,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.prefs.Preferences;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javafx.application.Platform;
@@ -216,6 +217,59 @@ public class ProxyUtils {
 
         return dialog;
     }
+    
+        public enum CREDENTIALTYPE{
+        BYTEARRAY,STRING
+    }
+    
+    
+    /**
+     * Method resposible for saving user credentials.
+     *
+     * @param credential 
+     *          The credential to be saved
+     * @param type 
+     *          The type of the credential
+     *
+     */
+    public static void saveCredentials(Object credential, CREDENTIALTYPE type) {
+        Preferences prefs = Preferences.userRoot().node(ProxyUtils.class.getName());
+
+        switch(type){
+            case STRING: 
+                prefs.put("username",(String) credential);
+                break;
+            
+            case BYTEARRAY:
+                prefs.putByteArray("encryptedPassword",(byte[]) credential);
+                break;
+        }
+    } 
+    
+    /**
+     * Method resposible for loading user credentials.
+     *
+     * @param credential 
+     *          The credential key to be loaded
+     * @param type 
+     *          The type of the credential
+     * 
+     * @return Returns the credendial to be cast
+     * 
+     */
+    public static Object loadCredentials(Object credential, CREDENTIALTYPE type) {
+        
+        Preferences prefs = Preferences.userRoot().node(ProxyUtils.class.getName());
+
+        switch(type){
+            case STRING: 
+                return prefs.get("username","");
+            case BYTEARRAY:
+                return prefs.getByteArray("encryptedPassword",new byte[]{});
+            default: 
+                return new Object();
+        }
+    }   
     
     
     /**
