@@ -65,10 +65,11 @@ public class SecurityHandle {
     */
     public Map<byte[], Integer> encryption(String input) {
         byte[] inputByte = input.getBytes();
-        System.out.println(new String(inputByte));
+        
         int ctLength = 0;
         byte[] cipherText = null;
         Map<byte[], Integer> values = new HashMap<>();
+        
         try {
             cipher.init(Cipher.ENCRYPT_MODE, key);
 
@@ -80,8 +81,6 @@ public class SecurityHandle {
         } catch (InvalidKeyException | ShortBufferException | IllegalBlockSizeException | BadPaddingException ex) {
             Logger.getLogger(SecurityHandle.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println(new String(cipherText));
-        System.out.println(ctLength);
 
         return values;
     }
@@ -115,43 +114,12 @@ public class SecurityHandle {
         System.out.println(new String(plainText));
         return new String(plainText);
     }
-    
-    //Since JDK 7 - try resources
-    private static void writeBytesToFile(byte[] bFile, String fileDest) {
-
-        try (FileOutputStream fileOuputStream = new FileOutputStream(fileDest)) {
-            fileOuputStream.write(bFile);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
 
 
     public static void main(String[] args) throws Exception {
-        String UPLOAD_FOLDER = "C:\\temp\\";
         SecurityHandle handle = new SecurityHandle();
         Map<byte[], Integer> example = handle.encryption("Testes");
         handle.decryption(example);
-        
-        
-        FileInputStream fileInputStream = null;
-
-        byte[] bFile = null;
-        for (byte[] securityKey : example.keySet()) {
-            bFile = securityKey;
-            //ctLength = values.get(securityKey);
-        }
-        //save bytes[] into a file
-        writeBytesToFile(bFile, UPLOAD_FOLDER + "test1.txt");
-        System.out.println("Done");
-        if (fileInputStream != null) {
-            try {
-                fileInputStream.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
         
     }
 }
