@@ -21,6 +21,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
@@ -241,7 +242,10 @@ public class ProxyUtils {
                 break;
             
             case BYTEARRAY:
-                prefs.putByteArray("encryptedPassword",(byte[]) credential);
+                HashMap<byte[], Integer> castCredential = (HashMap<byte[], Integer>) credential;
+                byte[] encryptedPassword = castCredential.keySet().iterator().next();
+                prefs.putInt("cipherKeyLength", castCredential.get(encryptedPassword));
+                prefs.putByteArray("encryptedPassword",encryptedPassword);
                 break;
         }
     } 
@@ -253,6 +257,7 @@ public class ProxyUtils {
         Preferences prefs = Preferences.userRoot().node(ProxyUtils.class.getName());
         prefs.put("username","");
         prefs.putByteArray("encryptedPassword",new byte[]{});
+        prefs.putInt("cipherKeyLength",0);
     } 
     
     /**
@@ -274,7 +279,9 @@ public class ProxyUtils {
             case STRING: 
                 return prefs.get("username","");
             case BYTEARRAY:
-                return prefs.getByteArray("encryptedPassword",new byte[]{});
+                HashMap<byte[], Integer> encryptedPassword = new HashMap<>();
+                encryptedPassword.put(prefs.getByteArray("encryptedPassword",new byte[]{}), prefs.getInt("cipherKeyLength",0));
+                return encryptedPassword;
             default: 
                 return new Object();
         }
