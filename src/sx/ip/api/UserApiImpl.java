@@ -75,6 +75,7 @@ public class UserApiImpl implements UserApi{
             if(jsonResponse.getStatus() == 204 && jsonResponse.getBody() == null){
                 NavController.accessToken = null;
                 NavController.userId = null;
+                ProxyUtils.eraseCredentials();
                 return true;
             }
         }else{

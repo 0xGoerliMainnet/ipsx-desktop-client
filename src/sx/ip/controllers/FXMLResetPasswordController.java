@@ -46,7 +46,7 @@ public class FXMLResetPasswordController extends NavController implements Initia
     
     /** The back to Login button instance.  */
     @FXML
-    private Hyperlink btnBackToLogin;
+    private Hyperlink btnBack;
     
     /** The send link button instance.  */
     @FXML
@@ -111,7 +111,7 @@ public class FXMLResetPasswordController extends NavController implements Initia
      * @param event An Event representing that the button has been fired.
      */
     @FXML
-    private void backToLoginAction(ActionEvent ae) throws IOException{        
+    private void onBackAction(ActionEvent ae) throws IOException{ 
         NavControllerHandle.navigateTo(loader, stage, app);
     }    
 

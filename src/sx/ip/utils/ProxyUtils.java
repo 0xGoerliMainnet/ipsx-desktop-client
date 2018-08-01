@@ -247,6 +247,15 @@ public class ProxyUtils {
     } 
     
     /**
+     * Method resposible for erasing user credentials.
+     */
+    public static void eraseCredentials() {
+        Preferences prefs = Preferences.userRoot().node(ProxyUtils.class.getName());
+        prefs.put("username","");
+        prefs.putByteArray("encryptedPassword",new byte[]{});
+    } 
+    
+    /**
      * Method resposible for loading user credentials.
      *
      * @param credential 

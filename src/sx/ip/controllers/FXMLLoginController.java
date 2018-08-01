@@ -29,6 +29,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebEngine;
@@ -65,6 +66,12 @@ public class FXMLLoginController extends NavController implements Initializable 
      */
     @FXML
     private AnchorPane loginInfoPane;
+    
+    /**
+     * The Go back button.
+     */
+    @FXML
+    private Hyperlink btnBack;
 
     /**
      * The close button instance.
@@ -112,6 +119,18 @@ public class FXMLLoginController extends NavController implements Initializable 
     @FXML
     private void handleCloseAction(ActionEvent event) {
         stage.close();
+    }
+    
+    /**
+     * Method resposible for handling the go back action.
+     *
+     * @param event An Event representing that the button has been fired.
+     */
+    @FXML
+    private void goBackAction(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(IPSXDesktopClient.class.getResource("resources/fxml/FXMLLandingPage.fxml"), ProxyUtils.getBundle());
+        loader.setControllerFactory(new HostServicesControllerFactory(app.getHostServices()));
+        NavControllerHandle.navigateTo(loader, stage, app);
     }
 
     /**
