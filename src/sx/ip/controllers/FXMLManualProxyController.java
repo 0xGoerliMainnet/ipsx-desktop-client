@@ -20,6 +20,7 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXProgressBar;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.validation.NumberValidator;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import com.sun.javafx.PlatformUtil;
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,6 +36,7 @@ import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Hyperlink;
@@ -44,6 +46,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.util.converter.IntegerStringConverter;
 import org.slf4j.LoggerFactory;
 import sx.ip.IPSXDesktopClient;
+import sx.ip.api.UserApi;
+import sx.ip.api.UserApiImpl;
+import static sx.ip.controllers.NavController.bundle;
 import sx.ip.models.ProxyType;
 import sx.ip.proxies.ProxyManager;
 import sx.ip.proxies.ProxySettings;
@@ -122,6 +127,10 @@ public class FXMLManualProxyController extends NavController implements Initiali
     /** The terms button instance.  */
     @FXML
     private Hyperlink btnTerms;
+    
+    /** The logout button instance.  */
+    @FXML
+    private Hyperlink btnLogout;
     
     /** The bypass checkbox instance.  */
     @FXML
@@ -294,6 +303,28 @@ public class FXMLManualProxyController extends NavController implements Initiali
         btnActivate.setFocusTraversable(true);
     }
 
+    /**
+     * Method resposible for the user logout and transition to the sign in screen.
+     *
+     * @param event An Event representing that the button has been fired.
+     */
+    @FXML
+    private void logoutAction(ActionEvent event) throws IOException {
+        UserApi api = new UserApiImpl();
+        try {
+            if (api.logoutUser()) {
+                FXMLLoader loader = new FXMLLoader(IPSXDesktopClient.class.getResource("resources/fxml/FXMLLogin.fxml"), ProxyUtils.getBundle());
+                //loader.setControllerFactory(new HostServicesControllerFactory(app.getHostServices()));
+                NavControllerHandle.navigateTo(loader, stage, app);
+            }
+        } catch (UnirestException ex) {
+            ProxyUtils.createExceptionAlert(bundle.getString("key.main.dialog.exception.title"), null, ex.getMessage(), bundle.getString("key.main.dialog.exception.stack.text"), ex, null);
+            LOGGER.error(ex.getMessage(), ex);
+            Logger.getLogger(FXMLManualProxyController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }    
+    
     /**
      * Method resposible for open the browser.
      *

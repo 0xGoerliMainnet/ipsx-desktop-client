@@ -219,11 +219,8 @@ public class ProxyUtils {
         return dialog;
     }
     
-        public enum CREDENTIALTYPE{
-        BYTEARRAY,STRING
-    }
-    
-    
+
+        
     /**
      * Method resposible for saving user credentials.
      *
@@ -233,7 +230,7 @@ public class ProxyUtils {
      *          The type of the credential
      *
      */
-    public static void saveCredentials(Object credential, CREDENTIALTYPE type) {
+    public static void saveCredentials(Object credential, CredentialType type) {
         Preferences prefs = Preferences.userRoot().node(ProxyUtils.class.getName());
 
         switch(type){
@@ -271,13 +268,13 @@ public class ProxyUtils {
      * @return Returns the credendial to be cast
      * 
      */
-    public static Object loadCredentials(Object credential, CREDENTIALTYPE type) {
+    public static Object loadCredentials(String credential, CredentialType type) {
         
         Preferences prefs = Preferences.userRoot().node(ProxyUtils.class.getName());
 
         switch(type){
             case STRING: 
-                return prefs.get("username","");
+                return prefs.get(credential,"");
             case BYTEARRAY:
                 HashMap<byte[], Integer> encryptedPassword = new HashMap<>();
                 encryptedPassword.put(prefs.getByteArray("encryptedPassword",new byte[]{}), prefs.getInt("cipherKeyLength",0));

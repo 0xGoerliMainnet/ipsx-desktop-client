@@ -107,7 +107,6 @@ public class SecurityHandle {
         } catch (InvalidKeyException | ShortBufferException | IllegalBlockSizeException | BadPaddingException ex) {
             Logger.getLogger(SecurityHandle.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println(new String(plainText));
         return new String(plainText);
     }
 

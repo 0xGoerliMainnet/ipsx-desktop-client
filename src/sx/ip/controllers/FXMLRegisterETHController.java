@@ -37,10 +37,7 @@ import sx.ip.utils.BlankSpacesValidator;
 import sx.ip.utils.ETHWalletValidator;
 import sx.ip.utils.ProxyUtils;
 
-/**
- *
- * @author caio
- */
+
 public class FXMLRegisterETHController extends NavController implements Initializable {
 
     /** The logger Object.  */

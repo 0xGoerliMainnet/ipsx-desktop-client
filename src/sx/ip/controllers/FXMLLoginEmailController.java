@@ -34,6 +34,7 @@ import sx.ip.api.UserApi;
 import sx.ip.api.UserApiImpl;
 import sx.ip.factories.HostServicesControllerFactory;
 import sx.ip.utils.BlankSpacesValidator;
+import sx.ip.utils.CredentialType;
 import sx.ip.utils.EmailValidator;
 import sx.ip.utils.ProxyUtils;
 import sx.ip.utils.SecurityHandle;
@@ -98,8 +99,6 @@ public class FXMLLoginEmailController extends NavController implements Initializ
         
         try {
             boolean response = api.authUser(userEmail.getText().trim(), userPass.getText().trim());
-            SecurityHandle sh = new SecurityHandle();
-            sh.encryption(userPass.getText().trim());
             if(response){                
                 if(api.userHasEthWallet()){
                     //User goes to dashboard
