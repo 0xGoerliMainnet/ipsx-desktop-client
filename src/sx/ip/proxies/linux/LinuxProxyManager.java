@@ -118,14 +118,15 @@ public class LinuxProxyManager extends ProxyManager {
         if(settings.getProxyHost() != null && settings.getProxyHost().length() > 0){
             commandList.add(new String[]{"reset-recursively", "org.gnome.system.proxy"});
             commandList.add(new String[]{"set", "org.gnome.system.proxy", "mode", "'manual'"});
-            commandList.add(new String[]{"set", "org.gnome.system.proxy.http", "enabled", "true"});
 
             switch (settings.getType()) {
                 case HTTP:
+                    commandList.add(new String[]{"set", "org.gnome.system.proxy.http", "enabled", "true"});
                     commandList.add(new String[]{"set", "org.gnome.system.proxy.http", "host", settings.getProxyHost()});
                     commandList.add(new String[]{"set", "org.gnome.system.proxy.http", "port", String.valueOf(settings.getProxyPort())});
                     break;
                 case HTTPS:
+                    commandList.add(new String[]{"set", "org.gnome.system.proxy.http", "enabled", "true"});
                     commandList.add(new String[]{"set", "org.gnome.system.proxy.https", "host", settings.getProxyHost()});
                     commandList.add(new String[]{"set", "org.gnome.system.proxy.https", "port", String.valueOf(settings.getProxyPort())});
                     break;
@@ -138,6 +139,7 @@ public class LinuxProxyManager extends ProxyManager {
                     commandList.add(new String[]{"set", "org.gnome.system.proxy.ftp", "port", String.valueOf(settings.getProxyPort())});
                     break;
                 case HTTP_AND_HTTPS:
+                    commandList.add(new String[]{"set", "org.gnome.system.proxy.http", "enabled", "true"});
                     commandList.add(new String[]{"set", "org.gnome.system.proxy.http", "host", settings.getProxyHost()});
                     commandList.add(new String[]{"set", "org.gnome.system.proxy.http", "port", String.valueOf(settings.getProxyPort())});
                     commandList.add(new String[]{"set", "org.gnome.system.proxy.https", "host", settings.getProxyHost()});

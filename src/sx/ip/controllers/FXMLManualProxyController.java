@@ -344,7 +344,7 @@ public class FXMLManualProxyController extends NavController implements Initiali
      */
     @FXML
     private void removeAllSettings(ActionEvent event){
-        InputStream is = getClass().getResourceAsStream("resources/imgs/icon.png");
+        InputStream is = IPSXDesktopClient.class.getResourceAsStream("resources/imgs/icon.png");
         if(ProxyUtils.createQuestionRemoveAll(is)){
             settings = ProxySettings.getDirectConnectionSetting();
             isActivated = false;
@@ -420,7 +420,7 @@ public class FXMLManualProxyController extends NavController implements Initiali
         Integer port;
         String autheUser = advancedPane.isVisible() ? proxyUser.getText().trim() : null;
         String authPass = advancedPane.isVisible() ? proxyPass.getText().trim() : null;
-        InputStream is = getClass().getResourceAsStream("resources/imgs/icon.png");
+        InputStream is = IPSXDesktopClient.class.getResourceAsStream("resources/imgs/icon.png");
         if ((host != null && host.length() > 0)) {
             if (proxyPort.getText() != null && proxyPort.getText().trim().length() > 0) {
                 port = Integer.valueOf(proxyPort.getText());
@@ -458,7 +458,7 @@ public class FXMLManualProxyController extends NavController implements Initiali
     private void defaultProxyServer(String acs) {        
         String autheUser = advancedPane.isVisible() ? proxyUser.getText().trim() : null;
         String authPass = advancedPane.isVisible() ? proxyPass.getText().trim() : null;
-        InputStream is = getClass().getResourceAsStream("resources/imgs/icon.png");
+        InputStream is = IPSXDesktopClient.class.getResourceAsStream("resources/imgs/icon.png");
         if ((acs != null && acs.length() > 0)) {
 
             if (!isActivated) {
@@ -483,7 +483,7 @@ public class FXMLManualProxyController extends NavController implements Initiali
      * thread.
      */
     private void startProxyThread() {
-        InputStream is = getClass().getResourceAsStream("resources/imgs/icon.png");
+        InputStream is = IPSXDesktopClient.class.getResourceAsStream("resources/imgs/icon.png");
         Task task = new Task<Void>() {
             @Override
             public Void call() throws ProxyManager.ProxySetupException {
