@@ -26,7 +26,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.layout.AnchorPane;
 import org.slf4j.LoggerFactory;
@@ -35,8 +34,10 @@ import sx.ip.api.UserApi;
 import sx.ip.api.UserApiImpl;
 import sx.ip.factories.HostServicesControllerFactory;
 import sx.ip.utils.BlankSpacesValidator;
+import sx.ip.utils.CredentialType;
 import sx.ip.utils.EmailValidator;
 import sx.ip.utils.ProxyUtils;
+import sx.ip.utils.SecurityHandle;
 
 /**
  * Login with email screen controller
@@ -56,6 +57,12 @@ public class FXMLLoginEmailController extends NavController implements Initializ
     /** The close button instance.  */
     @FXML
     private JFXButton btnClose;
+        
+    /**
+     * The Go back button.
+     */
+    @FXML
+    private Hyperlink btnBack;
 
     /** The main anchor pane instance.  */
     @FXML
@@ -92,7 +99,6 @@ public class FXMLLoginEmailController extends NavController implements Initializ
         
         try {
             boolean response = api.authUser(userEmail.getText().trim(), userPass.getText().trim());
-            
             if(response){                
                 if(api.userHasEthWallet()){
                     //User goes to dashboard
@@ -113,6 +119,18 @@ public class FXMLLoginEmailController extends NavController implements Initializ
     }
     
     /**
+     * Method resposible for handling the go back action.
+     *
+     * @param event An Event representing that the button has been fired.
+     */
+    @FXML
+    private void goBackAction(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(IPSXDesktopClient.class.getResource("resources/fxml/FXMLLogin.fxml"), ProxyUtils.getBundle());
+        loader.setControllerFactory(new HostServicesControllerFactory(app.getHostServices()));
+        NavControllerHandle.navigateTo(loader, stage, app);
+    }
+    
+    /**
      * Method resposible for the transition to the reset password screen
      * action.
      *
@@ -129,7 +147,6 @@ public class FXMLLoginEmailController extends NavController implements Initializ
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
         
         BlankSpacesValidator blankValidatorEmail = new BlankSpacesValidator();
         blankValidatorEmail.setMessage(rb.getString("key.main.validator.empty"));

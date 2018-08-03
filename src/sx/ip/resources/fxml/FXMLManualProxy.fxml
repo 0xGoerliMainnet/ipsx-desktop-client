@@ -32,7 +32,7 @@ limitations under the License.
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="475.0" style="-fx-background-color: rgba(255,255,255,0); -fx-border-color: #ced4da;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sx.ip.controllers.FXMLManualProxyController">
+<AnchorPane id="AnchorPane" fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="475.0" style="-fx-background-color: rgba(255,255,255,0); -fx-border-color: #ced4da;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sx.ip.controllers.FXMLManualProxyController">
     <children>
       <BorderPane layoutX="3.0" prefHeight="550.0" prefWidth="472.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="1.0">
          <center>
@@ -156,6 +156,7 @@ limitations under the License.
             <Font size="11.0" />
          </font>
       </Label>
+      <Hyperlink fx:id="btnLogout" contentDisplay="RIGHT" focusTraversable="false" layoutY="512.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#logoutAction" prefHeight="24.0" prefWidth="239.0" text="Logout" textAlignment="RIGHT" textFill="#2aace0" underline="true" wrapText="true" AnchorPane.leftAnchor="10.0" />
     </children>
    <opaqueInsets>
       <Insets />

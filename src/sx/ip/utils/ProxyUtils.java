@@ -21,6 +21,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
@@ -218,11 +219,8 @@ public class ProxyUtils {
         return dialog;
     }
     
-        public enum CREDENTIALTYPE{
-        BYTEARRAY,STRING
-    }
-    
-    
+
+        
     /**
      * Method resposible for saving user credentials.
      *
@@ -232,7 +230,7 @@ public class ProxyUtils {
      *          The type of the credential
      *
      */
-    public static void saveCredentials(Object credential, CREDENTIALTYPE type) {
+    public static void saveCredentials(Object credential, CredentialType type) {
         Preferences prefs = Preferences.userRoot().node(ProxyUtils.class.getName());
 
         switch(type){
@@ -241,9 +239,22 @@ public class ProxyUtils {
                 break;
             
             case BYTEARRAY:
-                prefs.putByteArray("encryptedPassword",(byte[]) credential);
+                HashMap<byte[], Integer> castCredential = (HashMap<byte[], Integer>) credential;
+                byte[] encryptedPassword = castCredential.keySet().iterator().next();
+                prefs.putInt("cipherKeyLength", castCredential.get(encryptedPassword));
+                prefs.putByteArray("encryptedPassword",encryptedPassword);
                 break;
         }
+    } 
+    
+    /**
+     * Method resposible for erasing user credentials.
+     */
+    public static void eraseCredentials() {
+        Preferences prefs = Preferences.userRoot().node(ProxyUtils.class.getName());
+        prefs.put("username","");
+        prefs.putByteArray("encryptedPassword",new byte[]{});
+        prefs.putInt("cipherKeyLength",0);
     } 
     
     /**
@@ -257,15 +268,17 @@ public class ProxyUtils {
      * @return Returns the credendial to be cast
      * 
      */
-    public static Object loadCredentials(Object credential, CREDENTIALTYPE type) {
+    public static Object loadCredentials(String credential, CredentialType type) {
         
         Preferences prefs = Preferences.userRoot().node(ProxyUtils.class.getName());
 
         switch(type){
             case STRING: 
-                return prefs.get("username","");
+                return prefs.get(credential,"");
             case BYTEARRAY:
-                return prefs.getByteArray("encryptedPassword",new byte[]{});
+                HashMap<byte[], Integer> encryptedPassword = new HashMap<>();
+                encryptedPassword.put(prefs.getByteArray("encryptedPassword",new byte[]{}), prefs.getInt("cipherKeyLength",0));
+                return encryptedPassword;
             default: 
                 return new Object();
         }

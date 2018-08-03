@@ -13,10 +13,6 @@
  */
 package sx.ip.utils;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
@@ -111,7 +107,6 @@ public class SecurityHandle {
         } catch (InvalidKeyException | ShortBufferException | IllegalBlockSizeException | BadPaddingException ex) {
             Logger.getLogger(SecurityHandle.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println(new String(plainText));
         return new String(plainText);
     }
 
