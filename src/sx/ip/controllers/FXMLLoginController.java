@@ -132,6 +132,16 @@ public class FXMLLoginController extends NavController implements Initializable 
         loader.setControllerFactory(new HostServicesControllerFactory(app.getHostServices()));
         NavControllerHandle.navigateTo(loader, stage, app);
     }
+    
+    /**
+     * Method resposible for handling the go back action.
+     *
+     * @param event An Event representing that the button has been fired.
+     */
+    @FXML
+    private void nonceAction(ActionEvent event) throws IOException {
+        
+    }
 
     /**
      * Method resposible for the transition to the login with email screen
@@ -153,6 +163,7 @@ public class FXMLLoginController extends NavController implements Initializable 
      */
     @FXML
     private void loginWithFacebookAction(ActionEvent ae) throws IOException {
+        this.btnLoginEmail.setDisable(true);
         this.webviewFacebook.setVisible(true);
         this.webviewFacebook.setDisable(false);
         this.webEn.load("https://www.facebook.com/v3.0/dialog/oauth?"

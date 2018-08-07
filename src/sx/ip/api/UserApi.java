@@ -34,7 +34,7 @@ public interface UserApi {
     * 
     * @return boolean
     */
-    public boolean authUser(String email, String password) throws UnirestException;
+    public boolean authUser(String email, String password) throws UnirestException, Exception;
     
     /**
     * Method responsible for do the login with credentials.

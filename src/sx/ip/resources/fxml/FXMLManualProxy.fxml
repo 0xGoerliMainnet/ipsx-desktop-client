@@ -149,7 +149,6 @@ limitations under the License.
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <JFXProgressBar fx:id="progressBar" layoutX="130.0" layoutY="490.0" progress="0.0" visible="false" AnchorPane.leftAnchor="130.0" AnchorPane.rightAnchor="130.0" />
       <Hyperlink fx:id="removeAll" alignment="CENTER_RIGHT" contentDisplay="RIGHT" focusTraversable="false" layoutX="224.0" layoutY="512.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#removeAllSettings" prefHeight="24.0" prefWidth="239.0" text="Remove all settings" textAlignment="RIGHT" textFill="#2aace0" underline="true" wrapText="true" />
       <Label fx:id="restartSettingsMsg" alignment="CENTER" contentDisplay="CENTER" layoutX="52.0" layoutY="470.0" prefHeight="45.0" prefWidth="375.0" textAlignment="CENTER" textFill="#707070" visible="false">
          <font>
@@ -157,6 +156,7 @@ limitations under the License.
          </font>
       </Label>
       <Hyperlink fx:id="btnLogout" contentDisplay="RIGHT" focusTraversable="false" layoutY="512.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#logoutAction" prefHeight="24.0" prefWidth="239.0" text="Logout" textAlignment="RIGHT" textFill="#2aace0" underline="true" wrapText="true" AnchorPane.leftAnchor="10.0" />
+      <JFXProgressBar fx:id="progressBar" layoutX="130.0" layoutY="490.0" progress="0.0" visible="false" AnchorPane.leftAnchor="130.0" AnchorPane.rightAnchor="130.0" />
     </children>
    <opaqueInsets>
       <Insets />

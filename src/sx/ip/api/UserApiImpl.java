@@ -35,7 +35,7 @@ public class UserApiImpl implements UserApi {
      * {@inheritDoc}
      */
     @Override
-    public boolean authUser(String email, String password) throws UnirestException {
+    public boolean authUser(String email, String password) throws UnirestException, Exception {
         HttpResponse<JsonNode> jsonResponse = Unirest.post(UserApi.userApiUrl + "/auth")
                 .header("Content-Type", "application/x-www-form-urlencoded")
                 .header("accept", "application/json")
@@ -53,6 +53,8 @@ public class UserApiImpl implements UserApi {
                 NavController.userId = jsonResponse.getBody().getObject().getInt("userId");
                 return true;
             }
+        }else{
+            throw new Exception(jsonResponse.getBody().getObject().getJSONObject("error").getString("message"));
         }
 
         return false;

@@ -106,6 +106,7 @@ limitations under the License.
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
+      <Label fx:id="lblError" alignment="CENTER" layoutX="175.0" layoutY="432.0" prefHeight="14.0" prefWidth="127.0" textFill="RED" AnchorPane.leftAnchor="175.0" AnchorPane.rightAnchor="172.0" />
     </children>
    <opaqueInsets>
       <Insets />

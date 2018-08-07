@@ -70,7 +70,7 @@ public class FXMLLandingPageController extends NavController implements Initiali
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        System.out.println("New screen initialized...");
+       System.out.println("New screen initialized...");
     }
 
     /**
@@ -137,6 +137,10 @@ public class FXMLLandingPageController extends NavController implements Initiali
             LOGGER.error(ex.getMessage(), ex);
             Logger.getLogger(FXMLLandingPageController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
+            Logger.getLogger(FXMLLandingPageController.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.error(ex.getMessage(), ex);
+        }catch (Exception ex) {
+            ProxyUtils.createExceptionAlert(bundle.getString("key.main.dialog.exception.title"), null, ex.getMessage(), bundle.getString("key.main.dialog.exception.stack.text"), ex, null);
             Logger.getLogger(FXMLLandingPageController.class.getName()).log(Level.SEVERE, null, ex);
             LOGGER.error(ex.getMessage(), ex);
         }

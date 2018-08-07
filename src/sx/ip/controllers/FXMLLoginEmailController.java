@@ -27,6 +27,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Hyperlink;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import org.slf4j.LoggerFactory;
 import sx.ip.IPSXDesktopClient;
@@ -34,10 +35,8 @@ import sx.ip.api.UserApi;
 import sx.ip.api.UserApiImpl;
 import sx.ip.factories.HostServicesControllerFactory;
 import sx.ip.utils.BlankSpacesValidator;
-import sx.ip.utils.CredentialType;
 import sx.ip.utils.EmailValidator;
 import sx.ip.utils.ProxyUtils;
-import sx.ip.utils.SecurityHandle;
 
 /**
  * Login with email screen controller
@@ -57,6 +56,10 @@ public class FXMLLoginEmailController extends NavController implements Initializ
     /** The close button instance.  */
     @FXML
     private JFXButton btnClose;
+
+    /** The error label instance.  */
+    @FXML
+    private Label lblError;
         
     /**
      * The Go back button.
@@ -114,6 +117,10 @@ public class FXMLLoginEmailController extends NavController implements Initializ
         } catch (UnirestException ex) {
             ProxyUtils.createExceptionAlert(bundle.getString("key.main.dialog.exception.title"), null, ex.getMessage(), bundle.getString("key.main.dialog.exception.stack.text"), ex, null);
             LOGGER.error(ex.getMessage(), ex);
+            Logger.getLogger(FXMLLoginEmailController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            LOGGER.error(ex.getMessage(), ex);
+            lblError.setText(ex.getMessage());
             Logger.getLogger(FXMLLoginEmailController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
