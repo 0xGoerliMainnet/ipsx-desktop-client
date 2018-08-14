@@ -38,7 +38,7 @@ limitations under the License.
       </Label>
       <BorderPane prefHeight="450.0" prefWidth="374.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="0.0">
          <center>
-            <ImageView blendMode="DARKEN" fitHeight="549.0" fitWidth="475.0" pickOnBounds="true" BorderPane.alignment="CENTER">
+            <ImageView blendMode="DARKEN" fitHeight="549.0" fitWidth="470.0" pickOnBounds="true" BorderPane.alignment="CENTER">
                <image>
                   <Image url="@../imgs/bg-375x450.jpg" />
                </image>
@@ -47,35 +47,6 @@ limitations under the License.
                </viewport>
             </ImageView>
          </center>
-      </BorderPane>
-      <BorderPane layoutX="2.0" layoutY="10.0" prefHeight="75.0" prefWidth="375.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="10.0">
-         <center>
-            <ImageView fitHeight="45.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
-               <image>
-                  <Image url="@../imgs/ipsx-logo-230x45.png" />
-               </image>
-               <BorderPane.margin>
-                  <Insets left="-20.0" />
-               </BorderPane.margin>
-            </ImageView>
-         </center>
-         <left>
-            <Hyperlink fx:id="btnBack" onAction="#goBackAction" BorderPane.alignment="CENTER">
-               <graphic>
-                  <MaterialIconView glyphName="ARROW_BACK" size="25">
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </MaterialIconView>
-               </graphic>
-               <cursor>
-                  <Cursor fx:constant="OPEN_HAND" />
-               </cursor>
-               <padding>
-                  <Insets left="10.0" />
-               </padding>
-            </Hyperlink>
-         </left>
       </BorderPane>
       <JFXButton fx:id="btnClose" contentDisplay="CENTER" focusTraversable="false" layoutX="353.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleCloseAction" prefHeight="32.0" prefWidth="32.0" text=" " textAlignment="CENTER" textFill="#a4a4a4" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <graphic>
@@ -104,6 +75,35 @@ limitations under the License.
          </cursor>
       </JFXButton>
       <WebView fx:id="webviewFacebook" layoutX="4.0" layoutY="89.0" prefHeight="461.0" prefWidth="470.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="2.0" />
+      <BorderPane layoutX="2.0" layoutY="10.0" prefHeight="75.0" prefWidth="375.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0">
+         <center>
+            <ImageView fitHeight="45.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+               <image>
+                  <Image url="@../imgs/ipsx-logo-230x45.png" />
+               </image>
+               <BorderPane.margin>
+                  <Insets left="-30.0" />
+               </BorderPane.margin>
+            </ImageView>
+         </center>
+         <left>
+            <Hyperlink fx:id="btnBack" onAction="#goBackAction" BorderPane.alignment="CENTER">
+               <graphic>
+                  <MaterialIconView glyphName="ARROW_BACK" size="25">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </MaterialIconView>
+               </graphic>
+               <cursor>
+                  <Cursor fx:constant="OPEN_HAND" />
+               </cursor>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+            </Hyperlink>
+         </left>
+      </BorderPane>
     </children>
    <opaqueInsets>
       <Insets />

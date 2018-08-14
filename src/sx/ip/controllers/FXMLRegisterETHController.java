@@ -33,16 +33,18 @@ import sx.ip.IPSXDesktopClient;
 import sx.ip.api.UserApi;
 import sx.ip.api.UserApiImpl;
 import static sx.ip.controllers.NavController.bundle;
+import sx.ip.factories.HostServicesControllerFactory;
 import sx.ip.utils.BlankSpacesValidator;
 import sx.ip.utils.ETHWalletValidator;
 import sx.ip.utils.ProxyUtils;
 
-
 public class FXMLRegisterETHController extends NavController implements Initializable {
 
-    /** The logger Object.  */
+    /**
+     * The logger Object.
+     */
     static org.slf4j.Logger LOGGER = LoggerFactory.getLogger(FXMLRegisterETHController.class);
-    
+
     /**
      * The sign in with another account button instance.
      */
@@ -100,7 +102,10 @@ public class FXMLRegisterETHController extends NavController implements Initiali
         try {
             //TODO: regex validator for valid eth addr.
             api.addEthAddress(this.txtWalletName.getText(), this.txtETHAdrr.getText());
-            ProxyUtils.createAndShowAlert(Alert.AlertType.INFORMATION, bundle.getString("key.main.alert.info.title"), null, "foi", null);
+            ProxyUtils.createAndShowAlert(Alert.AlertType.INFORMATION, bundle.getString("key.main.alert.info.title"), null, "Wallet added Sucessfully!", null);
+            FXMLLoader loader = new FXMLLoader(IPSXDesktopClient.class.getResource("resources/fxml/FXMLManualProxy.fxml"), ProxyUtils.getBundle());
+            loader.setControllerFactory(new HostServicesControllerFactory(app.getHostServices()));
+            NavControllerHandle.navigateTo(loader, stage, app);
         } catch (UnirestException ex) {
             ProxyUtils.createAndShowAlert(Alert.AlertType.ERROR, bundle.getString("key.main.alert.error.title"), null, ex.getMessage(), null);
             LOGGER.error(ex.getMessage(), ex);
@@ -129,7 +134,7 @@ public class FXMLRegisterETHController extends NavController implements Initiali
         }
 
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -144,7 +149,7 @@ public class FXMLRegisterETHController extends NavController implements Initiali
         ethValidatorETHAddr.setMessage(rb.getString("key.main.validator.eth"));
         txtWalletName.getValidators().add(blankValidatorWalletName);
         txtETHAdrr.getValidators().add(blankValidatorETHAddr);
-        
+
         txtWalletName.textProperty().addListener((observable, oldValue, newValue) -> {
             if (txtETHAdrr.validate() && txtWalletName.validate()) {
                 btnDone.setDisable(false);
