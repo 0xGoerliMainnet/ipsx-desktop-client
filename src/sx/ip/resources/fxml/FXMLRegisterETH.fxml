@@ -32,7 +32,7 @@ limitations under the License.
     <children>
       <BorderPane layoutX="3.0" prefHeight="450.0" prefWidth="577.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="0.0">
          <center>
-            <ImageView blendMode="DARKEN" fitHeight="549.0" fitWidth="475.0" pickOnBounds="true" BorderPane.alignment="CENTER">
+            <ImageView blendMode="DARKEN" fitHeight="549.0" fitWidth="470.0" pickOnBounds="true" BorderPane.alignment="CENTER">
                <image>
                   <Image url="@../imgs/bg-375x450.jpg" />
                </image>
@@ -42,12 +42,15 @@ limitations under the License.
             </ImageView>
          </center>
       </BorderPane>
-      <BorderPane prefHeight="75.0" prefWidth="375.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-1.0">
+      <BorderPane prefHeight="75.0" prefWidth="375.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="10.0">
          <center>
             <ImageView fitHeight="45.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
                <image>
                   <Image url="@../imgs/ipsx-logo-230x45.png" />
                </image>
+               <BorderPane.margin>
+                  <Insets />
+               </BorderPane.margin>
             </ImageView>
          </center>
       </BorderPane>
@@ -56,37 +59,30 @@ limitations under the License.
             <MaterialIconView fill="#707070" glyphName="CLOSE" size="16.0" textAlignment="CENTER" />
          </graphic>
       </JFXButton>
-      <Label layoutX="86.0" layoutY="100.0" prefHeight="25.0" prefWidth="318.0" text="You're almost there!" AnchorPane.leftAnchor="29.0" AnchorPane.rightAnchor="172.0">
+      <Label layoutX="86.0" layoutY="100.0" prefHeight="25.0" prefWidth="318.0" text="You're almost there!" textFill="#707070" AnchorPane.leftAnchor="28.0" AnchorPane.rightAnchor="28.0" AnchorPane.topAnchor="120.0">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <Label layoutX="47.0" layoutY="134.0" prefHeight="32.0" prefWidth="427.0" text="In order to use IPSX services please provide us your primary ETH address." wrapText="true" AnchorPane.leftAnchor="46.0" AnchorPane.rightAnchor="0.0">
-         <font>
-            <Font size="12.0" />
-         </font>
-      </Label>
-      <AnchorPane fx:id="loginInfoPane" layoutX="54.0" layoutY="169.0" prefHeight="202.0" prefWidth="372.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <Label layoutX="47.0" layoutY="134.0" prefHeight="32.0" prefWidth="427.0" text="In order to use IPSX services please provide us your primary ETH address." textAlignment="JUSTIFY" textFill="#707070" wrapText="true" AnchorPane.leftAnchor="28.0" AnchorPane.rightAnchor="28.0" AnchorPane.topAnchor="150.0" />
+      <AnchorPane fx:id="loginInfoPane" layoutX="2.0" layoutY="169.0" prefHeight="229.0" prefWidth="473.0" AnchorPane.bottomAnchor="109.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="182.0">
          <children>
-            <Label layoutX="5.0" layoutY="20.0" prefHeight="14.0" prefWidth="90.0" text="Custom Name" textFill="#707070" AnchorPane.leftAnchor="64.0" AnchorPane.rightAnchor="218.0">
+            <Label layoutX="5.0" layoutY="20.0" prefHeight="14.0" prefWidth="90.0" text="Custom Name" textFill="#707070" AnchorPane.leftAnchor="28.0">
                <font>
                   <Font size="11.0" />
                </font>
             </Label>
-            <JFXTextField fx:id="txtWalletName" focusColor="#80bdff" layoutX="65.0" layoutY="35.0" prefHeight="26.0" prefWidth="249.0" promptText="e.g. My first wallet" unFocusColor="#ced4da" AnchorPane.leftAnchor="64.0" AnchorPane.rightAnchor="58.0" />
-            <Label layoutX="65.0" layoutY="100.0" prefHeight="14.0" prefWidth="90.0" text="ETH Address" textFill="#707070" AnchorPane.leftAnchor="65.0" AnchorPane.rightAnchor="217.0">
+            <JFXTextField fx:id="txtWalletName" focusColor="#80bdff" layoutX="65.0" layoutY="35.0" prefHeight="26.0" prefWidth="249.0" promptText="e.g. My first wallet" unFocusColor="#ced4da" AnchorPane.leftAnchor="28.0" AnchorPane.rightAnchor="28.0" />
+            <Label layoutX="65.0" layoutY="100.0" prefHeight="14.0" prefWidth="90.0" text="ETH Address" textFill="#707070" AnchorPane.leftAnchor="28.0">
                <font>
                   <Font size="11.0" />
                </font>
             </Label>
-            <JFXTextField fx:id="txtETHAdrr" focusColor="#80bdff" layoutX="65.0" layoutY="120.0" prefHeight="26.0" prefWidth="249.0" promptText="0x..." unFocusColor="#ced4da" AnchorPane.leftAnchor="64.0" AnchorPane.rightAnchor="58.0" />
-            <Hyperlink fx:id="btnSignAnotherAccount" accessibleText="https://ip.sx/dist/IPSX-Terms-of-Service.pdf" alignment="CENTER" contentDisplay="TOP" layoutX="88.0" layoutY="179.0" onAction="#signInWithAnotherAccountAction" prefHeight="24.0" prefWidth="206.0" text="Sign in with another account" textFill="#2aace0" textOverrun="CLIP" AnchorPane.leftAnchor="88.0" AnchorPane.rightAnchor="88.0">
-               <font>
-                  <Font size="11.0" />
-               </font></Hyperlink>
+            <JFXTextField fx:id="txtETHAdrr" focusColor="#80bdff" layoutX="65.0" layoutY="120.0" prefHeight="26.0" prefWidth="249.0" promptText="0x..." unFocusColor="#ced4da" AnchorPane.leftAnchor="28.0" AnchorPane.rightAnchor="28.0" />
+            <Hyperlink fx:id="btnSignAnotherAccount" accessibleText="https://ip.sx/dist/IPSX-Terms-of-Service.pdf" alignment="CENTER" contentDisplay="TOP" layoutX="88.0" layoutY="179.0" onAction="#signInWithAnotherAccountAction" prefHeight="24.0" prefWidth="206.0" text="Sign in with another account" textFill="#2aace0" textOverrun="CLIP" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="88.0" AnchorPane.rightAnchor="88.0" />
          </children>
       </AnchorPane>
-      <JFXButton fx:id="btnDone" defaultButton="true" disable="true" layoutX="121.0" layoutY="390.0" onAction="#doneAction" prefHeight="40.0" prefWidth="230.0" ripplerFill="WHITE" style="-fx-background-color: #2aace0;" text="Done" textAlignment="CENTER" textFill="WHITE" AnchorPane.leftAnchor="121.0" AnchorPane.rightAnchor="123.0">
+      <JFXButton fx:id="btnDone" defaultButton="true" disable="true" layoutX="121.0" layoutY="390.0" onAction="#doneAction" prefHeight="40.0" prefWidth="230.0" ripplerFill="WHITE" style="-fx-background-color: #2aace0;" text="Done" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="121.0" AnchorPane.rightAnchor="121.0">
          <font>
             <Font size="12.0" />
          </font>

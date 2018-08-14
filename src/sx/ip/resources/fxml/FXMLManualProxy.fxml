@@ -36,7 +36,7 @@ limitations under the License.
     <children>
       <BorderPane layoutX="3.0" prefHeight="550.0" prefWidth="472.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="1.0">
          <center>
-            <ImageView blendMode="DARKEN" fitHeight="549.0" fitWidth="475.0" pickOnBounds="true" BorderPane.alignment="CENTER">
+            <ImageView blendMode="DARKEN" fitHeight="549.0" fitWidth="467.0" pickOnBounds="true" BorderPane.alignment="CENTER">
                <image>
                   <Image url="@../imgs/bg-375x450.jpg" />
                </image>
@@ -46,16 +46,19 @@ limitations under the License.
             </ImageView>
          </center>
       </BorderPane>
-      <BorderPane layoutX="50.0" prefHeight="75.0" prefWidth="375.0">
+      <BorderPane layoutX="50.0" prefHeight="75.0" prefWidth="375.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0">
          <center>
             <ImageView fitHeight="45.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
                <image>
                   <Image url="@../imgs/ipsx-logo-230x45.png" />
                </image>
+               <BorderPane.margin>
+                  <Insets top="10.0" />
+               </BorderPane.margin>
             </ImageView>
          </center>
       </BorderPane>
-      <Label layoutX="29.0" layoutY="100.0" prefHeight="25.0" prefWidth="173.0" text="New Proxy">
+      <Label layoutX="29.0" layoutY="100.0" prefHeight="25.0" prefWidth="173.0" text="Enter Proxy Data" textFill="#707070" AnchorPane.leftAnchor="28.0" AnchorPane.topAnchor="120.0">
          <font>
             <Font size="20.0" />
          </font>
@@ -65,31 +68,31 @@ limitations under the License.
             <MaterialIconView fill="#707070" glyphName="CLOSE" size="16.0" textAlignment="CENTER" />
          </graphic>
       </JFXButton>
-      <AnchorPane fx:id="pacPane" layoutX="1.0" layoutY="182.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="124.0" prefWidth="473.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <AnchorPane fx:id="pacPane" layoutX="1.0" layoutY="182.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="124.0" prefWidth="473.0" AnchorPane.bottomAnchor="109.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="182.0">
          <children>
-            <Label layoutX="54.0" layoutY="40.0" text="PAC URL" textFill="#707070" AnchorPane.leftAnchor="64.0" AnchorPane.rightAnchor="278.0">
+            <Label layoutX="28.0" layoutY="10.0" text="PAC URL" textFill="#707070" AnchorPane.leftAnchor="28.0" AnchorPane.rightAnchor="278.0">
                <font>
                   <Font size="11.0" />
                </font>
             </Label>
-            <JFXTextField fx:id="proxyUrl" focusColor="#80bdff" labelFloat="true" layoutX="54.0" layoutY="55.0" prefHeight="26.0" prefWidth="300.0" style="-fx-background-color: rgba(255,255,255,0.8);" unFocusColor="#ced4da" AnchorPane.leftAnchor="64.0" AnchorPane.rightAnchor="58.0" />
+            <JFXTextField fx:id="proxyUrl" focusColor="#80bdff" labelFloat="true" layoutX="28.0" layoutY="28.0" prefHeight="26.0" prefWidth="300.0" style="-fx-background-color: rgba(255,255,255,0.8);" unFocusColor="#ced4da" AnchorPane.leftAnchor="28.0" AnchorPane.rightAnchor="28.0" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="advancedPane" layoutX="-2.0" layoutY="162.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="202.0" prefWidth="475.0" visible="false" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <AnchorPane fx:id="advancedPane" layoutX="-2.0" layoutY="162.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="202.0" prefWidth="475.0" visible="false" AnchorPane.bottomAnchor="109.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="182.0">
          <children>
-            <Label layoutX="64.0" layoutY="9.0" text="Protocol" textFill="#707070" AnchorPane.leftAnchor="64.0" AnchorPane.rightAnchor="353.0">
+            <Label layoutX="64.0" layoutY="9.0" text="Protocol" textFill="#707070" AnchorPane.leftAnchor="28.0" AnchorPane.rightAnchor="353.0">
                <font>
                   <Font size="11.0" />
                </font>
             </Label>
-            <JFXComboBox fx:id="comboProtocol" focusColor="#80bdff" layoutX="65.0" layoutY="24.0" prefHeight="26.0" prefWidth="250.0" style="-fx-background-color: rgba(255,255,255,0.8);" unFocusColor="#ced4da" AnchorPane.leftAnchor="64.0" AnchorPane.rightAnchor="58.0" />
-            <Label layoutX="64.0" layoutY="62.0" text="Proxy IP" textFill="#707070" AnchorPane.leftAnchor="64.0">
+            <JFXComboBox fx:id="comboProtocol" focusColor="#80bdff" layoutX="65.0" layoutY="24.0" prefHeight="26.0" prefWidth="250.0" style="-fx-background-color: rgba(255,255,255,0.8);" unFocusColor="#ced4da" AnchorPane.leftAnchor="28.0" AnchorPane.rightAnchor="58.0" />
+            <Label layoutX="64.0" layoutY="62.0" text="Proxy IP" textFill="#707070" AnchorPane.leftAnchor="28.0">
                <font>
                   <Font size="11.0" />
                </font>
             </Label>
-            <JFXTextField fx:id="proxyIp" focusColor="#80bdff" labelFloat="true" layoutX="65.0" layoutY="77.0" prefHeight="25.0" prefWidth="272.0" style="-fx-background-color: rgba(255,255,255,0.8);" unFocusColor="#ced4da" AnchorPane.leftAnchor="64.0" AnchorPane.rightAnchor="137.0" />
-            <Label layoutX="346.0" layoutY="77.0" text=":" textFill="#707070" AnchorPane.rightAnchor="123.0">
+            <JFXTextField fx:id="proxyIp" focusColor="#80bdff" labelFloat="true" layoutX="65.0" layoutY="77.0" prefHeight="25.0" prefWidth="272.0" style="-fx-background-color: rgba(255,255,255,0.8);" unFocusColor="#ced4da" AnchorPane.leftAnchor="28.0" AnchorPane.rightAnchor="137.0" />
+            <Label layoutX="346.0" layoutY="77.0" text=":" textFill="#707070" AnchorPane.leftAnchor="344.0" AnchorPane.rightAnchor="123.0">
                <font>
                   <Font size="16.0" />
                </font>
@@ -100,21 +103,21 @@ limitations under the License.
                </font>
             </Label>
             <JFXTextField fx:id="proxyPort" focusColor="#80bdff" labelFloat="true" layoutX="361.0" layoutY="77.0" prefHeight="26.0" prefWidth="54.0" style="-fx-background-color: rgba(255,255,255,0.8);" unFocusColor="#ced4da" AnchorPane.rightAnchor="58.0" />
-            <Label layoutX="64.0" layoutY="123.0" text="User" textFill="#707070" AnchorPane.leftAnchor="64.0">
+            <Label layoutX="64.0" layoutY="123.0" text="User" textFill="#707070" AnchorPane.leftAnchor="28.0">
                <font>
                   <Font size="11.0" />
                </font>
             </Label>
-            <JFXTextField fx:id="proxyUser" focusColor="#80bdff" labelFloat="true" layoutX="65.0" layoutY="137.0" prefHeight="26.0" prefWidth="165.0" style="-fx-background-color: rgba(255,255,255,0.8);" unFocusColor="#ced4da" AnchorPane.leftAnchor="64.0" AnchorPane.rightAnchor="240.0" />
-            <Label layoutX="251.0" layoutY="123.0" text="Password" textFill="#707070" AnchorPane.leftAnchor="251.0" AnchorPane.rightAnchor="164.0">
+            <JFXTextField fx:id="proxyUser" focusColor="#80bdff" labelFloat="true" layoutX="65.0" layoutY="137.0" prefHeight="26.0" prefWidth="165.0" style="-fx-background-color: rgba(255,255,255,0.8);" unFocusColor="#ced4da" AnchorPane.leftAnchor="28.0" AnchorPane.rightAnchor="268.0" />
+            <Label layoutX="251.0" layoutY="123.0" text="Password" textFill="#707070" AnchorPane.leftAnchor="223.0" AnchorPane.rightAnchor="164.0">
                <font>
                   <Font size="11.0" />
                </font>
             </Label>
-            <JFXPasswordField fx:id="proxyPass" focusColor="#80bdff" layoutX="250.0" layoutY="137.0" prefHeight="26.0" prefWidth="105.0" unFocusColor="#ced4da" AnchorPane.leftAnchor="250.0" AnchorPane.rightAnchor="58.0" />
+            <JFXPasswordField fx:id="proxyPass" focusColor="#80bdff" layoutX="250.0" layoutY="137.0" prefHeight="26.0" prefWidth="105.0" unFocusColor="#ced4da" AnchorPane.leftAnchor="222.0" AnchorPane.rightAnchor="58.0" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="agreePane" layoutX="-2.0" layoutY="350.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="59.0" prefWidth="473.0" AnchorPane.bottomAnchor="140.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="350.0">
+      <AnchorPane fx:id="agreePane" layoutX="-2.0" layoutY="381.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="59.0" prefWidth="473.0" AnchorPane.bottomAnchor="109.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="381.0">
          <children>
             <JFXCheckBox fx:id="bypassCB" checkedColor="#2aace0" disable="true" layoutX="64.0" layoutY="30.0" text="Bypass proxy server for local addresses" textFill="#707070" unCheckedColor="#ced4da" visible="false">
                <cursor>
@@ -134,14 +137,14 @@ limitations under the License.
                   <Cursor fx:constant="HAND" />
                </cursor>
             </JFXCheckBox>
-            <JFXCheckBox fx:id="advancedSettings" checkedColor="#2aace0" focusTraversable="false" layoutX="70.0" onAction="#handleAdvancedSettings" prefHeight="18.0" prefWidth="239.0" text="Advanced Settings" textFill="#707070" unCheckedColor="#ced4da" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="66.0">
+            <JFXCheckBox fx:id="advancedSettings" checkedColor="#2aace0" focusTraversable="false" layoutX="70.0" onAction="#handleAdvancedSettings" prefHeight="18.0" prefWidth="239.0" text="Advanced Settings" textFill="#707070" unCheckedColor="#ced4da" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="70.0">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </JFXCheckBox>
          </children>
       </AnchorPane>
-      <JFXButton fx:id="btnActivate" defaultButton="true" disable="true" layoutX="124.0" layoutY="430.0" onAction="#handleActivateAction" prefHeight="40.0" prefWidth="230.0" ripplerFill="WHITE" style="-fx-background-color: #2aace0;" text="Activate Proxy" textAlignment="CENTER" textFill="WHITE">
+      <JFXButton fx:id="btnActivate" defaultButton="true" disable="true" layoutX="114.0" layoutY="458.0" onAction="#handleActivateAction" prefHeight="40.0" prefWidth="230.0" ripplerFill="WHITE" style="-fx-background-color: #2aace0;" text="Activate Proxy" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="51.0" AnchorPane.leftAnchor="114.0" AnchorPane.rightAnchor="130.0" AnchorPane.topAnchor="458.0">
          <font>
             <Font size="16.0" />
          </font>

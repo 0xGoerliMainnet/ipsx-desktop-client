@@ -22,6 +22,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -339,7 +342,7 @@ public class ProxyUtils {
      *
      */
     public static boolean isValid(String url) {
-        String urlRegex = "^(https|http|ftp|ftps)(:\\/\\/)([a-z0-9]+)(\\.[a-z]{2,})*(\\/?[a-zA-Z0-9])+\\.(pac)$";
+        String urlRegex = "^(https|http|ftp|ftps|smtp)(:\\/\\/)([a-z0-9]+)(\\.[a-z]{0,})*(\\/?[a-zA-Z0-9]\\.?)+[a-zA-Z0-9]$";
         Pattern pattern = Pattern.compile(urlRegex);
         Matcher m = pattern.matcher(url);
         return m.matches();
@@ -350,26 +353,17 @@ public class ProxyUtils {
      *
      * @param url The URL to be validated
      *
+     * @throws MalformedURLException
+     *
      * @throws IOException
      *
      * @return A boolean indicating if the url is valid or not
      */
-    public static boolean validateUrl(String url) throws IOException {
+    public static boolean validateUrl(String url) throws MalformedURLException, IOException   {
         if (isValid(url)) {
-
-            try {
-                HttpResponse<String> jsonResponse = Unirest.get(url)
-                        .header("Content-Type", "application/json")
-                        .header("accept", "application/json")
-                        .queryString("access_token", NavController.accessToken)
-                        .asString();
-
-                return URLStatus.HTTP_OK.getStatusCode() == jsonResponse.getStatus();
-            } catch (UnirestException ex) {
-                Logger.getLogger(ProxyUtils.class.getName()).log(Level.SEVERE, null, ex);
-                ProxyUtils.createExceptionAlert(bundle.getString("key.main.dialog.exception.title"), null, ex.getMessage(), bundle.getString("key.main.dialog.exception.stack.text"), ex, null);
-                LOGGER.error(ex.getMessage(), ex);
-            }
+            URL myURL = new URL(url);
+            HttpURLConnection myConnection = (HttpURLConnection) myURL.openConnection();
+                return URLStatus.HTTP_OK.getStatusCode() == myConnection.getResponseCode();
         }
         return false;
     }
