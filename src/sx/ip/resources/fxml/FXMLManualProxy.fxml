@@ -117,14 +117,14 @@ limitations under the License.
             <JFXPasswordField fx:id="proxyPass" focusColor="#80bdff" layoutX="250.0" layoutY="137.0" prefHeight="26.0" prefWidth="105.0" unFocusColor="#ced4da" AnchorPane.leftAnchor="222.0" AnchorPane.rightAnchor="58.0" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="agreePane" layoutX="-2.0" layoutY="381.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="59.0" prefWidth="473.0" AnchorPane.bottomAnchor="109.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="381.0">
+      <AnchorPane fx:id="agreePane" layoutX="-2.0" layoutY="381.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="59.0" prefWidth="473.0" AnchorPane.bottomAnchor="109.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="381.0">
          <children>
-            <JFXCheckBox fx:id="bypassCB" checkedColor="#2aace0" disable="true" layoutX="64.0" layoutY="30.0" text="Bypass proxy server for local addresses" textFill="#707070" unCheckedColor="#ced4da" visible="false">
+            <JFXCheckBox fx:id="bypassCB" checkedColor="#2aace0" disable="true" layoutX="64.0" layoutY="30.0" text="Bypass proxy server for local addresses" textFill="#707070" unCheckedColor="#ced4da" visible="false" AnchorPane.leftAnchor="28.0">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </JFXCheckBox>
-            <JFXCheckBox fx:id="agreeCheckBox" checkedColor="#2aace0" contentDisplay="RIGHT" graphicTextGap="0.0" layoutX="71.0" layoutY="30.0" prefHeight="23.0" prefWidth="296.0" selected="true" text="I agree with the" textFill="#707070" unCheckedColor="#ced4da" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="66.0">
+            <JFXCheckBox fx:id="agreeCheckBox" checkedColor="#2aace0" contentDisplay="RIGHT" graphicTextGap="0.0" layoutX="71.0" layoutY="30.0" prefHeight="23.0" prefWidth="296.0" selected="true" text="I agree with the" textFill="#707070" unCheckedColor="#ced4da" AnchorPane.leftAnchor="28.0" AnchorPane.rightAnchor="66.0">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
@@ -132,19 +132,19 @@ limitations under the License.
                   <Hyperlink fx:id="btnTerms" accessibleText="https://ip.sx/dist/IPSX-Terms-of-Service.pdf" contentDisplay="TOP" onAction="#openBrowser" prefHeight="23.0" prefWidth="153.0" text="terms and conditions" textFill="#2aace0" textOverrun="CLIP" underline="true" />
                </graphic>
             </JFXCheckBox>
-            <JFXCheckBox fx:id="proxyAuthentication" checkedColor="#2aace0" layoutX="64.0" layoutY="4.0" text="Proxy Authentication" textFill="#707070" unCheckedColor="#ced4da" visible="false">
+            <JFXCheckBox fx:id="proxyAuthentication" checkedColor="#2aace0" layoutX="64.0" layoutY="4.0" text="Proxy Authentication" textFill="#707070" unCheckedColor="#ced4da" visible="false" AnchorPane.leftAnchor="28.0">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </JFXCheckBox>
-            <JFXCheckBox fx:id="advancedSettings" checkedColor="#2aace0" focusTraversable="false" layoutX="70.0" onAction="#handleAdvancedSettings" prefHeight="18.0" prefWidth="239.0" text="Advanced Settings" textFill="#707070" unCheckedColor="#ced4da" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="70.0">
+            <JFXCheckBox fx:id="advancedSettings" checkedColor="#2aace0" focusTraversable="false" layoutX="70.0" onAction="#handleAdvancedSettings" prefHeight="18.0" prefWidth="239.0" text="Advanced Settings" textFill="#707070" unCheckedColor="#ced4da" AnchorPane.leftAnchor="28.0" AnchorPane.rightAnchor="70.0">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </JFXCheckBox>
          </children>
       </AnchorPane>
-      <JFXButton fx:id="btnActivate" defaultButton="true" disable="true" layoutX="114.0" layoutY="458.0" onAction="#handleActivateAction" prefHeight="40.0" prefWidth="230.0" ripplerFill="WHITE" style="-fx-background-color: #2aace0;" text="Activate Proxy" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="51.0" AnchorPane.leftAnchor="114.0" AnchorPane.rightAnchor="130.0" AnchorPane.topAnchor="458.0">
+      <JFXButton fx:id="btnActivate" defaultButton="true" disable="true" layoutX="114.0" layoutY="458.0" onAction="#handleActivateAction" prefHeight="40.0" prefWidth="230.0" ripplerFill="WHITE" style="-fx-background-color: #2aace0;" text="Activate Proxy" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="130.0" AnchorPane.rightAnchor="130.0" AnchorPane.topAnchor="458.0">
          <font>
             <Font size="16.0" />
          </font>
@@ -159,7 +159,7 @@ limitations under the License.
          </font>
       </Label>
       <Hyperlink fx:id="btnLogout" contentDisplay="RIGHT" focusTraversable="false" layoutY="512.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#logoutAction" prefHeight="24.0" prefWidth="239.0" text="Logout" textAlignment="RIGHT" textFill="#2aace0" underline="true" wrapText="true" AnchorPane.leftAnchor="10.0" />
-      <JFXProgressBar fx:id="progressBar" layoutX="130.0" layoutY="490.0" progress="0.0" visible="false" AnchorPane.leftAnchor="130.0" AnchorPane.rightAnchor="130.0" />
+      <JFXProgressBar fx:id="progressBar" layoutX="130.0" layoutY="490.0" progress="0.0" visible="false" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="130.0" AnchorPane.rightAnchor="130.0" />
     </children>
    <opaqueInsets>
       <Insets />

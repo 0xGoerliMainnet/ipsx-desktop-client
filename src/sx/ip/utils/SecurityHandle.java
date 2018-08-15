@@ -111,10 +111,4 @@ public class SecurityHandle {
     }
 
 
-    public static void main(String[] args) throws Exception {
-        SecurityHandle handle = new SecurityHandle();
-        Map<byte[], Integer> example = handle.encryption("Testes");
-        handle.decryption(example);
-        
-    }
 }

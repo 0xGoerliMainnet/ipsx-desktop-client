@@ -14,7 +14,7 @@
 package sx.ip.controllers;
 
 import com.jfoenix.controls.JFXButton;
-import com.mashape.unirest.http.exceptions.UnirestException;
+import com.jfoenix.controls.JFXProgressBar;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
@@ -23,7 +23,9 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.HostServices;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -53,7 +55,12 @@ public class FXMLLandingPageController extends NavController implements Initiali
      */
     @FXML
     private JFXButton btnLogin;
+    /**
+     * The progress bar instance.
+     */
 
+    @FXML
+    private JFXProgressBar progressBar;
     /**
      * The close button instance.
      */
@@ -70,7 +77,7 @@ public class FXMLLandingPageController extends NavController implements Initiali
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-       System.out.println("New screen initialized...");
+        System.out.println("New screen initialized...");
     }
 
     /**
@@ -110,18 +117,26 @@ public class FXMLLandingPageController extends NavController implements Initiali
      * to refresh token.
      */
     private void loginUserWithKeptCredentials() throws IOException {
-        UserApi api = new UserApiImpl();
-        CredentialType credentialType = CredentialType.STRING;
-        SecurityHandle sh = new SecurityHandle();
-        try {
-            String email = (String) ProxyUtils.loadCredentials("username", credentialType.STRING);
-            Map<byte[], Integer> encriptedPasswordMap = (HashMap<byte[], Integer>) ProxyUtils.loadCredentials("encryptedPassword", credentialType.BYTEARRAY);
-            String password = sh.decryption(encriptedPasswordMap);
 
-            boolean response = api.authUser(email, password);
-
-            if (response) {
-                if (api.userHasEthWallet()) {
+        Task task = new Task<Boolean>() {
+            @Override
+            protected Boolean call() throws Exception {
+                UserApi api = new UserApiImpl();
+                CredentialType credentialType = CredentialType.STRING;
+                SecurityHandle sh = new SecurityHandle();
+                String email = (String) ProxyUtils.loadCredentials("username", credentialType.STRING);
+                Map<byte[], Integer> encriptedPasswordMap = (HashMap<byte[], Integer>) ProxyUtils.loadCredentials("encryptedPassword", credentialType.BYTEARRAY);
+                String password = sh.decryption(encriptedPasswordMap);
+                boolean response = api.authUser(email, password);
+                if (response) {
+                    return api.userHasEthWallet() == true;
+                }
+                return null;
+            }
+        };
+        task.setOnSucceeded((Event ev) -> {
+            try {
+                if ((Boolean) task.getValue()) {
                     //User goes to dashboard
                     FXMLLoader loader = new FXMLLoader(IPSXDesktopClient.class.getResource("resources/fxml/FXMLManualProxy.fxml"), ProxyUtils.getBundle());
                     loader.setControllerFactory(new HostServicesControllerFactory(app.getHostServices()));
@@ -131,19 +146,32 @@ public class FXMLLandingPageController extends NavController implements Initiali
                     loader.setControllerFactory(new HostServicesControllerFactory(app.getHostServices()));
                     NavControllerHandle.navigateTo(loader, stage, app);
                 }
+            } catch (IOException ex) {
+                Logger.getLogger(FXMLLoginEmailController.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (UnirestException ex) {
-            ProxyUtils.createExceptionAlert(bundle.getString("key.main.dialog.exception.title"), null, ex.getMessage(), bundle.getString("key.main.dialog.exception.stack.text"), ex, null);
-            LOGGER.error(ex.getMessage(), ex);
-            Logger.getLogger(FXMLLandingPageController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(FXMLLandingPageController.class.getName()).log(Level.SEVERE, null, ex);
-            LOGGER.error(ex.getMessage(), ex);
-        }catch (Exception ex) {
-            ProxyUtils.createExceptionAlert(bundle.getString("key.main.dialog.exception.title"), null, ex.getMessage(), bundle.getString("key.main.dialog.exception.stack.text"), ex, null);
-            Logger.getLogger(FXMLLandingPageController.class.getName()).log(Level.SEVERE, null, ex);
-            LOGGER.error(ex.getMessage(), ex);
-        }
+        });
+        task.setOnFailed((Event ev) -> {
+            Logger.getLogger(FXMLLoginEmailController.class.getName()).log(Level.SEVERE, null, task.getException());
+            ProxyUtils.createExceptionAlert(bundle.getString("key.main.alert.error.title"), null, task.getException().getMessage(), bundle.getString("key.main.dialog.exception.stack.text"), task.getException(), null);
+            LOGGER.error(task.getException().getMessage(), task.getException());
+            this.btnRegister.setDisable(false);
+            this.btnLogin.setDisable(false);
+            this.progressBar.setVisible(false);
+        });
+        Thread thread = new Thread(task);
+        thread.setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+            @Override
+            public void uncaughtException(Thread t, Throwable e) {
+                ProxyUtils.createExceptionAlert(bundle.getString("key.main.alert.error.title"), null, task.getException().getMessage(), bundle.getString("key.main.dialog.exception.stack.text"), task.getException(), null);
+                Logger.getLogger(FXMLLoginEmailController.class.getName()).log(Level.SEVERE, null, e);
+            }
+        });
+        this.progressBar.setVisible(true);
+        this.progressBar.progressProperty().bind(task.progressProperty());
+        this.btnLogin.setDisable(true);
+        this.btnRegister.setDisable(true);
+        thread.start();
+
     }
 
     /**

@@ -15,6 +15,7 @@ limitations under the License.
 -->
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXProgressBar?>
 <?import de.jensd.fx.glyphs.materialicons.MaterialIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.geometry.Rectangle2D?>
@@ -67,6 +68,7 @@ limitations under the License.
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
+      <JFXProgressBar fx:id="progressBar" progress="0.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
     </children>
    <opaqueInsets>
       <Insets />

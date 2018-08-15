@@ -15,9 +15,6 @@ package sx.ip.utils;
 
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -28,8 +25,6 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -50,8 +45,6 @@ import javafx.stage.Stage;
 import javafx.util.Pair;
 import org.slf4j.LoggerFactory;
 import sx.ip.IPSXDesktopClient;
-import sx.ip.controllers.NavController;
-import static sx.ip.controllers.NavController.bundle;
 
 /**
  * Class responsible for hold all useful functions.
@@ -288,7 +281,7 @@ public class ProxyUtils {
      * @param ex The exception.
      *
      */
-    public static void createExceptionAlert(String title, String header, String content, String stackMessage, Exception ex, InputStream is) {
+    public static void createExceptionAlert(String title, String header, String content, String stackMessage, Throwable ex, InputStream is) {
         Alert alert = new Alert(AlertType.ERROR);
         alert.setTitle(title);
         alert.setHeaderText(header);

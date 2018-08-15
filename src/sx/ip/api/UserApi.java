@@ -13,7 +13,10 @@
  */
 package sx.ip.api;
 
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import java.util.concurrent.Future;
 
 /**
 * Interface responsible for describe the all user api methods

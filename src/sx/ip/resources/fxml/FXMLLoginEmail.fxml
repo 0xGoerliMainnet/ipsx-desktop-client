@@ -101,7 +101,7 @@ limitations under the License.
             <MaterialIconView fill="#707070" glyphName="CLOSE" size="16.0" textAlignment="CENTER" />
          </graphic>
       </JFXButton>
-      <JFXButton fx:id="btnLoginEmail" defaultButton="true" layoutX="124.0" layoutY="376.0" onAction="#loginAction" prefHeight="40.0" prefWidth="230.0" ripplerFill="WHITE" style="-fx-background-color: #2aace0;" text="Login" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="124.0" AnchorPane.rightAnchor="120.0">
+      <JFXButton fx:id="btnLoginEmail" defaultButton="true" disable="true" layoutX="124.0" layoutY="376.0" onAction="#loginAction" prefHeight="40.0" prefWidth="230.0" ripplerFill="WHITE" style="-fx-background-color: #2aace0;" text="Login" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="124.0" AnchorPane.rightAnchor="120.0">
          <font>
             <Font size="12.0" />
          </font>
