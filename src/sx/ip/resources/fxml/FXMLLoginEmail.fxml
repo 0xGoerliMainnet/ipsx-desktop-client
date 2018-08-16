@@ -16,6 +16,7 @@ limitations under the License.
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXProgressBar?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import de.jensd.fx.glyphs.materialicons.MaterialIconView?>
 <?import javafx.geometry.Insets?>
@@ -31,9 +32,9 @@ limitations under the License.
 
 <AnchorPane id="AnchorPane" fx:id="mainAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="475.0" style="-fx-background-color: rgba(255,255,255,0); -fx-border-color: #ced4da; -fx-border-width: 1px; -fx-border-insets: 0px; -fx-border-radius: 0px;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sx.ip.controllers.FXMLLoginEmailController">
     <children>
-      <BorderPane layoutX="3.0" prefHeight="550.0" prefWidth="472.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="1.0">
+      <BorderPane layoutX="3.0" prefHeight="550.0" prefWidth="472.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <center>
-            <ImageView blendMode="DARKEN" fitHeight="549.0" fitWidth="470.0" pickOnBounds="true" BorderPane.alignment="CENTER">
+            <ImageView blendMode="DARKEN" fitHeight="550.0" fitWidth="475.0" pickOnBounds="true" BorderPane.alignment="CENTER">
                <image>
                   <Image url="@../imgs/bg-375x450.jpg" />
                </image>
@@ -67,6 +68,15 @@ limitations under the License.
             <MaterialIconView fill="#707070" glyphName="LOCK_OUTLINE" layoutX="30.0" layoutY="139.0" size="24.0" AnchorPane.leftAnchor="28.0" />
          </children>
       </AnchorPane>
+      <JFXButton fx:id="btnLoginEmail" defaultButton="true" disable="true" layoutX="124.0" layoutY="376.0" onAction="#loginAction" prefHeight="40.0" prefWidth="230.0" ripplerFill="WHITE" style="-fx-background-color: #2aace0;" text="Login" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="127.0" AnchorPane.rightAnchor="130.0">
+         <font>
+            <Font size="12.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <Label fx:id="lblError" alignment="CENTER" layoutX="175.0" layoutY="432.0" prefHeight="14.0" prefWidth="127.0" textAlignment="CENTER" textFill="RED" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
       <BorderPane layoutX="20.0" layoutY="20.0" prefHeight="75.0" prefWidth="375.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0">
          <center>
             <ImageView fitHeight="45.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
@@ -87,9 +97,6 @@ limitations under the License.
                      </cursor>
                   </MaterialIconView>
                </graphic>
-               <cursor>
-                  <Cursor fx:constant="OPEN_HAND" />
-               </cursor>
                <padding>
                   <Insets left="10.0" />
                </padding>
@@ -101,15 +108,7 @@ limitations under the License.
             <MaterialIconView fill="#707070" glyphName="CLOSE" size="16.0" textAlignment="CENTER" />
          </graphic>
       </JFXButton>
-      <JFXButton fx:id="btnLoginEmail" defaultButton="true" disable="true" layoutX="124.0" layoutY="376.0" onAction="#loginAction" prefHeight="40.0" prefWidth="230.0" ripplerFill="WHITE" style="-fx-background-color: #2aace0;" text="Login" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="124.0" AnchorPane.rightAnchor="120.0">
-         <font>
-            <Font size="12.0" />
-         </font>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </JFXButton>
-      <Label fx:id="lblError" alignment="CENTER" layoutX="175.0" layoutY="432.0" prefHeight="14.0" prefWidth="127.0" textFill="RED" AnchorPane.leftAnchor="175.0" AnchorPane.rightAnchor="172.0" />
+      <JFXProgressBar fx:id="progressBar" progress="0.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
     </children>
    <opaqueInsets>
       <Insets />

@@ -55,12 +55,13 @@ public class FXMLLandingPageController extends NavController implements Initiali
      */
     @FXML
     private JFXButton btnLogin;
+    
     /**
      * The progress bar instance.
      */
-
     @FXML
     private JFXProgressBar progressBar;
+    
     /**
      * The close button instance.
      */
@@ -129,7 +130,7 @@ public class FXMLLandingPageController extends NavController implements Initiali
                 String password = sh.decryption(encriptedPasswordMap);
                 boolean response = api.authUser(email, password);
                 if (response) {
-                    return api.userHasEthWallet() == true;
+                    return api.userHasEthWallet();
                 }
                 return null;
             }

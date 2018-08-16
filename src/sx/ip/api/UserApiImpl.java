@@ -146,7 +146,6 @@ public class UserApiImpl implements UserApi {
      */
     @Override
     public boolean addEthAddress(String customName, String ethAddress) throws UnirestException {
-        //TODO: Verify accessToken
         HashMap<String, Object> bodyMap = new HashMap<>();
         bodyMap.put("user_id", NavController.userId);
         bodyMap.put("address", ethAddress);

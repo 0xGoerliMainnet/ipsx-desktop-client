@@ -46,9 +46,11 @@ import sx.ip.utils.ProxyUtils;
  */
 public class FXMLLoginController extends NavController implements Initializable {
 
-    /** The logger Object.  */
+    /**
+     * The logger Object.
+     */
     static org.slf4j.Logger LOGGER = LoggerFactory.getLogger(FXMLLoginController.class);
-    
+
     /**
      * The login with email button instance.
      */
@@ -66,7 +68,7 @@ public class FXMLLoginController extends NavController implements Initializable 
      */
     @FXML
     private AnchorPane loginInfoPane;
-    
+
     /**
      * The Go back button.
      */
@@ -120,7 +122,7 @@ public class FXMLLoginController extends NavController implements Initializable 
     private void handleCloseAction(ActionEvent event) {
         stage.close();
     }
-    
+
     /**
      * Method resposible for handling the go back action.
      *
@@ -128,11 +130,19 @@ public class FXMLLoginController extends NavController implements Initializable 
      */
     @FXML
     private void goBackAction(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(IPSXDesktopClient.class.getResource("resources/fxml/FXMLLandingPage.fxml"), ProxyUtils.getBundle());
-        loader.setControllerFactory(new HostServicesControllerFactory(app.getHostServices()));
-        NavControllerHandle.navigateTo(loader, stage, app);
+        if (this.webviewFacebook.isVisible()) {
+            this.webEn.load(null);
+            this.btnLoginEmail.setDisable(false);
+            this.webviewFacebook.setVisible(false);
+            this.webviewFacebook.setDisable(true);
+        } else {
+            FXMLLoader loader = new FXMLLoader(IPSXDesktopClient.class.getResource("resources/fxml/FXMLLandingPage.fxml"), ProxyUtils.getBundle());
+            loader.setControllerFactory(new HostServicesControllerFactory(app.getHostServices()));
+            NavControllerHandle.navigateTo(loader, stage, app);
+        }
+
     }
-    
+
     /**
      * Method resposible for handling the go back action.
      *
@@ -140,7 +150,7 @@ public class FXMLLoginController extends NavController implements Initializable 
      */
     @FXML
     private void nonceAction(ActionEvent event) throws IOException {
-        
+
     }
 
     /**
@@ -154,10 +164,9 @@ public class FXMLLoginController extends NavController implements Initializable 
         FXMLLoader loader = new FXMLLoader(IPSXDesktopClient.class.getResource("resources/fxml/FXMLLoginEmail.fxml"), ProxyUtils.getBundle());
         NavControllerHandle.navigateTo(loader, stage, app);
     }
-    
+
     /**
-     * Method resposible for the login with facebook
-     * action.
+     * Method resposible for the login with facebook action.
      *
      * @param event An Event representing that the button has been fired.
      */
@@ -171,7 +180,7 @@ public class FXMLLoginController extends NavController implements Initializable 
                 + "&redirect_uri=https://www.facebook.com/connect/login_success.html");
 
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -200,6 +209,7 @@ public class FXMLLoginController extends NavController implements Initializable 
                             this.loginErrorLabel.setVisible(true);
                             String errorMessage = tokenResponse.getBody().getObject().getJSONObject("error").getString("message");
                             this.loginErrorLabel.setText(errorMessage);
+                            this.btnLoginEmail.setDisable(false);
                         } else if (tokenResponse.getBody().getObject().has("access_token")) {
                             this.facebookAccessToken = tokenResponse.getBody().getObject().get("access_token").toString();
 
@@ -207,9 +217,9 @@ public class FXMLLoginController extends NavController implements Initializable 
                                 String apiResponse = api.loginUserFacebook(this.facebookAccessToken);
                                 if (api.userHasEthWallet()) {
                                     //User goes to dashboard
-                                    //FXMLLoader loader = new FXMLLoader(IPSXDesktopClient.class.getResource("resources/fxml/FXMLResetPassword.fxml"), ProxyUtils.getBundle());
-                                    //loader.setControllerFactory(new HostServicesControllerFactory(app.getHostServices()));
-                                    //NavControllerHandle.navigateTo(loader, stage, app);
+                                    FXMLLoader loader = new FXMLLoader(IPSXDesktopClient.class.getResource("resources/fxml/FXMLManualProxy.fxml"), ProxyUtils.getBundle());
+                                    loader.setControllerFactory(new HostServicesControllerFactory(app.getHostServices()));
+                                    NavControllerHandle.navigateTo(loader, stage, app);
                                 } else {
                                     FXMLLoader loader = new FXMLLoader(IPSXDesktopClient.class.getResource("resources/fxml/FXMLRegisterETH.fxml"), ProxyUtils.getBundle());
                                     loader.setControllerFactory(new HostServicesControllerFactory(app.getHostServices()));
@@ -223,6 +233,7 @@ public class FXMLLoginController extends NavController implements Initializable 
                                 this.loginErrorLabel.setVisible(true);
                                 this.loginErrorLabel.setText(ex.getMessage());
                                 this.webEn.load(null);
+                                this.btnLoginEmail.setDisable(false);
                                 this.webviewFacebook.setVisible(false);
                                 this.webviewFacebook.setDisable(true);
                             }
@@ -236,6 +247,7 @@ public class FXMLLoginController extends NavController implements Initializable 
                         this.loginErrorLabel.setVisible(true);
                         this.loginErrorLabel.setText(ex.getMessage());
                         this.webEn.load(null);
+                        this.btnLoginEmail.setDisable(false);
                         this.webviewFacebook.setVisible(false);
                         this.webviewFacebook.setDisable(true);
                     }
@@ -243,6 +255,8 @@ public class FXMLLoginController extends NavController implements Initializable 
                     this.webEn.load(null);
                     this.webviewFacebook.setVisible(false);
                     this.webviewFacebook.setDisable(true);
+                    this.btnLoginEmail.setDisable(false);
+
                 }
             }
         });

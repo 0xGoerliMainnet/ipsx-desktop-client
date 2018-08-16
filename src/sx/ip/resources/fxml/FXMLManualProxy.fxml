@@ -34,9 +34,9 @@ limitations under the License.
 
 <AnchorPane id="AnchorPane" fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="475.0" style="-fx-background-color: rgba(255,255,255,0); -fx-border-color: #ced4da;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sx.ip.controllers.FXMLManualProxyController">
     <children>
-      <BorderPane layoutX="3.0" prefHeight="550.0" prefWidth="472.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="1.0">
+      <BorderPane layoutX="3.0" prefHeight="550.0" prefWidth="472.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <center>
-            <ImageView blendMode="DARKEN" fitHeight="549.0" fitWidth="467.0" pickOnBounds="true" BorderPane.alignment="CENTER">
+            <ImageView blendMode="DARKEN" fitHeight="550.0" fitWidth="475.0" pickOnBounds="true" BorderPane.alignment="CENTER">
                <image>
                   <Image url="@../imgs/bg-375x450.jpg" />
                </image>
@@ -144,7 +144,7 @@ limitations under the License.
             </JFXCheckBox>
          </children>
       </AnchorPane>
-      <JFXButton fx:id="btnActivate" defaultButton="true" disable="true" layoutX="114.0" layoutY="458.0" onAction="#handleActivateAction" prefHeight="40.0" prefWidth="230.0" ripplerFill="WHITE" style="-fx-background-color: #2aace0;" text="Activate Proxy" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="130.0" AnchorPane.rightAnchor="130.0" AnchorPane.topAnchor="458.0">
+      <JFXButton fx:id="btnActivate" defaultButton="true" disable="true" layoutX="114.0" layoutY="458.0" onAction="#handleActivateAction" prefHeight="40.0" prefWidth="230.0" ripplerFill="WHITE" style="-fx-background-color: #2aace0;" text="Activate Proxy" textAlignment="CENTER" textFill="WHITE" AnchorPane.leftAnchor="127.0" AnchorPane.rightAnchor="130.0">
          <font>
             <Font size="16.0" />
          </font>
@@ -159,7 +159,7 @@ limitations under the License.
          </font>
       </Label>
       <Hyperlink fx:id="btnLogout" contentDisplay="RIGHT" focusTraversable="false" layoutY="512.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#logoutAction" prefHeight="24.0" prefWidth="239.0" text="Logout" textAlignment="RIGHT" textFill="#2aace0" underline="true" wrapText="true" AnchorPane.leftAnchor="10.0" />
-      <JFXProgressBar fx:id="progressBar" layoutX="130.0" layoutY="490.0" progress="0.0" visible="false" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="130.0" AnchorPane.rightAnchor="130.0" />
+      <JFXProgressBar fx:id="progressBar" layoutX="130.0" layoutY="490.0" progress="0.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
     </children>
    <opaqueInsets>
       <Insets />

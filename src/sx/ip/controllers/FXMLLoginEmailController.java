@@ -15,6 +15,7 @@ package sx.ip.controllers;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
+import com.jfoenix.controls.JFXProgressBar;
 import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
 import java.net.URL;
@@ -73,6 +74,12 @@ public class FXMLLoginEmailController extends NavController implements Initializ
     private Label lblError;
 
     /**
+     * The progress bar instance.
+     */
+    @FXML
+    private JFXProgressBar progressBar;
+
+    /**
      * The Go back button.
      */
     @FXML
@@ -83,6 +90,12 @@ public class FXMLLoginEmailController extends NavController implements Initializ
      */
     @FXML
     private AnchorPane mainAnchorPane;
+
+    /**
+     * The login info pane instance.
+     */
+    @FXML
+    private AnchorPane loginInfoPane;
 
     /**
      * The email text field instance.
@@ -113,13 +126,13 @@ public class FXMLLoginEmailController extends NavController implements Initializ
      */
     @FXML
     private void loginAction(ActionEvent event) throws IOException {
-        UserApi api = new UserApiImpl();
         Task task = new Task<Boolean>() {
             @Override
             protected Boolean call() throws Exception {
+                UserApi api = new UserApiImpl();
                 boolean response = api.authUser(userEmail.getText().trim(), userPass.getText().trim());
                 if (response) {
-                    return api.userHasEthWallet() == true;
+                    return api.userHasEthWallet();
                 }
                 return null;
             }
@@ -144,8 +157,9 @@ public class FXMLLoginEmailController extends NavController implements Initializ
             Logger.getLogger(FXMLLoginEmailController.class.getName()).log(Level.SEVERE, null, task.getException());
             ProxyUtils.createAndShowAlert(Alert.AlertType.ERROR, bundle.getString("key.main.alert.error.title"), null, task.getException().getMessage(), null);
             LOGGER.error(task.getException().getMessage(), task.getException());
-            this.lblError.setText(task.getException().getMessage());
+            this.loginInfoPane.setDisable(false);
             this.btnLoginEmail.setDisable(false);
+            this.progressBar.setVisible(false);
         });
         Thread thread = new Thread(task);
         thread.setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
@@ -154,7 +168,10 @@ public class FXMLLoginEmailController extends NavController implements Initializ
                 Logger.getLogger(FXMLLoginEmailController.class.getName()).log(Level.SEVERE, null, e);
             }
         });
+        this.loginInfoPane.setDisable(true);
         this.btnLoginEmail.setDisable(true);
+        this.progressBar.setVisible(true);
+        this.progressBar.progressProperty().bind(task.progressProperty());
         thread.start();
 
     }
