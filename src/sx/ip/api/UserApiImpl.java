@@ -53,8 +53,17 @@ public class UserApiImpl implements UserApi {
                 NavController.userId = jsonResponse.getBody().getObject().getInt("userId");
                 return true;
             }
-        }else{
-            throw new Exception(jsonResponse.getBody().getObject().getJSONObject("error").getString("message"));
+        } else {
+            switch (jsonResponse.getBody().getObject().getJSONObject("error").getString("message")) {
+                case "invalid user":
+                    throw new Exception("Please, provide a registered e-mail. Invalid user.");
+                case "password is a required argument":
+                    throw new Exception("Please, provide a valid password. Password is a required field.");
+                case "wrong password":
+                    throw new Exception("Please, check your e-mail and password. Wrong credentials.");
+                default:
+                    throw new Exception("Unexpected error, please report: "+ jsonResponse.getBody().getObject().getJSONObject("error").getString("message"));
+            }
         }
 
         return false;
@@ -137,7 +146,16 @@ public class UserApiImpl implements UserApi {
                 .header("accept", "application/json")
                 .body(options)
                 .asJson();
-
+        
+        if (jsonResponse.getBody() != null && jsonResponse.getBody().getArray().getJSONObject(0).has("error")) {
+            switch (jsonResponse.getBody().getObject().getJSONObject("error").getString("message")) {
+                case "Cannot read property \'deleted_at\' of null":
+                    throw new UnirestException("Could not send reset password e-mail. This e-mail is not registered, please provide a valid e-mail");
+                default:
+                    throw new UnirestException("Unexpected error, please report: "+ jsonResponse.getBody().getObject().getJSONObject("error").getString("message"));
+            }
+        }
+        
         return jsonResponse.getStatus() == 204 && jsonResponse.getBody() == null;
     }
 

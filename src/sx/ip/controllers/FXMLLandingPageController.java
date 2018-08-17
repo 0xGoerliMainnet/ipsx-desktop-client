@@ -103,7 +103,7 @@ public class FXMLLandingPageController extends NavController implements Initiali
             if (ProxyUtils.loadCredentials("username", credentialType.STRING) != "") {
                 this.loginUserWithKeptCredentials();
             } else {
-                FXMLLoader loader = new FXMLLoader(IPSXDesktopClient.class.getResource("resources/fxml/FXMLLogin.fxml"), ProxyUtils.getBundle());
+                FXMLLoader loader = new FXMLLoader(IPSXDesktopClient.class.getResource("resources/fxml/FXMLLoginEmail.fxml"), ProxyUtils.getBundle());
                 NavControllerHandle.navigateTo(loader, stage, app);
             }
         } catch (IOException ex) {
@@ -153,7 +153,7 @@ public class FXMLLandingPageController extends NavController implements Initiali
         });
         task.setOnFailed((Event ev) -> {
             Logger.getLogger(FXMLLoginEmailController.class.getName()).log(Level.SEVERE, null, task.getException());
-            ProxyUtils.createExceptionAlert(bundle.getString("key.main.alert.error.title"), null, task.getException().getMessage(), bundle.getString("key.main.dialog.exception.stack.text"), task.getException(), null);
+            ProxyUtils.createExceptionAlert(bundle.getString("key.main.alert.error.title")+" authenticating user", null, task.getException().getMessage(), bundle.getString("key.main.dialog.exception.stack.text"), task.getException(), null);
             LOGGER.error(task.getException().getMessage(), task.getException());
             this.btnRegister.setDisable(false);
             this.btnLogin.setDisable(false);
@@ -163,7 +163,7 @@ public class FXMLLandingPageController extends NavController implements Initiali
         thread.setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
             @Override
             public void uncaughtException(Thread t, Throwable e) {
-                ProxyUtils.createExceptionAlert(bundle.getString("key.main.alert.error.title"), null, task.getException().getMessage(), bundle.getString("key.main.dialog.exception.stack.text"), task.getException(), null);
+                ProxyUtils.createExceptionAlert(bundle.getString("key.main.alert.error.title")+" authenticating user", null, task.getException().getMessage(), bundle.getString("key.main.dialog.exception.stack.text"), task.getException(), null);
                 Logger.getLogger(FXMLLoginEmailController.class.getName()).log(Level.SEVERE, null, e);
             }
         });

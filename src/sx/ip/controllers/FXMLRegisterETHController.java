@@ -133,7 +133,7 @@ public class FXMLRegisterETHController extends NavController implements Initiali
             } catch (IOException ex) {
                 Logger.getLogger(FXMLLoginEmailController.class.getName()).log(Level.SEVERE, null, ex);
             } catch (Exception ex) {
-                ProxyUtils.createAndShowAlert(Alert.AlertType.ERROR, bundle.getString("key.main.alert.error.title"), null, ex.getMessage(), null);
+                ProxyUtils.createAndShowAlert(Alert.AlertType.ERROR, bundle.getString("key.main.alert.error.title")+ " registering user's wallet", null, ex.getMessage(), null);
                 LOGGER.error(ex.getMessage(), ex);
                 Logger.getLogger(FXMLRegisterETHController.class.getName()).log(Level.SEVERE, null, ex);
                 this.progressBar.setVisible(false);
@@ -142,7 +142,7 @@ public class FXMLRegisterETHController extends NavController implements Initiali
         });
         task.setOnFailed((Event ev) -> {
             Logger.getLogger(FXMLLoginEmailController.class.getName()).log(Level.SEVERE, null, task.getException());
-            ProxyUtils.createAndShowAlert(Alert.AlertType.ERROR, bundle.getString("key.main.alert.error.title"), null, task.getException().getMessage(), null);
+            ProxyUtils.createAndShowAlert(Alert.AlertType.ERROR, bundle.getString("key.main.alert.error.title")+ " registering user's wallet", null, task.getException().getMessage(), null);
             LOGGER.error(task.getException().getMessage(), task.getException());
             this.progressBar.setVisible(false);
             this.loginInfoPane.setDisable(false);

@@ -155,7 +155,7 @@ public class FXMLLoginEmailController extends NavController implements Initializ
         });
         task.setOnFailed((Event ev) -> {
             Logger.getLogger(FXMLLoginEmailController.class.getName()).log(Level.SEVERE, null, task.getException());
-            ProxyUtils.createAndShowAlert(Alert.AlertType.ERROR, bundle.getString("key.main.alert.error.title"), null, task.getException().getMessage(), null);
+            ProxyUtils.createAndShowAlert(Alert.AlertType.ERROR, bundle.getString("key.main.alert.error.title")+" authenticating user", null, task.getException().getMessage(), null);
             LOGGER.error(task.getException().getMessage(), task.getException());
             this.loginInfoPane.setDisable(false);
             this.btnLoginEmail.setDisable(false);
@@ -183,7 +183,7 @@ public class FXMLLoginEmailController extends NavController implements Initializ
      */
     @FXML
     private void goBackAction(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(IPSXDesktopClient.class.getResource("resources/fxml/FXMLLogin.fxml"), ProxyUtils.getBundle());
+        FXMLLoader loader = new FXMLLoader(IPSXDesktopClient.class.getResource("resources/fxml/FXMLLandingPage.fxml"), ProxyUtils.getBundle());
         loader.setControllerFactory(new HostServicesControllerFactory(app.getHostServices()));
         NavControllerHandle.navigateTo(loader, stage, app);
     }

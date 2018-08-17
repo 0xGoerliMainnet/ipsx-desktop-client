@@ -313,7 +313,7 @@ public class FXMLManualProxyController extends NavController implements Initiali
         UserApi api = new UserApiImpl();
         try {
             if (api.logoutUser()) {
-                FXMLLoader loader = new FXMLLoader(IPSXDesktopClient.class.getResource("resources/fxml/FXMLLogin.fxml"), ProxyUtils.getBundle());
+                FXMLLoader loader = new FXMLLoader(IPSXDesktopClient.class.getResource("resources/fxml/FXMLLoginEmail.fxml"), ProxyUtils.getBundle());
                 //loader.setControllerFactory(new HostServicesControllerFactory(app.getHostServices()));
                 NavControllerHandle.navigateTo(loader, stage, app);
             }
