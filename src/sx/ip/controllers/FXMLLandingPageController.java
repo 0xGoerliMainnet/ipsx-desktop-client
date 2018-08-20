@@ -100,7 +100,7 @@ public class FXMLLandingPageController extends NavController implements Initiali
     private void handleLoginAction(ActionEvent event) throws IOException {
         CredentialType credentialType = CredentialType.STRING;
         try {
-            if (ProxyUtils.loadCredentials("username", credentialType.STRING) != "") {
+            if (!ProxyUtils.loadCredentials("username", credentialType.STRING).equals("")) {
                 this.loginUserWithKeptCredentials();
             } else {
                 FXMLLoader loader = new FXMLLoader(IPSXDesktopClient.class.getResource("resources/fxml/FXMLLoginEmail.fxml"), ProxyUtils.getBundle());
