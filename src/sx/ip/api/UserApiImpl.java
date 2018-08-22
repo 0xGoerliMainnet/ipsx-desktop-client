@@ -18,6 +18,7 @@ import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import java.util.HashMap;
+import java.util.ResourceBundle;
 import javafx.scene.control.Alert;
 import org.json.JSONObject;
 import sx.ip.controllers.NavController;
@@ -30,6 +31,9 @@ import sx.ip.utils.SecurityHandle;
  * @author hygor
  */
 public class UserApiImpl implements UserApi {
+    
+    /** The ResourceBundle instance.  */
+    ResourceBundle rb = ProxyUtils.getBundle();
 
     /**
      * {@inheritDoc}
@@ -56,13 +60,13 @@ public class UserApiImpl implements UserApi {
         } else {
             switch (jsonResponse.getBody().getObject().getJSONObject("error").getString("message")) {
                 case "invalid user":
-                    throw new Exception("Please, provide a registered e-mail. Invalid user.");
+                    throw new Exception(rb.getString("key.main.alert.error.auth.message.1"));
                 case "password is a required argument":
-                    throw new Exception("Please, provide a valid password. Password is a required field.");
+                    throw new Exception(rb.getString("key.main.alert.error.auth.message.2"));
                 case "wrong password":
-                    throw new Exception("Please, check your e-mail and password. Wrong credentials.");
+                    throw new Exception(rb.getString("key.main.alert.error.auth.message.3"));
                 default:
-                    throw new Exception("Unexpected error, please report: "+ jsonResponse.getBody().getObject().getJSONObject("error").getString("message"));
+                    throw new Exception(rb.getString("key.main.alert.error.unexpected.message") + jsonResponse.getBody().getObject().getJSONObject("error").getString("message"));
             }
         }
 
@@ -150,9 +154,9 @@ public class UserApiImpl implements UserApi {
         if (jsonResponse.getBody() != null && jsonResponse.getBody().getArray().getJSONObject(0).has("error")) {
             switch (jsonResponse.getBody().getObject().getJSONObject("error").getString("message")) {
                 case "Cannot read property \'deleted_at\' of null":
-                    throw new UnirestException("Could not send reset password e-mail. This e-mail is not registered, please provide a valid e-mail");
+                    throw new UnirestException(rb.getString("key.main.alert.error.resetpw.message"));
                 default:
-                    throw new UnirestException("Unexpected error, please report: "+ jsonResponse.getBody().getObject().getJSONObject("error").getString("message"));
+                    throw new UnirestException(rb.getString("key.main.alert.error.unexpected.message") + jsonResponse.getBody().getObject().getJSONObject("error").getString("message"));
             }
         }
         
@@ -190,7 +194,7 @@ public class UserApiImpl implements UserApi {
                 return true;
             }
         } else {
-            throw new UnirestException("Error in userAPI: Cannot create user's wallet, " + jsonResponse.getBody().getArray().getJSONObject(0).get("error"));
+            throw new UnirestException(rb.getString("key.main.alert.error.wallet.message") + jsonResponse.getBody().getArray().getJSONObject(0).get("error"));
         }
         return false;
     }
@@ -221,7 +225,7 @@ public class UserApiImpl implements UserApi {
                 return true;
             }
         } else {
-            throw new UnirestException("Error in userAPI: Cannot retrieve user's wallet, " + jsonResponse.getBody().getArray().getJSONObject(0).get("error"));
+            throw new UnirestException(rb.getString("key.main.alert.error.wallet.message") + jsonResponse.getBody().getArray().getJSONObject(0).get("error"));
         }
         return false;
     }

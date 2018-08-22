@@ -155,7 +155,7 @@ public class FXMLLoginEmailController extends NavController implements Initializ
         });
         task.setOnFailed((Event ev) -> {
             Logger.getLogger(FXMLLoginEmailController.class.getName()).log(Level.SEVERE, null, task.getException());
-            ProxyUtils.createAndShowAlert(Alert.AlertType.ERROR, bundle.getString("key.main.alert.error.title")+" authenticating user", null, task.getException().getMessage(), null);
+            ProxyUtils.createAndShowAlert(Alert.AlertType.ERROR, bundle.getString("key.main.alert.error.auth.title"), null, task.getException().getMessage(), null);
             LOGGER.error(task.getException().getMessage(), task.getException());
             this.loginInfoPane.setDisable(false);
             this.btnLoginEmail.setDisable(false);
