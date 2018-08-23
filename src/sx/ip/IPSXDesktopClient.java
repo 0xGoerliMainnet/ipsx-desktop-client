@@ -1,20 +1,17 @@
 package sx.ip;
 
+import sx.ip.controllers.SystemTrayController;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import dorkbox.util.OS;
 import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import org.apache.log4j.PropertyConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sx.ip.controllers.NavControllerHandle;
 import sx.ip.factories.HostServicesControllerFactory;
 import sx.ip.utils.ProxyUtils;
 
@@ -29,16 +26,6 @@ public class IPSXDesktopClient extends Application {
     static Logger LOGGER = LoggerFactory.getLogger(IPSXDesktopClient.class);
 
     /**
-     * Define the window x offsets
-     */
-    private double xOffset = 0;
-
-    /**
-     * Define the window y offsets
-     */
-    private double yOffset = 0;
-
-    /**
      * {@inheritDoc}
      */
     @Override
@@ -51,44 +38,9 @@ public class IPSXDesktopClient extends Application {
         SystemTrayController systemTray = new SystemTrayController(stage, ProxyUtils.getBundle());
         systemTray.addAppToTray();
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLManualProxy.fxml"), ProxyUtils.getBundle());
-
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("resources/fxml/FXMLLandingPage.fxml"), ProxyUtils.getBundle());
         loader.setControllerFactory(new HostServicesControllerFactory(getHostServices()));
-
-        Parent root = loader.load();
-
-        FXMLManualProxyController controller = loader.getController();
-
-        controller.setStage(stage);
-
-        //grab your root here
-        root.setOnMousePressed(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                xOffset = event.getSceneX();
-                yOffset = event.getSceneY();
-            }
-
-        });
-
-        // Makes the window be draggable
-        root.setOnMouseDragged(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                stage.setX(event.getScreenX() - xOffset);
-                stage.setY(event.getScreenY() - yOffset);
-            }
-
-        });
-
-        // Setup the scene
-        Scene scene = new Scene(root);
-        stage.setResizable(false);
-        stage.initStyle(StageStyle.UNDECORATED);
-        stage.getIcons().add(new Image(getClass().getResourceAsStream("imgs/icon.png")));
-        stage.setTitle("IP Exchange");
-        stage.setScene(scene);
-        stage.show();
+        NavControllerHandle.initializeStageScene(loader, stage, this);
 
     }
 
@@ -105,7 +57,7 @@ public class IPSXDesktopClient extends Application {
         try {
             // Set the system look and feel
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
             LOGGER.warn("Problems to set the look and feel", ex);
         }
 

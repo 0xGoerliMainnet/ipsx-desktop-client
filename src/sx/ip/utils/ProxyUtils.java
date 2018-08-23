@@ -20,9 +20,12 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.prefs.Preferences;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javafx.application.Platform;
@@ -40,6 +43,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
 import javafx.util.Pair;
+import org.slf4j.LoggerFactory;
+import sx.ip.IPSXDesktopClient;
 
 /**
  * Class responsible for hold all useful functions.
@@ -47,19 +52,19 @@ import javafx.util.Pair;
 public class ProxyUtils {
 
     /**
+     * Class logger
+     */
+    static org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ProxyUtils.class);
+
+    /**
      * Method resposible for create a alert.
      *
-     * @param type 
-     *          Represent the type of the alert
-     * @param title 
-     *          The title of the alert
-     * @param header 
-     *          The header of the alert
-     * @param content 
-     *          The content text of the alert
-     * @param is 
-     *          InputStream representing the IPSX icon
-     * 
+     * @param type Represent the type of the alert
+     * @param title The title of the alert
+     * @param header The header of the alert
+     * @param content The content text of the alert
+     * @param is InputStream representing the IPSX icon
+     *
      * @return The Alert instance.
      *
      */
@@ -69,21 +74,25 @@ public class ProxyUtils {
         alert.setHeaderText(header);
         alert.setContentText(content);
         Stage alertStage = (Stage) alert.getDialogPane().getScene().getWindow();
+
+        if (is == null) {
+            is = IPSXDesktopClient.class.getResourceAsStream("resources/imgs/icon.png");
+        }
+
         alertStage.getIcons().add(new Image(is));
 
         return alert;
     }
-    
+
     /**
      * Method resposible for create a confirm alert.
-     * 
-     * @param is 
-     *          InputStream representing the IPSX icon
-     * 
+     *
+     * @param is InputStream representing the IPSX icon
+     *
      * @return A boolean indicating the user response
      *
      */
-    public static boolean createQuestionRemoveAll(InputStream is){
+    public static boolean createQuestionRemoveAll(InputStream is) {
 
         Alert dialogoExe = new Alert(Alert.AlertType.CONFIRMATION);
         ButtonType confirm = new ButtonType(getBundle().getString("key.main.dialog.yes"));
@@ -94,25 +103,24 @@ public class ProxyUtils {
         dialogoExe.setHeaderText(null);
         dialogoExe.setContentText(getBundle().getString("key.main.dialog.message"));
         dialogoExe.getButtonTypes().setAll(confirm, cancel);
-        
+
         dialogoExe.showAndWait();
-        
+
         return dialogoExe.getResult() == confirm;
-        
+
     }
-    
+
     /**
      * Method that will create a confirmation alert.
-     * 
-     * @param is 
-     *          InputStream representing the IPSX icon
+     *
+     * @param is InputStream representing the IPSX icon
      * @param title The title of the window
      * @param content The content of the window (main text)
-     * 
+     *
      * @return A boolean indicating the user response
      *
      */
-    public static boolean createQuestionPane(InputStream is, String title, String content){
+    public static boolean createQuestionPane(InputStream is, String title, String content) {
 
         Alert dialogoExe = new Alert(Alert.AlertType.CONFIRMATION);
         ButtonType confirm = new ButtonType(getBundle().getString("key.main.dialog.yes"));
@@ -123,55 +131,46 @@ public class ProxyUtils {
         dialogoExe.setHeaderText(null);
         dialogoExe.setContentText(content);
         dialogoExe.getButtonTypes().setAll(confirm, cancel);
-        
+
         dialogoExe.showAndWait();
-        
+
         return dialogoExe.getResult() == confirm;
-        
+
     }
-    
+
     /**
      * Method resposible for create and show a alert.
      *
-     * @param type 
-     *          Represent the type of the alert
-     * @param title 
-     *          The title of the alert
-     * @param header 
-     *          The header of the alert
-     * @param content 
-     *          The content text of the alert
-     * @param is 
-     *          InputStream representing the IPSX icon
+     * @param type Represent the type of the alert
+     * @param title The title of the alert
+     * @param header The header of the alert
+     * @param content The content text of the alert
+     * @param is InputStream representing the IPSX icon
      *
      */
     public static void createAndShowAlert(Alert.AlertType type, String title, String header, String content, InputStream is) {
-        Alert alert = createAlert(type, title, header, content, is);        
+        Alert alert = createAlert(type, title, header, content, is);
         alert.showAndWait();
     }
-    
 
     /**
      * Method resposible for create the authentication dialog.
      *
-     * @param title 
-     *          The title of the dialog
-     * @param header 
-     *          The header of the dialog
-     * @param is 
-     *          InputStream representing the IPSX icon
-     * 
+     * @param title The title of the dialog
+     * @param header The header of the dialog
+     * @param is InputStream representing the IPSX icon
+     *
      * @return The Dialog instance
      *
      */
     public static Dialog createAuthenticationDialog(String title, String header, InputStream is) {
         Dialog<Pair<String, String>> dialog = new Dialog<>();
         dialog.setTitle(title);
-        dialog.setHeaderText(header);        
-        
+        dialog.setHeaderText(header);
+
         Stage alertStage = (Stage) dialog.getDialogPane().getScene().getWindow();
         alertStage.getIcons().add(new Image(is));
-        
+
         ButtonType btnConfirmType = new ButtonType(getBundle().getString("key.main.button.confirm"), ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(btnConfirmType, ButtonType.CANCEL);
 
@@ -179,7 +178,7 @@ public class ProxyUtils {
         gridPane.setHgap(10);
         gridPane.setVgap(10);
         gridPane.setPadding(new Insets(20, 150, 10, 10));
-        
+
         JFXTextField proxyUser = new JFXTextField();
         proxyUser.setPromptText(getBundle().getString("key.main.dialog.auth.username.prompt"));
         JFXPasswordField proxyPass = new JFXPasswordField();
@@ -210,32 +209,88 @@ public class ProxyUtils {
 
         return dialog;
     }
-    
-    
+
+    /**
+     * Method resposible for saving user credentials.
+     *
+     * @param credential The credential to be saved
+     * @param type The type of the credential
+     *
+     */
+    public static void saveCredentials(Object credential, CredentialType type) {
+        Preferences prefs = Preferences.userRoot().node(ProxyUtils.class.getName());
+
+        switch (type) {
+            case STRING:
+                prefs.put("username", (String) credential);
+                break;
+
+            case BYTEARRAY:
+                HashMap<byte[], Integer> castCredential = (HashMap<byte[], Integer>) credential;
+                byte[] encryptedPassword = castCredential.keySet().iterator().next();
+                prefs.putInt("cipherKeyLength", castCredential.get(encryptedPassword));
+                prefs.putByteArray("encryptedPassword", encryptedPassword);
+                break;
+        }
+    }
+
+    /**
+     * Method resposible for erasing user credentials.
+     */
+    public static void eraseCredentials() {
+        Preferences prefs = Preferences.userRoot().node(ProxyUtils.class.getName());
+        prefs.put("username", "");
+        prefs.putByteArray("encryptedPassword", new byte[]{});
+        prefs.putInt("cipherKeyLength", 0);
+    }
+
+    /**
+     * Method resposible for loading user credentials.
+     *
+     * @param credential The credential key to be loaded
+     * @param type The type of the credential
+     *
+     * @return Returns the credendial to be cast
+     *
+     */
+    public static Object loadCredentials(String credential, CredentialType type) {
+
+        Preferences prefs = Preferences.userRoot().node(ProxyUtils.class.getName());
+
+        switch (type) {
+            case STRING:
+                return prefs.get(credential, "");
+            case BYTEARRAY:
+                HashMap<byte[], Integer> encryptedPassword = new HashMap<>();
+                encryptedPassword.put(prefs.getByteArray("encryptedPassword", new byte[]{}), prefs.getInt("cipherKeyLength", 0));
+                return encryptedPassword;
+            default:
+                return new Object();
+        }
+    }
+
     /**
      * Method resposible for create the exception alert.
      *
-     * @param title 
-     *          The title of the alert
-     * @param header 
-     *          The header of the alert
-     * @param content 
-     *          The content text
-     * @param stackMessage 
-     *          The stack title
-     * @param is 
-     *          InputStream representing the IPSX icon
-     * 
+     * @param title The title of the alert
+     * @param header The header of the alert
+     * @param content The content text
+     * @param stackMessage The stack title
+     * @param is InputStream representing the IPSX icon
+     *
      * @param ex The exception.
      *
      */
-    public static void createExceptionAlert(String title, String header, String content, String stackMessage,  Exception ex, InputStream is) {
+    public static void createExceptionAlert(String title, String header, String content, String stackMessage, Throwable ex, InputStream is) {
         Alert alert = new Alert(AlertType.ERROR);
         alert.setTitle(title);
         alert.setHeaderText(header);
         alert.setContentText(content);
-        
+
         Stage alertStage = (Stage) alert.getDialogPane().getScene().getWindow();
+        if (is == null) {
+            is = IPSXDesktopClient.class.getResourceAsStream("resources/imgs/icon.png");
+        }
         alertStage.getIcons().add(new Image(is));
 
         Label label = new Label(stackMessage);
@@ -263,48 +318,47 @@ public class ProxyUtils {
 
         alert.showAndWait();
     }
-    
+
     /**
      * @return the bundle language.
      */
     public static ResourceBundle getBundle() {
         return ResourceBundle.getBundle("sx.ip.bundles.bundle", new Locale("en", "EN"));
     }
-    
+
     /**
      * Method resposible for verify the URL format.
      *
-     * @param url
-     *          The URL to be verified
-     * 
-     * @return A boolean indicating if the url is valid or not 
+     * @param url The URL to be verified
+     *
+     * @return A boolean indicating if the url is valid or not
      *
      */
-    public static boolean isValid(String url){
-        String urlRegex = "^(http|https):(//)?[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,4}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)";
+    public static boolean isValid(String url) {
+        String urlRegex = "^(https|http|ftp|ftps|smtp)(:\\/\\/)([a-z0-9]+)(\\.[a-z]{0,})*(\\/?[a-zA-Z0-9]\\.?)+[a-zA-Z0-9]$";
         Pattern pattern = Pattern.compile(urlRegex);
         Matcher m = pattern.matcher(url);
         return m.matches();
     }
-    
+
     /**
      * Method resposible for validate the url response code.
      *
-     * @param url
-     *          The URL to be validated
-     * 
+     * @param url The URL to be validated
+     *
+     * @throws MalformedURLException
+     *
      * @throws IOException
      *
      * @return A boolean indicating if the url is valid or not
      */
-    public static boolean validateUrl(String url) throws IOException{
-        if(isValid(url)){
+    public static boolean validateUrl(String url) throws MalformedURLException, IOException   {
+        if (isValid(url)) {
             URL myURL = new URL(url);
             HttpURLConnection myConnection = (HttpURLConnection) myURL.openConnection();
-
-            return myConnection.getResponseCode() == URLStatus.HTTP_OK.getStatusCode();         
+                return URLStatus.HTTP_OK.getStatusCode() == myConnection.getResponseCode();
         }
         return false;
-    }  
+    }
 
 }
