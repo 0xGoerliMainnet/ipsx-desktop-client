@@ -34,6 +34,7 @@ import org.slf4j.LoggerFactory;
 import sx.ip.IPSXDesktopClient;
 import sx.ip.api.UserApi;
 import sx.ip.api.UserApiImpl;
+import static sx.ip.controllers.NavController.bundle;
 import sx.ip.utils.BlankSpacesValidator;
 import sx.ip.utils.EmailValidator;
 import sx.ip.utils.ProxyUtils;
@@ -127,7 +128,7 @@ public class FXMLResetPasswordController extends NavController implements Initia
                     ProxyUtils.createAndShowAlert(Alert.AlertType.INFORMATION, bundle.getString("key.main.alert.info.title"), null, bundle.getString("key.main.send.link"), null);
                     NavControllerHandle.navigateTo(loader, stage, app);
                 } else {
-                    ProxyUtils.createAndShowAlert(Alert.AlertType.ERROR, bundle.getString("key.main.alert.error.resetpw.title"), null, bundle.getString("key.main.send.link.error"), null);
+                    ProxyUtils.createExceptionAlert(bundle.getString("key.main.alert.error.resetpw.title"), null, task.getException().getMessage(), bundle.getString("key.main.dialog.exception.stack.text"), task.getException(), null);
                 }
             } catch (IOException ex) {
                 Logger.getLogger(FXMLLoginEmailController.class.getName()).log(Level.SEVERE, null, ex);
@@ -138,7 +139,7 @@ public class FXMLResetPasswordController extends NavController implements Initia
         });
         task.setOnFailed((Event ev) -> {
             Logger.getLogger(FXMLResetPasswordController.class.getName()).log(Level.SEVERE, null, task.getException());
-            ProxyUtils.createAndShowAlert(Alert.AlertType.ERROR, bundle.getString("key.main.alert.error.resetpw.title"), null, task.getException().getMessage(), null);
+            ProxyUtils.createExceptionAlert(bundle.getString("key.main.alert.error.resetpw.title"), null, task.getException().getMessage(), bundle.getString("key.main.dialog.exception.stack.text"), task.getException(), null);
             LOGGER.error(task.getException().getMessage(), task.getException());
             this.progressBar.setVisible(false);
             this.loginInfoPane.setDisable(false);
@@ -148,6 +149,7 @@ public class FXMLResetPasswordController extends NavController implements Initia
         thread.setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
             @Override
             public void uncaughtException(Thread t, Throwable e) {
+                ProxyUtils.createExceptionAlert(bundle.getString("key.main.alert.error.title"), null, e.getMessage(), bundle.getString("key.main.dialog.exception.stack.text"), e, null);
                 Logger.getLogger(FXMLResetPasswordController.class.getName()).log(Level.SEVERE, null, e);
             }
         });

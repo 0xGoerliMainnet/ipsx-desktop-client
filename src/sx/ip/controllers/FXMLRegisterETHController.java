@@ -133,7 +133,7 @@ public class FXMLRegisterETHController extends NavController implements Initiali
             } catch (IOException ex) {
                 Logger.getLogger(FXMLLoginEmailController.class.getName()).log(Level.SEVERE, null, ex);
             } catch (Exception ex) {
-                ProxyUtils.createAndShowAlert(Alert.AlertType.ERROR, bundle.getString("key.main.alert.error.wallet.title"), null, ex.getMessage(), null);
+                ProxyUtils.createExceptionAlert(bundle.getString("key.main.alert.error.wallet.title"), null, task.getException().getMessage(), bundle.getString("key.main.dialog.exception.stack.text"), task.getException(), null);
                 LOGGER.error(ex.getMessage(), ex);
                 Logger.getLogger(FXMLRegisterETHController.class.getName()).log(Level.SEVERE, null, ex);
                 this.progressBar.setVisible(false);
@@ -142,7 +142,7 @@ public class FXMLRegisterETHController extends NavController implements Initiali
         });
         task.setOnFailed((Event ev) -> {
             Logger.getLogger(FXMLLoginEmailController.class.getName()).log(Level.SEVERE, null, task.getException());
-            ProxyUtils.createAndShowAlert(Alert.AlertType.ERROR, bundle.getString("key.main.alert.error.wallet.title"), null, task.getException().getMessage(), null);
+            ProxyUtils.createExceptionAlert(bundle.getString("key.main.alert.error.wallet.title"), null, task.getException().getMessage(), bundle.getString("key.main.dialog.exception.stack.text"), task.getException(), null);
             LOGGER.error(task.getException().getMessage(), task.getException());
             this.progressBar.setVisible(false);
             this.loginInfoPane.setDisable(false);
@@ -152,6 +152,7 @@ public class FXMLRegisterETHController extends NavController implements Initiali
         thread.setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
             @Override
             public void uncaughtException(Thread t, Throwable e) {
+                ProxyUtils.createExceptionAlert(bundle.getString("key.main.alert.error.title"), null, e.getMessage(), bundle.getString("key.main.dialog.exception.stack.text"), e, null);
                 Logger.getLogger(FXMLRegisterETHController.class.getName()).log(Level.SEVERE, null, e);
             }
         });

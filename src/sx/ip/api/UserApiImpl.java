@@ -212,7 +212,7 @@ public class UserApiImpl implements UserApi {
                 .routeParam("id", NavController.userId.toString())
                 .asJson();
 
-        if (!jsonResponse.getBody().getArray().getJSONObject(0).has("error")) {
+        if (jsonResponse.getBody().getArray().length() != 0 && !jsonResponse.getBody().getArray().getJSONObject(0).has("error")) {
             if (jsonResponse.getBody()
                     .getArray()
                     .getJSONObject(0)
@@ -225,6 +225,9 @@ public class UserApiImpl implements UserApi {
                 return true;
             }
         } else {
+            if(jsonResponse.getBody().getArray().length() == 0){
+                return false;
+            }
             throw new UnirestException(rb.getString("key.main.alert.error.wallet.message") + jsonResponse.getBody().getArray().getJSONObject(0).get("error"));
         }
         return false;

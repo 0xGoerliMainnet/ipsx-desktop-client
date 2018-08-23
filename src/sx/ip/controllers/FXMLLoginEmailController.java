@@ -28,7 +28,6 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
@@ -155,7 +154,7 @@ public class FXMLLoginEmailController extends NavController implements Initializ
         });
         task.setOnFailed((Event ev) -> {
             Logger.getLogger(FXMLLoginEmailController.class.getName()).log(Level.SEVERE, null, task.getException());
-            ProxyUtils.createAndShowAlert(Alert.AlertType.ERROR, bundle.getString("key.main.alert.error.auth.title"), null, task.getException().getMessage(), null);
+            ProxyUtils.createExceptionAlert(bundle.getString("key.main.alert.error.auth.title"), null, task.getException().getMessage(), bundle.getString("key.main.dialog.exception.stack.text"), task.getException(), null);
             LOGGER.error(task.getException().getMessage(), task.getException());
             this.loginInfoPane.setDisable(false);
             this.btnLoginEmail.setDisable(false);
@@ -166,6 +165,7 @@ public class FXMLLoginEmailController extends NavController implements Initializ
             @Override
             public void uncaughtException(Thread t, Throwable e) {
                 Logger.getLogger(FXMLLoginEmailController.class.getName()).log(Level.SEVERE, null, e);
+                ProxyUtils.createExceptionAlert(bundle.getString("key.main.alert.error.title"), null, e.getMessage(), bundle.getString("key.main.dialog.exception.stack.text"), e, null);
             }
         });
         this.loginInfoPane.setDisable(true);
