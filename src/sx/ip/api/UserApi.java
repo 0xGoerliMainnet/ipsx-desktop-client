@@ -20,7 +20,7 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 */
 public interface UserApi {
     /** Base ulr for User API.  */
-    public static String userApiUrl = "http://devapi.ip.sx:3000/api/users";
+    public static String userApiUrl = "https://api.ipsx.io/api/users";
     
     /**
     * Method responsible for do the login with email and password.
@@ -34,7 +34,7 @@ public interface UserApi {
     * 
     * @return boolean
     */
-    public boolean authUser(String email, String password) throws UnirestException;
+    public boolean authUser(String email, String password) throws UnirestException, Exception;
     
     /**
     * Method responsible for do the login with credentials.

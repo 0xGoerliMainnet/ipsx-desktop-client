@@ -14,6 +14,7 @@
 package sx.ip.controllers;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXProgressBar;
 import com.jfoenix.controls.JFXTextField;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import java.io.IOException;
@@ -21,7 +22,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -33,16 +36,18 @@ import sx.ip.IPSXDesktopClient;
 import sx.ip.api.UserApi;
 import sx.ip.api.UserApiImpl;
 import static sx.ip.controllers.NavController.bundle;
+import sx.ip.factories.HostServicesControllerFactory;
 import sx.ip.utils.BlankSpacesValidator;
 import sx.ip.utils.ETHWalletValidator;
 import sx.ip.utils.ProxyUtils;
 
-
 public class FXMLRegisterETHController extends NavController implements Initializable {
 
-    /** The logger Object.  */
+    /**
+     * The logger Object.
+     */
     static org.slf4j.Logger LOGGER = LoggerFactory.getLogger(FXMLRegisterETHController.class);
-    
+
     /**
      * The sign in with another account button instance.
      */
@@ -62,10 +67,22 @@ public class FXMLRegisterETHController extends NavController implements Initiali
     private JFXButton btnClose;
 
     /**
+     * The progress bar instance.
+     */
+    @FXML
+    private JFXProgressBar progressBar;
+
+    /**
      * The main anchor pane instance.
      */
     @FXML
     private AnchorPane mainAnchorPane;
+
+    /**
+     * The main anchor pane instance.
+     */
+    @FXML
+    private AnchorPane loginInfoPane;
 
     /**
      * The ETH wallet name text field instance.
@@ -96,16 +113,54 @@ public class FXMLRegisterETHController extends NavController implements Initiali
      */
     @FXML
     private void doneAction(ActionEvent event) throws IOException {
-        UserApi api = new UserApiImpl();
-        try {
-            //TODO: regex validator for valid eth addr.
-            api.addEthAddress(this.txtWalletName.getText(), this.txtETHAdrr.getText());
-            ProxyUtils.createAndShowAlert(Alert.AlertType.INFORMATION, bundle.getString("key.main.alert.info.title"), null, "foi", null);
-        } catch (UnirestException ex) {
-            ProxyUtils.createAndShowAlert(Alert.AlertType.ERROR, bundle.getString("key.main.alert.error.title"), null, ex.getMessage(), null);
-            LOGGER.error(ex.getMessage(), ex);
-            Logger.getLogger(FXMLRegisterETHController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        Task task = new Task<Boolean>() {
+            @Override
+            protected Boolean call() throws Exception {
+                UserApi api = new UserApiImpl();
+                return api.addEthAddress(txtWalletName.getText(), txtETHAdrr.getText());
+            }
+        };
+        task.setOnSucceeded((Event ev) -> {
+            try {
+                if ((Boolean) task.getValue()) {
+                    ProxyUtils.createAndShowAlert(Alert.AlertType.INFORMATION, bundle.getString("key.main.alert.info.title"), null, bundle.getString("key.main.dialog.wallet.success"), null);
+                    FXMLLoader loader = new FXMLLoader(IPSXDesktopClient.class.getResource("resources/fxml/FXMLManualProxy.fxml"), ProxyUtils.getBundle());
+                    loader.setControllerFactory(new HostServicesControllerFactory(app.getHostServices()));
+                    NavControllerHandle.navigateTo(loader, stage, app);
+                } else {
+                    throw new Exception("Error in userAPI: Cannot create user's wallet");
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(FXMLLoginEmailController.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (Exception ex) {
+                ProxyUtils.createExceptionAlert(bundle.getString("key.main.alert.error.wallet.title"), null, task.getException().getMessage(), bundle.getString("key.main.dialog.exception.stack.text"), task.getException(), null);
+                LOGGER.error(ex.getMessage(), ex);
+                Logger.getLogger(FXMLRegisterETHController.class.getName()).log(Level.SEVERE, null, ex);
+                this.progressBar.setVisible(false);
+                this.loginInfoPane.setDisable(false);
+            }
+        });
+        task.setOnFailed((Event ev) -> {
+            Logger.getLogger(FXMLLoginEmailController.class.getName()).log(Level.SEVERE, null, task.getException());
+            ProxyUtils.createExceptionAlert(bundle.getString("key.main.alert.error.wallet.title"), null, task.getException().getMessage(), bundle.getString("key.main.dialog.exception.stack.text"), task.getException(), null);
+            LOGGER.error(task.getException().getMessage(), task.getException());
+            this.progressBar.setVisible(false);
+            this.loginInfoPane.setDisable(false);
+            this.btnDone.setDisable(false);
+        });
+        Thread thread = new Thread(task);
+        thread.setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+            @Override
+            public void uncaughtException(Thread t, Throwable e) {
+                ProxyUtils.createExceptionAlert(bundle.getString("key.main.alert.error.title"), null, e.getMessage(), bundle.getString("key.main.dialog.exception.stack.text"), e, null);
+                Logger.getLogger(FXMLRegisterETHController.class.getName()).log(Level.SEVERE, null, e);
+            }
+        });
+        this.loginInfoPane.setDisable(true);
+        this.btnDone.setDisable(true);
+        this.progressBar.setVisible(true);
+        this.progressBar.progressProperty().bind(task.progressProperty());
+        thread.start();
     }
 
     /**
@@ -115,21 +170,52 @@ public class FXMLRegisterETHController extends NavController implements Initiali
      */
     @FXML
     private void signInWithAnotherAccountAction(ActionEvent event) throws IOException {
-        UserApi api = new UserApiImpl();
-        try {
-            if (api.logoutUser()) {
-                FXMLLoader loader = new FXMLLoader(IPSXDesktopClient.class.getResource("resources/fxml/FXMLLogin.fxml"), ProxyUtils.getBundle());
-                //loader.setControllerFactory(new HostServicesControllerFactory(app.getHostServices()));
-                NavControllerHandle.navigateTo(loader, stage, app);
+        Task task = new Task<Boolean>() {
+            @Override
+            protected Boolean call() throws Exception {
+                UserApi api = new UserApiImpl();
+                return api.logoutUser();
             }
-        } catch (UnirestException ex) {
-            ProxyUtils.createExceptionAlert(bundle.getString("key.main.dialog.exception.title"), null, ex.getMessage(), bundle.getString("key.main.dialog.exception.stack.text"), ex, null);
-            LOGGER.error(ex.getMessage(), ex);
-            Logger.getLogger(FXMLRegisterETHController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
+        };
+        task.setOnSucceeded((Event ev) -> {
+            try {
+                if ((Boolean) task.getValue()) {
+                    FXMLLoader loader = new FXMLLoader(IPSXDesktopClient.class.getResource("resources/fxml/FXMLLogin.fxml"), ProxyUtils.getBundle());
+                    loader.setControllerFactory(new HostServicesControllerFactory(app.getHostServices()));
+                    NavControllerHandle.navigateTo(loader, stage, app);
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(FXMLLoginEmailController.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (Exception ex) {
+                ProxyUtils.createAndShowAlert(Alert.AlertType.ERROR, bundle.getString("key.main.alert.error.title"), null, ex.getMessage(), null);
+                LOGGER.error(ex.getMessage(), ex);
+                Logger.getLogger(FXMLRegisterETHController.class.getName()).log(Level.SEVERE, null, ex);
+                this.progressBar.setVisible(false);
+                this.loginInfoPane.setDisable(false);
+            }
+        });
+        task.setOnFailed((Event ev) -> {
+            Logger.getLogger(FXMLLoginEmailController.class.getName()).log(Level.SEVERE, null, task.getException());
+            ProxyUtils.createAndShowAlert(Alert.AlertType.ERROR, bundle.getString("key.main.alert.error.title"), null, task.getException().getMessage(), null);
+            LOGGER.error(task.getException().getMessage(), task.getException());
+            this.progressBar.setVisible(false);
+            this.loginInfoPane.setDisable(false);
+            this.btnDone.setDisable(false);
+        });
+        Thread thread = new Thread(task);
+        thread.setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+            @Override
+            public void uncaughtException(Thread t, Throwable e) {
+                Logger.getLogger(FXMLRegisterETHController.class.getName()).log(Level.SEVERE, null, e);
+            }
+        });
+        this.loginInfoPane.setDisable(true);
+        this.btnDone.setDisable(true);
+        this.progressBar.setVisible(true);
+        this.progressBar.progressProperty().bind(task.progressProperty());
+        thread.start();
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -144,7 +230,7 @@ public class FXMLRegisterETHController extends NavController implements Initiali
         ethValidatorETHAddr.setMessage(rb.getString("key.main.validator.eth"));
         txtWalletName.getValidators().add(blankValidatorWalletName);
         txtETHAdrr.getValidators().add(blankValidatorETHAddr);
-        
+
         txtWalletName.textProperty().addListener((observable, oldValue, newValue) -> {
             if (txtETHAdrr.validate() && txtWalletName.validate()) {
                 btnDone.setDisable(false);

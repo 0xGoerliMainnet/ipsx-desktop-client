@@ -1,4 +1,6 @@
 sx.ip
+sx.ip.api
+sx.ip.controllers
 sx.ip.factories
 sx.ip.models
 sx.ip.proxies

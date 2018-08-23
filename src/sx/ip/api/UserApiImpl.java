@@ -18,6 +18,7 @@ import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import java.util.HashMap;
+import java.util.ResourceBundle;
 import javafx.scene.control.Alert;
 import org.json.JSONObject;
 import sx.ip.controllers.NavController;
@@ -30,12 +31,15 @@ import sx.ip.utils.SecurityHandle;
  * @author hygor
  */
 public class UserApiImpl implements UserApi {
+    
+    /** The ResourceBundle instance.  */
+    ResourceBundle rb = ProxyUtils.getBundle();
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public boolean authUser(String email, String password) throws UnirestException {
+    public boolean authUser(String email, String password) throws UnirestException, Exception {
         HttpResponse<JsonNode> jsonResponse = Unirest.post(UserApi.userApiUrl + "/auth")
                 .header("Content-Type", "application/x-www-form-urlencoded")
                 .header("accept", "application/json")
@@ -52,6 +56,17 @@ public class UserApiImpl implements UserApi {
                 NavController.accessToken = jsonResponse.getBody().getObject().getString("id");
                 NavController.userId = jsonResponse.getBody().getObject().getInt("userId");
                 return true;
+            }
+        } else {
+            switch (jsonResponse.getBody().getObject().getJSONObject("error").getString("message")) {
+                case "invalid user":
+                    throw new Exception(rb.getString("key.main.alert.error.auth.message.1"));
+                case "password is a required argument":
+                    throw new Exception(rb.getString("key.main.alert.error.auth.message.2"));
+                case "wrong password":
+                    throw new Exception(rb.getString("key.main.alert.error.auth.message.3"));
+                default:
+                    throw new Exception(rb.getString("key.main.alert.error.unexpected.message") + jsonResponse.getBody().getObject().getJSONObject("error").getString("message"));
             }
         }
 
@@ -135,7 +150,16 @@ public class UserApiImpl implements UserApi {
                 .header("accept", "application/json")
                 .body(options)
                 .asJson();
-
+        
+        if (jsonResponse.getBody() != null && jsonResponse.getBody().getArray().getJSONObject(0).has("error")) {
+            switch (jsonResponse.getBody().getObject().getJSONObject("error").getString("message")) {
+                case "Cannot read property \'deleted_at\' of null":
+                    throw new UnirestException(rb.getString("key.main.alert.error.resetpw.message"));
+                default:
+                    throw new UnirestException(rb.getString("key.main.alert.error.unexpected.message") + jsonResponse.getBody().getObject().getJSONObject("error").getString("message"));
+            }
+        }
+        
         return jsonResponse.getStatus() == 204 && jsonResponse.getBody() == null;
     }
 
@@ -144,7 +168,6 @@ public class UserApiImpl implements UserApi {
      */
     @Override
     public boolean addEthAddress(String customName, String ethAddress) throws UnirestException {
-        //TODO: Verify accessToken
         HashMap<String, Object> bodyMap = new HashMap<>();
         bodyMap.put("user_id", NavController.userId);
         bodyMap.put("address", ethAddress);
@@ -171,7 +194,7 @@ public class UserApiImpl implements UserApi {
                 return true;
             }
         } else {
-            throw new UnirestException("Error in userAPI: Cannot create user's wallet, " + jsonResponse.getBody().getArray().getJSONObject(0).get("error"));
+            throw new UnirestException(rb.getString("key.main.alert.error.wallet.message") + jsonResponse.getBody().getArray().getJSONObject(0).get("error"));
         }
         return false;
     }
@@ -189,7 +212,7 @@ public class UserApiImpl implements UserApi {
                 .routeParam("id", NavController.userId.toString())
                 .asJson();
 
-        if (!jsonResponse.getBody().getArray().getJSONObject(0).has("error")) {
+        if (jsonResponse.getBody().getArray().length() != 0 && !jsonResponse.getBody().getArray().getJSONObject(0).has("error")) {
             if (jsonResponse.getBody()
                     .getArray()
                     .getJSONObject(0)
@@ -202,7 +225,10 @@ public class UserApiImpl implements UserApi {
                 return true;
             }
         } else {
-            throw new UnirestException("Error in userAPI: Cannot retrieve user's wallet, " + jsonResponse.getBody().getArray().getJSONObject(0).get("error"));
+            if(jsonResponse.getBody().getArray().length() == 0){
+                return false;
+            }
+            throw new UnirestException(rb.getString("key.main.alert.error.wallet.message") + jsonResponse.getBody().getArray().getJSONObject(0).get("error"));
         }
         return false;
     }
