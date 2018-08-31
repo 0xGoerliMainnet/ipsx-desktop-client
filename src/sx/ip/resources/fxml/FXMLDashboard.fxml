@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+Copyright 2018 IP Exchange : https://ip.sx/
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXProgressBar?>
+<?import de.jensd.fx.glyphs.materialicons.MaterialIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" fx:id="mainAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="475.0" style="-fx-background-color: rgba(255,255,255,0); -fx-border-color: #ced4da; -fx-border-width: 1px; -fx-border-insets: 0px; -fx-border-radius: 0px;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sx.ip.controllers.FXMLDashboardController">
+    <children>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" />
+      <BorderPane layoutX="3.0" prefHeight="550.0" prefWidth="472.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <center>
+            <ImageView blendMode="DARKEN" fitHeight="550.0" fitWidth="475.0" pickOnBounds="true" smooth="false" BorderPane.alignment="CENTER">
+               <image>
+                  <Image url="@../imgs/bg-375x450.jpg" />
+               </image>
+               <viewport>
+                  <Rectangle2D />
+               </viewport>
+            </ImageView>
+         </center>
+      </BorderPane>
+      <BorderPane layoutX="20.0" layoutY="20.0" prefHeight="75.0" prefWidth="375.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0">
+         <center>
+            <ImageView fitHeight="45.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+               <image>
+                  <Image url="@../imgs/ipsx-logo-230x45.png" />
+               </image>
+               <BorderPane.margin>
+                  <Insets left="-30.0" />
+               </BorderPane.margin>
+            </ImageView>
+         </center>
+         <left>
+            <Hyperlink fx:id="btnBack" onAction="#goBackAction" BorderPane.alignment="CENTER">
+               <graphic>
+                  <MaterialIconView glyphName="ARROW_BACK" size="25">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </MaterialIconView>
+               </graphic>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+            </Hyperlink>
+         </left>
+      </BorderPane>
+      <JFXButton fx:id="btnClose" contentDisplay="CENTER" focusTraversable="false" layoutX="353.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleCloseAction" prefHeight="32.0" prefWidth="32.0" text=" " textAlignment="CENTER" textFill="#a4a4a4" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <graphic>
+            <MaterialIconView fill="#707070" glyphName="CLOSE" size="16.0" textAlignment="CENTER" />
+         </graphic>
+      </JFXButton>
+      <JFXProgressBar fx:id="progressBar" progress="0.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+      <AnchorPane layoutX="30.0" layoutY="100.0" AnchorPane.leftAnchor="28.0" AnchorPane.rightAnchor="28.0" AnchorPane.topAnchor="90.0">
+         <children>
+            <Label alignment="CENTER" layoutX="119.0" prefHeight="25.0" prefWidth="155.0" text="Dashboard" textAlignment="JUSTIFY" textFill="#707070" AnchorPane.leftAnchor="80.0" AnchorPane.rightAnchor="80.0">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER_RIGHT" layoutX="227.0" prefHeight="25.0" prefWidth="67.0" text="0" textFill="#2aace0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="0.0" />
+            <ImageView fitHeight="330.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <image>
+                  <Image url="@../imgs/icon.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+      <HBox alignment="CENTER" layoutX="29.0" layoutY="127.0" AnchorPane.leftAnchor="28.0" AnchorPane.rightAnchor="28.0" AnchorPane.topAnchor="140.0">
+         <children>
+            <JFXButton minHeight="29.0" minWidth="121.0" style="-fx-background-color: #2aace0; -fx-border-color: #2aace0;" text="Active" textFill="WHITE" />
+            <JFXButton minHeight="29.0" minWidth="121.0" style="-fx-background-color: #ffffff; -fx-border-color: #2aace0;" text="Inactive" textFill="#2aace0" />
+         </children>
+      </HBox>
+      <AnchorPane layoutX="42.0" layoutY="186.0" minHeight="44.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="27.0">
+         <children>
+            <MaterialIconView fill="#2aace0" glyphName="ADD" size="25" wrappingWidth="23.999998569488525" AnchorPane.bottomAnchor="8.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="8.0" />
+            <Label layoutX="119.0" prefHeight="25.0" prefWidth="155.0" text="Create Token Deposit" textAlignment="JUSTIFY" textFill="#2aace0" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="24.0" AnchorPane.topAnchor="8.0" />
+         </children>
+      </AnchorPane>
+    </children>
+   <opaqueInsets>
+      <Insets />
+   </opaqueInsets>
+</AnchorPane>
