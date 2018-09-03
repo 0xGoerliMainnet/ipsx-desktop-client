@@ -13,8 +13,10 @@
  */
 package sx.ip.controllers;
 
+import com.jfoenix.controls.JFXButton;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import org.slf4j.LoggerFactory;
 
@@ -25,15 +27,19 @@ public class FXMLDashboardController extends NavController implements Initializa
 
     static org.slf4j.Logger LOGGER = LoggerFactory.getLogger(FXMLDashboardController.class);
 
+    @FXML
+    JFXButton depositFX;
 
+    @FXML
+    JFXButton providerFX;
 
     /**
      * {@inheritDoc}
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
-
+        this.depositFX.setText("");
+        this.providerFX.setText("");
 
     }
 
