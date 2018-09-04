@@ -22,7 +22,6 @@ limitations under the License.
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -90,106 +89,99 @@ limitations under the License.
             </ImageView>
          </children>
       </AnchorPane>
-      <ScrollPane hbarPolicy="NEVER" layoutX="30.0" layoutY="132.0" prefHeight="362.0" prefWidth="417.0" style="-fx-background-color: transparent;" stylesheets="@../styles/scrollpane.css" AnchorPane.leftAnchor="29.0" AnchorPane.rightAnchor="29.0" AnchorPane.topAnchor="131.0">
-         <content>
-            <VBox prefHeight="360.0" prefWidth="413.0" spacing="15.0">
-               <children>
-                  <AnchorPane prefHeight="90.0" prefWidth="419.0" style="-fx-background-color: #ffffff; -fx-border-color: #c9c9c9; -fx-border-radius: 5;">
-                     <children>
-                        <ImageView fitHeight="32.9" fitWidth="36.5" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="30.0">
-                           <image>
-                              <Image url="@../imgs/coins.png" />
-                           </image>
-                        </ImageView>
-                        <Label text="50 IPSX" textFill="#2aace0" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="30.0">
-                           <font>
-                              <Font name="System Bold" size="13.0" />
-                           </font>
-                        </Label>
-                        <Label text="60 min" AnchorPane.leftAnchor="74.0" AnchorPane.topAnchor="56.0" />
-                        <Label text="100 MB" AnchorPane.leftAnchor="74.0" AnchorPane.topAnchor="40.0" />
-                        <Label layoutX="48.0" layoutY="13.0" text="Silver Pack" AnchorPane.leftAnchor="74.0" AnchorPane.topAnchor="25.0">
-                           <font>
-                              <Font name="System Bold" size="13.0" />
-                           </font>
-                        </Label>
-                        <JFXButton fx:id="btnSilver" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane prefHeight="90.0" prefWidth="419.0" style="-fx-background-color: #ffffff; -fx-border-color: #c9c9c9; -fx-border-radius: 5;">
-                     <children>
-                        <ImageView fitHeight="32.9" fitWidth="36.5" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="30.0">
-                           <image>
-                              <Image url="@../imgs/coins.png" />
-                           </image>
-                        </ImageView>
-                        <Label text="100 IPSX" textFill="#2aace0" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="30.0">
-                           <font>
-                              <Font name="System Bold" size="13.0" />
-                           </font>
-                        </Label>
-                        <Label text="1 day" AnchorPane.leftAnchor="74.0" AnchorPane.topAnchor="56.0" />
-                        <Label text="500 MB" AnchorPane.leftAnchor="74.0" AnchorPane.topAnchor="40.0" />
-                        <Label layoutX="48.0" layoutY="13.0" text="Gold Pack" AnchorPane.leftAnchor="74.0" AnchorPane.topAnchor="25.0">
-                           <font>
-                              <Font name="System Bold" size="13.0" />
-                           </font>
-                        </Label>
-                        <JFXButton fx:id="btnGold" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane prefHeight="90.0" prefWidth="419.0" style="-fx-background-color: #ffffff; -fx-border-color: #c9c9c9; -fx-border-radius: 5;">
-                     <children>
-                        <ImageView fitHeight="32.9" fitWidth="36.5" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="30.0">
-                           <image>
-                              <Image url="@../imgs/coins.png" />
-                           </image>
-                        </ImageView>
-                        <Label text="200 IPSX" textFill="#2aace0" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="30.0">
-                           <font>
-                              <Font name="System Bold" size="13.0" />
-                           </font>
-                        </Label>
-                        <Label text="7 days" AnchorPane.leftAnchor="74.0" AnchorPane.topAnchor="56.0" />
-                        <Label text="1024 MB" AnchorPane.leftAnchor="74.0" AnchorPane.topAnchor="40.0" />
-                        <Label layoutX="48.0" layoutY="13.0" text="Platinum Pack" AnchorPane.leftAnchor="74.0" AnchorPane.topAnchor="25.0">
-                           <font>
-                              <Font name="System Bold" size="13.0" />
-                           </font>
-                        </Label>
-                        <JFXButton fx:id="btnPlatinum" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane prefHeight="90.0" prefWidth="419.0" style="-fx-background-color: #ffffff; -fx-border-color: #c9c9c9; -fx-border-radius: 5;">
-                     <children>
-                        <ImageView fitHeight="32.9" fitWidth="36.5" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="30.0">
-                           <image>
-                              <Image url="@../imgs/coins.png" />
-                           </image>
-                        </ImageView>
-                        <Label text="500 IPSX" textFill="#2aace0" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="30.0">
-                           <font>
-                              <Font name="System Bold" size="13.0" />
-                           </font>
-                        </Label>
-                        <Label text="30 days" AnchorPane.leftAnchor="74.0" AnchorPane.topAnchor="56.0" />
-                        <Label text="10240 MB" AnchorPane.leftAnchor="74.0" AnchorPane.topAnchor="40.0" />
-                        <Label layoutX="48.0" layoutY="13.0" text="Diamond Pack" AnchorPane.leftAnchor="74.0" AnchorPane.topAnchor="25.0">
-                           <font>
-                              <Font name="System Bold" size="13.0" />
-                           </font>
-                        </Label>
-                        <JFXButton fx:id="btnDiamond" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                     </children>
-                  </AnchorPane>
-               </children>
-               <padding>
-                  <Insets right="16.0" />
-               </padding>
-            </VBox>
-         </content>
-      </ScrollPane>
       <JFXProgressBar fx:id="progressBar" progress="0.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+      <VBox layoutX="30.0" layoutY="116.0" prefHeight="382.0" prefWidth="417.0" spacing="15.0" AnchorPane.bottomAnchor="31.0" AnchorPane.leftAnchor="29.0" AnchorPane.rightAnchor="29.0">
+         <children>
+            <AnchorPane maxHeight="70.0" minHeight="70.0" prefHeight="70.0" prefWidth="419.0" style="-fx-background-color: #ffffff; -fx-border-color: #c9c9c9; -fx-border-radius: 5;">
+               <children>
+                  <ImageView fitHeight="32.9" fitWidth="36.5" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="20.0">
+                     <image>
+                        <Image url="@../imgs/coins.png" />
+                     </image>
+                  </ImageView>
+                  <Label text="50 IPSX" textFill="#2aace0" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="20.0">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <Label text="60 min" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="74.0" AnchorPane.topAnchor="35.0" />
+                  <Label text="100 MB" AnchorPane.leftAnchor="74.0" AnchorPane.topAnchor="25.0" />
+                  <Label layoutX="48.0" layoutY="13.0" text="Silver Pack" AnchorPane.leftAnchor="74.0" AnchorPane.topAnchor="10.0">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <JFXButton fx:id="btnSilver" layoutX="2.0" layoutY="2.0" prefHeight="93.0" prefWidth="419.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="1.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane maxHeight="70.0" minHeight="70.0" prefHeight="70.0" prefWidth="419.0" style="-fx-background-color: #ffffff; -fx-border-color: #c9c9c9; -fx-border-radius: 5;">
+               <children>
+                  <ImageView fitHeight="32.9" fitWidth="36.5" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="20.0">
+                     <image>
+                        <Image url="@../imgs/coins.png" />
+                     </image>
+                  </ImageView>
+                  <Label text="100 IPSX" textFill="#2aace0" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="20.0">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <Label text="1 day" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="74.0" AnchorPane.topAnchor="35.0" />
+                  <Label text="500 MB" AnchorPane.leftAnchor="74.0" AnchorPane.topAnchor="25.0" />
+                  <Label layoutX="48.0" layoutY="13.0" text="Gold Pack" AnchorPane.leftAnchor="74.0" AnchorPane.topAnchor="10.0">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <JFXButton fx:id="btnGold" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane maxHeight="70.0" minHeight="70.0" prefHeight="70.0" prefWidth="419.0" style="-fx-background-color: #ffffff; -fx-border-color: #c9c9c9; -fx-border-radius: 5;">
+               <children>
+                  <ImageView fitHeight="32.9" fitWidth="36.5" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="20.0">
+                     <image>
+                        <Image url="@../imgs/coins.png" />
+                     </image>
+                  </ImageView>
+                  <Label text="200 IPSX" textFill="#2aace0" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="20.0">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <Label text="7 days" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="74.0" AnchorPane.topAnchor="35.0" />
+                  <Label text="1024 MB" AnchorPane.leftAnchor="74.0" AnchorPane.topAnchor="25.0" />
+                  <Label layoutX="48.0" layoutY="13.0" text="Platinum Pack" AnchorPane.leftAnchor="74.0" AnchorPane.topAnchor="10.0">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <JFXButton fx:id="btnPlatinum" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane maxHeight="70.0" minHeight="70.0" prefHeight="70.0" prefWidth="419.0" style="-fx-background-color: #ffffff; -fx-border-color: #c9c9c9; -fx-border-radius: 5;">
+               <children>
+                  <ImageView fitHeight="32.9" fitWidth="36.5" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="20.0">
+                     <image>
+                        <Image url="@../imgs/coins.png" />
+                     </image>
+                  </ImageView>
+                  <Label text="500 IPSX" textFill="#2aace0" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="20.0">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <Label text="30 days" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="74.0" AnchorPane.topAnchor="35.0" />
+                  <Label text="10240 MB" AnchorPane.leftAnchor="74.0" AnchorPane.topAnchor="25.0" />
+                  <Label layoutX="48.0" layoutY="13.0" text="Diamond Pack" AnchorPane.leftAnchor="74.0" AnchorPane.topAnchor="10.0">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <JFXButton fx:id="btnDiamond" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+         </children>
+      </VBox>
     </children>
    <opaqueInsets>
       <Insets />
