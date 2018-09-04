@@ -26,6 +26,18 @@ import org.slf4j.LoggerFactory;
 public class FXMLNewProxyController extends NavController implements Initializable {
 
     static org.slf4j.Logger LOGGER = LoggerFactory.getLogger(FXMLNewProxyController.class);
+    
+    @FXML
+    JFXButton btnSilver;
+
+    @FXML
+    JFXButton btnGold;
+
+    @FXML
+    JFXButton btnPlatinum;
+
+    @FXML
+    JFXButton btnDiamond;
 
 
 
