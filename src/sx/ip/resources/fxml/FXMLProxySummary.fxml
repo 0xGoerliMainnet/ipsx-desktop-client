@@ -83,21 +83,21 @@ limitations under the License.
             </Label>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="10.0" layoutY="10.0" maxHeight="80.0" minHeight="80.0" prefHeight="80.0" prefWidth="419.0" style="-fx-background-color: #ffffff; -fx-border-color: #c9c9c9; -fx-border-radius: 5;" AnchorPane.leftAnchor="28.0" AnchorPane.rightAnchor="28.0" AnchorPane.topAnchor="150.0">
+      <AnchorPane layoutX="10.0" layoutY="10.0" maxHeight="80.0" minHeight="80.0" prefHeight="80.0" prefWidth="419.0" style="-fx-background-color: #ffffff;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="150.0">
          <children>
-            <ImageView fitHeight="32.9" fitWidth="36.5" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="20.0">
+            <ImageView fitHeight="32.9" fitWidth="36.5" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="27.0" AnchorPane.topAnchor="20.0">
                <image>
                   <Image url="@../imgs/coins.png" />
                </image>
             </ImageView>
-            <Label text="50 IPSX" textFill="#2aace0" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="30.0">
+            <Label text="50 IPSX" textFill="#2aace0" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="30.0">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Label>
-            <Label text="60 min" AnchorPane.leftAnchor="74.0" AnchorPane.topAnchor="45.0" />
-            <Label text="100 MB" AnchorPane.leftAnchor="74.0" AnchorPane.topAnchor="30.0" />
-            <Label layoutX="48.0" layoutY="13.0" text="Silver Pack" AnchorPane.leftAnchor="74.0" AnchorPane.topAnchor="15.0">
+            <Label text="60 min" AnchorPane.leftAnchor="86.0" AnchorPane.topAnchor="45.0" />
+            <Label text="100 MB" AnchorPane.leftAnchor="86.0" AnchorPane.topAnchor="30.0" />
+            <Label layoutX="48.0" layoutY="13.0" text="Silver Pack" AnchorPane.leftAnchor="86.0" AnchorPane.topAnchor="15.0">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
