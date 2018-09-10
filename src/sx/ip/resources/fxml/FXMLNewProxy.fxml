@@ -111,7 +111,7 @@ limitations under the License.
                         <Font name="System Bold" size="13.0" />
                      </font>
                   </Label>
-                  <JFXButton fx:id="btnSilver" layoutX="2.0" layoutY="2.0" prefHeight="93.0" prefWidth="419.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="1.0" />
+                  <JFXButton fx:id="btnSilver" layoutX="2.0" layoutY="2.0" prefHeight="93.0" prefWidth="419.0" ripplerFill="#2aace0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="1.0" />
                </children>
             </AnchorPane>
             <AnchorPane maxHeight="70.0" minHeight="70.0" prefHeight="70.0" prefWidth="419.0" style="-fx-background-color: #ffffff; -fx-border-color: #c9c9c9; -fx-border-radius: 5;">
@@ -133,7 +133,7 @@ limitations under the License.
                         <Font name="System Bold" size="13.0" />
                      </font>
                   </Label>
-                  <JFXButton fx:id="btnGold" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <JFXButton fx:id="btnGold" ripplerFill="#2aace0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                </children>
             </AnchorPane>
             <AnchorPane maxHeight="70.0" minHeight="70.0" prefHeight="70.0" prefWidth="419.0" style="-fx-background-color: #ffffff; -fx-border-color: #c9c9c9; -fx-border-radius: 5;">
@@ -155,7 +155,7 @@ limitations under the License.
                         <Font name="System Bold" size="13.0" />
                      </font>
                   </Label>
-                  <JFXButton fx:id="btnPlatinum" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <JFXButton fx:id="btnPlatinum" ripplerFill="#2aace0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                </children>
             </AnchorPane>
             <AnchorPane maxHeight="70.0" minHeight="70.0" prefHeight="70.0" prefWidth="419.0" style="-fx-background-color: #ffffff; -fx-border-color: #c9c9c9; -fx-border-radius: 5;">
@@ -177,7 +177,7 @@ limitations under the License.
                         <Font name="System Bold" size="13.0" />
                      </font>
                   </Label>
-                  <JFXButton fx:id="btnDiamond" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <JFXButton fx:id="btnDiamond" ripplerFill="#2aace0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                </children>
             </AnchorPane>
          </children>
