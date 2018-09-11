@@ -13,15 +13,21 @@
  */
 package sx.ip.api;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.scene.control.Alert;
 import org.json.JSONObject;
 import sx.ip.controllers.NavController;
+import sx.ip.models.ETHWallet;
 import sx.ip.utils.CredentialType;
 import sx.ip.utils.ProxyUtils;
 import sx.ip.utils.SecurityHandle;
@@ -31,8 +37,10 @@ import sx.ip.utils.SecurityHandle;
  * @author hygor
  */
 public class UserApiImpl implements UserApi {
-    
-    /** The ResourceBundle instance.  */
+
+    /**
+     * The ResourceBundle instance.
+     */
     ResourceBundle rb = ProxyUtils.getBundle();
 
     /**
@@ -150,7 +158,7 @@ public class UserApiImpl implements UserApi {
                 .header("accept", "application/json")
                 .body(options)
                 .asJson();
-        
+
         if (jsonResponse.getBody() != null && jsonResponse.getBody().getArray().getJSONObject(0).has("error")) {
             switch (jsonResponse.getBody().getObject().getJSONObject("error").getString("message")) {
                 case "Cannot read property \'deleted_at\' of null":
@@ -159,7 +167,7 @@ public class UserApiImpl implements UserApi {
                     throw new UnirestException(rb.getString("key.main.alert.error.unexpected.message") + jsonResponse.getBody().getObject().getJSONObject("error").getString("message"));
             }
         }
-        
+
         return jsonResponse.getStatus() == 204 && jsonResponse.getBody() == null;
     }
 
@@ -225,11 +233,34 @@ public class UserApiImpl implements UserApi {
                 return true;
             }
         } else {
-            if(jsonResponse.getBody().getArray().length() == 0){
+            if (jsonResponse.getBody().getArray().length() == 0) {
                 return false;
             }
             throw new UnirestException(rb.getString("key.main.alert.error.wallet.message") + jsonResponse.getBody().getArray().getJSONObject(0).get("error"));
         }
         return false;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<ETHWallet> retrieveUsersETHWallets() throws UnirestException {
+
+        Type type = new TypeToken<List<ETHWallet>>() {
+        }.getType();
+
+        HttpResponse<JsonNode> response = Unirest.get(UserApi.userApiUrl + "/{id}/eths")
+                .header("Content-Type", "application/json")
+                .header("accept", "application/json")
+                .queryString("access_token", NavController.accessToken)
+                .routeParam("id", NavController.userId.toString())
+                .asJson();
+
+        String a = response.getBody().toString();
+        Gson g = new Gson();
+        ArrayList<ETHWallet> c = g.fromJson(a, type);
+
+        return null;
     }
 }

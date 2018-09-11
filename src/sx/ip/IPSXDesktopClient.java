@@ -38,7 +38,7 @@ public class IPSXDesktopClient extends Application {
         SystemTrayController systemTray = new SystemTrayController(stage, ProxyUtils.getBundle());
         systemTray.addAppToTray();
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("resources/fxml/FXMLTokenRequestCreation.fxml"), ProxyUtils.getBundle());
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("resources/fxml/FXMLLandingPage.fxml"), ProxyUtils.getBundle());
         loader.setControllerFactory(new HostServicesControllerFactory(getHostServices()));
         NavControllerHandle.initializeStageScene(loader, stage, this);
 
