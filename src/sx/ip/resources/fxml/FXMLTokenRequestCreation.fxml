@@ -85,20 +85,47 @@ limitations under the License.
             </Label>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="loginInfoPane" layoutX="2.0" layoutY="184.0" prefHeight="162.0" prefWidth="473.0" AnchorPane.bottomAnchor="109.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="183.0">
+      <AnchorPane fx:id="loginInfoPane" layoutX="2.0" layoutY="141.0" prefHeight="310.0" prefWidth="473.0">
          <children>
-            <Label layoutX="5.0" layoutY="20.0" prefHeight="14.0" prefWidth="90.0" text="Amount" textFill="#707070" AnchorPane.leftAnchor="28.0" AnchorPane.rightAnchor="218.0">
-               <font>
-                  <Font size="11.0" />
-               </font>
-            </Label>
-            <JFXTextField fx:id="txtAmount" focusColor="#80bdff" layoutX="65.0" layoutY="35.0" prefHeight="26.0" prefWidth="249.0" unFocusColor="#ced4da" AnchorPane.leftAnchor="28.0" AnchorPane.rightAnchor="28.0" />
-            <Label layoutX="65.0" layoutY="100.0" prefHeight="14.0" prefWidth="90.0" text="Address from CryptoWallet" textFill="#707070" AnchorPane.leftAnchor="28.0" AnchorPane.rightAnchor="217.0">
-               <font>
-                  <Font size="11.0" />
-               </font>
-            </Label>
-            <JFXComboBox fx:id="comboWallet" AnchorPane.leftAnchor="28.0" AnchorPane.rightAnchor="28.0" AnchorPane.topAnchor="114.0" />
+            <AnchorPane layoutX="27.0" layoutY="3.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <ImageView fitHeight="24.0" fitWidth="24.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="27.0">
+                     <image>
+                        <Image url="@../imgs/wallet.png" />
+                     </image>
+                  </ImageView>
+                  <Label layoutX="43.0" prefHeight="14.0" text="Address from CryptoWallet" textFill="#707070" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="27.0">
+                     <font>
+                        <Font size="11.0" />
+                     </font>
+                  </Label>
+                  <JFXComboBox fx:id="comboWallet" layoutX="43.0" layoutY="11.0" promptText="Select ETH address" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="27.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="27.0" layoutY="98.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <children>
+                  <Label prefHeight="14.0" prefWidth="90.0" text="Amount" textFill="#707070" AnchorPane.leftAnchor="27.0">
+                     <font>
+                        <Font size="11.0" />
+                     </font>
+                  </Label>
+                  <JFXTextField fx:id="txtAmount" focusColor="#80bdff" layoutY="15.0" prefHeight="26.0" prefWidth="249.0" promptText="Select an amount" unFocusColor="#ced4da" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="27.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="69.970703125" layoutY="50.0" style="-fx-background-color: #6d6d6d20;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <children>
+                  <Label layoutX="0.029296875" prefHeight="26.0" prefWidth="356.0" text="The following request will be honored exactly as requested." textFill="#707070" AnchorPane.bottomAnchor="16.0" AnchorPane.leftAnchor="70.0" AnchorPane.topAnchor="0.0">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="0.029296875" layoutY="16.0" prefHeight="26.0" prefWidth="356.0" text="Pay attention on your selected ETH address!" textFill="#707070" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="70.0" AnchorPane.topAnchor="16.0">
+                     <font>
+                        <Font name="System Bold" size="10.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
          </children>
       </AnchorPane>
       <JFXButton fx:id="btnSubmit" defaultButton="true" disable="true" layoutX="134.0" layoutY="386.0" prefHeight="40.0" prefWidth="230.0" ripplerFill="WHITE" style="-fx-background-color: #2aace0;" text="Submit" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="127.0" AnchorPane.rightAnchor="130.0">
