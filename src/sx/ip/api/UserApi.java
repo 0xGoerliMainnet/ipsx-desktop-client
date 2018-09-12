@@ -13,6 +13,7 @@
  */
 package sx.ip.api;
 
+import com.google.gson.JsonSyntaxException;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import java.util.List;
 import sx.ip.models.ETHWallet;
@@ -131,6 +132,6 @@ public interface UserApi {
     * 
     * @return List<ETHWallet>
     */
-    public List<ETHWallet> retrieveUsersETHWallets() throws UnirestException;
+    public List<ETHWallet> retrieveUsersETHWallets() throws UnirestException,JsonSyntaxException;
     
 }

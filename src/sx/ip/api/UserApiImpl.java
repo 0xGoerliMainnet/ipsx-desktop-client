@@ -14,6 +14,7 @@
 package sx.ip.api;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
@@ -245,22 +246,25 @@ public class UserApiImpl implements UserApi {
      * {@inheritDoc}
      */
     @Override
-    public List<ETHWallet> retrieveUsersETHWallets() throws UnirestException {
+    public List<ETHWallet> retrieveUsersETHWallets() throws UnirestException,JsonSyntaxException {
 
-        Type type = new TypeToken<List<ETHWallet>>() {
-        }.getType();
-
-        HttpResponse<JsonNode> response = Unirest.get(UserApi.userApiUrl + "/{id}/eths")
+        Type type = new TypeToken<List<ETHWallet>>(){}.getType();
+        ArrayList<ETHWallet> walletArray = new ArrayList<>();
+        try {
+                    HttpResponse<JsonNode> response = Unirest.get(UserApi.userApiUrl + "/{id}/eths")
                 .header("Content-Type", "application/json")
                 .header("accept", "application/json")
                 .queryString("access_token", NavController.accessToken)
                 .routeParam("id", NavController.userId.toString())
                 .asJson();
 
-        String a = response.getBody().toString();
         Gson g = new Gson();
-        ArrayList<ETHWallet> c = g.fromJson(a, type);
+        walletArray = g.fromJson(response.getBody().toString(), type);
 
-        return null;
+        return walletArray;
+            
+        } catch (UnirestException | JsonSyntaxException e) {
+            throw e;
+        }
     }
 }

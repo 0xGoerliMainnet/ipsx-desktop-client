@@ -16,8 +16,10 @@ package sx.ip.controllers;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.validation.NumberValidator;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -26,14 +28,13 @@ import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ProgressBar;
 import org.slf4j.LoggerFactory;
-import sx.ip.IPSXDesktopClient;
 import sx.ip.api.UserApi;
 import sx.ip.api.UserApiImpl;
-import sx.ip.factories.HostServicesControllerFactory;
 import sx.ip.models.ETHWallet;
+import sx.ip.utils.BlankSpacesValidator;
 import sx.ip.utils.ProxyUtils;
 
 /**
@@ -43,35 +44,65 @@ public class FXMLTokenRequestCreationController extends NavController implements
 
     static org.slf4j.Logger LOGGER = LoggerFactory.getLogger(FXMLTokenRequestCreationController.class);
 
+    /**
+     * The amount text field instance.
+     */
     @FXML
     JFXTextField txtAmount;
 
+    /**
+     * The submit buttoninstance.
+     */
     @FXML
     JFXButton btnSubmit;
 
+    /**
+     * The ComboBox instance.
+     */
     @FXML
     JFXComboBox comboWallet;
+
+    /**
+     * The progress bar instance.
+     */
+    @FXML
+    ProgressBar progressBar;
+
+    private ArrayList<ETHWallet> walletArray;
 
     /**
      * {@inheritDoc}
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+
         try {
-            this.loadWalletComboAction(null);
+            this.loadWalletCombo();
         } catch (IOException ex) {
             Logger.getLogger(FXMLTokenRequestCreationController.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        BlankSpacesValidator blankValidatorEmail = new BlankSpacesValidator();
+        blankValidatorEmail.setMessage(rb.getString("key.main.validator.empty"));
+        NumberValidator numValidator = new NumberValidator();
+        numValidator.setMessage(rb.getString("key.main.validator.numbers"));
+        txtAmount.getValidators().add(blankValidatorEmail);
+        txtAmount.getValidators().add(numValidator);
+
+        txtAmount.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!txtAmount.validate()) {
+                btnSubmit.setDisable(true);
+            } else {
+                btnSubmit.setDisable(false);
+            }
+        });
     }
 
     /**
      * Method resposible for loading the wallet's combobox.
      *
-     * @param event An Event representing that the button has been fired.
      */
-    @FXML
-    private void loadWalletComboAction(ActionEvent event) throws IOException {
+    private void loadWalletCombo() throws IOException {
         Task task = new Task<List<ETHWallet>>() {
             @Override
             protected List<ETHWallet> call() throws Exception {
@@ -84,7 +115,10 @@ public class FXMLTokenRequestCreationController extends NavController implements
             }
         };
         task.setOnSucceeded((Event ev) -> {
-            new String("");
+            this.walletArray = (ArrayList<ETHWallet>) task.getValue();
+            this.comboWallet.getItems().addAll(walletArray);
+            this.comboWallet.setDisable(false);
+            progressBar.setVisible(false);
         });
         task.setOnFailed((Event ev) -> {
             Logger.getLogger(FXMLLoginEmailController.class.getName()).log(Level.SEVERE, null, task.getException());
@@ -100,10 +134,31 @@ public class FXMLTokenRequestCreationController extends NavController implements
                 ProxyUtils.createExceptionAlert(bundle.getString("key.main.alert.error.title"), null, e.getMessage(), bundle.getString("key.main.dialog.exception.stack.text"), e, null);
             }
         });
-       
+        progressBar.setVisible(true);
         thread.start();
 
     }
-    
-    
+
+    /**
+     * Method resposible for handling the go back action.
+     *
+     * @param event An Event representing that the button has been fired.
+     */
+    @FXML
+    private void goBackAction(ActionEvent event) throws IOException {
+//        FXMLLoader loader = new FXMLLoader(IPSXDesktopClient.class.getResource("resources/fxml/FXMLLandingPage.fxml"), ProxyUtils.getBundle());
+//        loader.setControllerFactory(new HostServicesControllerFactory(app.getHostServices()));
+//        NavControllerHandle.navigateTo(loader, stage, app);
+    }
+
+    /**
+     * Method resposible for handling the close action.
+     *
+     * @param event An Event representing that the button has been fired.
+     */
+    @FXML
+    private void handleCloseAction(ActionEvent event) {
+        stage.close();
+    }
+
 }

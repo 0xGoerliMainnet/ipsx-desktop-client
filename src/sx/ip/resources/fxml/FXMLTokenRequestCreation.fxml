@@ -98,7 +98,7 @@ limitations under the License.
                         <Font size="11.0" />
                      </font>
                   </Label>
-                  <JFXComboBox fx:id="comboWallet" layoutX="43.0" layoutY="11.0" promptText="Select ETH address" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="27.0" />
+                  <JFXComboBox fx:id="comboWallet" disable="true" layoutX="43.0" layoutY="11.0" promptText="Address from CryptoWallet" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="27.0" />
                </children>
             </AnchorPane>
             <AnchorPane layoutX="27.0" layoutY="98.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
@@ -135,7 +135,7 @@ limitations under the License.
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <JFXProgressBar fx:id="progressBar" progress="0.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+      <JFXProgressBar fx:id="progressBar" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
     </children>
    <opaqueInsets>
       <Insets />

@@ -16,19 +16,43 @@ package sx.ip.models;
 
 
 
-
+/**
+ * Class that will storage hold Ethereum Wallet information.
+ */
 public class ETHWallet {
     
-    String address;
-    String updated_at;
-    Integer user_id;
-    Integer verified;
-    String alias;
-    String created_at;
-    Integer id;
-    String status;
-    String network;
+    private String address;
+    private String updated_at;
+    private Integer user_id;
+    private Integer verified;
+    private String alias;
+    private String created_at;
+    private Integer id;
+    private String status;
+    private String network;
 
+    /**
+    * Create a <code>ETHWallet</code> that will hold all the wallet information.
+    *
+    * @param address
+    *            The wallet address
+    * @param updated_at
+    *            The last update date
+    * @param user_id
+    *            The user id
+    * @param verified
+    *            If the wallet is verified
+    * @param alias
+    *            The wallet alias
+    * @param created_at
+    *            The wallet creation date
+    * @param id
+    *            The wallet id
+    * @param status
+    *            The wallet status
+    * @param network
+    *            The wallet network
+    */
     public ETHWallet(String address, String updated_at, Integer user_id, Integer verified, String alias, String created_at, Integer id, String status, String network) {
         this.address = address;
         this.updated_at = updated_at;
@@ -112,5 +136,14 @@ public class ETHWallet {
     public void setNetwork(String network) {
         this.network = network;
     }
+    
+    /**
+     * @return the wallet address
+     */
+    @Override
+    public String toString() {
+        return address;
+    }
+    
     
 }
