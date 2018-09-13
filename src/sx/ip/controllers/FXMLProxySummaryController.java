@@ -23,9 +23,9 @@ import org.slf4j.LoggerFactory;
 /**
  * Login with email screen controller
  */
-public class FXMLNewProxyController extends NavController implements Initializable {
+public class FXMLProxySummaryController extends NavController implements Initializable {
 
-    static org.slf4j.Logger LOGGER = LoggerFactory.getLogger(FXMLNewProxyController.class);
+    static org.slf4j.Logger LOGGER = LoggerFactory.getLogger(FXMLProxySummaryController.class);
     
     @FXML
     JFXButton btnSilver;
