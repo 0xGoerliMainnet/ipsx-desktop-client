@@ -13,17 +13,14 @@
  */
 package sx.ip.api;
 
-import com.google.gson.JsonSyntaxException;
 import com.mashape.unirest.http.exceptions.UnirestException;
-import java.util.List;
-import sx.ip.models.ETHWallet;
 
 /**
 * Interface responsible for describe the all user api methods
 */
 public interface UserApi {
     /** Base ulr for User API.  */
-    public static String userApiUrl = "http://devapi.ip.sx:3000/api/users";
+    public static String userApiUrl = "https://api.ipsx.io/api/users";
     
     /**
     * Method responsible for do the login with email and password.
@@ -124,14 +121,5 @@ public interface UserApi {
     * @return boolean
     */
     public boolean userHasEthWallet() throws UnirestException;
-    
-    /**
-    * Method responsible of retrieving user's active ETH wallets.
-    * 
-    * @throws UnirestException
-    * 
-    * @return List<ETHWallet>
-    */
-    public List<ETHWallet> retrieveUsersETHWallets() throws UnirestException,JsonSyntaxException;
     
 }
