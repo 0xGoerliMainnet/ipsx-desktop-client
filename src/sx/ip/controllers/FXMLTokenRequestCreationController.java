@@ -30,6 +30,7 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.layout.AnchorPane;
 import org.slf4j.LoggerFactory;
 import sx.ip.api.UserApi;
 import sx.ip.api.UserApiImpl;
@@ -51,16 +52,22 @@ public class FXMLTokenRequestCreationController extends NavController implements
     JFXTextField txtAmount;
 
     /**
-     * The submit buttoninstance.
+     * The submit button instance.
      */
     @FXML
     JFXButton btnSubmit;
 
     /**
+     * The main anchor pane instance.
+     */
+    @FXML
+    AnchorPane mainAnchorPane;
+
+    /**
      * The ComboBox instance.
      */
     @FXML
-    JFXComboBox comboWallet;
+    JFXComboBox<ETHWallet> comboWallet;
 
     /**
      * The progress bar instance.
@@ -90,7 +97,7 @@ public class FXMLTokenRequestCreationController extends NavController implements
         txtAmount.getValidators().add(numValidator);
 
         txtAmount.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!txtAmount.validate()) {
+            if (!txtAmount.validate() || comboWallet.getValue() == null) {
                 btnSubmit.setDisable(true);
             } else {
                 btnSubmit.setDisable(false);
@@ -152,6 +159,47 @@ public class FXMLTokenRequestCreationController extends NavController implements
     }
 
     /**
+     * Method resposible for handling the go back action.
+     *
+     * @param event An Event representing that the button has been fired.
+     */
+    @FXML
+    private void submitTokenRequestAction(ActionEvent event) throws IOException {
+        ETHWallet selectedWallet = (ETHWallet) comboWallet.getValue();
+        Task task = new Task<Boolean>() {
+            @Override
+            protected Boolean call() throws Exception {
+                UserApi api = new UserApiImpl();
+                return api.tokenRequest(selectedWallet, txtAmount.getText());
+            }
+        };
+        task.setOnSucceeded((Event ev) -> {
+            mainAnchorPane.setDisable(false);
+            progressBar.setVisible(false);
+        });
+        task.setOnFailed((Event ev) -> {
+            Logger.getLogger(FXMLLoginEmailController.class.getName()).log(Level.SEVERE, null, task.getException());
+            ProxyUtils.createExceptionAlert(bundle.getString("key.main.alert.error.request.token.title"), null, task.getException().getMessage(), bundle.getString("key.main.dialog.exception.stack.text"), task.getException(), null);
+            LOGGER.error(task.getException().getMessage(), task.getException());
+            mainAnchorPane.setDisable(false);
+            progressBar.setVisible(false);
+
+        });
+        Thread thread = new Thread(task);
+        thread.setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+            @Override
+            public void uncaughtException(Thread t, Throwable e) {
+                Logger.getLogger(FXMLLoginEmailController.class.getName()).log(Level.SEVERE, null, e);
+                ProxyUtils.createExceptionAlert(bundle.getString("key.main.alert.error.title"), null, e.getMessage(), bundle.getString("key.main.dialog.exception.stack.text"), e, null);
+            }
+        });
+        progressBar.setVisible(true);
+        mainAnchorPane.setDisable(true);
+        thread.start();
+
+    }
+
+    /**
      * Method resposible for handling the close action.
      *
      * @param event An Event representing that the button has been fired.
@@ -159,6 +207,20 @@ public class FXMLTokenRequestCreationController extends NavController implements
     @FXML
     private void handleCloseAction(ActionEvent event) {
         stage.close();
+    }
+
+    /**
+     * Method resposible for handling the close action.
+     *
+     * @param event An Event representing that the button has been fired.
+     */
+    @FXML
+    private void comboRefreshAction(ActionEvent event) {
+        if (!txtAmount.validate() || comboWallet.getValue() == null) {
+            btnSubmit.setDisable(true);
+        } else {
+            btnSubmit.setDisable(false);
+        }
     }
 
 }

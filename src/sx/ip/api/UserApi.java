@@ -133,5 +133,18 @@ public interface UserApi {
     * @return List<ETHWallet>
     */
     public List<ETHWallet> retrieveUsersETHWallets() throws UnirestException,JsonSyntaxException;
+   
+    /**
+    * Method responsible for making token requests.
+    * 
+     * @param userWallet
+     * 
+     * @param amountRequested
+     * 
+    * @throws UnirestException
+    * 
+    * @return boolean
+    */
+    public boolean tokenRequest(ETHWallet userWallet, String amountRequested) throws UnirestException,JsonSyntaxException, Exception;
     
 }

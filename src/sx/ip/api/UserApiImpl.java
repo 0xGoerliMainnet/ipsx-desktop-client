@@ -246,25 +246,48 @@ public class UserApiImpl implements UserApi {
      * {@inheritDoc}
      */
     @Override
-    public List<ETHWallet> retrieveUsersETHWallets() throws UnirestException,JsonSyntaxException {
+    public List<ETHWallet> retrieveUsersETHWallets() throws UnirestException, JsonSyntaxException {
 
-        Type type = new TypeToken<List<ETHWallet>>(){}.getType();
+        Type type = new TypeToken<List<ETHWallet>>() {
+        }.getType();
         ArrayList<ETHWallet> walletArray = new ArrayList<>();
         try {
-                    HttpResponse<JsonNode> response = Unirest.get(UserApi.userApiUrl + "/{id}/eths")
+            HttpResponse<JsonNode> response = Unirest.get(UserApi.userApiUrl + "/{id}/eths")
+                    .header("Content-Type", "application/json")
+                    .header("accept", "application/json")
+                    .queryString("access_token", NavController.accessToken)
+                    .routeParam("id", NavController.userId.toString())
+                    .asJson();
+
+            Gson g = new Gson();
+            walletArray = g.fromJson(response.getBody().toString(), type);
+
+            return walletArray;
+
+        } catch (UnirestException | JsonSyntaxException e) {
+            throw e;
+        }
+    }
+
+    @Override
+    public boolean tokenRequest(ETHWallet userWallet, String amountRequested) throws UnirestException, JsonSyntaxException, Exception {
+        JSONObject body = new JSONObject();
+        body.append("usereth_id", userWallet.getId());
+        body.append("amount_requested", amountRequested);
+        HttpResponse<JsonNode> jsonResponse = Unirest.post(UserApi.userApiUrl + "/{id}/token_requests")
                 .header("Content-Type", "application/json")
                 .header("accept", "application/json")
                 .queryString("access_token", NavController.accessToken)
                 .routeParam("id", NavController.userId.toString())
+                .body(body)
                 .asJson();
 
-        Gson g = new Gson();
-        walletArray = g.fromJson(response.getBody().toString(), type);
-
-        return walletArray;
-            
-        } catch (UnirestException | JsonSyntaxException e) {
-            throw e;
+        if (jsonResponse.getStatus() == 200) {
+            return true;
+        } else {
+            JSONObject errorMessageMap = (JSONObject) jsonResponse.getBody().getObject().get("error");
+            throw new Exception("An Error has ocurred: " + "Status: "+ jsonResponse.getStatus() + ". " + errorMessageMap.get("message"));
         }
+
     }
 }
