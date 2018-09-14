@@ -29,6 +29,7 @@ import javafx.scene.control.Alert;
 import org.json.JSONObject;
 import sx.ip.controllers.NavController;
 import sx.ip.models.ETHWallet;
+import sx.ip.models.TokenRequest;
 import sx.ip.utils.CredentialType;
 import sx.ip.utils.ProxyUtils;
 import sx.ip.utils.SecurityHandle;
@@ -263,6 +264,33 @@ public class UserApiImpl implements UserApi {
             walletArray = g.fromJson(response.getBody().toString(), type);
 
             return walletArray;
+
+        } catch (UnirestException | JsonSyntaxException e) {
+            throw e;
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<TokenRequest> retrieveUserTokenRequests() throws UnirestException, JsonSyntaxException {
+
+        Type type = new TypeToken<List<TokenRequest>>() {
+        }.getType();
+        ArrayList<TokenRequest> tokenRequestArray = new ArrayList<>();
+        try {
+            HttpResponse<JsonNode> response = Unirest.get(UserApi.userApiUrl + "/{id}/token_requests")
+                    .header("Content-Type", "application/json")
+                    .header("accept", "application/json")
+                    .queryString("access_token", NavController.accessToken)
+                    .routeParam("id", NavController.userId.toString())
+                    .asJson();
+
+            Gson g = new Gson();
+            tokenRequestArray = g.fromJson(response.getBody().toString(), type);
+
+            return tokenRequestArray;
 
         } catch (UnirestException | JsonSyntaxException e) {
             throw e;

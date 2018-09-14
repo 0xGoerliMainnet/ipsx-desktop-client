@@ -17,6 +17,7 @@ import com.google.gson.JsonSyntaxException;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import java.util.List;
 import sx.ip.models.ETHWallet;
+import sx.ip.models.TokenRequest;
 
 /**
 * Interface responsible for describe the all user api methods
@@ -133,6 +134,15 @@ public interface UserApi {
     * @return List<ETHWallet>
     */
     public List<ETHWallet> retrieveUsersETHWallets() throws UnirestException,JsonSyntaxException;
+    
+    /**
+    * Method responsible of retrieving user's active ETH wallets.
+    * 
+    * @throws UnirestException
+    * 
+    * @return List<TokenRequest>
+    */
+    public List<TokenRequest> retrieveUserTokenRequests() throws UnirestException,JsonSyntaxException;
    
     /**
     * Method responsible for making token requests.
