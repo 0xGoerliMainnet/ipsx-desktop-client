@@ -13,6 +13,7 @@
  */
 package sx.ip.controllers;
 
+import com.jfoenix.controls.JFXButton;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -26,15 +27,16 @@ import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.AnchorPane;
-import javafx.util.Callback;
 import org.slf4j.LoggerFactory;
+import sx.ip.IPSXDesktopClient;
 import sx.ip.api.UserApi;
 import sx.ip.api.UserApiImpl;
+import sx.ip.factories.HostServicesControllerFactory;
 import sx.ip.models.TokenRequest;
 import sx.ip.utils.ProxyUtils;
 
@@ -47,6 +49,9 @@ public class FXMLTokenRequestController extends NavController implements Initial
 
     @FXML
     ListView<TokenRequest> listViewRequests;
+
+    @FXML
+    JFXButton btnPlus;
 
     /**
      * The main anchor pane instance.
@@ -65,6 +70,10 @@ public class FXMLTokenRequestController extends NavController implements Initial
     public void initialize(URL url, ResourceBundle rb) {
         this.listViewRequests.setItems(this.trObservableList);
         this.listViewRequests.setCellFactory((ListView<TokenRequest> tokenRequestListView) -> new FXMLTokenRequestListViewCellController());
+        AnchorPane.setBottomAnchor(this.listViewRequests, 0.0);
+        AnchorPane.setTopAnchor(this.listViewRequests, 0.0);
+        AnchorPane.setLeftAnchor(this.listViewRequests, 0.0);
+        AnchorPane.setRightAnchor(this.listViewRequests, 0.0);
         try {
             this.retrieveTokenRequests();
         } catch (IOException ex) {
@@ -123,47 +132,15 @@ public class FXMLTokenRequestController extends NavController implements Initial
 //        loader.setControllerFactory(new HostServicesControllerFactory(app.getHostServices()));
 //        NavControllerHandle.navigateTo(loader, stage, app);
     }
+    
+    @FXML
+    private void newRequestAction(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(IPSXDesktopClient.class.getResource("resources/fxml/FXMLTokenRequestCreation.fxml"), ProxyUtils.getBundle());
+        loader.setControllerFactory(new HostServicesControllerFactory(app.getHostServices()));
+        NavControllerHandle.navigateTo(loader, stage, app);
+    }
 
-    /**
-     * Method resposible for handling the go back action.
-     *
-     * @param event An Event representing that the button has been fired.
-     */
-//    @FXML
-//    private void submitTokenRequestAction(ActionEvent event) throws IOException {
-//        ETHWallet selectedWallet = (ETHWallet) comboWallet.getValue();
-//        Task task = new Task<Boolean>() {
-//            @Override
-//            protected Boolean call() throws Exception {
-//                UserApi api = new UserApiImpl();
-//                return api.tokenRequest(selectedWallet, txtAmount.getText());
-//            }
-//        };
-//        task.setOnSucceeded((Event ev) -> {
-//            mainAnchorPane.setDisable(false);
-//            progressBar.setVisible(false);
-//        });
-//        task.setOnFailed((Event ev) -> {
-//            Logger.getLogger(FXMLLoginEmailController.class.getName()).log(Level.SEVERE, null, task.getException());
-//            ProxyUtils.createExceptionAlert(bundle.getString("key.main.alert.error.request.token.title"), null, task.getException().getMessage(), bundle.getString("key.main.dialog.exception.stack.text"), task.getException(), null);
-//            LOGGER.error(task.getException().getMessage(), task.getException());
-//            mainAnchorPane.setDisable(false);
-//            progressBar.setVisible(false);
-//
-//        });
-//        Thread thread = new Thread(task);
-//        thread.setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
-//            @Override
-//            public void uncaughtException(Thread t, Throwable e) {
-//                Logger.getLogger(FXMLLoginEmailController.class.getName()).log(Level.SEVERE, null, e);
-//                ProxyUtils.createExceptionAlert(bundle.getString("key.main.alert.error.title"), null, e.getMessage(), bundle.getString("key.main.dialog.exception.stack.text"), e, null);
-//            }
-//        });
-//        progressBar.setVisible(true);
-//        mainAnchorPane.setDisable(true);
-//        thread.start();
-//
-//    }
+
     /**
      * Method resposible for handling the close action.
      *

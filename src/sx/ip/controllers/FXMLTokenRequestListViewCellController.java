@@ -35,14 +35,20 @@ public class FXMLTokenRequestListViewCellController extends ListCell<TokenReques
     static org.slf4j.Logger LOGGER = LoggerFactory.getLogger(FXMLTokenRequestListViewCellController.class);
 
     @FXML
-    private Label label1;
+    private Label lblAmount;
 
     @FXML
-    private Label label2;
+    private Label lblStatus;
+
+    @FXML
+    private Label lblDate;
+
+    @FXML
+    private Label lblAddr;
 
     @FXML
     private AnchorPane anchorPane;
-    
+
     private FXMLLoader loader;
 
     @Override
@@ -65,10 +71,10 @@ public class FXMLTokenRequestListViewCellController extends ListCell<TokenReques
 
             }
 
-            label1.setText(item.getStatus());
-            label2.setText(item.getAmount_requested());
-
-    
+            lblStatus.setText(item.getStatus());
+            lblAmount.setText(item.getAmount_requested());
+            lblAddr.setText(item.getAddress());
+            lblDate.setText(item.getCreated_at());
 
             setText(null);
             setGraphic(anchorPane);

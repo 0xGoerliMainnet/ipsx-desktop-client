@@ -289,7 +289,7 @@ public class UserApiImpl implements UserApi {
 
             Gson g = new Gson();
             tokenRequestArray = g.fromJson(response.getBody().toString(), type);
-
+            //TODO: retrieve usereth wallet by usereth id to populate wallet address
             return tokenRequestArray;
 
         } catch (UnirestException | JsonSyntaxException e) {
