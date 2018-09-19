@@ -140,7 +140,7 @@ public class FXMLLoginEmailController extends NavController implements Initializ
             try {
                 if ((Boolean) task.getValue()) {
                     //User goes to dashboard
-                    FXMLLoader loader = new FXMLLoader(IPSXDesktopClient.class.getResource("resources/fxml/FXMLTokenRequestCreation.fxml"), ProxyUtils.getBundle());
+                    FXMLLoader loader = new FXMLLoader(IPSXDesktopClient.class.getResource("resources/fxml/FXMLTokenRequest.fxml"), ProxyUtils.getBundle());
                     loader.setControllerFactory(new HostServicesControllerFactory(app.getHostServices()));
                     NavControllerHandle.navigateTo(loader, stage, app);
                 } else {

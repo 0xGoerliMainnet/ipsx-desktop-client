@@ -22,7 +22,6 @@ limitations under the License.
 <?import javafx.geometry.Insets?>
 <?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.Cursor?>
-<?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -55,20 +54,20 @@ limitations under the License.
                     </BorderPane.margin>
                 </ImageView>
             </center>
-            <left>
-                <Hyperlink fx:id="btnBack" BorderPane.alignment="CENTER">
-                    <graphic>
+         <left>
+            <JFXButton fx:id="btnBack" onAction="#goBackAction" BorderPane.alignment="CENTER">
+               <graphic>
                         <MaterialIconView glyphName="ARROW_BACK" size="25">
                             <cursor>
                                 <Cursor fx:constant="HAND" />
                             </cursor>
                         </MaterialIconView>
-                    </graphic>
-                    <padding>
-                        <Insets left="10.0" />
-                    </padding>
-                </Hyperlink>
-            </left>
+               </graphic>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+            </JFXButton>
+         </left>
         </BorderPane>
         <JFXButton fx:id="btnClose" contentDisplay="CENTER" focusTraversable="false" layoutX="353.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleCloseAction" prefHeight="32.0" prefWidth="32.0" text=" " textAlignment="CENTER" textFill="#a4a4a4" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <graphic>
