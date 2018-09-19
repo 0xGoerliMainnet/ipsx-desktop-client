@@ -269,6 +269,32 @@ public class UserApiImpl implements UserApi {
             throw e;
         }
     }
+    
+
+    
+    private ETHWallet retrieveUserETHWalletID(Integer walletID) throws UnirestException, JsonSyntaxException {
+
+        Type type = new TypeToken<ETHWallet>() {
+        }.getType();
+        ETHWallet wallet;
+        try {
+            HttpResponse<JsonNode> response = Unirest.get(UserApi.userApiUrl + "/{id}/eths/{fk}")
+                    .header("Content-Type", "application/json")
+                    .header("accept", "application/json")
+                    .queryString("access_token", NavController.accessToken)
+                    .routeParam("id", NavController.userId.toString())
+                    .routeParam("fk", walletID.toString())
+                    .asJson();
+
+            Gson g = new Gson();
+            wallet = g.fromJson(response.getBody().toString(), type);
+
+            return wallet;
+
+        } catch (UnirestException | JsonSyntaxException e) {
+            throw e;
+        }
+    }
 
     /**
      * {@inheritDoc}
@@ -279,6 +305,7 @@ public class UserApiImpl implements UserApi {
         Type type = new TypeToken<List<TokenRequest>>() {
         }.getType();
         ArrayList<TokenRequest> tokenRequestArray = new ArrayList<>();
+        ArrayList<TokenRequest> tokenRequestArrayWithWalletID = new ArrayList<>();
         try {
             HttpResponse<JsonNode> response = Unirest.get(UserApi.userApiUrl + "/{id}/token_requests")
                     .header("Content-Type", "application/json")
@@ -290,7 +317,12 @@ public class UserApiImpl implements UserApi {
             Gson g = new Gson();
             tokenRequestArray = g.fromJson(response.getBody().toString(), type);
             //TODO: retrieve usereth wallet by usereth id to populate wallet address
-            return tokenRequestArray;
+            for (TokenRequest tokenRequest : tokenRequestArray) {
+                ETHWallet wallet = this.retrieveUserETHWalletID(tokenRequest.getUsereth_id());
+                tokenRequest.setAddress(wallet.getAddress());
+                tokenRequestArrayWithWalletID.add(tokenRequest);
+            }
+            return tokenRequestArrayWithWalletID;
 
         } catch (UnirestException | JsonSyntaxException e) {
             throw e;

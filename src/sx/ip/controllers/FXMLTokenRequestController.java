@@ -99,10 +99,12 @@ public class FXMLTokenRequestController extends NavController implements Initial
             }
         };
         task.setOnSucceeded((Event ev) -> {
+            btnPlus.setDisable(false);
             this.trObservableList.addAll((ArrayList<TokenRequest>) task.getValue());
             progressBar.setVisible(false);
         });
         task.setOnFailed((Event ev) -> {
+            btnPlus.setDisable(false);
             Logger.getLogger(FXMLLoginEmailController.class.getName()).log(Level.SEVERE, null, task.getException());
             ProxyUtils.createExceptionAlert(bundle.getString("key.main.alert.error.auth.title"), null, task.getException().getMessage(), bundle.getString("key.main.dialog.exception.stack.text"), task.getException(), null);
             LOGGER.error(task.getException().getMessage(), task.getException());
@@ -117,7 +119,7 @@ public class FXMLTokenRequestController extends NavController implements Initial
             }
         });
         progressBar.setVisible(true);
-        thread.run();
+        thread.start();
 
     }
 

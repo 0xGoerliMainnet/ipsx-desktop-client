@@ -28,12 +28,16 @@ import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.AnchorPane;
 import org.slf4j.LoggerFactory;
+import sx.ip.IPSXDesktopClient;
 import sx.ip.api.UserApi;
 import sx.ip.api.UserApiImpl;
+import sx.ip.factories.HostServicesControllerFactory;
 import sx.ip.models.ETHWallet;
 import sx.ip.utils.BlankSpacesValidator;
 import sx.ip.utils.ProxyUtils;
@@ -56,6 +60,12 @@ public class FXMLTokenRequestCreationController extends NavController implements
      */
     @FXML
     JFXButton btnSubmit;
+
+    /**
+     * The back button instance.
+     */
+    @FXML
+    JFXButton btnBack;
 
     /**
      * The main anchor pane instance.
@@ -153,9 +163,9 @@ public class FXMLTokenRequestCreationController extends NavController implements
      */
     @FXML
     private void goBackAction(ActionEvent event) throws IOException {
-//        FXMLLoader loader = new FXMLLoader(IPSXDesktopClient.class.getResource("resources/fxml/FXMLLandingPage.fxml"), ProxyUtils.getBundle());
-//        loader.setControllerFactory(new HostServicesControllerFactory(app.getHostServices()));
-//        NavControllerHandle.navigateTo(loader, stage, app);
+        FXMLLoader loader = new FXMLLoader(IPSXDesktopClient.class.getResource("resources/fxml/FXMLTokenRequest.fxml"), ProxyUtils.getBundle());
+        loader.setControllerFactory(new HostServicesControllerFactory(app.getHostServices()));
+        NavControllerHandle.navigateTo(loader, stage, app);
     }
 
     /**
@@ -176,6 +186,7 @@ public class FXMLTokenRequestCreationController extends NavController implements
         task.setOnSucceeded((Event ev) -> {
             mainAnchorPane.setDisable(false);
             progressBar.setVisible(false);
+            ProxyUtils.createAndShowAlert(Alert.AlertType.INFORMATION, bundle.getString("key.main.alert.info.title"), bundle.getString("key.main.alert.tokenrequest.success"), "Amount Requested: " + txtAmount.getText(), null);
         });
         task.setOnFailed((Event ev) -> {
             Logger.getLogger(FXMLLoginEmailController.class.getName()).log(Level.SEVERE, null, task.getException());

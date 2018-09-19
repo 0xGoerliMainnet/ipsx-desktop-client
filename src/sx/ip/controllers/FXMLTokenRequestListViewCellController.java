@@ -14,6 +14,9 @@
 package sx.ip.controllers;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.Locale;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -70,11 +73,15 @@ public class FXMLTokenRequestListViewCellController extends ListCell<TokenReques
                 }
 
             }
+            
+            Locale locale = new Locale("en", "US");
+            DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.DEFAULT, locale);
+            String date = dateFormat.format(item.getCreated_at());
 
             lblStatus.setText(item.getStatus());
             lblAmount.setText(item.getAmount_requested());
             lblAddr.setText(item.getAddress());
-            lblDate.setText(item.getCreated_at());
+            lblDate.setText(date);
 
             setText(null);
             setGraphic(anchorPane);

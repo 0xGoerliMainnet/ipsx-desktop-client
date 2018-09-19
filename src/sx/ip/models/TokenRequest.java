@@ -13,6 +13,8 @@
  */
 package sx.ip.models;
 
+import java.util.Date;
+
 
 
 
@@ -31,7 +33,7 @@ public class TokenRequest {
     private String tx_id;
     private String amount_requested;
     private String amount_received;
-    private String created_at;
+    private Date created_at;
     private Integer id;
     private String status;
     private String network;
@@ -69,7 +71,7 @@ public class TokenRequest {
     *            The wallet network
     */
 
-    public TokenRequest(String address, String updated_at, Integer user_id, Integer usereth_id, Integer verified, String alias, String response, String tx_id, String amount_requested, String amount_received, String created_at, Integer id, String status, String network) {
+    public TokenRequest(String address, String updated_at, Integer user_id, Integer usereth_id, Integer verified, String alias, String response, String tx_id, String amount_requested, String amount_received, Date created_at, Integer id, String status, String network) {
         this.address = address;
         this.updated_at = updated_at;
         this.user_id = user_id;
@@ -126,11 +128,11 @@ public class TokenRequest {
         this.alias = alias;
     }
 
-    public String getCreated_at() {
+    public Date getCreated_at() {
         return created_at;
     }
 
-    public void setCreated_at(String created_at) {
+    public void setCreated_at(Date created_at) {
         this.created_at = created_at;
     }
 
