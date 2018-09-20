@@ -139,7 +139,7 @@ public class FXMLLandingPageController extends NavController implements Initiali
             try {
                 if ((Boolean) task.getValue()) {
                     //User goes to dashboard
-                    FXMLLoader loader = new FXMLLoader(IPSXDesktopClient.class.getResource("resources/fxml/FXMLManualProxy.fxml"), ProxyUtils.getBundle());
+                    FXMLLoader loader = new FXMLLoader(IPSXDesktopClient.class.getResource("resources/fxml/FXMLProxyDetails.fxml"), ProxyUtils.getBundle());
                     loader.setControllerFactory(new HostServicesControllerFactory(app.getHostServices()));
                     NavControllerHandle.navigateTo(loader, stage, app);
                 } else {

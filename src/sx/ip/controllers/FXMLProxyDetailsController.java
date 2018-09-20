@@ -13,9 +13,14 @@
  */
 package sx.ip.controllers;
 
+import com.jfoenix.controls.JFXButton;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -24,15 +29,57 @@ import org.slf4j.LoggerFactory;
 public class FXMLProxyDetailsController extends NavController implements Initializable {
 
     static org.slf4j.Logger LOGGER = LoggerFactory.getLogger(FXMLProxyDetailsController.class);
-    
 
+    @FXML
+    private Label lblPAC;
+
+    @FXML
+    private Label lblIP;
+
+    @FXML
+    private Label lblUserIP;
+
+    @FXML
+    private Label lblStartDate;
+
+    @FXML
+    private Label lblEndDate;
+
+    @FXML
+    private Label lblStartTime;
+
+    @FXML
+    private Label lblEndTime;
+
+    @FXML
+    private Label lblCountry;
+
+    @FXML
+    private Label lblPort;
+
+    @FXML
+    private Label progressBand;
+
+    @FXML
+    private Label progressTime;
+
+    @FXML
+    private JFXButton btnCopy;
 
     /**
      * {@inheritDoc}
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        
+    }
+    
+    @FXML
+    private void toClipboardAction() {
+        final Clipboard clipboard = Clipboard.getSystemClipboard();
+        final ClipboardContent content = new ClipboardContent();
+        content.putString(lblPAC.getText());
+        clipboard.setContent(content);
     }
 
 }

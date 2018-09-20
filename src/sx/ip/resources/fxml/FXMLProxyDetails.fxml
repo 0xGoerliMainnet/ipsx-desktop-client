@@ -84,14 +84,14 @@ limitations under the License.
       </AnchorPane>
       <AnchorPane layoutX="10.0" layoutY="121.0" maxHeight="80.0" minHeight="80.0" prefHeight="80.0" prefWidth="419.0" style="-fx-background-color: #ffffff;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <JFXProgressBar layoutX="29.0" layoutY="36.0" prefHeight="0.0" prefWidth="353.0" progress="0.56" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="27.0" />
+            <JFXProgressBar fx:id="progressTime" layoutX="29.0" layoutY="36.0" prefHeight="0.0" prefWidth="353.0" progress="0.56" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="27.0" />
             <Label layoutX="384.0" layoutY="15.0" prefHeight="16.0" text="10/20 MB" AnchorPane.rightAnchor="27.0" />
             <Label layoutX="48.0" layoutY="13.0" text="Silver Pack" textFill="#707070" AnchorPane.leftAnchor="27.0" AnchorPane.topAnchor="10.0">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Label>
-            <JFXProgressBar layoutX="29.0" layoutY="31.0" prefHeight="3.0" prefWidth="353.0" progress="0.29" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="27.0" />
+            <JFXProgressBar fx:id="progressBand" layoutX="29.0" layoutY="31.0" prefHeight="3.0" prefWidth="353.0" progress="0.29" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="27.0" />
             <Label layoutX="336.0" layoutY="37.0" prefHeight="16.0" text="20 min" AnchorPane.rightAnchor="27.0" />
          </children>
       </AnchorPane>
@@ -109,24 +109,25 @@ limitations under the License.
             </AnchorPane>
             <AnchorPane layoutY="45.0" maxHeight="32.0" minHeight="32.0" prefHeight="32.0" prefWidth="419.0" style="-fx-background-color: white;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <children>
-                  <Label alignment="CENTER_RIGHT" layoutY="7.0" prefHeight="20.0" prefWidth="38.0" text="Copy" textFill="#2aace0" AnchorPane.bottomAnchor="6.0" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="6.0">
+                  <JFXButton fx:id="btnCopy" alignment="CENTER_RIGHT" onAction="#toClipboardAction" prefHeight="25.0" prefWidth="45.0" ripplerFill="#2aace0" text="Copy" textFill="#2aace0" AnchorPane.bottomAnchor="1.0" AnchorPane.rightAnchor="19.0" AnchorPane.topAnchor="6.0">
                      <font>
                         <Font size="10.0" />
-                     </font></Label>
+                     </font>
+                  </JFXButton>
                   <Label text="Pac Link" AnchorPane.leftAnchor="27.0" AnchorPane.topAnchor="0.0" />
-                  <Label layoutX="48.0" layoutY="13.0" text="12313123123.pac" textFill="#707070" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="27.0" />
+                  <Label fx:id="lblPAC" layoutX="48.0" layoutY="13.0" text="12313123123.pac" textFill="#707070" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="27.0" />
                </children>
             </AnchorPane>
             <AnchorPane layoutX="236.0" layoutY="90.0" maxHeight="32.0" minHeight="32.0" prefHeight="32.0" prefWidth="235.0" style="-fx-background-color: #ffffff;" AnchorPane.rightAnchor="0.0">
                <children>
                   <Label text="Port" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="0.0" />
-                  <Label layoutX="48.0" layoutY="13.0" text="532" textFill="#707070" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="27.0" />
+                  <Label fx:id="lblPort" layoutX="48.0" layoutY="13.0" text="532" textFill="#707070" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="27.0" />
                </children>
             </AnchorPane>
             <AnchorPane layoutY="90.0" maxHeight="32.0" minHeight="32.0" prefHeight="32.0" prefWidth="235.0" style="-fx-background-color: #ffffff;" AnchorPane.leftAnchor="0.0">
                <children>
                   <Label text="IP" AnchorPane.leftAnchor="27.0" AnchorPane.topAnchor="0.0" />
-                  <Label layoutX="48.0" layoutY="13.0" text="192.100.5.99" textFill="#707070" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="27.0" />
+                  <Label fx:id="lblIP" layoutX="48.0" layoutY="13.0" text="192.100.5.99" textFill="#707070" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="27.0" />
                </children>
             </AnchorPane>
          </children>
@@ -144,28 +145,28 @@ limitations under the License.
             </AnchorPane>
             <AnchorPane layoutX="236.0" layoutY="45.0" maxHeight="32.0" minHeight="32.0" prefHeight="32.0" prefWidth="235.0" style="-fx-background-color: #ffffff;" AnchorPane.rightAnchor="0.0">
                <children>
-                  <Label text="13:00" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="5.0" />
-                  <Label text="20 Apr 2018" AnchorPane.leftAnchor="27.0" AnchorPane.topAnchor="0.0" />
-                  <Label layoutX="48.0" layoutY="13.0" text="End Date" textFill="#707070" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="27.0" />
+                  <Label fx:id="lblEndTime" text="13:00" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="5.0" />
+                  <Label text="End Date" AnchorPane.leftAnchor="27.0" AnchorPane.topAnchor="0.0" />
+                  <Label fx:id="lblEndDate" layoutX="48.0" layoutY="13.0" text="20 Apr 2018" textFill="#707070" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="27.0" />
                </children>
             </AnchorPane>
             <AnchorPane layoutY="45.0" maxHeight="32.0" minHeight="32.0" prefHeight="32.0" prefWidth="235.0" style="-fx-background-color: white;" AnchorPane.leftAnchor="0.0">
                <children>
-                  <Label text="12:00" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="5.0" />
-                  <Label text="20 Apr 2018" AnchorPane.leftAnchor="27.0" AnchorPane.topAnchor="0.0" />
-                  <Label layoutX="48.0" layoutY="13.0" text="Start Date" textFill="#707070" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="27.0" />
+                  <Label fx:id="lblStartTime" text="12:00" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="5.0" />
+                  <Label text="Start Date" AnchorPane.leftAnchor="27.0" AnchorPane.topAnchor="0.0" />
+                  <Label fx:id="lblStartDate" layoutX="48.0" layoutY="13.0" text="20 Apr 2018" textFill="#707070" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="27.0" />
                </children>
             </AnchorPane>
             <AnchorPane layoutX="236.0" layoutY="90.0" maxHeight="75.0" minHeight="32.0" prefHeight="32.0" prefWidth="235.0" style="-fx-background-color: #ffffff;" AnchorPane.rightAnchor="0.0">
                <children>
                   <Label text="User IP" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="0.0" />
-                  <Label layoutX="48.0" layoutY="13.0" text="192.32.50.101" textFill="#707070" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="27.0" />
+                  <Label fx:id="lblUserIP" layoutX="48.0" layoutY="13.0" text="192.32.50.101" textFill="#707070" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="27.0" />
                </children>
             </AnchorPane>
             <AnchorPane layoutY="90.0" maxHeight="75.0" minHeight="32.0" prefHeight="32.0" prefWidth="235.0" style="-fx-background-color: #ffffff;" AnchorPane.leftAnchor="0.0">
                <children>
                   <Label text="Country" AnchorPane.leftAnchor="27.0" AnchorPane.topAnchor="0.0" />
-                  <Label layoutX="48.0" layoutY="13.0" text="Brazil" textFill="#707070" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="27.0" />
+                  <Label fx:id="lblCountry" layoutX="48.0" layoutY="13.0" text="Brazil" textFill="#707070" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="27.0" />
                </children>
             </AnchorPane>
          </children>
