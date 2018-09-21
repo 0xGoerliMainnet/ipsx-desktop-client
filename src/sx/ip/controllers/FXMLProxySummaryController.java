@@ -13,12 +13,25 @@
  */
 package sx.ip.controllers;
 
-import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
+import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.concurrent.Task;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ProgressBar;
 import org.slf4j.LoggerFactory;
+import sx.ip.api.CountryApi;
+import sx.ip.api.CountryApiImpl;
+import static sx.ip.controllers.NavController.bundle;
+import sx.ip.models.Country;
+import sx.ip.utils.ProxyUtils;
 
 /**
  * Login with email screen controller
@@ -28,16 +41,10 @@ public class FXMLProxySummaryController extends NavController implements Initial
     static org.slf4j.Logger LOGGER = LoggerFactory.getLogger(FXMLProxySummaryController.class);
     
     @FXML
-    JFXButton btnSilver;
+    JFXComboBox comboCountry;
 
     @FXML
-    JFXButton btnGold;
-
-    @FXML
-    JFXButton btnPlatinum;
-
-    @FXML
-    JFXButton btnDiamond;
+    ProgressBar progressBar;
 
 
 
@@ -46,7 +53,46 @@ public class FXMLProxySummaryController extends NavController implements Initial
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        try {
+            this.loadCountryCombo();
+        } catch (IOException ex) {
+            Logger.getLogger(FXMLProxySummaryController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    /**
+     * Method resposible for loading the country combobox.
+     *
+     */
+    private void loadCountryCombo() throws IOException {
+        Task task = new Task<List<Country>>() {
+            @Override
+            protected List<Country> call() throws Exception {
+                CountryApi api = new CountryApiImpl();
+                    return api.retrieveCountries();
+            }
+        };
+        task.setOnSucceeded((Event ev) -> {
+            ArrayList<Country> countryArray = (ArrayList<Country>) task.getValue();
+            this.comboCountry.getItems().addAll(countryArray);
+            this.comboCountry.setDisable(false);
+            progressBar.setVisible(false);
+        });
+        task.setOnFailed((Event ev) -> {
+            Logger.getLogger(FXMLLoginEmailController.class.getName()).log(Level.SEVERE, null, task.getException());
+            ProxyUtils.createExceptionAlert(bundle.getString("key.main.alert.error.auth.title"), null, task.getException().getMessage(), bundle.getString("key.main.dialog.exception.stack.text"), task.getException(), null);
+            LOGGER.error(task.getException().getMessage(), task.getException());
+
+        });
+        Thread thread = new Thread(task);
+        thread.setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+            @Override
+            public void uncaughtException(Thread t, Throwable e) {
+                Logger.getLogger(FXMLLoginEmailController.class.getName()).log(Level.SEVERE, null, e);
+                ProxyUtils.createExceptionAlert(bundle.getString("key.main.alert.error.title"), null, e.getMessage(), bundle.getString("key.main.dialog.exception.stack.text"), e, null);
+            }
+        });
+        progressBar.setVisible(true);
+        thread.run();
 
     }
-
 }

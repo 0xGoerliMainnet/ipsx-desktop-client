@@ -85,7 +85,6 @@ public class FXMLTokenRequestCreationController extends NavController implements
     @FXML
     ProgressBar progressBar;
 
-    private ArrayList<ETHWallet> walletArray;
 
     /**
      * {@inheritDoc}
@@ -132,7 +131,7 @@ public class FXMLTokenRequestCreationController extends NavController implements
             }
         };
         task.setOnSucceeded((Event ev) -> {
-            this.walletArray = (ArrayList<ETHWallet>) task.getValue();
+            ArrayList<ETHWallet> walletArray = (ArrayList<ETHWallet>) task.getValue();
             this.comboWallet.getItems().addAll(walletArray);
             this.comboWallet.setDisable(false);
             progressBar.setVisible(false);

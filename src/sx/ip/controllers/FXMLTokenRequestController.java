@@ -83,7 +83,7 @@ public class FXMLTokenRequestController extends NavController implements Initial
     }
 
     /**
-     * Method resposible for loading the wallet's combobox.
+     * Method resposible for loading the token requests.
      *
      */
     private void retrieveTokenRequests() throws IOException {
