@@ -30,6 +30,7 @@ import org.json.JSONObject;
 import sx.ip.controllers.NavController;
 import sx.ip.models.ETHWallet;
 import sx.ip.models.TokenRequest;
+import sx.ip.models.User;
 import sx.ip.utils.CredentialType;
 import sx.ip.utils.ProxyUtils;
 import sx.ip.utils.SecurityHandle;
@@ -328,7 +329,10 @@ public class UserApiImpl implements UserApi {
             throw e;
         }
     }
-
+    
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean tokenRequest(ETHWallet userWallet, String amountRequested) throws UnirestException, JsonSyntaxException, Exception {
         JSONObject body = new JSONObject();
@@ -350,4 +354,34 @@ public class UserApiImpl implements UserApi {
         }
 
     }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String retrieveUserBalance() throws UnirestException, JsonSyntaxException {
+
+        Type type = new TypeToken<User>() {
+        }.getType();
+        User user;
+        try {
+            HttpResponse<JsonNode> response = Unirest.get(UserApi.userApiUrl + "/{id}")
+                    .header("Content-Type", "application/json")
+                    .header("accept", "application/json")
+                    .queryString("access_token", NavController.accessToken)
+                    .routeParam("id", NavController.userId.toString())
+                    .asJson();
+
+            Gson g = new Gson();
+            user = g.fromJson(response.getBody().toString(), type);
+            //TODO: retrieve usereth wallet by usereth id to populate wallet address
+
+            return user.getBallance();
+
+        } catch (UnirestException | JsonSyntaxException e) {
+            throw e;
+        }
+    }
+
+    
 }
