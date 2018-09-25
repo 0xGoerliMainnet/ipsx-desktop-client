@@ -14,21 +14,32 @@
 package sx.ip.controllers;
 
 import com.jfoenix.controls.JFXProgressBar;
+import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
 import org.slf4j.LoggerFactory;
+import sx.ip.api.PackageApi;
+import sx.ip.api.PackageApiImpl;
 import sx.ip.api.UserApi;
 import sx.ip.api.UserApiImpl;
 import static sx.ip.controllers.NavController.bundle;
+import sx.ip.models.ProxyPackage;
 import sx.ip.utils.ProxyUtils;
 
 /**
@@ -46,12 +57,35 @@ public class FXMLNewProxyController extends NavController implements Initializab
 
     @FXML
     JFXProgressBar progressBar;
+    
+    @FXML
+    ListView<ProxyPackage> listViewPackages;
+    
+    private ObservableList<ProxyPackage> packageObservableList = FXCollections.observableArrayList();
+
 
     /**
      * {@inheritDoc}
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        this.listViewPackages.setItems(this.packageObservableList);
+        this.listViewPackages.setCellFactory((ListView<ProxyPackage> tokenRequestListView) -> new FXMLPackageListViewCellController());
+        this.listViewPackages.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<ProxyPackage>() {
+            @Override
+            public void changed(ObservableValue<? extends ProxyPackage> observable, ProxyPackage oldValue, ProxyPackage newValue) {
+                System.out.println(newValue.getCost());
+            }
+        });
+        AnchorPane.setBottomAnchor(this.listViewPackages, 0.0);
+        AnchorPane.setTopAnchor(this.listViewPackages, 0.0);
+        AnchorPane.setLeftAnchor(this.listViewPackages, 0.0);
+        AnchorPane.setRightAnchor(this.listViewPackages, 0.0);
+        try {
+            this.retrievePackages();
+        } catch (IOException ex) {
+            Logger.getLogger(FXMLNewProxyController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.retrieveUserBalance();
     }
 
@@ -89,6 +123,45 @@ public class FXMLNewProxyController extends NavController implements Initializab
         this.progressBar.setVisible(true);
         thread.start();
     }
+    
+     /**
+     * Method resposible for loading the packages.
+     *
+     */
+    private void retrievePackages() throws IOException {
+        Task task = new Task<List<ProxyPackage>>() {
+            @Override
+            protected List<ProxyPackage> call() throws Exception {
+                PackageApi api = new PackageApiImpl();
+                    return api.retrievePackages();
+            }
+        };
+        task.setOnSucceeded((Event ev) -> {
+            this.packageObservableList.addAll((ArrayList<ProxyPackage>) task.getValue());
+            progressBar.setVisible(false);
+        });
+        task.setOnFailed((Event ev) -> {
+            Logger.getLogger(FXMLLoginEmailController.class.getName()).log(Level.SEVERE, null, task.getException());
+            ProxyUtils.createExceptionAlert(bundle.getString("key.main.alert.error.auth.title"), null, task.getException().getMessage(), bundle.getString("key.main.dialog.exception.stack.text"), task.getException(), null);
+            LOGGER.error(task.getException().getMessage(), task.getException());
+
+        });
+        Thread thread = new Thread(task);
+        thread.setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+            @Override
+            public void uncaughtException(Thread t, Throwable e) {
+                Logger.getLogger(FXMLLoginEmailController.class.getName()).log(Level.SEVERE, null, e);
+                ProxyUtils.createExceptionAlert(bundle.getString("key.main.alert.error.title"), null, e.getMessage(), bundle.getString("key.main.dialog.exception.stack.text"), e, null);
+            }
+        });
+        mainAnchorPane.setDisable(true);
+        progressBar.setVisible(true);
+        thread.start();
+
+    }
+    
+    
+    
 
     /**
      * Method resposible for handle with the close action.
