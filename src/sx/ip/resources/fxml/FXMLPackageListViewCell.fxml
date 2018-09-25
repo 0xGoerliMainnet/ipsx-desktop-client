@@ -14,7 +14,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
@@ -44,6 +43,5 @@ limitations under the License.
             <Font name="System Bold" size="13.0" />
          </font>
       </Label>
-      <JFXButton fx:id="btnChoose" layoutX="11.0" layoutY="12.0" prefHeight="93.0" prefWidth="419.0" ripplerFill="#2aace0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="1.0" />
    </children>
 </AnchorPane>

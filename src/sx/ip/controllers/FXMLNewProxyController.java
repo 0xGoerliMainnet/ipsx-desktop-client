@@ -21,6 +21,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -69,6 +71,12 @@ public class FXMLNewProxyController extends NavController implements Initializab
     public void initialize(URL url, ResourceBundle rb) {
         this.listViewPackages.setItems(this.packageObservableList);
         this.listViewPackages.setCellFactory((ListView<ProxyPackage> tokenRequestListView) -> new FXMLPackageListViewCellController());
+        this.listViewPackages.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<ProxyPackage>() {
+            @Override
+            public void changed(ObservableValue<? extends ProxyPackage> observable, ProxyPackage oldValue, ProxyPackage newValue) {
+                System.out.println(newValue.getCost());
+            }
+        });
         AnchorPane.setBottomAnchor(this.listViewPackages, 0.0);
         AnchorPane.setTopAnchor(this.listViewPackages, 0.0);
         AnchorPane.setLeftAnchor(this.listViewPackages, 0.0);
@@ -146,6 +154,7 @@ public class FXMLNewProxyController extends NavController implements Initializab
                 ProxyUtils.createExceptionAlert(bundle.getString("key.main.alert.error.title"), null, e.getMessage(), bundle.getString("key.main.dialog.exception.stack.text"), e, null);
             }
         });
+        mainAnchorPane.setDisable(true);
         progressBar.setVisible(true);
         thread.start();
 
