@@ -79,8 +79,8 @@ public class FXMLPackageListViewCellController extends ListCell<ProxyPackage> {
 
             lblPackName.setText(item.getName());
             lblPrice.setText(item.getCost().toString() + " IPSX");
-            lblTime.setText(item.getDuration().toString());
-            lblUsage.setText(item.getTraffic().toString());
+            lblTime.setText(item.getDuration().toString() + " min");
+            lblUsage.setText(item.getTraffic().toString() + " MB");
 
             setText(null);
             setGraphic(anchorPane);

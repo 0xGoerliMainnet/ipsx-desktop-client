@@ -55,7 +55,7 @@ limitations under the License.
                 </ImageView>
             </center>
             <left>
-                <Hyperlink fx:id="btnBack" BorderPane.alignment="CENTER">
+                <Hyperlink fx:id="btnBack" onAction="#goBackAction" BorderPane.alignment="CENTER">
                     <graphic>
                         <MaterialIconView glyphName="ARROW_BACK" size="25">
                             <cursor>
@@ -83,9 +83,9 @@ limitations under the License.
                 </Label>
             </children>
         </AnchorPane>
-        <AnchorPane fx:id="loginInfoPane" layoutX="2.0" layoutY="169.0" prefHeight="262.0" prefWidth="473.0">
+        <AnchorPane fx:id="loginInfoPane" layoutX="5.0" layoutY="151.0" prefHeight="305.0" prefWidth="473.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="150.0">
          <children>
-            <ListView fx:id="listViewRequests" editable="true" prefHeight="200.0" prefWidth="473.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <ListView fx:id="listViewRequests" editable="true" prefHeight="307.0" prefWidth="473.0" style="-fx-background-color: WHITE;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
          </children>
         </AnchorPane>
         <JFXButton fx:id="btnPlus" defaultButton="true" disable="true" layoutX="134.0" layoutY="386.0" onAction="#newRequestAction" prefHeight="40.0" prefWidth="230.0" ripplerFill="WHITE" style="-fx-background-color: #2aace0;" text="New Request" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="127.0" AnchorPane.rightAnchor="130.0">

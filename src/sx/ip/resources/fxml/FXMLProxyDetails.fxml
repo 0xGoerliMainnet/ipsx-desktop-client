@@ -54,7 +54,7 @@ limitations under the License.
             </ImageView>
          </center>
          <left>
-            <Hyperlink fx:id="btnBack" BorderPane.alignment="CENTER">
+            <Hyperlink fx:id="btnBack" onAction="#goBackAction" BorderPane.alignment="CENTER">
                <graphic>
                   <MaterialIconView glyphName="ARROW_BACK" size="25">
                      <cursor>
@@ -95,7 +95,6 @@ limitations under the License.
             <Label layoutX="336.0" layoutY="37.0" prefHeight="16.0" text="20 min" AnchorPane.rightAnchor="27.0" />
          </children>
       </AnchorPane>
-      <JFXProgressBar fx:id="progressBar" progress="0.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
       <AnchorPane layoutX="2.0" layoutY="188.0" prefHeight="140.0" prefWidth="473.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
             <AnchorPane prefHeight="32.0" prefWidth="471.0" style="-fx-background-color: #6d6d6d20;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
@@ -169,8 +168,21 @@ limitations under the License.
                   <Label fx:id="lblCountry" layoutX="48.0" layoutY="13.0" text="Brazil" textFill="#707070" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="27.0" />
                </children>
             </AnchorPane>
+            <AnchorPane layoutX="88.0" layoutY="150.0" maxHeight="433.0" minHeight="32.0" prefHeight="32.0" prefWidth="473.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <children>
+                  <JFXButton fx:id="btnDone" defaultButton="true" layoutX="109.0" layoutY="-4.0" onAction="#doneAction" prefHeight="40.0" ripplerFill="WHITE" style="-fx-background-color: #2aace0;" text="Done" textAlignment="CENTER" textFill="WHITE" AnchorPane.leftAnchor="120.0" AnchorPane.rightAnchor="120.0">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </JFXButton>
+               </children>
+            </AnchorPane>
          </children>
       </AnchorPane>
+      <JFXProgressBar fx:id="progressBar" progress="0.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
     </children>
    <opaqueInsets>
       <Insets />

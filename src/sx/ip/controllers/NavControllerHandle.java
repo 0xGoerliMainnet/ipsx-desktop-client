@@ -25,6 +25,8 @@ import sx.ip.utils.ProxyUtils;
  */
 public class NavControllerHandle {
     
+    public static Object extra;
+    
     /**
     * Method responsible for the first scene initialization.
     *
@@ -62,4 +64,31 @@ public class NavControllerHandle {
         controller.startScene();
     
     }
+    
+    /**
+    * Method responsible for the navigation between scenes.
+    *
+    * @param loader
+    *          The instance of the current loader.
+    * @param stage
+    *          The instance of the current stage.
+    * @param app
+    *          The instance of the current application.
+    * @param extra
+    *          The instance of the object passed between controllers.
+    * 
+    * @throws IOException
+    */
+    public static void navigateTo(FXMLLoader loader, Stage stage, Application app, Object extra) throws IOException{
+        NavControllerHandle.extra = extra;
+        
+        Parent root = loader.load();
+
+        NavController controller = loader.getController();
+
+        controller.setupController(stage, root, ProxyUtils.getBundle(), app);
+        controller.startScene();
+    
+    }
+    
 }

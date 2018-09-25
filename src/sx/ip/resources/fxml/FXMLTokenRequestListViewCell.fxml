@@ -19,19 +19,22 @@ limitations under the License.
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="anchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="68.0" prefWidth="327.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane id="AnchorPane" fx:id="anchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="68.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
     <opaqueInsets>
         <Insets />
     </opaqueInsets>
    <children>
-      <Label fx:id="lblStatus" text="Label" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="20.0" />
-      <Label fx:id="lblAddr" layoutX="3.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="14.0" prefWidth="88.0" text="Label" AnchorPane.bottomAnchor="34.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="20.0" />
-      <Label fx:id="lblAmount" layoutX="13.0" layoutY="10.0" text="Label" textFill="#707070" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="35.0">
+      <Label fx:id="lblStatus" text="Label" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="20.0" />
+      <Label fx:id="lblAddr" layoutX="3.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="16.0" prefWidth="343.0" text="Label" AnchorPane.bottomAnchor="34.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="20.0">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Label>
+      <Label fx:id="lblAmount" layoutX="13.0" layoutY="10.0" text="Label" textFill="#707070" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="35.0">
          <font>
             <Font size="11.0" />
          </font>
       </Label>
-      <Label fx:id="lblDate" layoutX="23.0" layoutY="20.0" text="Label" textFill="#707070" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="35.0">
+      <Label fx:id="lblDate" layoutX="23.0" layoutY="20.0" text="Label" textFill="#707070" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="35.0">
          <font>
             <Font size="11.0" />
          </font>

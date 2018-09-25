@@ -73,13 +73,13 @@ public class FXMLTokenRequestListViewCellController extends ListCell<TokenReques
                 }
 
             }
-            
+
             Locale locale = new Locale("en", "US");
             DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.DEFAULT, locale);
             String date = dateFormat.format(item.getCreated_at());
 
             lblStatus.setText(item.getStatus());
-            lblAmount.setText(item.getAmount_requested());
+            lblAmount.setText("Requested: " + item.getAmount_requested());
             lblAddr.setText(item.getAddress());
             lblDate.setText(date);
 
