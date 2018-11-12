@@ -363,6 +363,7 @@ Section "Main Application Files" SEC01
   File "..\..\..\dist\lib\json-20140107.jar"
   File "..\..\..\dist\lib\unirest-java-1.4.9.jar"
   File "..\..\..\dist\lib\bcprov-jdk15on-160.jar"
+  File "..\..\..\dist\lib\gson-2.8.5.jar"
 SectionEnd
 
 Section -AdditionalIcons
@@ -406,6 +407,7 @@ Section Uninstall
   Delete "$INSTDIR\lib\httpmime-4.3.6.jar"
   Delete "$INSTDIR\lib\json-20140107.jar"
   Delete "$INSTDIR\lib\bcprov-jdk15on-160.jar"
+  Delete "$INSTDIR\lib\gson-2.8.5.jar"
   Delete "$INSTDIR\lib\unirest-java-1.4.9.jar"
   Delete "$INSTDIR\lib\commons-io-2.6.jar"
   Delete "$INSTDIR\lib\jPowerShell-2.0.jar"

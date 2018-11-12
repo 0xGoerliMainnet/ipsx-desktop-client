@@ -78,7 +78,7 @@ public class FXMLLandingPageController extends NavController implements Initiali
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        System.out.println("New screen initialized...");
+//        System.out.println("New screen initialized...");
     }
 
     /**
