@@ -13,6 +13,7 @@
  */
 package sx.ip.controllers;
 
+import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXProgressBar;
 import java.io.IOException;
 import java.net.URL;
@@ -29,16 +30,19 @@ import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
 import org.slf4j.LoggerFactory;
+import sx.ip.IPSXDesktopClient;
 import sx.ip.api.PackageApi;
 import sx.ip.api.PackageApiImpl;
 import sx.ip.api.UserApi;
 import sx.ip.api.UserApiImpl;
 import static sx.ip.controllers.NavController.bundle;
+import sx.ip.factories.HostServicesControllerFactory;
 import sx.ip.models.ProxyPackage;
 import sx.ip.utils.ProxyUtils;
 
@@ -57,12 +61,11 @@ public class FXMLNewProxyController extends NavController implements Initializab
 
     @FXML
     JFXProgressBar progressBar;
-    
-    @FXML
-    ListView<ProxyPackage> listViewPackages;
-    
-    private ObservableList<ProxyPackage> packageObservableList = FXCollections.observableArrayList();
 
+    @FXML
+    JFXListView<ProxyPackage> listViewPackages;
+
+    private ObservableList<ProxyPackage> packageObservableList = FXCollections.observableArrayList();
 
     /**
      * {@inheritDoc}
@@ -74,7 +77,12 @@ public class FXMLNewProxyController extends NavController implements Initializab
         this.listViewPackages.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<ProxyPackage>() {
             @Override
             public void changed(ObservableValue<? extends ProxyPackage> observable, ProxyPackage oldValue, ProxyPackage newValue) {
-                System.out.println(newValue.getCost());
+                try {
+                    FXMLLoader loader = new FXMLLoader(IPSXDesktopClient.class.getResource("resources/fxml/FXMLProxySummary.fxml"), ProxyUtils.getBundle());
+                    NavControllerHandle.navigateTo(loader, stage, app, newValue);
+                } catch (IOException ex) {
+                    Logger.getLogger(FXMLNewProxyController.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
         AnchorPane.setBottomAnchor(this.listViewPackages, 0.0);
@@ -123,8 +131,8 @@ public class FXMLNewProxyController extends NavController implements Initializab
         this.progressBar.setVisible(true);
         thread.start();
     }
-    
-     /**
+
+    /**
      * Method resposible for loading the packages.
      *
      */
@@ -133,7 +141,7 @@ public class FXMLNewProxyController extends NavController implements Initializab
             @Override
             protected List<ProxyPackage> call() throws Exception {
                 PackageApi api = new PackageApiImpl();
-                    return api.retrievePackages();
+                return api.retrievePackages();
             }
         };
         task.setOnSucceeded((Event ev) -> {
@@ -159,9 +167,6 @@ public class FXMLNewProxyController extends NavController implements Initializab
         thread.start();
 
     }
-    
-    
-    
 
     /**
      * Method resposible for handle with the close action.
@@ -171,6 +176,17 @@ public class FXMLNewProxyController extends NavController implements Initializab
     @FXML
     private void handleCloseAction(ActionEvent event) {
         stage.close();
+    }
+    
+    /**
+     * Method resposible for handling the go back action.
+     *
+     * @param event An Event representing that the button has been fired.
+     */
+    @FXML
+    private void goBackAction(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(IPSXDesktopClient.class.getResource("resources/fxml/FXMLDashboard.fxml"), ProxyUtils.getBundle());
+        NavControllerHandle.navigateTo(loader, stage, app);
     }
 
 }

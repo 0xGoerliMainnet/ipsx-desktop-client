@@ -173,6 +173,7 @@ public class FXMLLoginEmailController extends NavController implements Initializ
         this.progressBar.setVisible(true);
         this.progressBar.progressProperty().bind(task.progressProperty());
         thread.start();
+        
 
     }
 

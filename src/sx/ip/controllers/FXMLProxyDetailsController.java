@@ -14,14 +14,21 @@
 package sx.ip.controllers;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXProgressBar;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import org.slf4j.LoggerFactory;
+import sx.ip.IPSXDesktopClient;
+import sx.ip.factories.HostServicesControllerFactory;
+import sx.ip.utils.ProxyUtils;
 
 /**
  * Login with email screen controller
@@ -58,10 +65,13 @@ public class FXMLProxyDetailsController extends NavController implements Initial
     private Label lblPort;
 
     @FXML
-    private Label progressBand;
+    private JFXProgressBar progressBand;
 
     @FXML
-    private Label progressTime;
+    private JFXProgressBar progressTime;
+
+    @FXML
+    private JFXProgressBar progressBar;
 
     @FXML
     private JFXButton btnCopy;
@@ -71,15 +81,32 @@ public class FXMLProxyDetailsController extends NavController implements Initial
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+
     }
-    
+
     @FXML
     private void toClipboardAction() {
         final Clipboard clipboard = Clipboard.getSystemClipboard();
         final ClipboardContent content = new ClipboardContent();
         content.putString(lblPAC.getText());
         clipboard.setContent(content);
+    }
+
+    @FXML
+    private void doneAction() throws IOException {
+        FXMLLoader loader = new FXMLLoader(IPSXDesktopClient.class.getResource("resources/fxml/FXMLDashboard.fxml"), ProxyUtils.getBundle());
+        NavControllerHandle.navigateTo(loader, stage, app);
+    }
+
+    /**
+     * Method resposible for handling the go back action.
+     *
+     * @param event An Event representing that the button has been fired.
+     */
+    @FXML
+    private void goBackAction(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(IPSXDesktopClient.class.getResource("resources/fxml/FXMLDashboard.fxml"), ProxyUtils.getBundle());
+        NavControllerHandle.navigateTo(loader, stage, app);
     }
 
 }

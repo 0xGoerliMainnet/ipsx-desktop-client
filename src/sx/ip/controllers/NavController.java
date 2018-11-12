@@ -15,6 +15,8 @@ package sx.ip.controllers;
 
 import java.io.IOException;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
@@ -23,54 +25,70 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 import sx.ip.IPSXDesktopClient;
 
 /**
  * Main class responsible for system configuration
  */
-public class NavController{
-    
-    /** The JavaFX Stage instance.  */
+public class NavController {
+
+    /**
+     * The JavaFX Stage instance.
+     */
     Stage stage;
-    
-    /** The Parent instance.  */
+
+    /**
+     * The Parent instance.
+     */
     Parent root;
-    
-    /** The ResourceBundle instance.  */
+
+    /**
+     * The extra object passed between controllers.
+     */
+    Object extra;
+
+    /**
+     * The ResourceBundle instance.
+     */
     public static ResourceBundle bundle;
-    
-    /** The Application instance.  */
-    Application app;   
-    
-    /** The accessToken instance.  */
-    public static String accessToken = null; 
-    
-    public static Integer userId = null; 
-    
-    /** Define the window x offsets. */
+
+    /**
+     * The Application instance.
+     */
+    Application app;
+
+    /**
+     * The accessToken instance.
+     */
+    public static String accessToken = null;
+
+    public static Integer userId = null;
+
+    /**
+     * Define the window x offsets.
+     */
     private double xOffset = 0;
 
-    /** Define the window y offsets. */
-    private double yOffset = 0;
-    
     /**
-    * Method responsible for do the controller setup.
-    *
-    * @param stage
-    *          The instance of the current stage.
-    * @param root
-    *          The instance of the current parent.
-    * @param bundle
-    *          The instance of the current resource bundle.
-    * @param app
-    *          The instance of the current application.
-    */
-    public void setupController(Stage stage,Parent root, ResourceBundle bundle, Application app){        
+     * Define the window y offsets.
+     */
+    private double yOffset = 0;
+
+    /**
+     * Method responsible for do the controller setup.
+     *
+     * @param stage The instance of the current stage.
+     * @param root The instance of the current parent.
+     * @param bundle The instance of the current resource bundle.
+     * @param app The instance of the current application.
+     */
+    public void setupController(Stage stage, Parent root, ResourceBundle bundle, Application app) {
         this.root = root;
         this.stage = stage;
         this.bundle = bundle;
         this.app = app;
-        
+
         root.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -89,25 +107,25 @@ public class NavController{
             }
 
         });
-        if(!stage.isShowing()){
-            stage.setResizable(false);        
+        if (!stage.isShowing()) {
+            stage.setResizable(false);
             stage.initStyle(StageStyle.UNDECORATED);
             stage.getIcons().add(new Image(IPSXDesktopClient.class.getResourceAsStream("resources/imgs/icon.png")));
             stage.setTitle("IP Exchange");
         }
     }
-    
+
     /**
-    * Method responsible for start the stage.
-    * 
-    * @throws IOException
-    */
-    public void startScene() throws IOException{        
-        Scene scene = new Scene(root);        
+     * Method responsible for start the stage.
+     *
+     * @throws IOException
+     */
+    public void startScene() throws IOException {
+        Scene scene = new Scene(root);
         stage.setScene(scene);
-        if(!stage.isShowing()){
-            stage.show();        
+        if (!stage.isShowing()) {
+            stage.show();
         }
     }
-    
+
 }

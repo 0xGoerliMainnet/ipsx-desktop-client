@@ -186,6 +186,11 @@ public class FXMLTokenRequestCreationController extends NavController implements
             mainAnchorPane.setDisable(false);
             progressBar.setVisible(false);
             ProxyUtils.createAndShowAlert(Alert.AlertType.INFORMATION, bundle.getString("key.main.alert.info.title"), bundle.getString("key.main.alert.tokenrequest.success"), "Amount Requested: " + txtAmount.getText(), null);
+            try {
+                this.goBackAction(event);
+            } catch (IOException ex) {
+                Logger.getLogger(FXMLTokenRequestCreationController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
         task.setOnFailed((Event ev) -> {
             Logger.getLogger(FXMLLoginEmailController.class.getName()).log(Level.SEVERE, null, task.getException());

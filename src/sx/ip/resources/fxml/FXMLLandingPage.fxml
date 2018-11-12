@@ -52,7 +52,7 @@ limitations under the License.
             <MaterialIconView fill="#707070" glyphName="CLOSE" size="16.0" textAlignment="CENTER" />
          </graphic>
       </JFXButton>
-      <JFXButton fx:id="btnRegister" accessibleText="https://demo.ip.sx/register" defaultButton="true" layoutX="127.0" layoutY="375.0" onAction="#openBrowser" prefHeight="40.0" prefWidth="230.0" ripplerFill="WHITE" style="-fx-background-color: #2aace0; -fx-background-radius: 4px;" text="Register" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="127.0" AnchorPane.rightAnchor="130.0">
+      <JFXButton fx:id="btnRegister" accessibleText="https://app.ip.sx/register" defaultButton="true" layoutX="127.0" layoutY="375.0" onAction="#openBrowser" prefHeight="40.0" prefWidth="230.0" ripplerFill="WHITE" style="-fx-background-color: #2aace0; -fx-background-radius: 4px;" text="Register" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="127.0" AnchorPane.rightAnchor="130.0">
          <font>
             <Font size="16.0" />
          </font>

@@ -130,9 +130,9 @@ public class FXMLTokenRequestController extends NavController implements Initial
      */
     @FXML
     private void goBackAction(ActionEvent event) throws IOException {
-//        FXMLLoader loader = new FXMLLoader(IPSXDesktopClient.class.getResource("resources/fxml/FXMLLandingPage.fxml"), ProxyUtils.getBundle());
-//        loader.setControllerFactory(new HostServicesControllerFactory(app.getHostServices()));
-//        NavControllerHandle.navigateTo(loader, stage, app);
+        FXMLLoader loader = new FXMLLoader(IPSXDesktopClient.class.getResource("resources/fxml/FXMLDashboard.fxml"), ProxyUtils.getBundle());
+        loader.setControllerFactory(new HostServicesControllerFactory(app.getHostServices()));
+        NavControllerHandle.navigateTo(loader, stage, app);
     }
     
     @FXML
