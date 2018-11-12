@@ -25,7 +25,7 @@ public interface CountryApi {
     /**
      * Base ulr for User API.
      */
-    public static String countryApiUrl = "http://devapi.ip.sx:3000/api/countries";
+    public static String countryApiUrl = "https://api.ip.sx/api/countries";
 
     /**
      * Method responsible for do the login with email and password.

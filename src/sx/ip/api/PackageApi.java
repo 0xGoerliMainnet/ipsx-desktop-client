@@ -25,7 +25,7 @@ public interface PackageApi {
     /**
      * Base ulr for User API.
      */
-    public static String packageApiUrl = "http://devapi.ip.sx:3000/api/packages";
+    public static String packageApiUrl = "https://api.ip.sx/api/packages";
 
     /**
      * Method responsible to retrieve Proxy packages.
